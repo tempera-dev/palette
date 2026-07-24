@@ -43,7 +43,7 @@ def verdict_of(report: dict) -> str:
     the three-valued decision is the message: an inconclusive that the policy
     fails must not render as a regression.
     """
-    decision = report.get("experiment_decision")
+    decision = report.get("experimentDecision")
     if decision == DECISION_INCONCLUSIVE:
         return "inconclusive"
     if report.get("passed"):
@@ -91,19 +91,19 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
     lines.append(f"## {emoji} Palette eval gate: {label}")
     lines.append("")
 
-    gate_name = inline(report.get("gate_name", "?"))
-    dataset = inline(report.get("dataset_id", "?"))
-    evaluator = inline(report.get("evaluator_version_id", "?"))
+    gate_name = inline(report.get("gateName", "?"))
+    dataset = inline(report.get("datasetId", "?"))
+    evaluator = inline(report.get("evaluatorVersionId", "?"))
     lines.append(
         f"**Gate** `{gate_name}` · dataset `{dataset}` · evaluator `{evaluator}`"
     )
-    baseline = inline(report.get("baseline_release_id", "?"))
-    candidate = inline(report.get("candidate_release_id", "?"))
+    baseline = inline(report.get("baselineReleaseId", "?"))
+    candidate = inline(report.get("candidateReleaseId", "?"))
     lines.append(f"Baseline `{baseline}` → candidate `{candidate}`")
     lines.append("")
 
     if comparison:
-        alpha = comparison.get("adjusted_alpha")
+        alpha = comparison.get("adjustedAlpha")
         ci_label = (
             f"{100 * (1 - alpha):g}% CI" if isinstance(alpha, (int, float)) else "CI"
         )
@@ -115,22 +115,22 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
         lines.append("|---|---|---|---|---|---|---|")
         lines.append(
             "| {n} | {b} | {c} | {d} | [{lo}, {hi}] | {p} | {t} |".format(
-                n=comparison.get("sample_size", "—"),
-                b=fmt_num(comparison.get("baseline_mean")),
-                c=fmt_num(comparison.get("candidate_mean")),
+                n=comparison.get("sampleSize", "—"),
+                b=fmt_num(comparison.get("baselineMean")),
+                c=fmt_num(comparison.get("candidateMean")),
                 d=fmt_num(comparison.get("delta")),
-                lo=fmt_num(comparison.get("ci_low")),
-                hi=fmt_num(comparison.get("ci_high")),
-                p=fmt_p_value(comparison.get("p_value")),
+                lo=fmt_num(comparison.get("ciLow")),
+                hi=fmt_num(comparison.get("ciHigh")),
+                p=fmt_p_value(comparison.get("pValue")),
                 t=cell(test_name),
             )
         )
         lines.append("")
 
     if verdict == "inconclusive":
-        n = comparison.get("sample_size", "?")
+        n = comparison.get("sampleSize", "?")
         mde = comparison.get("mde")
-        required_n = comparison.get("required_n")
+        required_n = comparison.get("requiredN")
         detail = [
             f"This comparison lacked the power to resolve the regression bound at n={n}."
         ]
@@ -142,7 +142,7 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
             detail.append(
                 f"About **{required_n} paired cases** would make the observed effect conclusive."
             )
-        policy = report.get("inconclusive_policy")
+        policy = report.get("inconclusivePolicy")
         outcome = "fails" if not report.get("passed") else "passes"
         detail.append(
             f"The gate's inconclusive policy (`{policy}`) {outcome} this run — an underpowered comparison is not a pass."
@@ -158,8 +158,8 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
         lines.append(f"> {quoted}")
         lines.append("")
 
-    run_id = inline(report.get("gate_run_id", "?"))
-    experiment = inline(report.get("experiment_run_id", "?"))
+    run_id = inline(report.get("gateRunId", "?"))
+    experiment = inline(report.get("experimentRunId", "?"))
     lines.append(f"<sub>gate run `{run_id}` · experiment `{experiment}`</sub>")
     return "\n".join(lines) + "\n"
 
@@ -182,7 +182,7 @@ def main() -> int:
     report = json.loads(raw)
     # `gate-run-fixture` wraps the report; accept both shapes so the demo mode
     # and the real mode share one renderer.
-    if "gate_run" in report and "experiment_decision" not in report:
+    if "gate_run" in report and "experimentDecision" not in report:
         report = report["gate_run"]
 
     verdict = verdict_of(report)
@@ -201,7 +201,7 @@ def main() -> int:
             "verdict={v}\npassed={p}\ndecision={d}\nreason={r}\n".format(
                 v=verdict,
                 p="true" if report.get("passed") else "false",
-                d=report.get("experiment_decision", ""),
+                d=report.get("experimentDecision", ""),
                 r=reason,
             ),
         )

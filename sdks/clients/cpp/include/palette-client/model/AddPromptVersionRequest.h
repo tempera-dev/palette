@@ -60,7 +60,7 @@ public:
 
     utility::string_t getCreatedBy() const;
     bool createdByIsSet() const;
-    void unsetCreated_by();
+    void unsetCreatedBy();
     void setCreatedBy(const utility::string_t& value);
 
     utility::string_t getMessage() const;
@@ -75,8 +75,8 @@ public:
 
 
 protected:
-    utility::string_t m_Created_by;
-    bool m_Created_byIsSet;
+    utility::string_t m_CreatedBy;
+    bool m_CreatedByIsSet;
 
     utility::string_t m_Message;
     bool m_MessageIsSet;

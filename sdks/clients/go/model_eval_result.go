@@ -23,18 +23,18 @@ var _ MappedNullable = &EvalResult{}
 // EvalResult struct for EvalResult
 type EvalResult struct {
 	Cost NullableMoney `json:"cost,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
-	EvalResultId string `json:"eval_result_id"`
+	CreatedAt time.Time `json:"createdAt"`
+	EvalResultId string `json:"evalResultId"`
 	Evidence interface{} `json:"evidence"`
 	Label NullableString `json:"label,omitempty"`
-	NonReproducibleReason NullableString `json:"non_reproducible_reason,omitempty"`
-	ProjectId string `json:"project_id"`
+	NonReproducibleReason NullableString `json:"nonReproducibleReason,omitempty"`
+	ProjectId string `json:"projectId"`
 	Reproducibility EvalReproducibility `json:"reproducibility"`
 	Score float64 `json:"score"`
-	SpanId *string `json:"span_id,omitempty"`
-	TenantId string `json:"tenant_id"`
+	SpanId *string `json:"spanId,omitempty"`
+	TenantId string `json:"tenantId"`
 	Tokens NullableTokenCounts `json:"tokens,omitempty"`
-	TraceId string `json:"trace_id"`
+	TraceId string `json:"traceId"`
 }
 
 type _EvalResult EvalResult
@@ -471,8 +471,8 @@ func (o EvalResult) ToMap() (map[string]interface{}, error) {
 	if o.Cost.IsSet() {
 		toSerialize["cost"] = o.Cost.Get()
 	}
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["eval_result_id"] = o.EvalResultId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["evalResultId"] = o.EvalResultId
 	if o.Evidence != nil {
 		toSerialize["evidence"] = o.Evidence
 	}
@@ -480,19 +480,19 @@ func (o EvalResult) ToMap() (map[string]interface{}, error) {
 		toSerialize["label"] = o.Label.Get()
 	}
 	if o.NonReproducibleReason.IsSet() {
-		toSerialize["non_reproducible_reason"] = o.NonReproducibleReason.Get()
+		toSerialize["nonReproducibleReason"] = o.NonReproducibleReason.Get()
 	}
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["reproducibility"] = o.Reproducibility
 	toSerialize["score"] = o.Score
 	if !IsNil(o.SpanId) {
-		toSerialize["span_id"] = o.SpanId
+		toSerialize["spanId"] = o.SpanId
 	}
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	if o.Tokens.IsSet() {
 		toSerialize["tokens"] = o.Tokens.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -501,14 +501,14 @@ func (o *EvalResult) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
-		"eval_result_id",
+		"createdAt",
+		"evalResultId",
 		"evidence",
-		"project_id",
+		"projectId",
 		"reproducibility",
 		"score",
-		"tenant_id",
-		"trace_id",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

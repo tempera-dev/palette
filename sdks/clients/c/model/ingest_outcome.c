@@ -67,7 +67,7 @@ cJSON *ingest_outcome_convertToJSON(ingest_outcome_t *ingest_outcome) {
     if (!ingest_outcome->downstream_queued) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "downstream_queued", ingest_outcome->downstream_queued) == NULL) {
+    if(cJSON_AddBoolToObject(item, "downstreamQueued", ingest_outcome->downstream_queued) == NULL) {
     goto fail; //Bool
     }
 
@@ -99,7 +99,7 @@ ingest_outcome_t *ingest_outcome_parseFromJSON(cJSON *ingest_outcomeJSON){
     ack_local_nonprim = write_ack_parseFromJSON(ack); //nonprimitive
 
     // ingest_outcome->downstream_queued
-    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(ingest_outcomeJSON, "downstream_queued");
+    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(ingest_outcomeJSON, "downstreamQueued");
     if (cJSON_IsNull(downstream_queued)) {
         downstream_queued = NULL;
     }

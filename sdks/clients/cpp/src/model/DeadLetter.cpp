@@ -20,8 +20,8 @@ namespace model {
 
 DeadLetter::DeadLetter()
 {
-    m_Failed_at = utility::datetime();
-    m_Failed_atIsSet = false;
+    m_FailedAt = utility::datetime();
+    m_FailedAtIsSet = false;
     m_MessageIsSet = false;
     m_Reason = utility::conversions::to_string_t("");
     m_ReasonIsSet = false;
@@ -39,10 +39,10 @@ void DeadLetter::validate()
 web::json::value DeadLetter::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Failed_atIsSet)
+    if(m_FailedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failed_at"))] = ModelBase::toJson(m_Failed_at);
+        val[utility::conversions::to_string_t(U("failedAt"))] = ModelBase::toJson(m_FailedAt);
     }
     if(m_MessageIsSet)
     {   
@@ -61,9 +61,9 @@ web::json::value DeadLetter::toJson() const
 bool DeadLetter::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("failed_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failed_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setFailedAt;
@@ -104,9 +104,9 @@ void DeadLetter::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Failed_atIsSet)
+    if(m_FailedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failed_at")), m_Failed_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failedAt")), m_FailedAt));
     }
     if(m_MessageIsSet)
     {
@@ -127,10 +127,10 @@ bool DeadLetter::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failed_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failedAt"))))
     {
         utility::datetime refVal_setFailedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failed_at"))), refVal_setFailedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failedAt"))), refVal_setFailedAt );
         setFailedAt(refVal_setFailedAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("message"))))
@@ -151,24 +151,24 @@ bool DeadLetter::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
 
 utility::datetime DeadLetter::getFailedAt() const
 {
-    return m_Failed_at;
+    return m_FailedAt;
 }
 
 
 void DeadLetter::setFailedAt(const utility::datetime& value)
 {
-    m_Failed_at = value;
-    m_Failed_atIsSet = true;
+    m_FailedAt = value;
+    m_FailedAtIsSet = true;
 }
 
 bool DeadLetter::failedAtIsSet() const
 {
-    return m_Failed_atIsSet;
+    return m_FailedAtIsSet;
 }
 
-void DeadLetter::unsetFailed_at()
+void DeadLetter::unsetFailedAt()
 {
-    m_Failed_atIsSet = false;
+    m_FailedAtIsSet = false;
 }
 std::shared_ptr<BusMessage> DeadLetter::getMessage() const
 {

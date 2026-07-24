@@ -20,12 +20,12 @@ namespace model {
 
 CreateScenarioRequest::CreateScenarioRequest()
 {
-    m_Exemplar_trace_id = utility::conversions::to_string_t("");
-    m_Exemplar_trace_idIsSet = false;
-    m_Expected_outcome = utility::conversions::to_string_t("");
-    m_Expected_outcomeIsSet = false;
-    m_Failure_modeIsSet = false;
-    m_Source_trace_idsIsSet = false;
+    m_ExemplarTraceId = utility::conversions::to_string_t("");
+    m_ExemplarTraceIdIsSet = false;
+    m_ExpectedOutcome = utility::conversions::to_string_t("");
+    m_ExpectedOutcomeIsSet = false;
+    m_FailureModeIsSet = false;
+    m_SourceTraceIdsIsSet = false;
     m_Title = utility::conversions::to_string_t("");
     m_TitleIsSet = false;
 }
@@ -42,25 +42,25 @@ void CreateScenarioRequest::validate()
 web::json::value CreateScenarioRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("exemplar_trace_id"))] = ModelBase::toJson(m_Exemplar_trace_id);
+        val[utility::conversions::to_string_t(U("exemplarTraceId"))] = ModelBase::toJson(m_ExemplarTraceId);
     }
-    if(m_Expected_outcomeIsSet)
+    if(m_ExpectedOutcomeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("expected_outcome"))] = ModelBase::toJson(m_Expected_outcome);
+        val[utility::conversions::to_string_t(U("expectedOutcome"))] = ModelBase::toJson(m_ExpectedOutcome);
     }
-    if(m_Failure_modeIsSet)
+    if(m_FailureModeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failure_mode"))] = ModelBase::toJson(m_Failure_mode);
+        val[utility::conversions::to_string_t(U("failureMode"))] = ModelBase::toJson(m_FailureMode);
     }
-    if(m_Source_trace_idsIsSet)
+    if(m_SourceTraceIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_trace_ids"))] = ModelBase::toJson(m_Source_trace_ids);
+        val[utility::conversions::to_string_t(U("sourceTraceIds"))] = ModelBase::toJson(m_SourceTraceIds);
     }
     if(m_TitleIsSet)
     {   
@@ -74,9 +74,9 @@ web::json::value CreateScenarioRequest::toJson() const
 bool CreateScenarioRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplar_trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplarTraceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExemplarTraceId;
@@ -85,9 +85,9 @@ bool CreateScenarioRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("expected_outcome"))))
+    if(val.has_field(utility::conversions::to_string_t(U("expectedOutcome"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expected_outcome")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expectedOutcome")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExpectedOutcome;
@@ -96,9 +96,9 @@ bool CreateScenarioRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("failure_mode"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failureMode"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failure_mode")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failureMode")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<FailureMode> refVal_setFailureMode;
@@ -107,9 +107,9 @@ bool CreateScenarioRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_trace_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceTraceIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_trace_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceTraceIds")));
         if(!fieldValue.is_null())
         {
             std::vector<utility::string_t> refVal_setSourceTraceIds;
@@ -139,21 +139,21 @@ void CreateScenarioRequest::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplar_trace_id")), m_Exemplar_trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplarTraceId")), m_ExemplarTraceId));
     }
-    if(m_Expected_outcomeIsSet)
+    if(m_ExpectedOutcomeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expected_outcome")), m_Expected_outcome));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expectedOutcome")), m_ExpectedOutcome));
     }
-    if(m_Failure_modeIsSet)
+    if(m_FailureModeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failure_mode")), m_Failure_mode));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failureMode")), m_FailureMode));
     }
-    if(m_Source_trace_idsIsSet)
+    if(m_SourceTraceIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_trace_ids")), m_Source_trace_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceTraceIds")), m_SourceTraceIds));
     }
     if(m_TitleIsSet)
     {
@@ -170,28 +170,28 @@ bool CreateScenarioRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
         utility::string_t refVal_setExemplarTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplar_trace_id"))), refVal_setExemplarTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplarTraceId"))), refVal_setExemplarTraceId );
         setExemplarTraceId(refVal_setExemplarTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("expected_outcome"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("expectedOutcome"))))
     {
         utility::string_t refVal_setExpectedOutcome;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expected_outcome"))), refVal_setExpectedOutcome );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expectedOutcome"))), refVal_setExpectedOutcome );
         setExpectedOutcome(refVal_setExpectedOutcome);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failure_mode"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failureMode"))))
     {
         std::shared_ptr<FailureMode> refVal_setFailureMode;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failure_mode"))), refVal_setFailureMode );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failureMode"))), refVal_setFailureMode );
         setFailureMode(refVal_setFailureMode);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_trace_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceTraceIds"))))
     {
         std::vector<utility::string_t> refVal_setSourceTraceIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_trace_ids"))), refVal_setSourceTraceIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceTraceIds"))), refVal_setSourceTraceIds );
         setSourceTraceIds(refVal_setSourceTraceIds);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("title"))))
@@ -206,87 +206,87 @@ bool CreateScenarioRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mul
 
 utility::string_t CreateScenarioRequest::getExemplarTraceId() const
 {
-    return m_Exemplar_trace_id;
+    return m_ExemplarTraceId;
 }
 
 
 void CreateScenarioRequest::setExemplarTraceId(const utility::string_t& value)
 {
-    m_Exemplar_trace_id = value;
-    m_Exemplar_trace_idIsSet = true;
+    m_ExemplarTraceId = value;
+    m_ExemplarTraceIdIsSet = true;
 }
 
 bool CreateScenarioRequest::exemplarTraceIdIsSet() const
 {
-    return m_Exemplar_trace_idIsSet;
+    return m_ExemplarTraceIdIsSet;
 }
 
-void CreateScenarioRequest::unsetExemplar_trace_id()
+void CreateScenarioRequest::unsetExemplarTraceId()
 {
-    m_Exemplar_trace_idIsSet = false;
+    m_ExemplarTraceIdIsSet = false;
 }
 utility::string_t CreateScenarioRequest::getExpectedOutcome() const
 {
-    return m_Expected_outcome;
+    return m_ExpectedOutcome;
 }
 
 
 void CreateScenarioRequest::setExpectedOutcome(const utility::string_t& value)
 {
-    m_Expected_outcome = value;
-    m_Expected_outcomeIsSet = true;
+    m_ExpectedOutcome = value;
+    m_ExpectedOutcomeIsSet = true;
 }
 
 bool CreateScenarioRequest::expectedOutcomeIsSet() const
 {
-    return m_Expected_outcomeIsSet;
+    return m_ExpectedOutcomeIsSet;
 }
 
-void CreateScenarioRequest::unsetExpected_outcome()
+void CreateScenarioRequest::unsetExpectedOutcome()
 {
-    m_Expected_outcomeIsSet = false;
+    m_ExpectedOutcomeIsSet = false;
 }
 std::shared_ptr<FailureMode> CreateScenarioRequest::getFailureMode() const
 {
-    return m_Failure_mode;
+    return m_FailureMode;
 }
 
 
 void CreateScenarioRequest::setFailureMode(const std::shared_ptr<FailureMode>& value)
 {
-    m_Failure_mode = value;
-    m_Failure_modeIsSet = true;
+    m_FailureMode = value;
+    m_FailureModeIsSet = true;
 }
 
 bool CreateScenarioRequest::failureModeIsSet() const
 {
-    return m_Failure_modeIsSet;
+    return m_FailureModeIsSet;
 }
 
-void CreateScenarioRequest::unsetFailure_mode()
+void CreateScenarioRequest::unsetFailureMode()
 {
-    m_Failure_modeIsSet = false;
+    m_FailureModeIsSet = false;
 }
 std::vector<utility::string_t> CreateScenarioRequest::getSourceTraceIds() const
 {
-    return m_Source_trace_ids;
+    return m_SourceTraceIds;
 }
 
 
 void CreateScenarioRequest::setSourceTraceIds(const std::vector<utility::string_t>& value)
 {
-    m_Source_trace_ids = value;
-    m_Source_trace_idsIsSet = true;
+    m_SourceTraceIds = value;
+    m_SourceTraceIdsIsSet = true;
 }
 
 bool CreateScenarioRequest::sourceTraceIdsIsSet() const
 {
-    return m_Source_trace_idsIsSet;
+    return m_SourceTraceIdsIsSet;
 }
 
-void CreateScenarioRequest::unsetSource_trace_ids()
+void CreateScenarioRequest::unsetSourceTraceIds()
 {
-    m_Source_trace_idsIsSet = false;
+    m_SourceTraceIdsIsSet = false;
 }
 utility::string_t CreateScenarioRequest::getTitle() const
 {

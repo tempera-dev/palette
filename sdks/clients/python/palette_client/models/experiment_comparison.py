@@ -29,19 +29,19 @@ class ExperimentComparison(BaseModel):
     """
     ExperimentComparison
     """ # noqa: E501
-    adjusted_alpha: Union[StrictFloat, StrictInt]
-    baseline_mean: Union[StrictFloat, StrictInt]
-    candidate_mean: Union[StrictFloat, StrictInt]
-    ci_high: Union[StrictFloat, StrictInt]
-    ci_low: Union[StrictFloat, StrictInt]
+    adjusted_alpha: Union[StrictFloat, StrictInt] = Field(alias="adjustedAlpha")
+    baseline_mean: Union[StrictFloat, StrictInt] = Field(alias="baselineMean")
+    candidate_mean: Union[StrictFloat, StrictInt] = Field(alias="candidateMean")
+    ci_high: Union[StrictFloat, StrictInt] = Field(alias="ciHigh")
+    ci_low: Union[StrictFloat, StrictInt] = Field(alias="ciLow")
     decision: GateDecision
     delta: Union[StrictFloat, StrictInt]
     mde: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Minimum detectable effect at the current sample size, in the metric's own units, at the gate's (adjusted) alpha and the standard power of 0.8 (§10.3 #5). Populated only when `decision` is `Inconclusive` — the comparison lacked the power to resolve the regression bound, and regressions smaller than this are invisible at this N. `None` on a conclusive decision (or when the paired differences have zero spread, so no effect-scale is defined). This replaces a bare \"underpowered\" flag with the actionable \"how small an effect could we even have seen\" number.")
-    p_value: Union[StrictFloat, StrictInt] = Field(description="Real two-sided p-value from `test`. The previous normal-approximation path reported no p-value at all.")
-    required_n: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Number of paired observations that would be required to detect the *observed* effect at the gate's (adjusted) alpha and power 0.8 (§10.3 #5). Populated only when `decision` is `Inconclusive` and the observed effect is non-degenerate (non-zero delta over non-zero difference spread). `None` otherwise. This answers \"how many more cases would have made this conclusive?\".")
-    sample_size: Annotated[int, Field(strict=True, ge=0)]
+    p_value: Union[StrictFloat, StrictInt] = Field(description="Real two-sided p-value from `test`. The previous normal-approximation path reported no p-value at all.", alias="pValue")
+    required_n: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Number of paired observations that would be required to detect the *observed* effect at the gate's (adjusted) alpha and power 0.8 (§10.3 #5). Populated only when `decision` is `Inconclusive` and the observed effect is non-degenerate (non-zero delta over non-zero difference spread). `None` otherwise. This answers \"how many more cases would have made this conclusive?\".", alias="requiredN")
+    sample_size: Annotated[int, Field(strict=True, ge=0)] = Field(alias="sampleSize")
     test: StatisticalTest
-    __properties: ClassVar[List[str]] = ["adjusted_alpha", "baseline_mean", "candidate_mean", "ci_high", "ci_low", "decision", "delta", "mde", "p_value", "required_n", "sample_size", "test"]
+    __properties: ClassVar[List[str]] = ["adjustedAlpha", "baselineMean", "candidateMean", "ciHigh", "ciLow", "decision", "delta", "mde", "pValue", "requiredN", "sampleSize", "test"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +90,7 @@ class ExperimentComparison(BaseModel):
         # set to None if required_n (nullable) is None
         # and model_fields_set contains the field
         if self.required_n is None and "required_n" in self.model_fields_set:
-            _dict['required_n'] = None
+            _dict['requiredN'] = None
 
         return _dict
 
@@ -104,17 +104,17 @@ class ExperimentComparison(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "adjusted_alpha": obj.get("adjusted_alpha"),
-            "baseline_mean": obj.get("baseline_mean"),
-            "candidate_mean": obj.get("candidate_mean"),
-            "ci_high": obj.get("ci_high"),
-            "ci_low": obj.get("ci_low"),
+            "adjustedAlpha": obj.get("adjustedAlpha"),
+            "baselineMean": obj.get("baselineMean"),
+            "candidateMean": obj.get("candidateMean"),
+            "ciHigh": obj.get("ciHigh"),
+            "ciLow": obj.get("ciLow"),
             "decision": obj.get("decision"),
             "delta": obj.get("delta"),
             "mde": obj.get("mde"),
-            "p_value": obj.get("p_value"),
-            "required_n": obj.get("required_n"),
-            "sample_size": obj.get("sample_size"),
+            "pValue": obj.get("pValue"),
+            "requiredN": obj.get("requiredN"),
+            "sampleSize": obj.get("sampleSize"),
             "test": obj.get("test")
         })
         return _obj

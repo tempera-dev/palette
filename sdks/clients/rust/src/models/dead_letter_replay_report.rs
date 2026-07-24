@@ -15,13 +15,13 @@ use serde::{Deserialize, Serialize};
 pub struct DeadLetterReplayReport {
     #[serde(rename = "ack")]
     pub ack: Box<models::PublishAck>,
-    #[serde(rename = "message_id")]
+    #[serde(rename = "messageId")]
     pub message_id: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "reset_attempts")]
+    #[serde(rename = "resetAttempts")]
     pub reset_attempts: bool,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

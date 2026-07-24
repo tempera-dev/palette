@@ -17,11 +17,11 @@ pub struct SpanIoResponse {
     pub input: Box<models::SpanIoValue>,
     #[serde(rename = "output")]
     pub output: Box<models::SpanIoValue>,
-    #[serde(rename = "span_id")]
+    #[serde(rename = "spanId")]
     pub span_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

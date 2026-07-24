@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class CaseOutputOverrideRequest(BaseModel):
     """
     CaseOutputOverrideRequest
     """ # noqa: E501
-    case_id: StrictStr
+    case_id: StrictStr = Field(alias="caseId")
     output: Optional[Any]
     trace: Optional[Any] = None
-    __properties: ClassVar[List[str]] = ["case_id", "output", "trace"]
+    __properties: ClassVar[List[str]] = ["caseId", "output", "trace"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,7 +92,7 @@ class CaseOutputOverrideRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "case_id": obj.get("case_id"),
+            "caseId": obj.get("caseId"),
             "output": obj.get("output"),
             "trace": obj.get("trace")
         })

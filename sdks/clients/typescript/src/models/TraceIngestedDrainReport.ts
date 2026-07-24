@@ -97,11 +97,11 @@ export function TraceIngestedDrainReportFromJSONTyped(json: any, ignoreDiscrimin
         
         'completed': json['completed'],
         'consumed': json['consumed'],
-        'deadLettered': json['dead_lettered'],
-        'failedWork': json['failed_work'],
-        'invalidMessages': json['invalid_messages'],
+        'deadLettered': json['deadLettered'],
+        'failedWork': json['failedWork'],
+        'invalidMessages': json['invalidMessages'],
         'retried': json['retried'],
-        'traceRefs': ((json['trace_refs'] as Array<any>).map(QueuedTraceWorkFromJSON)),
+        'traceRefs': ((json['traceRefs'] as Array<any>).map(QueuedTraceWorkFromJSON)),
     };
 }
 
@@ -118,11 +118,11 @@ export function TraceIngestedDrainReportToJSONTyped(value?: TraceIngestedDrainRe
         
         'completed': value['completed'],
         'consumed': value['consumed'],
-        'dead_lettered': value['deadLettered'],
-        'failed_work': value['failedWork'],
-        'invalid_messages': value['invalidMessages'],
+        'deadLettered': value['deadLettered'],
+        'failedWork': value['failedWork'],
+        'invalidMessages': value['invalidMessages'],
         'retried': value['retried'],
-        'trace_refs': ((value['traceRefs'] as Array<any>).map(QueuedTraceWorkToJSON)),
+        'traceRefs': ((value['traceRefs'] as Array<any>).map(QueuedTraceWorkToJSON)),
     };
 }
 

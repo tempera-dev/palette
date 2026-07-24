@@ -818,7 +818,7 @@ async fn main() -> anyhow::Result<()> {
                         "submitted_events": submitted_events,
                         "accepted_buffered": dlq_buffered.ack.accepted_spans + buffered.ack.accepted_spans,
                         "explicit_errors": explicit_errors,
-                        "dead_lettered": dead_lettered,
+                        "deadLettered": dead_lettered,
                         "recovered": recovered_events,
                         "lost": lost
                     },
@@ -1955,13 +1955,13 @@ async fn main() -> anyhow::Result<()> {
             println!(
                 "{}",
                 serde_json::to_string_pretty(&serde_json::json!({
-                    "api_key_id": created.record.api_key_id,
-                    "tenant_id": created.record.tenant_id,
-                    "project_id": created.record.project_id,
-                    "environment_id": created.record.environment_id,
+                    "apiKeyId": created.record.api_key_id,
+                    "tenantId": created.record.tenant_id,
+                    "projectId": created.record.project_id,
+                    "environmentId": created.record.environment_id,
                     "scopes": created.record.scopes,
                     "active": created.record.active,
-                    "created_at": created.record.created_at,
+                    "createdAt": created.record.created_at,
                     "secret": created.secret
                 }))?
             );
@@ -2129,12 +2129,12 @@ async fn run_local_smoke(data_dir: PathBuf) -> anyhow::Result<serde_json::Value>
     Ok(json!({
         "mode": "local",
         "source": "otlp",
-        "trace_id": trace_id,
+        "traceId": trace_id,
         "outcome": outcome,
         "write_report": write_report,
         "downstream_report": downstream_report,
         "trace_span_count": trace.spans.len(),
-        "normalizer_version": trace.spans.first().map(|span| span.normalizer_version.clone())
+        "normalizerVersion": trace.spans.first().map(|span| span.normalizer_version.clone())
     }))
 }
 
@@ -2194,11 +2194,11 @@ async fn run_remote_smoke(
         "mode": "remote",
         "protocol": protocol,
         "source": "otlp",
-        "trace_id": trace_id,
+        "traceId": trace_id,
         "trace_read_url": format!("{}/v1/traces/{}/{}", trim_url(&http_url), tenant_id, trace_id),
         "trace_query_lag_ms": trace_query_lag_ms,
         "trace_span_count": spans.len(),
-        "normalizer_version": spans.first().and_then(|span| span.get("normalizer_version")).cloned(),
+        "normalizerVersion": spans.first().and_then(|span| span.get("normalizerVersion")).cloned(),
     }))
 }
 
@@ -2362,7 +2362,7 @@ async fn run_local_quickstart(
         urlencode(span_id.as_str())
     );
     let api_trace_url = format!(
-        "{}/v1/traces/{}/{}?project_id={}&environment_id={}",
+        "{}/v1/traces/{}/{}?projectId={}&environmentId={}",
         trim_url(api_url),
         urlencode(tenant.as_str()),
         urlencode(trace.trace_id.as_str()),
@@ -2374,34 +2374,34 @@ async fn run_local_quickstart(
         "command": "quickstart",
         "mode": "local",
         "source": "native-smoke",
-        "tenant_id": tenant,
-        "project_id": project,
-        "environment_id": environment,
+        "tenantId": tenant,
+        "projectId": project,
+        "environmentId": environment,
         "api_key": {
-            "api_key_id": api_key.record.api_key_id,
+            "apiKeyId": api_key.record.api_key_id,
             "scopes": api_key.record.scopes,
             "secret": api_key.secret,
         },
         "zero_code_env": zero_code_env,
         "trace": {
-            "trace_id": trace.trace_id,
-            "span_id": span_id,
-            "span_count": trace.spans.len(),
+            "traceId": trace.trace_id,
+            "spanId": span_id,
+            "spanCount": trace.spans.len(),
             "ingest_outcome": ingest_outcome,
         },
         "dataset": {
-            "dataset_id": dataset.dataset_id,
-            "dataset_version_id": version.version_id,
-            "case_id": case.case_id,
+            "datasetId": dataset.dataset_id,
+            "datasetVersionId": version.version_id,
+            "caseId": case.case_id,
         },
         "eval": {
-            "report_id": report.report_id,
-            "evaluator_version_id": report.evaluator_version_id,
+            "reportId": report.report_id,
+            "evaluatorVersionId": report.evaluator_version_id,
             "score": result.score,
             "label": result.label.clone(),
             "evidence": result.evidence.clone(),
-            "aggregate_score": report.aggregate_score,
-            "result_count": report.result_count,
+            "aggregateScore": report.aggregate_score,
+            "resultCount": report.result_count,
         },
         "scored_failure": scored_failure,
         "dashboard_url": dashboard_trace_url,
@@ -2600,7 +2600,7 @@ struct ResolvedOperation {
 ///
 /// `spec` is the OpenAPI document serialized to JSON (e.g. from
 /// `palette_api::openapi::openapi()`). Returns the HTTP method (uppercased) and
-/// the path template (e.g. `/v1/traces/{tenant_id}`).
+/// the path template (e.g. `/v1/traces/{tenantId}`).
 fn resolve_operation(
     spec: &serde_json::Value,
     operation_id: &str,
@@ -3018,13 +3018,13 @@ async fn run_rsi_round_fixture() -> anyhow::Result<serde_json::Value> {
                 },
                 "gate_decision": evaluation.gate.decision.name(),
                 "gate": {
-                    "sample_size": evaluation.gate.sample_size,
-                    "baseline_mean": evaluation.gate.baseline_mean,
-                    "candidate_mean": evaluation.gate.candidate_mean,
+                    "sampleSize": evaluation.gate.sample_size,
+                    "baselineMean": evaluation.gate.baseline_mean,
+                    "candidateMean": evaluation.gate.candidate_mean,
                     "delta": evaluation.gate.delta,
-                    "ci_low": evaluation.gate.ci_low,
-                    "ci_high": evaluation.gate.ci_high,
-                    "p_value": evaluation.gate.p_value,
+                    "ciLow": evaluation.gate.ci_low,
+                    "ciHigh": evaluation.gate.ci_high,
+                    "pValue": evaluation.gate.p_value,
                 },
                 "overfit_flag": evaluation.overfit.overfit,
                 "overfit": {
@@ -3381,13 +3381,13 @@ async fn run_rsi_round_live(
                 },
                 "gate_decision": evaluation.gate.decision.name(),
                 "gate": {
-                    "sample_size": evaluation.gate.sample_size,
-                    "baseline_mean": evaluation.gate.baseline_mean,
-                    "candidate_mean": evaluation.gate.candidate_mean,
+                    "sampleSize": evaluation.gate.sample_size,
+                    "baselineMean": evaluation.gate.baseline_mean,
+                    "candidateMean": evaluation.gate.candidate_mean,
                     "delta": evaluation.gate.delta,
-                    "ci_low": evaluation.gate.ci_low,
-                    "ci_high": evaluation.gate.ci_high,
-                    "p_value": evaluation.gate.p_value,
+                    "ciLow": evaluation.gate.ci_low,
+                    "ciHigh": evaluation.gate.ci_high,
+                    "pValue": evaluation.gate.p_value,
                 },
                 "overfit_flag": evaluation.overfit.overfit,
                 "overfit": {
@@ -3579,7 +3579,7 @@ async fn record_rsi_round_trace(
             ),
             (
                 "rsi.gate.p_value".to_string(),
-                gate.get("p_value").cloned().unwrap_or(json!(null)),
+                gate.get("pValue").cloned().unwrap_or(json!(null)),
             ),
             (
                 "rsi.overfit_flag".to_string(),
@@ -3632,7 +3632,7 @@ async fn record_rsi_round_trace(
         .context("read back recorded rsi round trace")?;
 
     if let Some(object) = round_report.as_object_mut() {
-        object.insert("trace_id".to_string(), json!(trace_id.as_str()));
+        object.insert("traceId".to_string(), json!(trace_id.as_str()));
         object.insert("trace_span_count".to_string(), json!(trace.spans.len()));
         object.insert(
             "trace_data_dir".to_string(),
@@ -3881,23 +3881,23 @@ mod tests {
     fn resolves_list_traces_operation() -> anyhow::Result<()> {
         let op = resolve_operation(&spec()?, "traces.list")?;
         assert_eq!(op.method, "GET");
-        assert_eq!(op.path_template, "/v1/traces/{tenant_id}");
+        assert_eq!(op.path_template, "/v1/traces/{tenantId}");
         Ok(())
     }
 
     #[test]
     fn substitutes_path_param_and_keeps_query() -> anyhow::Result<()> {
-        let params = parse_params(&["tenant_id=acme".to_string(), "limit=50".to_string()])?;
-        let (path, query) = fill_path_template("/v1/traces/{tenant_id}", &params)?;
+        let params = parse_params(&["tenantId=acme".to_string(), "pageSize=50".to_string()])?;
+        let (path, query) = fill_path_template("/v1/traces/{tenantId}", &params)?;
         assert_eq!(path, "/v1/traces/acme");
-        assert_eq!(query, vec![("limit".to_string(), "50".to_string())]);
+        assert_eq!(query, vec![("pageSize".to_string(), "50".to_string())]);
         Ok(())
     }
 
     #[test]
     fn end_to_end_url_for_list_traces() -> anyhow::Result<()> {
         let op = resolve_operation(&spec()?, "traces.list")?;
-        let params = parse_params(&["tenant_id=acme".to_string()])?;
+        let params = parse_params(&["tenantId=acme".to_string()])?;
         let (path, query) = fill_path_template(&op.path_template, &params)?;
         let url = build_request_url("http://127.0.0.1:8080/", &path, &query);
         assert_eq!(url, "http://127.0.0.1:8080/v1/traces/acme");
@@ -3907,11 +3907,11 @@ mod tests {
     #[test]
     fn missing_path_param_errors() -> anyhow::Result<()> {
         let params = parse_params(&[])?;
-        let err = match fill_path_template("/v1/traces/{tenant_id}", &params) {
+        let err = match fill_path_template("/v1/traces/{tenantId}", &params) {
             Ok(filled) => anyhow::bail!("expected missing-param error, got {filled:?}"),
             Err(err) => err,
         };
-        assert!(err.to_string().contains("tenant_id"), "got: {err}");
+        assert!(err.to_string().contains("tenantId"), "got: {err}");
         Ok(())
     }
 

@@ -58,8 +58,8 @@ export function PromoteTraceCaseRequestFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'reference': json['reference'] == null ? undefined : json['reference'],
-        'spanId': json['span_id'] == null ? undefined : json['span_id'],
-        'traceId': json['trace_id'],
+        'spanId': json['spanId'] == null ? undefined : json['spanId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -75,8 +75,8 @@ export function PromoteTraceCaseRequestToJSONTyped(value?: PromoteTraceCaseReque
     return {
         
         'reference': value['reference'],
-        'span_id': value['spanId'],
-        'trace_id': value['traceId'],
+        'spanId': value['spanId'],
+        'traceId': value['traceId'],
     };
 }
 

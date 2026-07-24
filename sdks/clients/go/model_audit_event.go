@@ -23,17 +23,17 @@ var _ MappedNullable = &AuditEvent{}
 // AuditEvent struct for AuditEvent
 type AuditEvent struct {
 	Action AuditAction `json:"action"`
-	ActorApiKeyId *string `json:"actor_api_key_id,omitempty"`
+	ActorApiKeyId *string `json:"actorApiKeyId,omitempty"`
 	Attributes interface{} `json:"attributes"`
-	AuditEventId string `json:"audit_event_id"`
-	CreatedAt time.Time `json:"created_at"`
-	EnvironmentId *string `json:"environment_id,omitempty"`
+	AuditEventId string `json:"auditEventId"`
+	CreatedAt time.Time `json:"createdAt"`
+	EnvironmentId *string `json:"environmentId,omitempty"`
 	Outcome AuditOutcome `json:"outcome"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Reason NullableString `json:"reason,omitempty"`
-	ResourceId string `json:"resource_id"`
-	ResourceType string `json:"resource_type"`
-	TenantId string `json:"tenant_id"`
+	ResourceId string `json:"resourceId"`
+	ResourceType string `json:"resourceType"`
+	TenantId string `json:"tenantId"`
 }
 
 type _AuditEvent AuditEvent
@@ -400,24 +400,24 @@ func (o AuditEvent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["action"] = o.Action
 	if !IsNil(o.ActorApiKeyId) {
-		toSerialize["actor_api_key_id"] = o.ActorApiKeyId
+		toSerialize["actorApiKeyId"] = o.ActorApiKeyId
 	}
 	if o.Attributes != nil {
 		toSerialize["attributes"] = o.Attributes
 	}
-	toSerialize["audit_event_id"] = o.AuditEventId
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["auditEventId"] = o.AuditEventId
+	toSerialize["createdAt"] = o.CreatedAt
 	if !IsNil(o.EnvironmentId) {
-		toSerialize["environment_id"] = o.EnvironmentId
+		toSerialize["environmentId"] = o.EnvironmentId
 	}
 	toSerialize["outcome"] = o.Outcome
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	if o.Reason.IsSet() {
 		toSerialize["reason"] = o.Reason.Get()
 	}
-	toSerialize["resource_id"] = o.ResourceId
-	toSerialize["resource_type"] = o.ResourceType
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["resourceId"] = o.ResourceId
+	toSerialize["resourceType"] = o.ResourceType
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -428,13 +428,13 @@ func (o *AuditEvent) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"action",
 		"attributes",
-		"audit_event_id",
-		"created_at",
+		"auditEventId",
+		"createdAt",
 		"outcome",
-		"project_id",
-		"resource_id",
-		"resource_type",
-		"tenant_id",
+		"projectId",
+		"resourceId",
+		"resourceType",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

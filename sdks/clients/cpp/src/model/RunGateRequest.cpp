@@ -20,8 +20,8 @@ namespace model {
 
 RunGateRequest::RunGateRequest()
 {
-    m_Experiment_run_id = utility::conversions::to_string_t("");
-    m_Experiment_run_idIsSet = false;
+    m_ExperimentRunId = utility::conversions::to_string_t("");
+    m_ExperimentRunIdIsSet = false;
 }
 
 RunGateRequest::~RunGateRequest()
@@ -36,10 +36,10 @@ void RunGateRequest::validate()
 web::json::value RunGateRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Experiment_run_idIsSet)
+    if(m_ExperimentRunIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_run_id"))] = ModelBase::toJson(m_Experiment_run_id);
+        val[utility::conversions::to_string_t(U("experimentRunId"))] = ModelBase::toJson(m_ExperimentRunId);
     }
 
     return val;
@@ -48,9 +48,9 @@ web::json::value RunGateRequest::toJson() const
 bool RunGateRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_run_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentRunId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_run_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentRunId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExperimentRunId;
@@ -69,9 +69,9 @@ void RunGateRequest::toMultipart(std::shared_ptr<MultipartFormData> multipart, c
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Experiment_run_idIsSet)
+    if(m_ExperimentRunIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_run_id")), m_Experiment_run_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentRunId")), m_ExperimentRunId));
     }
 }
 
@@ -84,10 +84,10 @@ bool RunGateRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_run_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentRunId"))))
     {
         utility::string_t refVal_setExperimentRunId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_run_id"))), refVal_setExperimentRunId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentRunId"))), refVal_setExperimentRunId );
         setExperimentRunId(refVal_setExperimentRunId);
     }
     return ok;
@@ -96,24 +96,24 @@ bool RunGateRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
 
 utility::string_t RunGateRequest::getExperimentRunId() const
 {
-    return m_Experiment_run_id;
+    return m_ExperimentRunId;
 }
 
 
 void RunGateRequest::setExperimentRunId(const utility::string_t& value)
 {
-    m_Experiment_run_id = value;
-    m_Experiment_run_idIsSet = true;
+    m_ExperimentRunId = value;
+    m_ExperimentRunIdIsSet = true;
 }
 
 bool RunGateRequest::experimentRunIdIsSet() const
 {
-    return m_Experiment_run_idIsSet;
+    return m_ExperimentRunIdIsSet;
 }
 
-void RunGateRequest::unsetExperiment_run_id()
+void RunGateRequest::unsetExperimentRunId()
 {
-    m_Experiment_run_idIsSet = false;
+    m_ExperimentRunIdIsSet = false;
 }
 
 }

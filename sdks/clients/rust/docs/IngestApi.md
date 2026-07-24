@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ingest_period_drain_trace_ingested**](IngestApi.md#ingest_period_drain_trace_ingested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
-[**ingest_period_drain_trace_writes**](IngestApi.md#ingest_period_drain_trace_writes) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**ingest_period_get_queue_status**](IngestApi.md#ingest_period_get_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
-[**ingest_period_import_source**](IngestApi.md#ingest_period_import_source) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
+[**ingest_period_drain_trace_ingested**](IngestApi.md#ingest_period_drain_trace_ingested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
+[**ingest_period_drain_trace_writes**](IngestApi.md#ingest_period_drain_trace_writes) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
+[**ingest_period_get_queue_status**](IngestApi.md#ingest_period_get_queue_status) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
+[**ingest_period_import_source**](IngestApi.md#ingest_period_import_source) | **POST** /v1/import/{tenantId}/{projectId}/{environmentId} |
 [**ingest_period_native**](IngestApi.md#ingest_period_native) | **POST** /v1/traces/native |
-[**ingest_period_otlp**](IngestApi.md#ingest_period_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**ingest_period_otlp**](IngestApi.md#ingest_period_otlp) | **POST** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |
 [**ingest_period_otlp_json_collector**](IngestApi.md#ingest_period_otlp_json_collector) | **POST** /v1/traces |
-[**ingest_period_reconcile_trace**](IngestApi.md#ingest_period_reconcile_trace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
-[**ingest_period_replay_dead_letter**](IngestApi.md#ingest_period_replay_dead_letter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
+[**ingest_period_reconcile_trace**](IngestApi.md#ingest_period_reconcile_trace) | **POST** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |
+[**ingest_period_replay_dead_letter**](IngestApi.md#ingest_period_replay_dead_letter) | **POST** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |
 
 
 

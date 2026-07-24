@@ -21,9 +21,9 @@ var _ MappedNullable = &PromptVersionDiff{}
 
 // PromptVersionDiff struct for PromptVersionDiff
 type PromptVersionDiff struct {
-	FromVersionId string `json:"from_version_id"`
+	FromVersionId string `json:"fromVersionId"`
 	Lines []DiffLine `json:"lines"`
-	ToVersionId string `json:"to_version_id"`
+	ToVersionId string `json:"toVersionId"`
 }
 
 type _PromptVersionDiff PromptVersionDiff
@@ -130,9 +130,9 @@ func (o PromptVersionDiff) MarshalJSON() ([]byte, error) {
 
 func (o PromptVersionDiff) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["from_version_id"] = o.FromVersionId
+	toSerialize["fromVersionId"] = o.FromVersionId
 	toSerialize["lines"] = o.Lines
-	toSerialize["to_version_id"] = o.ToVersionId
+	toSerialize["toVersionId"] = o.ToVersionId
 	return toSerialize, nil
 }
 
@@ -141,9 +141,9 @@ func (o *PromptVersionDiff) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"from_version_id",
+		"fromVersionId",
 		"lines",
-		"to_version_id",
+		"toVersionId",
 	}
 
 	allProperties := make(map[string]interface{})

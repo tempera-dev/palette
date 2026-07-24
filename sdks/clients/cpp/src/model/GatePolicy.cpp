@@ -22,12 +22,12 @@ GatePolicy::GatePolicy()
 {
     m_Alpha = 0.0;
     m_AlphaIsSet = false;
-    m_Comparison_count = 0;
-    m_Comparison_countIsSet = false;
-    m_Max_regression = 0.0;
-    m_Max_regressionIsSet = false;
-    m_Min_sample_size = 0;
-    m_Min_sample_sizeIsSet = false;
+    m_ComparisonCount = 0;
+    m_ComparisonCountIsSet = false;
+    m_MaxRegression = 0.0;
+    m_MaxRegressionIsSet = false;
+    m_MinSampleSize = 0;
+    m_MinSampleSizeIsSet = false;
 }
 
 GatePolicy::~GatePolicy()
@@ -47,20 +47,20 @@ web::json::value GatePolicy::toJson() const
         
         val[utility::conversions::to_string_t(U("alpha"))] = ModelBase::toJson(m_Alpha);
     }
-    if(m_Comparison_countIsSet)
+    if(m_ComparisonCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("comparison_count"))] = ModelBase::toJson(m_Comparison_count);
+        val[utility::conversions::to_string_t(U("comparisonCount"))] = ModelBase::toJson(m_ComparisonCount);
     }
-    if(m_Max_regressionIsSet)
+    if(m_MaxRegressionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("max_regression"))] = ModelBase::toJson(m_Max_regression);
+        val[utility::conversions::to_string_t(U("maxRegression"))] = ModelBase::toJson(m_MaxRegression);
     }
-    if(m_Min_sample_sizeIsSet)
+    if(m_MinSampleSizeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("min_sample_size"))] = ModelBase::toJson(m_Min_sample_size);
+        val[utility::conversions::to_string_t(U("minSampleSize"))] = ModelBase::toJson(m_MinSampleSize);
     }
 
     return val;
@@ -80,9 +80,9 @@ bool GatePolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("comparison_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("comparisonCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("comparison_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("comparisonCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setComparisonCount;
@@ -91,9 +91,9 @@ bool GatePolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("max_regression"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maxRegression"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("max_regression")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maxRegression")));
         if(!fieldValue.is_null())
         {
             double refVal_setMaxRegression;
@@ -102,9 +102,9 @@ bool GatePolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("min_sample_size"))))
+    if(val.has_field(utility::conversions::to_string_t(U("minSampleSize"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("min_sample_size")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("minSampleSize")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setMinSampleSize;
@@ -127,17 +127,17 @@ void GatePolicy::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("alpha")), m_Alpha));
     }
-    if(m_Comparison_countIsSet)
+    if(m_ComparisonCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("comparison_count")), m_Comparison_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("comparisonCount")), m_ComparisonCount));
     }
-    if(m_Max_regressionIsSet)
+    if(m_MaxRegressionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("max_regression")), m_Max_regression));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maxRegression")), m_MaxRegression));
     }
-    if(m_Min_sample_sizeIsSet)
+    if(m_MinSampleSizeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("min_sample_size")), m_Min_sample_size));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("minSampleSize")), m_MinSampleSize));
     }
 }
 
@@ -156,22 +156,22 @@ bool GatePolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("alpha"))), refVal_setAlpha );
         setAlpha(refVal_setAlpha);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("comparison_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("comparisonCount"))))
     {
         int32_t refVal_setComparisonCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("comparison_count"))), refVal_setComparisonCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("comparisonCount"))), refVal_setComparisonCount );
         setComparisonCount(refVal_setComparisonCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("max_regression"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maxRegression"))))
     {
         double refVal_setMaxRegression;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("max_regression"))), refVal_setMaxRegression );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maxRegression"))), refVal_setMaxRegression );
         setMaxRegression(refVal_setMaxRegression);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("min_sample_size"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("minSampleSize"))))
     {
         int32_t refVal_setMinSampleSize;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("min_sample_size"))), refVal_setMinSampleSize );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("minSampleSize"))), refVal_setMinSampleSize );
         setMinSampleSize(refVal_setMinSampleSize);
     }
     return ok;
@@ -200,63 +200,63 @@ void GatePolicy::unsetAlpha()
 }
 int32_t GatePolicy::getComparisonCount() const
 {
-    return m_Comparison_count;
+    return m_ComparisonCount;
 }
 
 void GatePolicy::setComparisonCount(int32_t value)
 {
-    m_Comparison_count = value;
-    m_Comparison_countIsSet = true;
+    m_ComparisonCount = value;
+    m_ComparisonCountIsSet = true;
 }
 
 bool GatePolicy::comparisonCountIsSet() const
 {
-    return m_Comparison_countIsSet;
+    return m_ComparisonCountIsSet;
 }
 
-void GatePolicy::unsetComparison_count()
+void GatePolicy::unsetComparisonCount()
 {
-    m_Comparison_countIsSet = false;
+    m_ComparisonCountIsSet = false;
 }
 double GatePolicy::getMaxRegression() const
 {
-    return m_Max_regression;
+    return m_MaxRegression;
 }
 
 void GatePolicy::setMaxRegression(double value)
 {
-    m_Max_regression = value;
-    m_Max_regressionIsSet = true;
+    m_MaxRegression = value;
+    m_MaxRegressionIsSet = true;
 }
 
 bool GatePolicy::maxRegressionIsSet() const
 {
-    return m_Max_regressionIsSet;
+    return m_MaxRegressionIsSet;
 }
 
-void GatePolicy::unsetMax_regression()
+void GatePolicy::unsetMaxRegression()
 {
-    m_Max_regressionIsSet = false;
+    m_MaxRegressionIsSet = false;
 }
 int32_t GatePolicy::getMinSampleSize() const
 {
-    return m_Min_sample_size;
+    return m_MinSampleSize;
 }
 
 void GatePolicy::setMinSampleSize(int32_t value)
 {
-    m_Min_sample_size = value;
-    m_Min_sample_sizeIsSet = true;
+    m_MinSampleSize = value;
+    m_MinSampleSizeIsSet = true;
 }
 
 bool GatePolicy::minSampleSizeIsSet() const
 {
-    return m_Min_sample_sizeIsSet;
+    return m_MinSampleSizeIsSet;
 }
 
-void GatePolicy::unsetMin_sample_size()
+void GatePolicy::unsetMinSampleSize()
 {
-    m_Min_sample_sizeIsSet = false;
+    m_MinSampleSizeIsSet = false;
 }
 
 }

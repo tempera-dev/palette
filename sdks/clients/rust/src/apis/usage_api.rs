@@ -45,7 +45,7 @@ pub enum UsagePeriodGetSummaryError {
 
 pub async fn usage_period_get_summary(configuration: &configuration::Configuration, params: UsagePeriodGetSummaryParams) -> Result<models::UsageSummary, Error<UsagePeriodGetSummaryError>> {
 
-    let uri_str = format!("{}/v1/usage/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/usage/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

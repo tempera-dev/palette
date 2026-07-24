@@ -21,13 +21,13 @@ var _ MappedNullable = &AlertPolicy{}
 
 // AlertPolicy struct for AlertPolicy
 type AlertPolicy struct {
-	DedupeWindowSeconds int64 `json:"dedupe_window_seconds"`
-	EndpointUrl string `json:"endpoint_url"`
-	FireWhenScoreAtOrBelow float64 `json:"fire_when_score_at_or_below"`
-	MaintenanceWindows []MaintenanceWindow `json:"maintenance_windows"`
-	PolicyId string `json:"policy_id"`
+	DedupeWindowSeconds int64 `json:"dedupeWindowSeconds"`
+	EndpointUrl string `json:"endpointUrl"`
+	FireWhenScoreAtOrBelow float64 `json:"fireWhenScoreAtOrBelow"`
+	MaintenanceWindows []MaintenanceWindow `json:"maintenanceWindows"`
+	PolicyId string `json:"policyId"`
 	Severity AlertSeverity `json:"severity"`
-	SigningSecret string `json:"signing_secret"`
+	SigningSecret string `json:"signingSecret"`
 }
 
 type _AlertPolicy AlertPolicy
@@ -234,13 +234,13 @@ func (o AlertPolicy) MarshalJSON() ([]byte, error) {
 
 func (o AlertPolicy) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["dedupe_window_seconds"] = o.DedupeWindowSeconds
-	toSerialize["endpoint_url"] = o.EndpointUrl
-	toSerialize["fire_when_score_at_or_below"] = o.FireWhenScoreAtOrBelow
-	toSerialize["maintenance_windows"] = o.MaintenanceWindows
-	toSerialize["policy_id"] = o.PolicyId
+	toSerialize["dedupeWindowSeconds"] = o.DedupeWindowSeconds
+	toSerialize["endpointUrl"] = o.EndpointUrl
+	toSerialize["fireWhenScoreAtOrBelow"] = o.FireWhenScoreAtOrBelow
+	toSerialize["maintenanceWindows"] = o.MaintenanceWindows
+	toSerialize["policyId"] = o.PolicyId
 	toSerialize["severity"] = o.Severity
-	toSerialize["signing_secret"] = o.SigningSecret
+	toSerialize["signingSecret"] = o.SigningSecret
 	return toSerialize, nil
 }
 
@@ -249,13 +249,13 @@ func (o *AlertPolicy) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"dedupe_window_seconds",
-		"endpoint_url",
-		"fire_when_score_at_or_below",
-		"maintenance_windows",
-		"policy_id",
+		"dedupeWindowSeconds",
+		"endpointUrl",
+		"fireWhenScoreAtOrBelow",
+		"maintenanceWindows",
+		"policyId",
 		"severity",
-		"signing_secret",
+		"signingSecret",
 	}
 
 	allProperties := make(map[string]interface{})

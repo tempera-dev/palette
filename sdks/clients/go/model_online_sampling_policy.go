@@ -21,10 +21,10 @@ var _ MappedNullable = &OnlineSamplingPolicy{}
 
 // OnlineSamplingPolicy struct for OnlineSamplingPolicy
 type OnlineSamplingPolicy struct {
-	HighCostMicrosThreshold NullableInt64 `json:"high_cost_micros_threshold,omitempty"`
-	KeepErrors bool `json:"keep_errors"`
-	SampleRatePerMille int32 `json:"sample_rate_per_mille"`
-	SlowMsThreshold NullableInt64 `json:"slow_ms_threshold,omitempty"`
+	HighCostMicrosThreshold NullableInt64 `json:"highCostMicrosThreshold,omitempty"`
+	KeepErrors bool `json:"keepErrors"`
+	SampleRatePerMille int32 `json:"sampleRatePerMille"`
+	SlowMsThreshold NullableInt64 `json:"slowMsThreshold,omitempty"`
 }
 
 type _OnlineSamplingPolicy OnlineSamplingPolicy
@@ -191,12 +191,12 @@ func (o OnlineSamplingPolicy) MarshalJSON() ([]byte, error) {
 func (o OnlineSamplingPolicy) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.HighCostMicrosThreshold.IsSet() {
-		toSerialize["high_cost_micros_threshold"] = o.HighCostMicrosThreshold.Get()
+		toSerialize["highCostMicrosThreshold"] = o.HighCostMicrosThreshold.Get()
 	}
-	toSerialize["keep_errors"] = o.KeepErrors
-	toSerialize["sample_rate_per_mille"] = o.SampleRatePerMille
+	toSerialize["keepErrors"] = o.KeepErrors
+	toSerialize["sampleRatePerMille"] = o.SampleRatePerMille
 	if o.SlowMsThreshold.IsSet() {
-		toSerialize["slow_ms_threshold"] = o.SlowMsThreshold.Get()
+		toSerialize["slowMsThreshold"] = o.SlowMsThreshold.Get()
 	}
 	return toSerialize, nil
 }
@@ -206,8 +206,8 @@ func (o *OnlineSamplingPolicy) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"keep_errors",
-		"sample_rate_per_mille",
+		"keepErrors",
+		"sampleRatePerMille",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -21,7 +21,7 @@ var _ MappedNullable = &CaseOutputOverrideRequest{}
 
 // CaseOutputOverrideRequest struct for CaseOutputOverrideRequest
 type CaseOutputOverrideRequest struct {
-	CaseId string `json:"case_id"`
+	CaseId string `json:"caseId"`
 	Output interface{} `json:"output"`
 	Trace interface{} `json:"trace,omitempty"`
 }
@@ -140,7 +140,7 @@ func (o CaseOutputOverrideRequest) MarshalJSON() ([]byte, error) {
 
 func (o CaseOutputOverrideRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["case_id"] = o.CaseId
+	toSerialize["caseId"] = o.CaseId
 	if o.Output != nil {
 		toSerialize["output"] = o.Output
 	}
@@ -155,7 +155,7 @@ func (o *CaseOutputOverrideRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"case_id",
+		"caseId",
 		"output",
 	}
 

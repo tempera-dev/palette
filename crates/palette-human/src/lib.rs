@@ -17,6 +17,7 @@ use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ReviewQueue {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -46,6 +47,7 @@ pub enum ReviewVerdict {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ReviewTask {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -67,6 +69,7 @@ pub struct ReviewTask {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ReviewAnnotation {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,

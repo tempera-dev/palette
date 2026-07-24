@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AlertLinks {
-    #[serde(rename = "cluster_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "clusterUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cluster_url: Option<Option<String>>,
-    #[serde(rename = "dataset_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dataset_url: Option<Option<String>>,
-    #[serde(rename = "gate_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "gateUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub gate_url: Option<Option<String>>,
-    #[serde(rename = "trace_url")]
+    #[serde(rename = "traceUrl")]
     pub trace_url: String,
 }
 

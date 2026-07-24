@@ -441,6 +441,7 @@ impl SpanStatus {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ArtifactRef {
     pub artifact_id: ArtifactId,
     pub uri: String,
@@ -460,6 +461,7 @@ pub enum RedactionClass {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AuthContext {
     pub api_key_id: Option<ApiKeyId>,
     pub scopes: BTreeSet<String>,
@@ -488,6 +490,7 @@ pub struct ModelRef {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CanonicalSpan {
     pub schema_version: u32,
     pub normalizer_version: String,
@@ -533,6 +536,7 @@ impl CanonicalTraceBatch {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct WriteAck {
     pub accepted_raw: usize,
     pub accepted_spans: usize,
@@ -541,6 +545,7 @@ pub struct WriteAck {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceView {
     pub tenant_id: TenantId,
     pub trace_id: TraceId,
@@ -548,6 +553,7 @@ pub struct TraceView {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct RunSummary {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -618,6 +624,7 @@ pub enum EvaluatorLane {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct EvalReproducibility {
     pub dataset_version_id: DatasetVersionId,
     pub dataset_case_id: DatasetCaseId,
@@ -639,6 +646,7 @@ pub struct EvalReproducibility {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct EvalResult {
     pub eval_result_id: EvalResultId,
     pub tenant_id: TenantId,

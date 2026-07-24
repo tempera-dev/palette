@@ -24,7 +24,7 @@ type ConnectionStatus struct {
 	// `true` only when an account exists and is `ACTIVE`.
 	Connected bool `json:"connected"`
 	// The connected-account id, when one exists.
-	ConnectedAccountId NullableString `json:"connected_account_id,omitempty"`
+	ConnectedAccountId NullableString `json:"connectedAccountId,omitempty"`
 	// Raw Composio status (`ACTIVE`, `INITIALIZING`, `FAILED`, …) or `not_connected` when no account exists yet.
 	Status string `json:"status"`
 	// Toolkit slug this status is for.
@@ -179,7 +179,7 @@ func (o ConnectionStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["connected"] = o.Connected
 	if o.ConnectedAccountId.IsSet() {
-		toSerialize["connected_account_id"] = o.ConnectedAccountId.Get()
+		toSerialize["connectedAccountId"] = o.ConnectedAccountId.Get()
 	}
 	toSerialize["status"] = o.Status
 	toSerialize["toolkit"] = o.Toolkit

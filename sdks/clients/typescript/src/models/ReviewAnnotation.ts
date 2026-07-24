@@ -111,14 +111,14 @@ export function ReviewAnnotationFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'annotationId': json['annotation_id'],
-        'createdAt': (new Date(json['created_at'])),
+        'annotationId': json['annotationId'],
+        'createdAt': (new Date(json['createdAt'])),
         'payload': json['payload'],
-        'projectId': json['project_id'],
-        'queueId': json['queue_id'],
-        'reviewerId': json['reviewer_id'],
-        'taskId': json['task_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'queueId': json['queueId'],
+        'reviewerId': json['reviewerId'],
+        'taskId': json['taskId'],
+        'tenantId': json['tenantId'],
         'verdict': ReviewVerdictFromJSON(json['verdict']),
     };
 }
@@ -134,14 +134,14 @@ export function ReviewAnnotationToJSONTyped(value?: ReviewAnnotation | null, ign
 
     return {
         
-        'annotation_id': value['annotationId'],
-        'created_at': ((value['createdAt']).toISOString()),
+        'annotationId': value['annotationId'],
+        'createdAt': ((value['createdAt']).toISOString()),
         'payload': value['payload'],
-        'project_id': value['projectId'],
-        'queue_id': value['queueId'],
-        'reviewer_id': value['reviewerId'],
-        'task_id': value['taskId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'queueId': value['queueId'],
+        'reviewerId': value['reviewerId'],
+        'taskId': value['taskId'],
+        'tenantId': value['tenantId'],
         'verdict': ReviewVerdictToJSON(value['verdict']),
     };
 }

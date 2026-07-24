@@ -21,9 +21,9 @@ var _ MappedNullable = &QueuedTraceWork{}
 
 // QueuedTraceWork struct for QueuedTraceWork
 type QueuedTraceWork struct {
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
 }
 
 type _QueuedTraceWork QueuedTraceWork
@@ -130,9 +130,9 @@ func (o QueuedTraceWork) MarshalJSON() ([]byte, error) {
 
 func (o QueuedTraceWork) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -141,9 +141,9 @@ func (o *QueuedTraceWork) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"project_id",
-		"tenant_id",
-		"trace_id",
+		"projectId",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

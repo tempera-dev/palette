@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class MineScenariosRequest(BaseModel):
     """
     MineScenariosRequest
     """ # noqa: E501
-    jaccard_threshold: Optional[Union[StrictFloat, StrictInt]] = None
-    trace_ids: List[StrictStr]
-    __properties: ClassVar[List[str]] = ["jaccard_threshold", "trace_ids"]
+    jaccard_threshold: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="jaccardThreshold")
+    trace_ids: List[StrictStr] = Field(alias="traceIds")
+    __properties: ClassVar[List[str]] = ["jaccardThreshold", "traceIds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,7 +72,7 @@ class MineScenariosRequest(BaseModel):
         # set to None if jaccard_threshold (nullable) is None
         # and model_fields_set contains the field
         if self.jaccard_threshold is None and "jaccard_threshold" in self.model_fields_set:
-            _dict['jaccard_threshold'] = None
+            _dict['jaccardThreshold'] = None
 
         return _dict
 
@@ -86,8 +86,8 @@ class MineScenariosRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "jaccard_threshold": obj.get("jaccard_threshold"),
-            "trace_ids": obj.get("trace_ids")
+            "jaccardThreshold": obj.get("jaccardThreshold"),
+            "traceIds": obj.get("traceIds")
         })
         return _obj
 

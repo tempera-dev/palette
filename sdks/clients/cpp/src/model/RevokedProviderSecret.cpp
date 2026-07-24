@@ -22,10 +22,10 @@ RevokedProviderSecret::RevokedProviderSecret()
 {
     m_Active = false;
     m_ActiveIsSet = false;
-    m_Provider_secret_id = utility::conversions::to_string_t("");
-    m_Provider_secret_idIsSet = false;
-    m_Rotated_at = utility::datetime();
-    m_Rotated_atIsSet = false;
+    m_ProviderSecretId = utility::conversions::to_string_t("");
+    m_ProviderSecretIdIsSet = false;
+    m_RotatedAt = utility::datetime();
+    m_RotatedAtIsSet = false;
 }
 
 RevokedProviderSecret::~RevokedProviderSecret()
@@ -45,15 +45,15 @@ web::json::value RevokedProviderSecret::toJson() const
         
         val[utility::conversions::to_string_t(U("active"))] = ModelBase::toJson(m_Active);
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("provider_secret_id"))] = ModelBase::toJson(m_Provider_secret_id);
+        val[utility::conversions::to_string_t(U("providerSecretId"))] = ModelBase::toJson(m_ProviderSecretId);
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("rotated_at"))] = ModelBase::toJson(m_Rotated_at);
+        val[utility::conversions::to_string_t(U("rotatedAt"))] = ModelBase::toJson(m_RotatedAt);
     }
 
     return val;
@@ -73,9 +73,9 @@ bool RevokedProviderSecret::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("providerSecretId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("provider_secret_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("providerSecretId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProviderSecretId;
@@ -84,9 +84,9 @@ bool RevokedProviderSecret::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("rotated_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("rotatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotated_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setRotatedAt;
@@ -109,13 +109,13 @@ void RevokedProviderSecret::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("active")), m_Active));
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider_secret_id")), m_Provider_secret_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("providerSecretId")), m_ProviderSecretId));
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotated_at")), m_Rotated_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotatedAt")), m_RotatedAt));
     }
 }
 
@@ -134,16 +134,16 @@ bool RevokedProviderSecret::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("active"))), refVal_setActive );
         setActive(refVal_setActive);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("providerSecretId"))))
     {
         utility::string_t refVal_setProviderSecretId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider_secret_id"))), refVal_setProviderSecretId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("providerSecretId"))), refVal_setProviderSecretId );
         setProviderSecretId(refVal_setProviderSecretId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("rotated_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("rotatedAt"))))
     {
         utility::datetime refVal_setRotatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotated_at"))), refVal_setRotatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotatedAt"))), refVal_setRotatedAt );
         setRotatedAt(refVal_setRotatedAt);
     }
     return ok;
@@ -172,45 +172,45 @@ void RevokedProviderSecret::unsetActive()
 }
 utility::string_t RevokedProviderSecret::getProviderSecretId() const
 {
-    return m_Provider_secret_id;
+    return m_ProviderSecretId;
 }
 
 
 void RevokedProviderSecret::setProviderSecretId(const utility::string_t& value)
 {
-    m_Provider_secret_id = value;
-    m_Provider_secret_idIsSet = true;
+    m_ProviderSecretId = value;
+    m_ProviderSecretIdIsSet = true;
 }
 
 bool RevokedProviderSecret::providerSecretIdIsSet() const
 {
-    return m_Provider_secret_idIsSet;
+    return m_ProviderSecretIdIsSet;
 }
 
-void RevokedProviderSecret::unsetProvider_secret_id()
+void RevokedProviderSecret::unsetProviderSecretId()
 {
-    m_Provider_secret_idIsSet = false;
+    m_ProviderSecretIdIsSet = false;
 }
 utility::datetime RevokedProviderSecret::getRotatedAt() const
 {
-    return m_Rotated_at;
+    return m_RotatedAt;
 }
 
 
 void RevokedProviderSecret::setRotatedAt(const utility::datetime& value)
 {
-    m_Rotated_at = value;
-    m_Rotated_atIsSet = true;
+    m_RotatedAt = value;
+    m_RotatedAtIsSet = true;
 }
 
 bool RevokedProviderSecret::rotatedAtIsSet() const
 {
-    return m_Rotated_atIsSet;
+    return m_RotatedAtIsSet;
 }
 
-void RevokedProviderSecret::unsetRotated_at()
+void RevokedProviderSecret::unsetRotatedAt()
 {
-    m_Rotated_atIsSet = false;
+    m_RotatedAtIsSet = false;
 }
 
 }

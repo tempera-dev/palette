@@ -26,13 +26,13 @@ class PerturbationKnobs(BaseModel):
     """
     Tunable knobs describing how a scenario may be perturbed during replay.
     """ # noqa: E501
-    auth_failure: StrictBool = Field(description="Force an auth failure on a dependency.")
-    contradictory_source: StrictBool = Field(description="Inject a contradictory context source.")
-    prompt_injection: StrictBool = Field(description="Attempt a prompt-injection payload.")
-    stale_source: StrictBool = Field(description="Serve a stale version of a context source.")
+    auth_failure: StrictBool = Field(description="Force an auth failure on a dependency.", alias="authFailure")
+    contradictory_source: StrictBool = Field(description="Inject a contradictory context source.", alias="contradictorySource")
+    prompt_injection: StrictBool = Field(description="Attempt a prompt-injection payload.", alias="promptInjection")
+    stale_source: StrictBool = Field(description="Serve a stale version of a context source.", alias="staleSource")
     timeout: StrictBool = Field(description="Force a timeout on a dependency.")
-    tool_schema_mismatch: StrictBool = Field(description="Present a tool whose schema mismatches expectations.")
-    __properties: ClassVar[List[str]] = ["auth_failure", "contradictory_source", "prompt_injection", "stale_source", "timeout", "tool_schema_mismatch"]
+    tool_schema_mismatch: StrictBool = Field(description="Present a tool whose schema mismatches expectations.", alias="toolSchemaMismatch")
+    __properties: ClassVar[List[str]] = ["authFailure", "contradictorySource", "promptInjection", "staleSource", "timeout", "toolSchemaMismatch"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,12 +85,12 @@ class PerturbationKnobs(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "auth_failure": obj.get("auth_failure"),
-            "contradictory_source": obj.get("contradictory_source"),
-            "prompt_injection": obj.get("prompt_injection"),
-            "stale_source": obj.get("stale_source"),
+            "authFailure": obj.get("authFailure"),
+            "contradictorySource": obj.get("contradictorySource"),
+            "promptInjection": obj.get("promptInjection"),
+            "staleSource": obj.get("staleSource"),
             "timeout": obj.get("timeout"),
-            "tool_schema_mismatch": obj.get("tool_schema_mismatch")
+            "toolSchemaMismatch": obj.get("toolSchemaMismatch")
         })
         return _obj
 

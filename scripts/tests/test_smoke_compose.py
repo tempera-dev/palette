@@ -59,11 +59,11 @@ case "$url" in
     if [ "${PALETTE_TEST_STALE_OPENAPI:-0}" = "1" ]; then
       printf 'missing contract marker'
     else
-      printf 'started_after'
+      printf 'startedAfter'
     fi
     ;;
   *'/v1/traces/demo?'*)
-    printf '{"runs":[{"trace_id":"trace-compose-1"}],"model":"gpt-demo"}'
+    printf '{"runs":[{"traceId":"trace-compose-1"}],"model":"gpt-demo"}'
     ;;
   *'trace=trace-compose-1'*)
     printf 'Agent Trace Debugger call-policy-model %s' "${PALETTE_TEST_DASHBOARD_KINDS:-}"
@@ -172,7 +172,7 @@ def test_compose_smoke_failure_still_cleans_up() -> None:
     result, log = run_smoke({"PALETTE_TEST_STALE_OPENAPI": "1"})
 
     assert result.returncode == 1
-    assert "Expected 'started_after' in http://127.0.0.1:8080/openapi.json" in result.stderr
+    assert "Expected 'startedAfter' in http://127.0.0.1:8080/openapi.json" in result.stderr
     assert (
         "Palette compose smoke failed; capturing compose status and logs before cleanup."
         in result.stderr

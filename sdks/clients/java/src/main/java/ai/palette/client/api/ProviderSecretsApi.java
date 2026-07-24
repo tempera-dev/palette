@@ -172,9 +172,9 @@ public class ProviderSecretsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/provider-secrets/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/provider-secrets/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -293,9 +293,9 @@ public class ProviderSecretsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/provider-secrets/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/provider-secrets/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -427,10 +427,10 @@ public class ProviderSecretsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{provider_secret_id}", ApiClient.urlEncode(providerSecretId.toString()));
+    String localVarPath = "/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{providerSecretId}", ApiClient.urlEncode(providerSecretId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,9 +27,9 @@ class MaintenanceWindow(BaseModel):
     """
     MaintenanceWindow
     """ # noqa: E501
-    ends_at: datetime
-    starts_at: datetime
-    __properties: ClassVar[List[str]] = ["ends_at", "starts_at"]
+    ends_at: datetime = Field(alias="endsAt")
+    starts_at: datetime = Field(alias="startsAt")
+    __properties: ClassVar[List[str]] = ["endsAt", "startsAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,8 +82,8 @@ class MaintenanceWindow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "ends_at": obj.get("ends_at"),
-            "starts_at": obj.get("starts_at")
+            "endsAt": obj.get("endsAt"),
+            "startsAt": obj.get("startsAt")
         })
         return _obj
 

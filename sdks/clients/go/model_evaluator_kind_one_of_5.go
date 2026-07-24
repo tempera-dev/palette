@@ -21,7 +21,7 @@ var _ MappedNullable = &EvaluatorKindOneOf5{}
 
 // EvaluatorKindOneOf5 struct for EvaluatorKindOneOf5
 type EvaluatorKindOneOf5 struct {
-	MaxMs int64 `json:"max_ms"`
+	MaxMs int64 `json:"maxMs"`
 	Type string `json:"type"`
 }
 
@@ -104,7 +104,7 @@ func (o EvaluatorKindOneOf5) MarshalJSON() ([]byte, error) {
 
 func (o EvaluatorKindOneOf5) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["max_ms"] = o.MaxMs
+	toSerialize["maxMs"] = o.MaxMs
 	toSerialize["type"] = o.Type
 	return toSerialize, nil
 }
@@ -114,7 +114,7 @@ func (o *EvaluatorKindOneOf5) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"max_ms",
+		"maxMs",
 		"type",
 	}
 

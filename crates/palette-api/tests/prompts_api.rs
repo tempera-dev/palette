@@ -90,8 +90,8 @@ async fn create_prompt(app: &Router, base: &str, name: &str) -> (String, String)
     .await;
     assert_eq!(status, StatusCode::OK, "create body: {created}");
     (
-        str_field(&created, "/prompt/prompt_id").to_string(),
-        str_field(&created, "/version/version_id").to_string(),
+        str_field(&created, "/prompt/promptId").to_string(),
+        str_field(&created, "/version/versionId").to_string(),
     )
 }
 
@@ -113,15 +113,15 @@ async fn prompts_lifecycle_create_version_list_and_diff() {
                 "variables": [{"name": "question", "required": true, "default": null, "description": null}],
                 "tags": ["support"]
             },
-            "created_by": "agent",
+            "createdBy": "agent",
             "message": "initial"
         })),
     )
     .await;
     assert_eq!(status, StatusCode::OK, "create body: {created}");
-    let prompt_id = str_field(&created, "/prompt/prompt_id").to_string();
-    let version_one = str_field(&created, "/version/version_id").to_string();
-    assert_eq!(created.pointer("/version/version_number"), Some(&json!(1)));
+    let prompt_id = str_field(&created, "/prompt/promptId").to_string();
+    let version_one = str_field(&created, "/version/versionId").to_string();
+    assert_eq!(created.pointer("/version/versionNumber"), Some(&json!(1)));
 
     // list_prompts shows the new prompt
     let (status, listed) = send(&app, "GET", base, None).await;
@@ -131,7 +131,7 @@ async fn prompts_lifecycle_create_version_list_and_diff() {
         .and_then(Value::as_array)
         .unwrap_or_else(|| panic!("missing prompts array: {listed}"));
     assert_eq!(prompts.len(), 1);
-    assert_eq!(str_field(&prompts[0], "/prompt_id"), prompt_id);
+    assert_eq!(str_field(&prompts[0], "/promptId"), prompt_id);
 
     // get_prompt by id
     let (status, prompt) = send(&app, "GET", &format!("{base}/{prompt_id}"), None).await;
@@ -158,8 +158,8 @@ async fn prompts_lifecycle_create_version_list_and_diff() {
         StatusCode::OK,
         "add version body: {version_two_body}"
     );
-    assert_eq!(version_two_body.pointer("/version_number"), Some(&json!(2)));
-    let version_two = str_field(&version_two_body, "/version_id").to_string();
+    assert_eq!(version_two_body.pointer("/versionNumber"), Some(&json!(2)));
+    let version_two = str_field(&version_two_body, "/versionId").to_string();
 
     // list_versions returns both, oldest-first
     let (status, versions_body) =
@@ -217,7 +217,7 @@ async fn prompt_and_version_lists_traverse_with_request_bound_aip158_tokens() {
             .as_array()
             .unwrap_or_else(|| panic!("prompt page array: {body}"));
         assert_eq!(prompts.len(), 1);
-        listed_prompt_ids.insert(str_field(&prompts[0], "/prompt_id").to_string());
+        listed_prompt_ids.insert(str_field(&prompts[0], "/promptId").to_string());
         page_token = body
             .get("nextPageToken")
             .and_then(Value::as_str)
@@ -227,7 +227,7 @@ async fn prompt_and_version_lists_traverse_with_request_bound_aip158_tokens() {
                 .as_deref()
                 .unwrap_or_else(|| panic!("missing prompt page token: {body}"));
             assert!(token.starts_with("aip158_v1_"));
-            assert!(!token.contains(str_field(&prompts[0], "/prompt_id")));
+            assert!(!token.contains(str_field(&prompts[0], "/promptId")));
         } else {
             assert!(page_token.is_none(), "final prompt page: {body}");
         }
@@ -270,7 +270,7 @@ async fn prompt_and_version_lists_traverse_with_request_bound_aip158_tokens() {
         )
         .await;
         assert_eq!(status, StatusCode::OK, "add version: {version}");
-        created_version_ids.insert(str_field(&version, "/version_id").to_string());
+        created_version_ids.insert(str_field(&version, "/versionId").to_string());
     }
 
     let mut listed_version_ids = BTreeSet::new();
@@ -286,7 +286,7 @@ async fn prompt_and_version_lists_traverse_with_request_bound_aip158_tokens() {
             .as_array()
             .unwrap_or_else(|| panic!("versions page array: {body}"));
         assert_eq!(versions.len(), 1);
-        listed_version_ids.insert(str_field(&versions[0], "/version_id").to_string());
+        listed_version_ids.insert(str_field(&versions[0], "/versionId").to_string());
         version_token = body
             .get("nextPageToken")
             .and_then(Value::as_str)

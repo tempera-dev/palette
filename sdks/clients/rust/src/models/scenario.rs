@@ -15,33 +15,33 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Scenario {
     /// When the scenario was created.
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "exemplar_trace_id")]
+    #[serde(rename = "exemplarTraceId")]
     pub exemplar_trace_id: String,
     /// Expected outcome for replay assertions, if known.
-    #[serde(rename = "expected_outcome", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "expectedOutcome", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub expected_outcome: Option<Option<String>>,
     /// The dominant failure mode this scenario reproduces.
-    #[serde(rename = "failure_mode")]
+    #[serde(rename = "failureMode")]
     pub failure_mode: models::FailureMode,
     /// Suggested perturbation knobs for replay.
-    #[serde(rename = "perturbation_knobs")]
+    #[serde(rename = "perturbationKnobs")]
     pub perturbation_knobs: Box<models::PerturbationKnobs>,
     /// How many traces exhibited this scenario.
-    #[serde(rename = "recurrence_count")]
+    #[serde(rename = "recurrenceCount")]
     pub recurrence_count: i32,
     /// Redaction classification of the scenario payload.
-    #[serde(rename = "redaction_class")]
+    #[serde(rename = "redactionClass")]
     pub redaction_class: models::RedactionClass,
     /// Stable, deterministic identifier for the scenario.
-    #[serde(rename = "scenario_id")]
+    #[serde(rename = "scenarioId")]
     pub scenario_id: String,
     /// Tenant/project/environment scope this scenario belongs to.
     #[serde(rename = "scope")]
     pub scope: Box<models::TenantScope>,
     /// Trace ids the scenario was mined from, sorted ascending.
-    #[serde(rename = "source_trace_ids")]
+    #[serde(rename = "sourceTraceIds")]
     pub source_trace_ids: Vec<String>,
     /// Human-readable title.
     #[serde(rename = "title")]

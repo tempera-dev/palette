@@ -63,7 +63,7 @@ public:
 
     utility::string_t getDatasetCaseId() const;
     bool datasetCaseIdIsSet() const;
-    void unsetDataset_case_id();
+    void unsetDatasetCaseId();
     void setDatasetCaseId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getEvidence() const;
@@ -73,22 +73,22 @@ public:
 
     std::shared_ptr<CalibrationLabel> getHumanLabel() const;
     bool humanLabelIsSet() const;
-    void unsetHuman_label();
+    void unsetHumanLabel();
     void setHumanLabel(const std::shared_ptr<CalibrationLabel>& value);
 
     std::shared_ptr<CalibrationLabel> getJudgeLabel() const;
     bool judgeLabelIsSet() const;
-    void unsetJudge_label();
+    void unsetJudgeLabel();
     void setJudgeLabel(const std::shared_ptr<CalibrationLabel>& value);
 
     utility::string_t getJudgeResultLabel() const;
     bool judgeResultLabelIsSet() const;
-    void unsetJudge_result_label();
+    void unsetJudgeResultLabel();
     void setJudgeResultLabel(const utility::string_t& value);
 
     double getJudgeScore() const;
     bool judgeScoreIsSet() const;
-    void unsetJudge_score();
+    void unsetJudgeScore();
     void setJudgeScore(double value);
 
 
@@ -96,23 +96,23 @@ protected:
     bool m_Agreed;
     bool m_AgreedIsSet;
 
-    utility::string_t m_Dataset_case_id;
-    bool m_Dataset_case_idIsSet;
+    utility::string_t m_DatasetCaseId;
+    bool m_DatasetCaseIdIsSet;
 
     std::shared_ptr<AnyType> m_Evidence;
     bool m_EvidenceIsSet;
 
-    std::shared_ptr<CalibrationLabel> m_Human_label;
-    bool m_Human_labelIsSet;
+    std::shared_ptr<CalibrationLabel> m_HumanLabel;
+    bool m_HumanLabelIsSet;
 
-    std::shared_ptr<CalibrationLabel> m_Judge_label;
-    bool m_Judge_labelIsSet;
+    std::shared_ptr<CalibrationLabel> m_JudgeLabel;
+    bool m_JudgeLabelIsSet;
 
-    utility::string_t m_Judge_result_label;
-    bool m_Judge_result_labelIsSet;
+    utility::string_t m_JudgeResultLabel;
+    bool m_JudgeResultLabelIsSet;
 
-    double m_Judge_score;
-    bool m_Judge_scoreIsSet;
+    double m_JudgeScore;
+    bool m_JudgeScoreIsSet;
 
 };
 

@@ -20,20 +20,20 @@ namespace model {
 
 TraceIngestedReconcileReport::TraceIngestedReconcileReport()
 {
-    m_Downstream_accepted = 0;
-    m_Downstream_acceptedIsSet = false;
-    m_Downstream_duplicate = 0;
-    m_Downstream_duplicateIsSet = false;
-    m_Downstream_queued = false;
-    m_Downstream_queuedIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Span_count = 0;
-    m_Span_countIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_DownstreamAccepted = 0;
+    m_DownstreamAcceptedIsSet = false;
+    m_DownstreamDuplicate = 0;
+    m_DownstreamDuplicateIsSet = false;
+    m_DownstreamQueued = false;
+    m_DownstreamQueuedIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_SpanCount = 0;
+    m_SpanCountIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 TraceIngestedReconcileReport::~TraceIngestedReconcileReport()
@@ -48,40 +48,40 @@ void TraceIngestedReconcileReport::validate()
 web::json::value TraceIngestedReconcileReport::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Downstream_acceptedIsSet)
+    if(m_DownstreamAcceptedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_accepted"))] = ModelBase::toJson(m_Downstream_accepted);
+        val[utility::conversions::to_string_t(U("downstreamAccepted"))] = ModelBase::toJson(m_DownstreamAccepted);
     }
-    if(m_Downstream_duplicateIsSet)
+    if(m_DownstreamDuplicateIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_duplicate"))] = ModelBase::toJson(m_Downstream_duplicate);
+        val[utility::conversions::to_string_t(U("downstreamDuplicate"))] = ModelBase::toJson(m_DownstreamDuplicate);
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_queued"))] = ModelBase::toJson(m_Downstream_queued);
+        val[utility::conversions::to_string_t(U("downstreamQueued"))] = ModelBase::toJson(m_DownstreamQueued);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_count"))] = ModelBase::toJson(m_Span_count);
+        val[utility::conversions::to_string_t(U("spanCount"))] = ModelBase::toJson(m_SpanCount);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -90,9 +90,9 @@ web::json::value TraceIngestedReconcileReport::toJson() const
 bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_accepted"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamAccepted"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_accepted")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamAccepted")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDownstreamAccepted;
@@ -101,9 +101,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_duplicate"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamDuplicate"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_duplicate")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamDuplicate")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDownstreamDuplicate;
@@ -112,9 +112,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_queued")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamQueued")));
         if(!fieldValue.is_null())
         {
             bool refVal_setDownstreamQueued;
@@ -123,9 +123,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -134,9 +134,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSpanCount;
@@ -145,9 +145,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -156,9 +156,9 @@ bool TraceIngestedReconcileReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -177,33 +177,33 @@ void TraceIngestedReconcileReport::toMultipart(std::shared_ptr<MultipartFormData
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Downstream_acceptedIsSet)
+    if(m_DownstreamAcceptedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_accepted")), m_Downstream_accepted));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamAccepted")), m_DownstreamAccepted));
     }
-    if(m_Downstream_duplicateIsSet)
+    if(m_DownstreamDuplicateIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_duplicate")), m_Downstream_duplicate));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamDuplicate")), m_DownstreamDuplicate));
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_queued")), m_Downstream_queued));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamQueued")), m_DownstreamQueued));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_count")), m_Span_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanCount")), m_SpanCount));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -216,46 +216,46 @@ bool TraceIngestedReconcileReport::fromMultiPart(std::shared_ptr<MultipartFormDa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_accepted"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamAccepted"))))
     {
         int32_t refVal_setDownstreamAccepted;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_accepted"))), refVal_setDownstreamAccepted );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamAccepted"))), refVal_setDownstreamAccepted );
         setDownstreamAccepted(refVal_setDownstreamAccepted);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_duplicate"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamDuplicate"))))
     {
         int32_t refVal_setDownstreamDuplicate;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_duplicate"))), refVal_setDownstreamDuplicate );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamDuplicate"))), refVal_setDownstreamDuplicate );
         setDownstreamDuplicate(refVal_setDownstreamDuplicate);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
         bool refVal_setDownstreamQueued;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_queued"))), refVal_setDownstreamQueued );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamQueued"))), refVal_setDownstreamQueued );
         setDownstreamQueued(refVal_setDownstreamQueued);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanCount"))))
     {
         int32_t refVal_setSpanCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_count"))), refVal_setSpanCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanCount"))), refVal_setSpanCount );
         setSpanCount(refVal_setSpanCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -264,146 +264,146 @@ bool TraceIngestedReconcileReport::fromMultiPart(std::shared_ptr<MultipartFormDa
 
 int32_t TraceIngestedReconcileReport::getDownstreamAccepted() const
 {
-    return m_Downstream_accepted;
+    return m_DownstreamAccepted;
 }
 
 void TraceIngestedReconcileReport::setDownstreamAccepted(int32_t value)
 {
-    m_Downstream_accepted = value;
-    m_Downstream_acceptedIsSet = true;
+    m_DownstreamAccepted = value;
+    m_DownstreamAcceptedIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::downstreamAcceptedIsSet() const
 {
-    return m_Downstream_acceptedIsSet;
+    return m_DownstreamAcceptedIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetDownstream_accepted()
+void TraceIngestedReconcileReport::unsetDownstreamAccepted()
 {
-    m_Downstream_acceptedIsSet = false;
+    m_DownstreamAcceptedIsSet = false;
 }
 int32_t TraceIngestedReconcileReport::getDownstreamDuplicate() const
 {
-    return m_Downstream_duplicate;
+    return m_DownstreamDuplicate;
 }
 
 void TraceIngestedReconcileReport::setDownstreamDuplicate(int32_t value)
 {
-    m_Downstream_duplicate = value;
-    m_Downstream_duplicateIsSet = true;
+    m_DownstreamDuplicate = value;
+    m_DownstreamDuplicateIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::downstreamDuplicateIsSet() const
 {
-    return m_Downstream_duplicateIsSet;
+    return m_DownstreamDuplicateIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetDownstream_duplicate()
+void TraceIngestedReconcileReport::unsetDownstreamDuplicate()
 {
-    m_Downstream_duplicateIsSet = false;
+    m_DownstreamDuplicateIsSet = false;
 }
 bool TraceIngestedReconcileReport::isDownstreamQueued() const
 {
-    return m_Downstream_queued;
+    return m_DownstreamQueued;
 }
 
 void TraceIngestedReconcileReport::setDownstreamQueued(bool value)
 {
-    m_Downstream_queued = value;
-    m_Downstream_queuedIsSet = true;
+    m_DownstreamQueued = value;
+    m_DownstreamQueuedIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::downstreamQueuedIsSet() const
 {
-    return m_Downstream_queuedIsSet;
+    return m_DownstreamQueuedIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetDownstream_queued()
+void TraceIngestedReconcileReport::unsetDownstreamQueued()
 {
-    m_Downstream_queuedIsSet = false;
+    m_DownstreamQueuedIsSet = false;
 }
 utility::string_t TraceIngestedReconcileReport::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void TraceIngestedReconcileReport::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetProject_id()
+void TraceIngestedReconcileReport::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 int32_t TraceIngestedReconcileReport::getSpanCount() const
 {
-    return m_Span_count;
+    return m_SpanCount;
 }
 
 void TraceIngestedReconcileReport::setSpanCount(int32_t value)
 {
-    m_Span_count = value;
-    m_Span_countIsSet = true;
+    m_SpanCount = value;
+    m_SpanCountIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::spanCountIsSet() const
 {
-    return m_Span_countIsSet;
+    return m_SpanCountIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetSpan_count()
+void TraceIngestedReconcileReport::unsetSpanCount()
 {
-    m_Span_countIsSet = false;
+    m_SpanCountIsSet = false;
 }
 utility::string_t TraceIngestedReconcileReport::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void TraceIngestedReconcileReport::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetTenant_id()
+void TraceIngestedReconcileReport::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t TraceIngestedReconcileReport::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void TraceIngestedReconcileReport::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool TraceIngestedReconcileReport::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void TraceIngestedReconcileReport::unsetTrace_id()
+void TraceIngestedReconcileReport::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

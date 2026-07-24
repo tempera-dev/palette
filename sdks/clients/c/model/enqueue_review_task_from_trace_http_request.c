@@ -83,7 +83,7 @@ cJSON *enqueue_review_task_from_trace_http_request_convertToJSON(enqueue_review_
 
     // enqueue_review_task_from_trace_http_request->dataset_case_id
     if(enqueue_review_task_from_trace_http_request->dataset_case_id) {
-    if(cJSON_AddStringToObject(item, "dataset_case_id", enqueue_review_task_from_trace_http_request->dataset_case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetCaseId", enqueue_review_task_from_trace_http_request->dataset_case_id) == NULL) {
     goto fail; //String
     }
     }
@@ -91,7 +91,7 @@ cJSON *enqueue_review_task_from_trace_http_request_convertToJSON(enqueue_review_
 
     // enqueue_review_task_from_trace_http_request->dataset_id
     if(enqueue_review_task_from_trace_http_request->dataset_id) {
-    if(cJSON_AddStringToObject(item, "dataset_id", enqueue_review_task_from_trace_http_request->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", enqueue_review_task_from_trace_http_request->dataset_id) == NULL) {
     goto fail; //String
     }
     }
@@ -107,7 +107,7 @@ cJSON *enqueue_review_task_from_trace_http_request_convertToJSON(enqueue_review_
 
     // enqueue_review_task_from_trace_http_request->span_id
     if(enqueue_review_task_from_trace_http_request->span_id) {
-    if(cJSON_AddStringToObject(item, "span_id", enqueue_review_task_from_trace_http_request->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", enqueue_review_task_from_trace_http_request->span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -115,7 +115,7 @@ cJSON *enqueue_review_task_from_trace_http_request_convertToJSON(enqueue_review_
 
     // enqueue_review_task_from_trace_http_request->task_id
     if(enqueue_review_task_from_trace_http_request->task_id) {
-    if(cJSON_AddStringToObject(item, "task_id", enqueue_review_task_from_trace_http_request->task_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "taskId", enqueue_review_task_from_trace_http_request->task_id) == NULL) {
     goto fail; //String
     }
     }
@@ -125,7 +125,7 @@ cJSON *enqueue_review_task_from_trace_http_request_convertToJSON(enqueue_review_
     if (!enqueue_review_task_from_trace_http_request->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", enqueue_review_task_from_trace_http_request->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", enqueue_review_task_from_trace_http_request->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -142,7 +142,7 @@ enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_ht
     enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request_local_var = NULL;
 
     // enqueue_review_task_from_trace_http_request->dataset_case_id
-    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "dataset_case_id");
+    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "datasetCaseId");
     if (cJSON_IsNull(dataset_case_id)) {
         dataset_case_id = NULL;
     }
@@ -154,7 +154,7 @@ enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_ht
     }
 
     // enqueue_review_task_from_trace_http_request->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -178,7 +178,7 @@ enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_ht
     }
 
     // enqueue_review_task_from_trace_http_request->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -190,7 +190,7 @@ enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_ht
     }
 
     // enqueue_review_task_from_trace_http_request->task_id
-    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "task_id");
+    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "taskId");
     if (cJSON_IsNull(task_id)) {
         task_id = NULL;
     }
@@ -202,7 +202,7 @@ enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_ht
     }
 
     // enqueue_review_task_from_trace_http_request->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(enqueue_review_task_from_trace_http_requestJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

@@ -15,21 +15,21 @@ use serde::{Deserialize, Serialize};
 pub struct BusMessage {
     #[serde(rename = "attempts")]
     pub attempts: i32,
-    #[serde(rename = "enqueued_at")]
+    #[serde(rename = "enqueuedAt")]
     pub enqueued_at: String,
-    #[serde(rename = "idempotency_key")]
+    #[serde(rename = "idempotencyKey")]
     pub idempotency_key: String,
     #[serde(rename = "kind")]
     pub kind: String,
-    #[serde(rename = "max_attempts")]
+    #[serde(rename = "maxAttempts")]
     pub max_attempts: i32,
-    #[serde(rename = "message_id")]
+    #[serde(rename = "messageId")]
     pub message_id: String,
     #[serde(rename = "payload")]
     pub payload: Vec<i32>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

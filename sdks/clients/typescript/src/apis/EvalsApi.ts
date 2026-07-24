@@ -121,7 +121,7 @@ export class EvalsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"dataset_id"}}`, encodeURIComponent(String(requestParameters['datasetId']))).replace(`{${"version_id"}}`, encodeURIComponent(String(requestParameters['versionId']))),
+            path: `/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters['datasetId']))).replace(`{${"versionId"}}`, encodeURIComponent(String(requestParameters['versionId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -199,7 +199,7 @@ export class EvalsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"dataset_id"}}`, encodeURIComponent(String(requestParameters['datasetId']))).replace(`{${"version_id"}}`, encodeURIComponent(String(requestParameters['versionId']))),
+            path: `/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters['datasetId']))).replace(`{${"versionId"}}`, encodeURIComponent(String(requestParameters['versionId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

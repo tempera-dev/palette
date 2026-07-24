@@ -174,6 +174,7 @@ impl ParquetTraceArchive {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ArchiveManifest {
     #[schema(value_type = String)]
     pub path: PathBuf,
@@ -212,6 +213,7 @@ impl ArchiveQuery {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ArchivedSpanRow {
     pub tenant_id: String,
     pub project_id: String,

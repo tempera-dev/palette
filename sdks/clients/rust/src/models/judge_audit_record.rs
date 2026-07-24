@@ -15,31 +15,31 @@ use serde::{Deserialize, Serialize};
 pub struct JudgeAuditRecord {
     #[serde(rename = "cached")]
     pub cached: bool,
-    #[serde(rename = "charged_cost")]
+    #[serde(rename = "chargedCost")]
     pub charged_cost: Box<models::Money>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "evaluator_id")]
+    #[serde(rename = "evaluatorId")]
     pub evaluator_id: String,
-    #[serde(rename = "judge_call_id")]
+    #[serde(rename = "judgeCallId")]
     pub judge_call_id: String,
     #[serde(rename = "model")]
     pub model: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "provider")]
     pub provider: String,
-    #[serde(rename = "provider_cost")]
+    #[serde(rename = "providerCost")]
     pub provider_cost: Box<models::Money>,
-    #[serde(rename = "provider_secret_id")]
+    #[serde(rename = "providerSecretId")]
     pub provider_secret_id: String,
-    #[serde(rename = "request_hash")]
+    #[serde(rename = "requestHash")]
     pub request_hash: String,
-    #[serde(rename = "response_hash")]
+    #[serde(rename = "responseHash")]
     pub response_hash: String,
     #[serde(rename = "score")]
     pub score: f64,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

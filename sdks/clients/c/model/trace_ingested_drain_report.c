@@ -94,7 +94,7 @@ cJSON *trace_ingested_drain_report_convertToJSON(trace_ingested_drain_report_t *
     if (!trace_ingested_drain_report->dead_lettered) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "dead_lettered", trace_ingested_drain_report->dead_lettered) == NULL) {
+    if(cJSON_AddNumberToObject(item, "deadLettered", trace_ingested_drain_report->dead_lettered) == NULL) {
     goto fail; //Numeric
     }
 
@@ -103,7 +103,7 @@ cJSON *trace_ingested_drain_report_convertToJSON(trace_ingested_drain_report_t *
     if (!trace_ingested_drain_report->failed_work) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "failed_work", trace_ingested_drain_report->failed_work) == NULL) {
+    if(cJSON_AddNumberToObject(item, "failedWork", trace_ingested_drain_report->failed_work) == NULL) {
     goto fail; //Numeric
     }
 
@@ -112,7 +112,7 @@ cJSON *trace_ingested_drain_report_convertToJSON(trace_ingested_drain_report_t *
     if (!trace_ingested_drain_report->invalid_messages) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "invalid_messages", trace_ingested_drain_report->invalid_messages) == NULL) {
+    if(cJSON_AddNumberToObject(item, "invalidMessages", trace_ingested_drain_report->invalid_messages) == NULL) {
     goto fail; //Numeric
     }
 
@@ -130,7 +130,7 @@ cJSON *trace_ingested_drain_report_convertToJSON(trace_ingested_drain_report_t *
     if (!trace_ingested_drain_report->trace_refs) {
         goto fail;
     }
-    cJSON *trace_refs = cJSON_AddArrayToObject(item, "trace_refs");
+    cJSON *trace_refs = cJSON_AddArrayToObject(item, "traceRefs");
     if(trace_refs == NULL) {
     goto fail; //nonprimitive container
     }
@@ -192,7 +192,7 @@ trace_ingested_drain_report_t *trace_ingested_drain_report_parseFromJSON(cJSON *
     }
 
     // trace_ingested_drain_report->dead_lettered
-    cJSON *dead_lettered = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "dead_lettered");
+    cJSON *dead_lettered = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "deadLettered");
     if (cJSON_IsNull(dead_lettered)) {
         dead_lettered = NULL;
     }
@@ -207,7 +207,7 @@ trace_ingested_drain_report_t *trace_ingested_drain_report_parseFromJSON(cJSON *
     }
 
     // trace_ingested_drain_report->failed_work
-    cJSON *failed_work = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "failed_work");
+    cJSON *failed_work = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "failedWork");
     if (cJSON_IsNull(failed_work)) {
         failed_work = NULL;
     }
@@ -222,7 +222,7 @@ trace_ingested_drain_report_t *trace_ingested_drain_report_parseFromJSON(cJSON *
     }
 
     // trace_ingested_drain_report->invalid_messages
-    cJSON *invalid_messages = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "invalid_messages");
+    cJSON *invalid_messages = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "invalidMessages");
     if (cJSON_IsNull(invalid_messages)) {
         invalid_messages = NULL;
     }
@@ -252,7 +252,7 @@ trace_ingested_drain_report_t *trace_ingested_drain_report_parseFromJSON(cJSON *
     }
 
     // trace_ingested_drain_report->trace_refs
-    cJSON *trace_refs = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "trace_refs");
+    cJSON *trace_refs = cJSON_GetObjectItemCaseSensitive(trace_ingested_drain_reportJSON, "traceRefs");
     if (cJSON_IsNull(trace_refs)) {
         trace_refs = NULL;
     }

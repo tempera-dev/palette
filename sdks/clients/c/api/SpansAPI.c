@@ -8,7 +8,7 @@
 
 
 canonical_span_t*
-SpansAPI_spansGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+SpansAPI_spansGet(apiClient_t *apiClient, char *tenantId, char *traceId, char *spanId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,45 +22,45 @@ SpansAPI_spansGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, char 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/spans/{tenant_id}/{trace_id}/{span_id}");
+    char *localVarPath = strdup("/v1/spans/{tenantId}/{traceId}/{spanId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
-    if(!span_id)
+    if(!spanId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
     // Path Params
-    long sizeOfPathParams_span_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ span_id }") - 1;
-    if(span_id == NULL) {
+    long sizeOfPathParams_spanId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ spanId }") - 1;
+    if(spanId == NULL) {
         goto end;
     }
-    char* localVarToReplace_span_id = malloc(sizeOfPathParams_span_id);
-    sprintf(localVarToReplace_span_id, "{%s}", "span_id");
+    char* localVarToReplace_spanId = malloc(sizeOfPathParams_spanId);
+    sprintf(localVarToReplace_spanId, "{%s}", "spanId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_span_id, span_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_spanId, spanId);
 
 
 
@@ -191,9 +191,9 @@ SpansAPI_spansGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, char 
     list_freeList(localVarHeaderType);
     
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_trace_id);
-    free(localVarToReplace_span_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_traceId);
+    free(localVarToReplace_spanId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -262,7 +262,7 @@ end:
 }
 
 span_io_response_t*
-SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenantId, char *traceId, char *spanId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -276,45 +276,45 @@ SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, cha
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/spans/{tenant_id}/{trace_id}/{span_id}/io");
+    char *localVarPath = strdup("/v1/spans/{tenantId}/{traceId}/{spanId}/io");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
-    if(!span_id)
+    if(!spanId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
     // Path Params
-    long sizeOfPathParams_span_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + strlen(span_id)+3 + sizeof("{ span_id }") - 1;
-    if(span_id == NULL) {
+    long sizeOfPathParams_spanId = strlen(tenantId)+3 + strlen(traceId)+3 + strlen(spanId)+3 + sizeof("{ spanId }") - 1;
+    if(spanId == NULL) {
         goto end;
     }
-    char* localVarToReplace_span_id = malloc(sizeOfPathParams_span_id);
-    sprintf(localVarToReplace_span_id, "{%s}", "span_id");
+    char* localVarToReplace_spanId = malloc(sizeOfPathParams_spanId);
+    sprintf(localVarToReplace_spanId, "{%s}", "spanId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_span_id, span_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_spanId, spanId);
 
 
 
@@ -445,9 +445,9 @@ SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, cha
     list_freeList(localVarHeaderType);
     
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_trace_id);
-    free(localVarToReplace_span_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_traceId);
+    free(localVarToReplace_spanId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

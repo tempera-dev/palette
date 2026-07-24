@@ -65,7 +65,7 @@ cJSON *create_provider_secret_http_request_convertToJSON(create_provider_secret_
     if (!create_provider_secret_http_request->display_name) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "display_name", create_provider_secret_http_request->display_name) == NULL) {
+    if(cJSON_AddStringToObject(item, "displayName", create_provider_secret_http_request->display_name) == NULL) {
     goto fail; //String
     }
 
@@ -83,7 +83,7 @@ cJSON *create_provider_secret_http_request_convertToJSON(create_provider_secret_
     if (!create_provider_secret_http_request->secret_value) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "secret_value", create_provider_secret_http_request->secret_value) == NULL) {
+    if(cJSON_AddStringToObject(item, "secretValue", create_provider_secret_http_request->secret_value) == NULL) {
     goto fail; //String
     }
 
@@ -100,7 +100,7 @@ create_provider_secret_http_request_t *create_provider_secret_http_request_parse
     create_provider_secret_http_request_t *create_provider_secret_http_request_local_var = NULL;
 
     // create_provider_secret_http_request->display_name
-    cJSON *display_name = cJSON_GetObjectItemCaseSensitive(create_provider_secret_http_requestJSON, "display_name");
+    cJSON *display_name = cJSON_GetObjectItemCaseSensitive(create_provider_secret_http_requestJSON, "displayName");
     if (cJSON_IsNull(display_name)) {
         display_name = NULL;
     }
@@ -130,7 +130,7 @@ create_provider_secret_http_request_t *create_provider_secret_http_request_parse
     }
 
     // create_provider_secret_http_request->secret_value
-    cJSON *secret_value = cJSON_GetObjectItemCaseSensitive(create_provider_secret_http_requestJSON, "secret_value");
+    cJSON *secret_value = cJSON_GetObjectItemCaseSensitive(create_provider_secret_http_requestJSON, "secretValue");
     if (cJSON_IsNull(secret_value)) {
         secret_value = NULL;
     }

@@ -57,8 +57,8 @@ export function PromptVersionMetadataFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
-        'createdBy': json['created_by'] == null ? undefined : json['created_by'],
+        'createdAt': (new Date(json['createdAt'])),
+        'createdBy': json['createdBy'] == null ? undefined : json['createdBy'],
         'message': json['message'] == null ? undefined : json['message'],
     };
 }
@@ -74,8 +74,8 @@ export function PromptVersionMetadataToJSONTyped(value?: PromptVersionMetadata |
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
-        'created_by': value['createdBy'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'createdBy': value['createdBy'],
         'message': value['message'],
     };
 }

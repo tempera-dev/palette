@@ -22,11 +22,11 @@ var _ MappedNullable = &ConnectionLink{}
 // ConnectionLink One-time login link returned when initiating a managed-OAuth connection.
 type ConnectionLink struct {
 	// Composio connection id (`ca_…`) created for this handshake.
-	ConnectedAccountId string `json:"connected_account_id"`
+	ConnectedAccountId string `json:"connectedAccountId"`
 	// When the link expires (RFC 3339), if provided.
-	ExpiresAt NullableString `json:"expires_at,omitempty"`
+	ExpiresAt NullableString `json:"expiresAt,omitempty"`
 	// URL the end user opens once to authorize the app.
-	RedirectUrl string `json:"redirect_url"`
+	RedirectUrl string `json:"redirectUrl"`
 }
 
 type _ConnectionLink ConnectionLink
@@ -150,11 +150,11 @@ func (o ConnectionLink) MarshalJSON() ([]byte, error) {
 
 func (o ConnectionLink) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["connected_account_id"] = o.ConnectedAccountId
+	toSerialize["connectedAccountId"] = o.ConnectedAccountId
 	if o.ExpiresAt.IsSet() {
-		toSerialize["expires_at"] = o.ExpiresAt.Get()
+		toSerialize["expiresAt"] = o.ExpiresAt.Get()
 	}
-	toSerialize["redirect_url"] = o.RedirectUrl
+	toSerialize["redirectUrl"] = o.RedirectUrl
 	return toSerialize, nil
 }
 
@@ -163,8 +163,8 @@ func (o *ConnectionLink) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"connected_account_id",
-		"redirect_url",
+		"connectedAccountId",
+		"redirectUrl",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -22,21 +22,21 @@ var _ MappedNullable = &DatasetCase{}
 
 // DatasetCase struct for DatasetCase
 type DatasetCase struct {
-	CaseId string `json:"case_id"`
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
+	CaseId string `json:"caseId"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
 	Input interface{} `json:"input"`
-	InputArtifactHashes []string `json:"input_artifact_hashes"`
-	NormalizerVersion string `json:"normalizer_version"`
+	InputArtifactHashes []string `json:"inputArtifactHashes"`
+	NormalizerVersion string `json:"normalizerVersion"`
 	Output interface{} `json:"output"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Reference interface{} `json:"reference,omitempty"`
-	SourceEnvironmentId string `json:"source_environment_id"`
-	SourceSpanId string `json:"source_span_id"`
-	SourceTraceId string `json:"source_trace_id"`
-	TenantId string `json:"tenant_id"`
+	SourceEnvironmentId string `json:"sourceEnvironmentId"`
+	SourceSpanId string `json:"sourceSpanId"`
+	SourceTraceId string `json:"sourceTraceId"`
+	TenantId string `json:"tenantId"`
 	Trace interface{} `json:"trace"`
-	TraceSchemaVersion int32 `json:"trace_schema_version"`
+	TraceSchemaVersion int32 `json:"traceSchemaVersion"`
 }
 
 type _DatasetCase DatasetCase
@@ -457,29 +457,29 @@ func (o DatasetCase) MarshalJSON() ([]byte, error) {
 
 func (o DatasetCase) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["case_id"] = o.CaseId
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
+	toSerialize["caseId"] = o.CaseId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
 	if o.Input != nil {
 		toSerialize["input"] = o.Input
 	}
-	toSerialize["input_artifact_hashes"] = o.InputArtifactHashes
-	toSerialize["normalizer_version"] = o.NormalizerVersion
+	toSerialize["inputArtifactHashes"] = o.InputArtifactHashes
+	toSerialize["normalizerVersion"] = o.NormalizerVersion
 	if o.Output != nil {
 		toSerialize["output"] = o.Output
 	}
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	if o.Reference != nil {
 		toSerialize["reference"] = o.Reference
 	}
-	toSerialize["source_environment_id"] = o.SourceEnvironmentId
-	toSerialize["source_span_id"] = o.SourceSpanId
-	toSerialize["source_trace_id"] = o.SourceTraceId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["sourceEnvironmentId"] = o.SourceEnvironmentId
+	toSerialize["sourceSpanId"] = o.SourceSpanId
+	toSerialize["sourceTraceId"] = o.SourceTraceId
+	toSerialize["tenantId"] = o.TenantId
 	if o.Trace != nil {
 		toSerialize["trace"] = o.Trace
 	}
-	toSerialize["trace_schema_version"] = o.TraceSchemaVersion
+	toSerialize["traceSchemaVersion"] = o.TraceSchemaVersion
 	return toSerialize, nil
 }
 
@@ -488,20 +488,20 @@ func (o *DatasetCase) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"case_id",
-		"created_at",
-		"dataset_id",
+		"caseId",
+		"createdAt",
+		"datasetId",
 		"input",
-		"input_artifact_hashes",
-		"normalizer_version",
+		"inputArtifactHashes",
+		"normalizerVersion",
 		"output",
-		"project_id",
-		"source_environment_id",
-		"source_span_id",
-		"source_trace_id",
-		"tenant_id",
+		"projectId",
+		"sourceEnvironmentId",
+		"sourceSpanId",
+		"sourceTraceId",
+		"tenantId",
 		"trace",
-		"trace_schema_version",
+		"traceSchemaVersion",
 	}
 
 	allProperties := make(map[string]interface{})

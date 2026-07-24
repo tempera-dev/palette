@@ -58,9 +58,9 @@ export function ConnectionLinkFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'connectedAccountId': json['connected_account_id'],
-        'expiresAt': json['expires_at'] == null ? undefined : json['expires_at'],
-        'redirectUrl': json['redirect_url'],
+        'connectedAccountId': json['connectedAccountId'],
+        'expiresAt': json['expiresAt'] == null ? undefined : json['expiresAt'],
+        'redirectUrl': json['redirectUrl'],
     };
 }
 
@@ -75,9 +75,9 @@ export function ConnectionLinkToJSONTyped(value?: ConnectionLink | null, ignoreD
 
     return {
         
-        'connected_account_id': value['connectedAccountId'],
-        'expires_at': value['expiresAt'],
-        'redirect_url': value['redirectUrl'],
+        'connectedAccountId': value['connectedAccountId'],
+        'expiresAt': value['expiresAt'],
+        'redirectUrl': value['redirectUrl'],
     };
 }
 

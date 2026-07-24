@@ -19,7 +19,7 @@ var _ MappedNullable = &RunGateRequest{}
 
 // RunGateRequest struct for RunGateRequest
 type RunGateRequest struct {
-	ExperimentRunId NullableString `json:"experiment_run_id,omitempty"`
+	ExperimentRunId NullableString `json:"experimentRunId,omitempty"`
 }
 
 // NewRunGateRequest instantiates a new RunGateRequest object
@@ -92,7 +92,7 @@ func (o RunGateRequest) MarshalJSON() ([]byte, error) {
 func (o RunGateRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ExperimentRunId.IsSet() {
-		toSerialize["experiment_run_id"] = o.ExperimentRunId.Get()
+		toSerialize["experimentRunId"] = o.ExperimentRunId.Get()
 	}
 	return toSerialize, nil
 }

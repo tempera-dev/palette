@@ -61,12 +61,12 @@ public:
 
     utility::datetime getEnqueuedAt() const;
     bool enqueuedAtIsSet() const;
-    void unsetEnqueued_at();
+    void unsetEnqueuedAt();
     void setEnqueuedAt(const utility::datetime& value);
 
     utility::string_t getIdempotencyKey() const;
     bool idempotencyKeyIsSet() const;
-    void unsetIdempotency_key();
+    void unsetIdempotencyKey();
     void setIdempotencyKey(const utility::string_t& value);
 
     utility::string_t getKind() const;
@@ -76,12 +76,12 @@ public:
 
     int32_t getMaxAttempts() const;
     bool maxAttemptsIsSet() const;
-    void unsetMax_attempts();
+    void unsetMaxAttempts();
     void setMaxAttempts(int32_t value);
 
     utility::string_t getMessageId() const;
     bool messageIdIsSet() const;
-    void unsetMessage_id();
+    void unsetMessageId();
     void setMessageId(const utility::string_t& value);
 
     std::vector<int32_t> getPayload() const;
@@ -91,12 +91,12 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -104,29 +104,29 @@ protected:
     int32_t m_Attempts;
     bool m_AttemptsIsSet;
 
-    utility::datetime m_Enqueued_at;
-    bool m_Enqueued_atIsSet;
+    utility::datetime m_EnqueuedAt;
+    bool m_EnqueuedAtIsSet;
 
-    utility::string_t m_Idempotency_key;
-    bool m_Idempotency_keyIsSet;
+    utility::string_t m_IdempotencyKey;
+    bool m_IdempotencyKeyIsSet;
 
     utility::string_t m_Kind;
     bool m_KindIsSet;
 
-    int32_t m_Max_attempts;
-    bool m_Max_attemptsIsSet;
+    int32_t m_MaxAttempts;
+    bool m_MaxAttemptsIsSet;
 
-    utility::string_t m_Message_id;
-    bool m_Message_idIsSet;
+    utility::string_t m_MessageId;
+    bool m_MessageIdIsSet;
 
     std::vector<int32_t> m_Payload;
     bool m_PayloadIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

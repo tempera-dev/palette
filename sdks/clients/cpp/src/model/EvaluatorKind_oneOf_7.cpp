@@ -20,11 +20,11 @@ namespace model {
 
 EvaluatorKind_oneOf_7::EvaluatorKind_oneOf_7()
 {
-    m_Dom_contains = utility::conversions::to_string_t("");
-    m_Dom_containsIsSet = false;
+    m_DomContains = utility::conversions::to_string_t("");
+    m_DomContainsIsSet = false;
     m_TypeIsSet = false;
-    m_Url_contains = utility::conversions::to_string_t("");
-    m_Url_containsIsSet = false;
+    m_UrlContains = utility::conversions::to_string_t("");
+    m_UrlContainsIsSet = false;
 }
 
 EvaluatorKind_oneOf_7::~EvaluatorKind_oneOf_7()
@@ -39,10 +39,10 @@ void EvaluatorKind_oneOf_7::validate()
 web::json::value EvaluatorKind_oneOf_7::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dom_containsIsSet)
+    if(m_DomContainsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dom_contains"))] = ModelBase::toJson(m_Dom_contains);
+        val[utility::conversions::to_string_t(U("domContains"))] = ModelBase::toJson(m_DomContains);
     }
     if(m_TypeIsSet)
     {   
@@ -51,10 +51,10 @@ web::json::value EvaluatorKind_oneOf_7::toJson() const
         val[utility::conversions::to_string_t(U("type"))] = ModelBase::toJson(refVal);
         
     }
-    if(m_Url_containsIsSet)
+    if(m_UrlContainsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("url_contains"))] = ModelBase::toJson(m_Url_contains);
+        val[utility::conversions::to_string_t(U("urlContains"))] = ModelBase::toJson(m_UrlContains);
     }
 
     return val;
@@ -63,9 +63,9 @@ web::json::value EvaluatorKind_oneOf_7::toJson() const
 bool EvaluatorKind_oneOf_7::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dom_contains"))))
+    if(val.has_field(utility::conversions::to_string_t(U("domContains"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dom_contains")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("domContains")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDomContains;
@@ -86,9 +86,9 @@ bool EvaluatorKind_oneOf_7::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("url_contains"))))
+    if(val.has_field(utility::conversions::to_string_t(U("urlContains"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("url_contains")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("urlContains")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setUrlContains;
@@ -107,17 +107,17 @@ void EvaluatorKind_oneOf_7::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dom_containsIsSet)
+    if(m_DomContainsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dom_contains")), m_Dom_contains));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("domContains")), m_DomContains));
     }
     if(m_TypeIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("type")), fromTypeEnum(m_Type)));
     }
-    if(m_Url_containsIsSet)
+    if(m_UrlContainsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("url_contains")), m_Url_contains));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("urlContains")), m_UrlContains));
     }
 }
 
@@ -130,10 +130,10 @@ bool EvaluatorKind_oneOf_7::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dom_contains"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("domContains"))))
     {
         utility::string_t refVal_setDomContains;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dom_contains"))), refVal_setDomContains );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("domContains"))), refVal_setDomContains );
         setDomContains(refVal_setDomContains);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
@@ -142,10 +142,10 @@ bool EvaluatorKind_oneOf_7::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("type"))), refVal_setType );
         setType(toTypeEnum(refVal_setType));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("url_contains"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("urlContains"))))
     {
         utility::string_t refVal_setUrlContains;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("url_contains"))), refVal_setUrlContains );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("urlContains"))), refVal_setUrlContains );
         setUrlContains(refVal_setUrlContains);
     }
     return ok;
@@ -175,24 +175,24 @@ const utility::string_t EvaluatorKind_oneOf_7::fromTypeEnum(const TypeEnum value
 
 utility::string_t EvaluatorKind_oneOf_7::getDomContains() const
 {
-    return m_Dom_contains;
+    return m_DomContains;
 }
 
 
 void EvaluatorKind_oneOf_7::setDomContains(const utility::string_t& value)
 {
-    m_Dom_contains = value;
-    m_Dom_containsIsSet = true;
+    m_DomContains = value;
+    m_DomContainsIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_7::domContainsIsSet() const
 {
-    return m_Dom_containsIsSet;
+    return m_DomContainsIsSet;
 }
 
-void EvaluatorKind_oneOf_7::unsetDom_contains()
+void EvaluatorKind_oneOf_7::unsetDomContains()
 {
-    m_Dom_containsIsSet = false;
+    m_DomContainsIsSet = false;
 }
 EvaluatorKind_oneOf_7::TypeEnum EvaluatorKind_oneOf_7::getType() const
 {
@@ -217,24 +217,24 @@ void EvaluatorKind_oneOf_7::unsetType()
 }
 utility::string_t EvaluatorKind_oneOf_7::getUrlContains() const
 {
-    return m_Url_contains;
+    return m_UrlContains;
 }
 
 
 void EvaluatorKind_oneOf_7::setUrlContains(const utility::string_t& value)
 {
-    m_Url_contains = value;
-    m_Url_containsIsSet = true;
+    m_UrlContains = value;
+    m_UrlContainsIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_7::urlContainsIsSet() const
 {
-    return m_Url_containsIsSet;
+    return m_UrlContainsIsSet;
 }
 
-void EvaluatorKind_oneOf_7::unsetUrl_contains()
+void EvaluatorKind_oneOf_7::unsetUrlContains()
 {
-    m_Url_containsIsSet = false;
+    m_UrlContainsIsSet = false;
 }
 
 }

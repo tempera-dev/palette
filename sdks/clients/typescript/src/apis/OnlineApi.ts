@@ -98,7 +98,7 @@ export class OnlineApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))),
+            path: `/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

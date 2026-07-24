@@ -27,31 +27,31 @@ class ArchivedSpanRow(BaseModel):
     """
     ArchivedSpanRow
     """ # noqa: E501
-    attributes_json: StrictStr
-    cost_amount_micros: Optional[StrictStr] = None
-    cost_currency: Optional[StrictStr] = None
-    end_time: Optional[StrictStr] = None
-    environment_id: StrictStr
-    input_tokens: Optional[StrictStr] = None
-    input_uri: Optional[StrictStr] = None
+    attributes_json: StrictStr = Field(alias="attributesJson")
+    cost_amount_micros: Optional[StrictStr] = Field(default=None, alias="costAmountMicros")
+    cost_currency: Optional[StrictStr] = Field(default=None, alias="costCurrency")
+    end_time: Optional[StrictStr] = Field(default=None, alias="endTime")
+    environment_id: StrictStr = Field(alias="environmentId")
+    input_tokens: Optional[StrictStr] = Field(default=None, alias="inputTokens")
+    input_uri: Optional[StrictStr] = Field(default=None, alias="inputUri")
     kind: StrictStr
-    model_name: Optional[StrictStr] = None
-    model_provider: Optional[StrictStr] = None
+    model_name: Optional[StrictStr] = Field(default=None, alias="modelName")
+    model_provider: Optional[StrictStr] = Field(default=None, alias="modelProvider")
     name: StrictStr
-    output_tokens: Optional[StrictStr] = None
-    output_uri: Optional[StrictStr] = None
-    parent_span_id: Optional[StrictStr] = None
-    project_id: StrictStr
-    raw_uri: StrictStr
-    reasoning_tokens: Optional[StrictStr] = None
+    output_tokens: Optional[StrictStr] = Field(default=None, alias="outputTokens")
+    output_uri: Optional[StrictStr] = Field(default=None, alias="outputUri")
+    parent_span_id: Optional[StrictStr] = Field(default=None, alias="parentSpanId")
+    project_id: StrictStr = Field(alias="projectId")
+    raw_uri: StrictStr = Field(alias="rawUri")
+    reasoning_tokens: Optional[StrictStr] = Field(default=None, alias="reasoningTokens")
     seq: Annotated[int, Field(strict=True, ge=0)]
-    span_id: StrictStr
-    start_time: StrictStr
+    span_id: StrictStr = Field(alias="spanId")
+    start_time: StrictStr = Field(alias="startTime")
     status: StrictStr
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    unmapped_json: StrictStr
-    __properties: ClassVar[List[str]] = ["attributes_json", "cost_amount_micros", "cost_currency", "end_time", "environment_id", "input_tokens", "input_uri", "kind", "model_name", "model_provider", "name", "output_tokens", "output_uri", "parent_span_id", "project_id", "raw_uri", "reasoning_tokens", "seq", "span_id", "start_time", "status", "tenant_id", "trace_id", "unmapped_json"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    unmapped_json: StrictStr = Field(alias="unmappedJson")
+    __properties: ClassVar[List[str]] = ["attributesJson", "costAmountMicros", "costCurrency", "endTime", "environmentId", "inputTokens", "inputUri", "kind", "modelName", "modelProvider", "name", "outputTokens", "outputUri", "parentSpanId", "projectId", "rawUri", "reasoningTokens", "seq", "spanId", "startTime", "status", "tenantId", "traceId", "unmappedJson"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,57 +95,57 @@ class ArchivedSpanRow(BaseModel):
         # set to None if cost_amount_micros (nullable) is None
         # and model_fields_set contains the field
         if self.cost_amount_micros is None and "cost_amount_micros" in self.model_fields_set:
-            _dict['cost_amount_micros'] = None
+            _dict['costAmountMicros'] = None
 
         # set to None if cost_currency (nullable) is None
         # and model_fields_set contains the field
         if self.cost_currency is None and "cost_currency" in self.model_fields_set:
-            _dict['cost_currency'] = None
+            _dict['costCurrency'] = None
 
         # set to None if end_time (nullable) is None
         # and model_fields_set contains the field
         if self.end_time is None and "end_time" in self.model_fields_set:
-            _dict['end_time'] = None
+            _dict['endTime'] = None
 
         # set to None if input_tokens (nullable) is None
         # and model_fields_set contains the field
         if self.input_tokens is None and "input_tokens" in self.model_fields_set:
-            _dict['input_tokens'] = None
+            _dict['inputTokens'] = None
 
         # set to None if input_uri (nullable) is None
         # and model_fields_set contains the field
         if self.input_uri is None and "input_uri" in self.model_fields_set:
-            _dict['input_uri'] = None
+            _dict['inputUri'] = None
 
         # set to None if model_name (nullable) is None
         # and model_fields_set contains the field
         if self.model_name is None and "model_name" in self.model_fields_set:
-            _dict['model_name'] = None
+            _dict['modelName'] = None
 
         # set to None if model_provider (nullable) is None
         # and model_fields_set contains the field
         if self.model_provider is None and "model_provider" in self.model_fields_set:
-            _dict['model_provider'] = None
+            _dict['modelProvider'] = None
 
         # set to None if output_tokens (nullable) is None
         # and model_fields_set contains the field
         if self.output_tokens is None and "output_tokens" in self.model_fields_set:
-            _dict['output_tokens'] = None
+            _dict['outputTokens'] = None
 
         # set to None if output_uri (nullable) is None
         # and model_fields_set contains the field
         if self.output_uri is None and "output_uri" in self.model_fields_set:
-            _dict['output_uri'] = None
+            _dict['outputUri'] = None
 
         # set to None if parent_span_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_span_id is None and "parent_span_id" in self.model_fields_set:
-            _dict['parent_span_id'] = None
+            _dict['parentSpanId'] = None
 
         # set to None if reasoning_tokens (nullable) is None
         # and model_fields_set contains the field
         if self.reasoning_tokens is None and "reasoning_tokens" in self.model_fields_set:
-            _dict['reasoning_tokens'] = None
+            _dict['reasoningTokens'] = None
 
         return _dict
 
@@ -159,30 +159,30 @@ class ArchivedSpanRow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "attributes_json": obj.get("attributes_json"),
-            "cost_amount_micros": obj.get("cost_amount_micros"),
-            "cost_currency": obj.get("cost_currency"),
-            "end_time": obj.get("end_time"),
-            "environment_id": obj.get("environment_id"),
-            "input_tokens": obj.get("input_tokens"),
-            "input_uri": obj.get("input_uri"),
+            "attributesJson": obj.get("attributesJson"),
+            "costAmountMicros": obj.get("costAmountMicros"),
+            "costCurrency": obj.get("costCurrency"),
+            "endTime": obj.get("endTime"),
+            "environmentId": obj.get("environmentId"),
+            "inputTokens": obj.get("inputTokens"),
+            "inputUri": obj.get("inputUri"),
             "kind": obj.get("kind"),
-            "model_name": obj.get("model_name"),
-            "model_provider": obj.get("model_provider"),
+            "modelName": obj.get("modelName"),
+            "modelProvider": obj.get("modelProvider"),
             "name": obj.get("name"),
-            "output_tokens": obj.get("output_tokens"),
-            "output_uri": obj.get("output_uri"),
-            "parent_span_id": obj.get("parent_span_id"),
-            "project_id": obj.get("project_id"),
-            "raw_uri": obj.get("raw_uri"),
-            "reasoning_tokens": obj.get("reasoning_tokens"),
+            "outputTokens": obj.get("outputTokens"),
+            "outputUri": obj.get("outputUri"),
+            "parentSpanId": obj.get("parentSpanId"),
+            "projectId": obj.get("projectId"),
+            "rawUri": obj.get("rawUri"),
+            "reasoningTokens": obj.get("reasoningTokens"),
             "seq": obj.get("seq"),
-            "span_id": obj.get("span_id"),
-            "start_time": obj.get("start_time"),
+            "spanId": obj.get("spanId"),
+            "startTime": obj.get("startTime"),
             "status": obj.get("status"),
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id"),
-            "unmapped_json": obj.get("unmapped_json")
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId"),
+            "unmappedJson": obj.get("unmappedJson")
         })
         return _obj
 

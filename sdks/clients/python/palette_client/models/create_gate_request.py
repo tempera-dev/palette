@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.inconclusive_policy import InconclusivePolicy
 from typing import Optional, Set
@@ -27,12 +27,12 @@ class CreateGateRequest(BaseModel):
     """
     CreateGateRequest
     """ # noqa: E501
-    dataset_id: Optional[StrictStr] = None
-    evaluator_version_id: Optional[StrictStr] = None
-    gate_id: StrictStr
-    inconclusive_policy: Optional[InconclusivePolicy] = None
+    dataset_id: Optional[StrictStr] = Field(default=None, alias="datasetId")
+    evaluator_version_id: Optional[StrictStr] = Field(default=None, alias="evaluatorVersionId")
+    gate_id: StrictStr = Field(alias="gateId")
+    inconclusive_policy: Optional[InconclusivePolicy] = Field(default=None, alias="inconclusivePolicy")
     name: StrictStr
-    __properties: ClassVar[List[str]] = ["dataset_id", "evaluator_version_id", "gate_id", "inconclusive_policy", "name"]
+    __properties: ClassVar[List[str]] = ["datasetId", "evaluatorVersionId", "gateId", "inconclusivePolicy", "name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,17 +76,17 @@ class CreateGateRequest(BaseModel):
         # set to None if dataset_id (nullable) is None
         # and model_fields_set contains the field
         if self.dataset_id is None and "dataset_id" in self.model_fields_set:
-            _dict['dataset_id'] = None
+            _dict['datasetId'] = None
 
         # set to None if evaluator_version_id (nullable) is None
         # and model_fields_set contains the field
         if self.evaluator_version_id is None and "evaluator_version_id" in self.model_fields_set:
-            _dict['evaluator_version_id'] = None
+            _dict['evaluatorVersionId'] = None
 
         # set to None if inconclusive_policy (nullable) is None
         # and model_fields_set contains the field
         if self.inconclusive_policy is None and "inconclusive_policy" in self.model_fields_set:
-            _dict['inconclusive_policy'] = None
+            _dict['inconclusivePolicy'] = None
 
         return _dict
 
@@ -100,10 +100,10 @@ class CreateGateRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dataset_id": obj.get("dataset_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "gate_id": obj.get("gate_id"),
-            "inconclusive_policy": obj.get("inconclusive_policy"),
+            "datasetId": obj.get("datasetId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "gateId": obj.get("gateId"),
+            "inconclusivePolicy": obj.get("inconclusivePolicy"),
             "name": obj.get("name")
         })
         return _obj

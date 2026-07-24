@@ -109,7 +109,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->annotation_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "annotation_id", review_annotation->annotation_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "annotationId", review_annotation->annotation_id) == NULL) {
     goto fail; //String
     }
 
@@ -118,7 +118,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", review_annotation->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", review_annotation->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -141,7 +141,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", review_annotation->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", review_annotation->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -150,7 +150,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->queue_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "queue_id", review_annotation->queue_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "queueId", review_annotation->queue_id) == NULL) {
     goto fail; //String
     }
 
@@ -159,7 +159,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->reviewer_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "reviewer_id", review_annotation->reviewer_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "reviewerId", review_annotation->reviewer_id) == NULL) {
     goto fail; //String
     }
 
@@ -168,7 +168,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->task_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "task_id", review_annotation->task_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "taskId", review_annotation->task_id) == NULL) {
     goto fail; //String
     }
 
@@ -177,7 +177,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
     if (!review_annotation->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", review_annotation->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", review_annotation->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -214,7 +214,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     palette_api_review_verdict__e verdict_local_nonprim = 0;
 
     // review_annotation->annotation_id
-    cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "annotation_id");
+    cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "annotationId");
     if (cJSON_IsNull(annotation_id)) {
         annotation_id = NULL;
     }
@@ -229,7 +229,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     }
 
     // review_annotation->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -256,7 +256,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     payload_local_nonprim = _parseFromJSON(payload); //custom
 
     // review_annotation->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -271,7 +271,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     }
 
     // review_annotation->queue_id
-    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "queue_id");
+    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "queueId");
     if (cJSON_IsNull(queue_id)) {
         queue_id = NULL;
     }
@@ -286,7 +286,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     }
 
     // review_annotation->reviewer_id
-    cJSON *reviewer_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "reviewer_id");
+    cJSON *reviewer_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "reviewerId");
     if (cJSON_IsNull(reviewer_id)) {
         reviewer_id = NULL;
     }
@@ -301,7 +301,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     }
 
     // review_annotation->task_id
-    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "task_id");
+    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "taskId");
     if (cJSON_IsNull(task_id)) {
         task_id = NULL;
     }
@@ -316,7 +316,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     }
 
     // review_annotation->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

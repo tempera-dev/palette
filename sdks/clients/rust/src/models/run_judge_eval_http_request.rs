@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunJudgeEvalHttpRequest {
     /// Calibration-map / judge-instrument version folded into the judge cache key; bumping it on recalibration invalidates stale cached scores.
-    #[serde(rename = "cache_namespace", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "cacheNamespace", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cache_namespace: Option<Option<String>>,
     #[serde(rename = "case")]
     pub case: Box<models::EvaluationCase>,
     #[serde(rename = "evaluator")]
     pub evaluator: Box<models::EvaluatorSpec>,
-    #[serde(rename = "provider_secret_id")]
+    #[serde(rename = "providerSecretId")]
     pub provider_secret_id: String,
 }
 

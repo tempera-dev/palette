@@ -58,22 +58,22 @@ public:
 
     utility::string_t getExemplarTraceId() const;
     bool exemplarTraceIdIsSet() const;
-    void unsetExemplar_trace_id();
+    void unsetExemplarTraceId();
     void setExemplarTraceId(const utility::string_t& value);
 
     utility::string_t getExpectedOutcome() const;
     bool expectedOutcomeIsSet() const;
-    void unsetExpected_outcome();
+    void unsetExpectedOutcome();
     void setExpectedOutcome(const utility::string_t& value);
 
     std::shared_ptr<FailureMode> getFailureMode() const;
     bool failureModeIsSet() const;
-    void unsetFailure_mode();
+    void unsetFailureMode();
     void setFailureMode(const std::shared_ptr<FailureMode>& value);
 
     std::vector<utility::string_t> getSourceTraceIds() const;
     bool sourceTraceIdsIsSet() const;
-    void unsetSource_trace_ids();
+    void unsetSourceTraceIds();
     void setSourceTraceIds(const std::vector<utility::string_t>& value);
 
     utility::string_t getTitle() const;
@@ -83,17 +83,17 @@ public:
 
 
 protected:
-    utility::string_t m_Exemplar_trace_id;
-    bool m_Exemplar_trace_idIsSet;
+    utility::string_t m_ExemplarTraceId;
+    bool m_ExemplarTraceIdIsSet;
 
-    utility::string_t m_Expected_outcome;
-    bool m_Expected_outcomeIsSet;
+    utility::string_t m_ExpectedOutcome;
+    bool m_ExpectedOutcomeIsSet;
 
-    std::shared_ptr<FailureMode> m_Failure_mode;
-    bool m_Failure_modeIsSet;
+    std::shared_ptr<FailureMode> m_FailureMode;
+    bool m_FailureModeIsSet;
 
-    std::vector<utility::string_t> m_Source_trace_ids;
-    bool m_Source_trace_idsIsSet;
+    std::vector<utility::string_t> m_SourceTraceIds;
+    bool m_SourceTraceIdsIsSet;
 
     utility::string_t m_Title;
     bool m_TitleIsSet;

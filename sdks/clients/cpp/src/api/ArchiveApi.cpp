@@ -40,10 +40,10 @@ pplx::task<std::shared_ptr<ArchiveManifest>> ArchiveApi::archive_archiveTrace(ut
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/archive/{tenant_id}/{project_id}/{trace_id}");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("trace_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/archive/{tenantId}/{projectId}/{traceId}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("projectId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("traceId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -181,9 +181,9 @@ pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/archive/{tenant_id}/{project_id}/spans");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/archive/{tenantId}/{projectId}/spans");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("projectId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -221,15 +221,15 @@ pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans
 
     if (environmentId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("environment_id")] = ApiClient::parameterToString(*environmentId);
+        localVarQueryParams[utility::conversions::to_string_t("environmentId")] = ApiClient::parameterToString(*environmentId);
     }
     if (traceId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("trace_id")] = ApiClient::parameterToString(*traceId);
+        localVarQueryParams[utility::conversions::to_string_t("traceId")] = ApiClient::parameterToString(*traceId);
     }
     if (spanId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("span_id")] = ApiClient::parameterToString(*spanId);
+        localVarQueryParams[utility::conversions::to_string_t("spanId")] = ApiClient::parameterToString(*spanId);
     }
     if (kind)
     {

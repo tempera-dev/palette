@@ -22,30 +22,30 @@ var _ MappedNullable = &CalibrationReport{}
 
 // CalibrationReport struct for CalibrationReport
 type CalibrationReport struct {
-	BrierScore float64 `json:"brier_score"`
-	CalibrationReportId string `json:"calibration_report_id"`
-	CohenKappa float64 `json:"cohen_kappa"`
-	CohenKappaCiHigh NullableFloat64 `json:"cohen_kappa_ci_high,omitempty"`
+	BrierScore float64 `json:"brierScore"`
+	CalibrationReportId string `json:"calibrationReportId"`
+	CohenKappa float64 `json:"cohenKappa"`
+	CohenKappaCiHigh NullableFloat64 `json:"cohenKappaCiHigh,omitempty"`
 	// Percentile-bootstrap 95% confidence interval for `cohen_kappa` (multinomial resampling of the confusion table, deterministic seed). Kappa over small calibration samples is high-variance; a bare point estimate invites over-reading. Absent on pre-uncertainty reports.
-	CohenKappaCiLow NullableFloat64 `json:"cohen_kappa_ci_low,omitempty"`
+	CohenKappaCiLow NullableFloat64 `json:"cohenKappaCiLow,omitempty"`
 	Confusion CalibrationConfusion `json:"confusion"`
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
-	DatasetVersionId string `json:"dataset_version_id"`
-	EvalReportId string `json:"eval_report_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
-	ExpectedAgreement float64 `json:"expected_agreement"`
-	ExpectedCalibrationError float64 `json:"expected_calibration_error"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
+	DatasetVersionId string `json:"datasetVersionId"`
+	EvalReportId string `json:"evalReportId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
+	ExpectedAgreement float64 `json:"expectedAgreement"`
+	ExpectedCalibrationError float64 `json:"expectedCalibrationError"`
 	Items []CalibrationItem `json:"items"`
-	ObservedAgreement float64 `json:"observed_agreement"`
-	ObservedAgreementCiHigh NullableFloat64 `json:"observed_agreement_ci_high,omitempty"`
+	ObservedAgreement float64 `json:"observedAgreement"`
+	ObservedAgreementCiHigh NullableFloat64 `json:"observedAgreementCiHigh,omitempty"`
 	// Wilson 95% confidence interval for `observed_agreement` — the honest width of an agreement estimate over a (typically small) human-labelled sample. Absent on reports persisted before uncertainty was reported.
-	ObservedAgreementCiLow NullableFloat64 `json:"observed_agreement_ci_low,omitempty"`
+	ObservedAgreementCiLow NullableFloat64 `json:"observedAgreementCiLow,omitempty"`
 	Policy CalibrationPolicy `json:"policy"`
-	ProjectId string `json:"project_id"`
-	ReliabilityBins []ReliabilityBin `json:"reliability_bins"`
-	SampleCount int32 `json:"sample_count"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	ReliabilityBins []ReliabilityBin `json:"reliabilityBins"`
+	SampleCount int32 `json:"sampleCount"`
+	TenantId string `json:"tenantId"`
 }
 
 type _CalibrationReport CalibrationReport
@@ -695,36 +695,36 @@ func (o CalibrationReport) MarshalJSON() ([]byte, error) {
 
 func (o CalibrationReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["brier_score"] = o.BrierScore
-	toSerialize["calibration_report_id"] = o.CalibrationReportId
-	toSerialize["cohen_kappa"] = o.CohenKappa
+	toSerialize["brierScore"] = o.BrierScore
+	toSerialize["calibrationReportId"] = o.CalibrationReportId
+	toSerialize["cohenKappa"] = o.CohenKappa
 	if o.CohenKappaCiHigh.IsSet() {
-		toSerialize["cohen_kappa_ci_high"] = o.CohenKappaCiHigh.Get()
+		toSerialize["cohenKappaCiHigh"] = o.CohenKappaCiHigh.Get()
 	}
 	if o.CohenKappaCiLow.IsSet() {
-		toSerialize["cohen_kappa_ci_low"] = o.CohenKappaCiLow.Get()
+		toSerialize["cohenKappaCiLow"] = o.CohenKappaCiLow.Get()
 	}
 	toSerialize["confusion"] = o.Confusion
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
-	toSerialize["dataset_version_id"] = o.DatasetVersionId
-	toSerialize["eval_report_id"] = o.EvalReportId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
-	toSerialize["expected_agreement"] = o.ExpectedAgreement
-	toSerialize["expected_calibration_error"] = o.ExpectedCalibrationError
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
+	toSerialize["datasetVersionId"] = o.DatasetVersionId
+	toSerialize["evalReportId"] = o.EvalReportId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
+	toSerialize["expectedAgreement"] = o.ExpectedAgreement
+	toSerialize["expectedCalibrationError"] = o.ExpectedCalibrationError
 	toSerialize["items"] = o.Items
-	toSerialize["observed_agreement"] = o.ObservedAgreement
+	toSerialize["observedAgreement"] = o.ObservedAgreement
 	if o.ObservedAgreementCiHigh.IsSet() {
-		toSerialize["observed_agreement_ci_high"] = o.ObservedAgreementCiHigh.Get()
+		toSerialize["observedAgreementCiHigh"] = o.ObservedAgreementCiHigh.Get()
 	}
 	if o.ObservedAgreementCiLow.IsSet() {
-		toSerialize["observed_agreement_ci_low"] = o.ObservedAgreementCiLow.Get()
+		toSerialize["observedAgreementCiLow"] = o.ObservedAgreementCiLow.Get()
 	}
 	toSerialize["policy"] = o.Policy
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["reliability_bins"] = o.ReliabilityBins
-	toSerialize["sample_count"] = o.SampleCount
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["reliabilityBins"] = o.ReliabilityBins
+	toSerialize["sampleCount"] = o.SampleCount
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -733,24 +733,24 @@ func (o *CalibrationReport) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"brier_score",
-		"calibration_report_id",
-		"cohen_kappa",
+		"brierScore",
+		"calibrationReportId",
+		"cohenKappa",
 		"confusion",
-		"created_at",
-		"dataset_id",
-		"dataset_version_id",
-		"eval_report_id",
-		"evaluator_version_id",
-		"expected_agreement",
-		"expected_calibration_error",
+		"createdAt",
+		"datasetId",
+		"datasetVersionId",
+		"evalReportId",
+		"evaluatorVersionId",
+		"expectedAgreement",
+		"expectedCalibrationError",
 		"items",
-		"observed_agreement",
+		"observedAgreement",
 		"policy",
-		"project_id",
-		"reliability_bins",
-		"sample_count",
-		"tenant_id",
+		"projectId",
+		"reliabilityBins",
+		"sampleCount",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

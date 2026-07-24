@@ -134,7 +134,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if(charged_cost_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "charged_cost", charged_cost_local_JSON);
+    cJSON_AddItemToObject(item, "chargedCost", charged_cost_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -144,7 +144,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", public_judge_audit_record->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", public_judge_audit_record->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -153,7 +153,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->evaluator_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_id", public_judge_audit_record->evaluator_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorId", public_judge_audit_record->evaluator_id) == NULL) {
     goto fail; //String
     }
 
@@ -162,7 +162,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->judge_call_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "judge_call_id", public_judge_audit_record->judge_call_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "judgeCallId", public_judge_audit_record->judge_call_id) == NULL) {
     goto fail; //String
     }
 
@@ -180,7 +180,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", public_judge_audit_record->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", public_judge_audit_record->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -189,7 +189,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->request_hash) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "request_hash", public_judge_audit_record->request_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "requestHash", public_judge_audit_record->request_hash) == NULL) {
     goto fail; //String
     }
 
@@ -198,7 +198,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->response_hash) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "response_hash", public_judge_audit_record->response_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "responseHash", public_judge_audit_record->response_hash) == NULL) {
     goto fail; //String
     }
 
@@ -216,7 +216,7 @@ cJSON *public_judge_audit_record_convertToJSON(public_judge_audit_record_t *publ
     if (!public_judge_audit_record->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", public_judge_audit_record->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", public_judge_audit_record->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -251,7 +251,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->charged_cost
-    cJSON *charged_cost = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "charged_cost");
+    cJSON *charged_cost = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "chargedCost");
     if (cJSON_IsNull(charged_cost)) {
         charged_cost = NULL;
     }
@@ -263,7 +263,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     charged_cost_local_nonprim = money_parseFromJSON(charged_cost); //nonprimitive
 
     // public_judge_audit_record->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -278,7 +278,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->evaluator_id
-    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "evaluator_id");
+    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "evaluatorId");
     if (cJSON_IsNull(evaluator_id)) {
         evaluator_id = NULL;
     }
@@ -293,7 +293,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->judge_call_id
-    cJSON *judge_call_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "judge_call_id");
+    cJSON *judge_call_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "judgeCallId");
     if (cJSON_IsNull(judge_call_id)) {
         judge_call_id = NULL;
     }
@@ -323,7 +323,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -338,7 +338,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->request_hash
-    cJSON *request_hash = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "request_hash");
+    cJSON *request_hash = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "requestHash");
     if (cJSON_IsNull(request_hash)) {
         request_hash = NULL;
     }
@@ -353,7 +353,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->response_hash
-    cJSON *response_hash = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "response_hash");
+    cJSON *response_hash = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "responseHash");
     if (cJSON_IsNull(response_hash)) {
         response_hash = NULL;
     }
@@ -383,7 +383,7 @@ public_judge_audit_record_t *public_judge_audit_record_parseFromJSON(cJSON *publ
     }
 
     // public_judge_audit_record->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(public_judge_audit_recordJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

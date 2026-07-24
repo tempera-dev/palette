@@ -157,8 +157,8 @@ func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchS
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/search/{tenant_id}/spans"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath := localBasePath + "/v1/search/{tenantId}/spans"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -168,16 +168,16 @@ func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchS
 		parameterAddToHeaderOrQuery(localVarQueryParams, "q", r.q, "form", "")
 	}
 	if r.projectId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "project_id", r.projectId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "projectId", r.projectId, "form", "")
 	}
 	if r.environmentId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "environment_id", r.environmentId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "environmentId", r.environmentId, "form", "")
 	}
 	if r.traceId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "trace_id", r.traceId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "traceId", r.traceId, "form", "")
 	}
 	if r.spanId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "span_id", r.spanId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "spanId", r.spanId, "form", "")
 	}
 	if r.kind != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")

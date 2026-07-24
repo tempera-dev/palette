@@ -106,9 +106,9 @@ func (a *TracesAPIService) TracesGetExecute(r ApiTracesGetRequest) (*TraceView, 
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/traces/{tenant_id}/{trace_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trace_id"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
+	localVarPath := localBasePath + "/v1/traces/{tenantId}/{traceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"traceId"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -387,21 +387,21 @@ func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*TraceList
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/traces/{tenant_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath := localBasePath + "/v1/traces/{tenantId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
 	if r.projectId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "project_id", r.projectId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "projectId", r.projectId, "form", "")
 	}
 	if r.environmentId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "environment_id", r.environmentId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "environmentId", r.environmentId, "form", "")
 	}
 	if r.traceId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "trace_id", r.traceId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "traceId", r.traceId, "form", "")
 	}
 	if r.kind != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")
@@ -410,10 +410,10 @@ func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*TraceList
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
 	}
 	if r.startedAfter != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "started_after", r.startedAfter, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "startedAfter", r.startedAfter, "form", "")
 	}
 	if r.startedBefore != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "started_before", r.startedBefore, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "startedBefore", r.startedBefore, "form", "")
 	}
 	if r.model != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "model", r.model, "form", "")
@@ -422,16 +422,16 @@ func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*TraceList
 		parameterAddToHeaderOrQuery(localVarQueryParams, "release", r.release, "form", "")
 	}
 	if r.minCostMicros != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "min_cost_micros", r.minCostMicros, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "minCostMicros", r.minCostMicros, "form", "")
 	}
 	if r.maxCostMicros != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "max_cost_micros", r.maxCostMicros, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "maxCostMicros", r.maxCostMicros, "form", "")
 	}
 	if r.minLatencyMs != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "min_latency_ms", r.minLatencyMs, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "minLatencyMs", r.minLatencyMs, "form", "")
 	}
 	if r.maxLatencyMs != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "max_latency_ms", r.maxLatencyMs, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "maxLatencyMs", r.maxLatencyMs, "form", "")
 	}
 	if r.pageSize != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")

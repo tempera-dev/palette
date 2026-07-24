@@ -13,35 +13,35 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DatasetCase {
-    #[serde(rename = "case_id")]
+    #[serde(rename = "caseId")]
     pub case_id: String,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
     #[serde(rename = "input", deserialize_with = "Option::deserialize")]
     pub input: Option<serde_json::Value>,
-    #[serde(rename = "input_artifact_hashes")]
+    #[serde(rename = "inputArtifactHashes")]
     pub input_artifact_hashes: Vec<String>,
-    #[serde(rename = "normalizer_version")]
+    #[serde(rename = "normalizerVersion")]
     pub normalizer_version: String,
     #[serde(rename = "output", deserialize_with = "Option::deserialize")]
     pub output: Option<serde_json::Value>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "reference", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub reference: Option<Option<serde_json::Value>>,
-    #[serde(rename = "source_environment_id")]
+    #[serde(rename = "sourceEnvironmentId")]
     pub source_environment_id: String,
-    #[serde(rename = "source_span_id")]
+    #[serde(rename = "sourceSpanId")]
     pub source_span_id: String,
-    #[serde(rename = "source_trace_id")]
+    #[serde(rename = "sourceTraceId")]
     pub source_trace_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "trace", deserialize_with = "Option::deserialize")]
     pub trace: Option<serde_json::Value>,
-    #[serde(rename = "trace_schema_version")]
+    #[serde(rename = "traceSchemaVersion")]
     pub trace_schema_version: i32,
 }
 

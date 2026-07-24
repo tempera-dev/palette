@@ -21,10 +21,10 @@ var _ MappedNullable = &CreateGateRequest{}
 
 // CreateGateRequest struct for CreateGateRequest
 type CreateGateRequest struct {
-	DatasetId NullableString `json:"dataset_id,omitempty"`
-	EvaluatorVersionId NullableString `json:"evaluator_version_id,omitempty"`
-	GateId string `json:"gate_id"`
-	InconclusivePolicy NullableInconclusivePolicy `json:"inconclusive_policy,omitempty"`
+	DatasetId NullableString `json:"datasetId,omitempty"`
+	EvaluatorVersionId NullableString `json:"evaluatorVersionId,omitempty"`
+	GateId string `json:"gateId"`
+	InconclusivePolicy NullableInconclusivePolicy `json:"inconclusivePolicy,omitempty"`
 	Name string `json:"name"`
 }
 
@@ -234,14 +234,14 @@ func (o CreateGateRequest) MarshalJSON() ([]byte, error) {
 func (o CreateGateRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.DatasetId.IsSet() {
-		toSerialize["dataset_id"] = o.DatasetId.Get()
+		toSerialize["datasetId"] = o.DatasetId.Get()
 	}
 	if o.EvaluatorVersionId.IsSet() {
-		toSerialize["evaluator_version_id"] = o.EvaluatorVersionId.Get()
+		toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId.Get()
 	}
-	toSerialize["gate_id"] = o.GateId
+	toSerialize["gateId"] = o.GateId
 	if o.InconclusivePolicy.IsSet() {
-		toSerialize["inconclusive_policy"] = o.InconclusivePolicy.Get()
+		toSerialize["inconclusivePolicy"] = o.InconclusivePolicy.Get()
 	}
 	toSerialize["name"] = o.Name
 	return toSerialize, nil
@@ -252,7 +252,7 @@ func (o *CreateGateRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"gate_id",
+		"gateId",
 		"name",
 	}
 

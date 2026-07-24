@@ -115,17 +115,17 @@ export function SearchHitFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'environmentId': json['environment_id'],
+        'environmentId': json['environmentId'],
         'kind': json['kind'],
         'model': json['model'],
         'name': json['name'],
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'score': json['score'],
-        'spanId': json['span_id'],
+        'spanId': json['spanId'],
         'status': json['status'],
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
         'tool': json['tool'],
-        'traceId': json['trace_id'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -140,17 +140,17 @@ export function SearchHitToJSONTyped(value?: SearchHit | null, ignoreDiscriminat
 
     return {
         
-        'environment_id': value['environmentId'],
+        'environmentId': value['environmentId'],
         'kind': value['kind'],
         'model': value['model'],
         'name': value['name'],
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'score': value['score'],
-        'span_id': value['spanId'],
+        'spanId': value['spanId'],
         'status': value['status'],
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
         'tool': value['tool'],
-        'trace_id': value['traceId'],
+        'traceId': value['traceId'],
     };
 }
 

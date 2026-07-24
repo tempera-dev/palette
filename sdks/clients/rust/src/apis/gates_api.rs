@@ -77,7 +77,7 @@ pub enum GatesPeriodRunError {
 
 pub async fn gates_period_create(configuration: &configuration::Configuration, params: GatesPeriodCreateParams) -> Result<models::GateDefinition, Error<GatesPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/gates/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/gates/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -114,7 +114,7 @@ pub async fn gates_period_create(configuration: &configuration::Configuration, p
 
 pub async fn gates_period_run(configuration: &configuration::Configuration, params: GatesPeriodRunParams) -> Result<models::GateRunReport, Error<GatesPeriodRunError>> {
 
-    let uri_str = format!("{}/v1/gates/{tenant_id}/{project_id}/{gate_id}/run", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), gate_id=crate::apis::urlencode(params.gate_id));
+    let uri_str = format!("{}/v1/gates/{tenantId}/{projectId}/{gateId}/run", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), gateId=crate::apis::urlencode(params.gate_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

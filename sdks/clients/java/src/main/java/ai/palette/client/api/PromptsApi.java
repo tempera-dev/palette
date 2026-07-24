@@ -182,10 +182,10 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{prompt_id}", ApiClient.urlEncode(promptId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{promptId}", ApiClient.urlEncode(promptId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -306,9 +306,9 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -441,10 +441,10 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{prompt_id}", ApiClient.urlEncode(promptId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}/{promptId}/diff"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{promptId}", ApiClient.urlEncode(promptId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -576,10 +576,10 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{prompt_id}", ApiClient.urlEncode(promptId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}/{promptId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{promptId}", ApiClient.urlEncode(promptId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -692,9 +692,9 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -830,10 +830,10 @@ public class PromptsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{prompt_id}", ApiClient.urlEncode(promptId.toString()));
+    String localVarPath = "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{promptId}", ApiClient.urlEncode(promptId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

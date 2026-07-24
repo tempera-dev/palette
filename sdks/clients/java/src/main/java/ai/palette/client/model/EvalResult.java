@@ -60,11 +60,11 @@ public class EvalResult {
   public static final String JSON_PROPERTY_COST = "cost";
   private JsonNullable<Money> cost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_EVAL_RESULT_ID = "eval_result_id";
+  public static final String JSON_PROPERTY_EVAL_RESULT_ID = "evalResultId";
   @javax.annotation.Nonnull
   private String evalResultId;
 
@@ -75,10 +75,10 @@ public class EvalResult {
   public static final String JSON_PROPERTY_LABEL = "label";
   private JsonNullable<String> label = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_NON_REPRODUCIBLE_REASON = "non_reproducible_reason";
+  public static final String JSON_PROPERTY_NON_REPRODUCIBLE_REASON = "nonReproducibleReason";
   private JsonNullable<String> nonReproducibleReason = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -90,18 +90,18 @@ public class EvalResult {
   @javax.annotation.Nonnull
   private Double score;
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   @javax.annotation.Nullable
   private String spanId;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
   public static final String JSON_PROPERTY_TOKENS = "tokens";
   private JsonNullable<TokenCounts> tokens = JsonNullable.<TokenCounts>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -564,14 +564,14 @@ public class EvalResult {
       joiner.add(getCost().toUrlQueryString(prefix + "cost" + suffix));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `eval_result_id` to the URL query string
+    // add `evalResultId` to the URL query string
     if (getEvalResultId() != null) {
-      joiner.add(String.format("%seval_result_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalResultId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevalResultId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalResultId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `evidence` to the URL query string
@@ -584,14 +584,14 @@ public class EvalResult {
       joiner.add(String.format("%slabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `non_reproducible_reason` to the URL query string
+    // add `nonReproducibleReason` to the URL query string
     if (getNonReproducibleReason() != null) {
-      joiner.add(String.format("%snon_reproducible_reason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNonReproducibleReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snonReproducibleReason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNonReproducibleReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `reproducibility` to the URL query string
@@ -604,14 +604,14 @@ public class EvalResult {
       joiner.add(String.format("%sscore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `tokens` to the URL query string
@@ -619,9 +619,9 @@ public class EvalResult {
       joiner.add(getTokens().toUrlQueryString(prefix + "tokens" + suffix));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

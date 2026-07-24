@@ -71,7 +71,7 @@ cJSON *usage_summary_convertToJSON(usage_summary_t *usage_summary) {
     if (!usage_summary->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", usage_summary->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", usage_summary->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -80,7 +80,7 @@ cJSON *usage_summary_convertToJSON(usage_summary_t *usage_summary) {
     if (!usage_summary->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", usage_summary->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", usage_summary->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -117,7 +117,7 @@ usage_summary_t *usage_summary_parseFromJSON(cJSON *usage_summaryJSON){
     list_t *totalsList = NULL;
 
     // usage_summary->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(usage_summaryJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(usage_summaryJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -132,7 +132,7 @@ usage_summary_t *usage_summary_parseFromJSON(cJSON *usage_summaryJSON){
     }
 
     // usage_summary->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(usage_summaryJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(usage_summaryJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

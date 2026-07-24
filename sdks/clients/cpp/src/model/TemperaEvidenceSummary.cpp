@@ -20,16 +20,16 @@ namespace model {
 
 TemperaEvidenceSummary::TemperaEvidenceSummary()
 {
-    m_Experiment_id = utility::conversions::to_string_t("");
-    m_Experiment_idIsSet = false;
-    m_Run_id = utility::conversions::to_string_t("");
-    m_Run_idIsSet = false;
+    m_ExperimentId = utility::conversions::to_string_t("");
+    m_ExperimentIdIsSet = false;
+    m_RunId = utility::conversions::to_string_t("");
+    m_RunIdIsSet = false;
     m_Split = utility::conversions::to_string_t("");
     m_SplitIsSet = false;
-    m_Suite_id = utility::conversions::to_string_t("");
-    m_Suite_idIsSet = false;
-    m_Suite_version = utility::conversions::to_string_t("");
-    m_Suite_versionIsSet = false;
+    m_SuiteId = utility::conversions::to_string_t("");
+    m_SuiteIdIsSet = false;
+    m_SuiteVersion = utility::conversions::to_string_t("");
+    m_SuiteVersionIsSet = false;
     m_Verdict = utility::conversions::to_string_t("");
     m_VerdictIsSet = false;
 }
@@ -46,30 +46,30 @@ void TemperaEvidenceSummary::validate()
 web::json::value TemperaEvidenceSummary::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Experiment_idIsSet)
+    if(m_ExperimentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_id"))] = ModelBase::toJson(m_Experiment_id);
+        val[utility::conversions::to_string_t(U("experimentId"))] = ModelBase::toJson(m_ExperimentId);
     }
-    if(m_Run_idIsSet)
+    if(m_RunIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("run_id"))] = ModelBase::toJson(m_Run_id);
+        val[utility::conversions::to_string_t(U("runId"))] = ModelBase::toJson(m_RunId);
     }
     if(m_SplitIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("split"))] = ModelBase::toJson(m_Split);
     }
-    if(m_Suite_idIsSet)
+    if(m_SuiteIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("suite_id"))] = ModelBase::toJson(m_Suite_id);
+        val[utility::conversions::to_string_t(U("suiteId"))] = ModelBase::toJson(m_SuiteId);
     }
-    if(m_Suite_versionIsSet)
+    if(m_SuiteVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("suite_version"))] = ModelBase::toJson(m_Suite_version);
+        val[utility::conversions::to_string_t(U("suiteVersion"))] = ModelBase::toJson(m_SuiteVersion);
     }
     if(m_VerdictIsSet)
     {   
@@ -83,9 +83,9 @@ web::json::value TemperaEvidenceSummary::toJson() const
 bool TemperaEvidenceSummary::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExperimentId;
@@ -94,9 +94,9 @@ bool TemperaEvidenceSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("run_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("runId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("run_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("runId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setRunId;
@@ -116,9 +116,9 @@ bool TemperaEvidenceSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("suite_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("suiteId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suite_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suiteId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSuiteId;
@@ -127,9 +127,9 @@ bool TemperaEvidenceSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("suite_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("suiteVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suite_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suiteVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSuiteVersion;
@@ -159,25 +159,25 @@ void TemperaEvidenceSummary::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Experiment_idIsSet)
+    if(m_ExperimentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_id")), m_Experiment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentId")), m_ExperimentId));
     }
-    if(m_Run_idIsSet)
+    if(m_RunIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("run_id")), m_Run_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("runId")), m_RunId));
     }
     if(m_SplitIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("split")), m_Split));
     }
-    if(m_Suite_idIsSet)
+    if(m_SuiteIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suite_id")), m_Suite_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suiteId")), m_SuiteId));
     }
-    if(m_Suite_versionIsSet)
+    if(m_SuiteVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suite_version")), m_Suite_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suiteVersion")), m_SuiteVersion));
     }
     if(m_VerdictIsSet)
     {
@@ -194,16 +194,16 @@ bool TemperaEvidenceSummary::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentId"))))
     {
         utility::string_t refVal_setExperimentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_id"))), refVal_setExperimentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentId"))), refVal_setExperimentId );
         setExperimentId(refVal_setExperimentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("run_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("runId"))))
     {
         utility::string_t refVal_setRunId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("run_id"))), refVal_setRunId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("runId"))), refVal_setRunId );
         setRunId(refVal_setRunId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("split"))))
@@ -212,16 +212,16 @@ bool TemperaEvidenceSummary::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("split"))), refVal_setSplit );
         setSplit(refVal_setSplit);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("suite_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("suiteId"))))
     {
         utility::string_t refVal_setSuiteId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suite_id"))), refVal_setSuiteId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suiteId"))), refVal_setSuiteId );
         setSuiteId(refVal_setSuiteId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("suite_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("suiteVersion"))))
     {
         utility::string_t refVal_setSuiteVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suite_version"))), refVal_setSuiteVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suiteVersion"))), refVal_setSuiteVersion );
         setSuiteVersion(refVal_setSuiteVersion);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("verdict"))))
@@ -236,45 +236,45 @@ bool TemperaEvidenceSummary::fromMultiPart(std::shared_ptr<MultipartFormData> mu
 
 utility::string_t TemperaEvidenceSummary::getExperimentId() const
 {
-    return m_Experiment_id;
+    return m_ExperimentId;
 }
 
 
 void TemperaEvidenceSummary::setExperimentId(const utility::string_t& value)
 {
-    m_Experiment_id = value;
-    m_Experiment_idIsSet = true;
+    m_ExperimentId = value;
+    m_ExperimentIdIsSet = true;
 }
 
 bool TemperaEvidenceSummary::experimentIdIsSet() const
 {
-    return m_Experiment_idIsSet;
+    return m_ExperimentIdIsSet;
 }
 
-void TemperaEvidenceSummary::unsetExperiment_id()
+void TemperaEvidenceSummary::unsetExperimentId()
 {
-    m_Experiment_idIsSet = false;
+    m_ExperimentIdIsSet = false;
 }
 utility::string_t TemperaEvidenceSummary::getRunId() const
 {
-    return m_Run_id;
+    return m_RunId;
 }
 
 
 void TemperaEvidenceSummary::setRunId(const utility::string_t& value)
 {
-    m_Run_id = value;
-    m_Run_idIsSet = true;
+    m_RunId = value;
+    m_RunIdIsSet = true;
 }
 
 bool TemperaEvidenceSummary::runIdIsSet() const
 {
-    return m_Run_idIsSet;
+    return m_RunIdIsSet;
 }
 
-void TemperaEvidenceSummary::unsetRun_id()
+void TemperaEvidenceSummary::unsetRunId()
 {
-    m_Run_idIsSet = false;
+    m_RunIdIsSet = false;
 }
 utility::string_t TemperaEvidenceSummary::getSplit() const
 {
@@ -299,45 +299,45 @@ void TemperaEvidenceSummary::unsetSplit()
 }
 utility::string_t TemperaEvidenceSummary::getSuiteId() const
 {
-    return m_Suite_id;
+    return m_SuiteId;
 }
 
 
 void TemperaEvidenceSummary::setSuiteId(const utility::string_t& value)
 {
-    m_Suite_id = value;
-    m_Suite_idIsSet = true;
+    m_SuiteId = value;
+    m_SuiteIdIsSet = true;
 }
 
 bool TemperaEvidenceSummary::suiteIdIsSet() const
 {
-    return m_Suite_idIsSet;
+    return m_SuiteIdIsSet;
 }
 
-void TemperaEvidenceSummary::unsetSuite_id()
+void TemperaEvidenceSummary::unsetSuiteId()
 {
-    m_Suite_idIsSet = false;
+    m_SuiteIdIsSet = false;
 }
 utility::string_t TemperaEvidenceSummary::getSuiteVersion() const
 {
-    return m_Suite_version;
+    return m_SuiteVersion;
 }
 
 
 void TemperaEvidenceSummary::setSuiteVersion(const utility::string_t& value)
 {
-    m_Suite_version = value;
-    m_Suite_versionIsSet = true;
+    m_SuiteVersion = value;
+    m_SuiteVersionIsSet = true;
 }
 
 bool TemperaEvidenceSummary::suiteVersionIsSet() const
 {
-    return m_Suite_versionIsSet;
+    return m_SuiteVersionIsSet;
 }
 
-void TemperaEvidenceSummary::unsetSuite_version()
+void TemperaEvidenceSummary::unsetSuiteVersion()
 {
-    m_Suite_versionIsSet = false;
+    m_SuiteVersionIsSet = false;
 }
 utility::string_t TemperaEvidenceSummary::getVerdict() const
 {

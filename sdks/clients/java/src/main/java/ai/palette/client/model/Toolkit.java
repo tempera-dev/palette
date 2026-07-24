@@ -48,7 +48,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class Toolkit {
-  public static final String JSON_PROPERTY_AUTH_SCHEMES = "auth_schemes";
+  public static final String JSON_PROPERTY_AUTH_SCHEMES = "authSchemes";
   @javax.annotation.Nullable
   private List<String> authSchemes = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class Toolkit {
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_NO_AUTH = "no_auth";
+  public static final String JSON_PROPERTY_NO_AUTH = "noAuth";
   @javax.annotation.Nullable
   private Boolean noAuth;
 
@@ -67,7 +67,7 @@ public class Toolkit {
   @javax.annotation.Nonnull
   private String slug;
 
-  public static final String JSON_PROPERTY_TOOLS_COUNT = "tools_count";
+  public static final String JSON_PROPERTY_TOOLS_COUNT = "toolsCount";
   private JsonNullable<Integer> toolsCount = JsonNullable.<Integer>undefined();
 
   public Toolkit() { 
@@ -335,10 +335,10 @@ public class Toolkit {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `auth_schemes` to the URL query string
+    // add `authSchemes` to the URL query string
     if (getAuthSchemes() != null) {
       for (int i = 0; i < getAuthSchemes().size(); i++) {
-        joiner.add(String.format("%sauth_schemes%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%sauthSchemes%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getAuthSchemes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
@@ -354,9 +354,9 @@ public class Toolkit {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `no_auth` to the URL query string
+    // add `noAuth` to the URL query string
     if (getNoAuth() != null) {
-      joiner.add(String.format("%sno_auth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNoAuth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snoAuth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNoAuth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `slug` to the URL query string
@@ -364,9 +364,9 @@ public class Toolkit {
       joiner.add(String.format("%sslug%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSlug()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tools_count` to the URL query string
+    // add `toolsCount` to the URL query string
     if (getToolsCount() != null) {
-      joiner.add(String.format("%stools_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToolsCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stoolsCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToolsCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

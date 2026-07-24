@@ -13,23 +13,23 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AlertInput {
-    #[serde(rename = "baseline_score", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "baselineScore", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub baseline_score: Option<Option<f64>>,
-    #[serde(rename = "group_key")]
+    #[serde(rename = "groupKey")]
     pub group_key: String,
     #[serde(rename = "links")]
     pub links: Box<models::AlertLinks>,
     #[serde(rename = "now")]
     pub now: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "score")]
     pub score: f64,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "title")]
     pub title: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

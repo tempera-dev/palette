@@ -71,7 +71,7 @@ cJSON *run_judge_eval_http_request_convertToJSON(run_judge_eval_http_request_t *
 
     // run_judge_eval_http_request->cache_namespace
     if(run_judge_eval_http_request->cache_namespace) {
-    if(cJSON_AddStringToObject(item, "cache_namespace", run_judge_eval_http_request->cache_namespace) == NULL) {
+    if(cJSON_AddStringToObject(item, "cacheNamespace", run_judge_eval_http_request->cache_namespace) == NULL) {
     goto fail; //String
     }
     }
@@ -109,7 +109,7 @@ cJSON *run_judge_eval_http_request_convertToJSON(run_judge_eval_http_request_t *
     if (!run_judge_eval_http_request->provider_secret_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "provider_secret_id", run_judge_eval_http_request->provider_secret_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "providerSecretId", run_judge_eval_http_request->provider_secret_id) == NULL) {
     goto fail; //String
     }
 
@@ -132,7 +132,7 @@ run_judge_eval_http_request_t *run_judge_eval_http_request_parseFromJSON(cJSON *
     evaluator_spec_t *evaluator_local_nonprim = NULL;
 
     // run_judge_eval_http_request->cache_namespace
-    cJSON *cache_namespace = cJSON_GetObjectItemCaseSensitive(run_judge_eval_http_requestJSON, "cache_namespace");
+    cJSON *cache_namespace = cJSON_GetObjectItemCaseSensitive(run_judge_eval_http_requestJSON, "cacheNamespace");
     if (cJSON_IsNull(cache_namespace)) {
         cache_namespace = NULL;
     }
@@ -168,7 +168,7 @@ run_judge_eval_http_request_t *run_judge_eval_http_request_parseFromJSON(cJSON *
     evaluator_local_nonprim = evaluator_spec_parseFromJSON(evaluator); //nonprimitive
 
     // run_judge_eval_http_request->provider_secret_id
-    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(run_judge_eval_http_requestJSON, "provider_secret_id");
+    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(run_judge_eval_http_requestJSON, "providerSecretId");
     if (cJSON_IsNull(provider_secret_id)) {
         provider_secret_id = NULL;
     }

@@ -60,7 +60,7 @@ public:
     /// </summary>
     bool isAuthFailure() const;
     bool authFailureIsSet() const;
-    void unsetAuth_failure();
+    void unsetAuthFailure();
     void setAuthFailure(bool value);
 
     /// <summary>
@@ -68,7 +68,7 @@ public:
     /// </summary>
     bool isContradictorySource() const;
     bool contradictorySourceIsSet() const;
-    void unsetContradictory_source();
+    void unsetContradictorySource();
     void setContradictorySource(bool value);
 
     /// <summary>
@@ -76,7 +76,7 @@ public:
     /// </summary>
     bool isPromptInjection() const;
     bool promptInjectionIsSet() const;
-    void unsetPrompt_injection();
+    void unsetPromptInjection();
     void setPromptInjection(bool value);
 
     /// <summary>
@@ -84,7 +84,7 @@ public:
     /// </summary>
     bool isStaleSource() const;
     bool staleSourceIsSet() const;
-    void unsetStale_source();
+    void unsetStaleSource();
     void setStaleSource(bool value);
 
     /// <summary>
@@ -100,28 +100,28 @@ public:
     /// </summary>
     bool isToolSchemaMismatch() const;
     bool toolSchemaMismatchIsSet() const;
-    void unsetTool_schema_mismatch();
+    void unsetToolSchemaMismatch();
     void setToolSchemaMismatch(bool value);
 
 
 protected:
-    bool m_Auth_failure;
-    bool m_Auth_failureIsSet;
+    bool m_AuthFailure;
+    bool m_AuthFailureIsSet;
 
-    bool m_Contradictory_source;
-    bool m_Contradictory_sourceIsSet;
+    bool m_ContradictorySource;
+    bool m_ContradictorySourceIsSet;
 
-    bool m_Prompt_injection;
-    bool m_Prompt_injectionIsSet;
+    bool m_PromptInjection;
+    bool m_PromptInjectionIsSet;
 
-    bool m_Stale_source;
-    bool m_Stale_sourceIsSet;
+    bool m_StaleSource;
+    bool m_StaleSourceIsSet;
 
     bool m_Timeout;
     bool m_TimeoutIsSet;
 
-    bool m_Tool_schema_mismatch;
-    bool m_Tool_schema_mismatchIsSet;
+    bool m_ToolSchemaMismatch;
+    bool m_ToolSchemaMismatchIsSet;
 
 };
 

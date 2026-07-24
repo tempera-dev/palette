@@ -13,15 +13,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ExperimentComparison {
-    #[serde(rename = "adjusted_alpha")]
+    #[serde(rename = "adjustedAlpha")]
     pub adjusted_alpha: f64,
-    #[serde(rename = "baseline_mean")]
+    #[serde(rename = "baselineMean")]
     pub baseline_mean: f64,
-    #[serde(rename = "candidate_mean")]
+    #[serde(rename = "candidateMean")]
     pub candidate_mean: f64,
-    #[serde(rename = "ci_high")]
+    #[serde(rename = "ciHigh")]
     pub ci_high: f64,
-    #[serde(rename = "ci_low")]
+    #[serde(rename = "ciLow")]
     pub ci_low: f64,
     #[serde(rename = "decision")]
     pub decision: models::GateDecision,
@@ -31,12 +31,12 @@ pub struct ExperimentComparison {
     #[serde(rename = "mde", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub mde: Option<Option<f64>>,
     /// Real two-sided p-value from `test`. The previous normal-approximation path reported no p-value at all.
-    #[serde(rename = "p_value")]
+    #[serde(rename = "pValue")]
     pub p_value: f64,
     /// Number of paired observations that would be required to detect the *observed* effect at the gate's (adjusted) alpha and power 0.8 (§10.3 #5). Populated only when `decision` is `Inconclusive` and the observed effect is non-degenerate (non-zero delta over non-zero difference spread). `None` otherwise. This answers \"how many more cases would have made this conclusive?\".
-    #[serde(rename = "required_n", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "requiredN", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub required_n: Option<Option<i32>>,
-    #[serde(rename = "sample_size")]
+    #[serde(rename = "sampleSize")]
     pub sample_size: i32,
     #[serde(rename = "test")]
     pub test: models::StatisticalTest,

@@ -21,13 +21,13 @@ var _ MappedNullable = &TraceIngestedReconcileReport{}
 
 // TraceIngestedReconcileReport struct for TraceIngestedReconcileReport
 type TraceIngestedReconcileReport struct {
-	DownstreamAccepted int32 `json:"downstream_accepted"`
-	DownstreamDuplicate int32 `json:"downstream_duplicate"`
-	DownstreamQueued bool `json:"downstream_queued"`
-	ProjectId string `json:"project_id"`
-	SpanCount int32 `json:"span_count"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
+	DownstreamAccepted int32 `json:"downstreamAccepted"`
+	DownstreamDuplicate int32 `json:"downstreamDuplicate"`
+	DownstreamQueued bool `json:"downstreamQueued"`
+	ProjectId string `json:"projectId"`
+	SpanCount int32 `json:"spanCount"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
 }
 
 type _TraceIngestedReconcileReport TraceIngestedReconcileReport
@@ -234,13 +234,13 @@ func (o TraceIngestedReconcileReport) MarshalJSON() ([]byte, error) {
 
 func (o TraceIngestedReconcileReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["downstream_accepted"] = o.DownstreamAccepted
-	toSerialize["downstream_duplicate"] = o.DownstreamDuplicate
-	toSerialize["downstream_queued"] = o.DownstreamQueued
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["span_count"] = o.SpanCount
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["downstreamAccepted"] = o.DownstreamAccepted
+	toSerialize["downstreamDuplicate"] = o.DownstreamDuplicate
+	toSerialize["downstreamQueued"] = o.DownstreamQueued
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["spanCount"] = o.SpanCount
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -249,13 +249,13 @@ func (o *TraceIngestedReconcileReport) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"downstream_accepted",
-		"downstream_duplicate",
-		"downstream_queued",
-		"project_id",
-		"span_count",
-		"tenant_id",
-		"trace_id",
+		"downstreamAccepted",
+		"downstreamDuplicate",
+		"downstreamQueued",
+		"projectId",
+		"spanCount",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

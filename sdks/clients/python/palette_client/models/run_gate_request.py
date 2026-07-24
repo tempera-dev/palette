@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class RunGateRequest(BaseModel):
     """
     RunGateRequest
     """ # noqa: E501
-    experiment_run_id: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["experiment_run_id"]
+    experiment_run_id: Optional[StrictStr] = Field(default=None, alias="experimentRunId")
+    __properties: ClassVar[List[str]] = ["experimentRunId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,7 +71,7 @@ class RunGateRequest(BaseModel):
         # set to None if experiment_run_id (nullable) is None
         # and model_fields_set contains the field
         if self.experiment_run_id is None and "experiment_run_id" in self.model_fields_set:
-            _dict['experiment_run_id'] = None
+            _dict['experimentRunId'] = None
 
         return _dict
 
@@ -85,7 +85,7 @@ class RunGateRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "experiment_run_id": obj.get("experiment_run_id")
+            "experimentRunId": obj.get("experimentRunId")
         })
         return _obj
 

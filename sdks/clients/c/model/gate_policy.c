@@ -66,7 +66,7 @@ cJSON *gate_policy_convertToJSON(gate_policy_t *gate_policy) {
     if (!gate_policy->comparison_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "comparison_count", gate_policy->comparison_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "comparisonCount", gate_policy->comparison_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -75,7 +75,7 @@ cJSON *gate_policy_convertToJSON(gate_policy_t *gate_policy) {
     if (!gate_policy->max_regression) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_regression", gate_policy->max_regression) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxRegression", gate_policy->max_regression) == NULL) {
     goto fail; //Numeric
     }
 
@@ -84,7 +84,7 @@ cJSON *gate_policy_convertToJSON(gate_policy_t *gate_policy) {
     if (!gate_policy->min_sample_size) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "min_sample_size", gate_policy->min_sample_size) == NULL) {
+    if(cJSON_AddNumberToObject(item, "minSampleSize", gate_policy->min_sample_size) == NULL) {
     goto fail; //Numeric
     }
 
@@ -116,7 +116,7 @@ gate_policy_t *gate_policy_parseFromJSON(cJSON *gate_policyJSON){
     }
 
     // gate_policy->comparison_count
-    cJSON *comparison_count = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "comparison_count");
+    cJSON *comparison_count = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "comparisonCount");
     if (cJSON_IsNull(comparison_count)) {
         comparison_count = NULL;
     }
@@ -131,7 +131,7 @@ gate_policy_t *gate_policy_parseFromJSON(cJSON *gate_policyJSON){
     }
 
     // gate_policy->max_regression
-    cJSON *max_regression = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "max_regression");
+    cJSON *max_regression = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "maxRegression");
     if (cJSON_IsNull(max_regression)) {
         max_regression = NULL;
     }
@@ -146,7 +146,7 @@ gate_policy_t *gate_policy_parseFromJSON(cJSON *gate_policyJSON){
     }
 
     // gate_policy->min_sample_size
-    cJSON *min_sample_size = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "min_sample_size");
+    cJSON *min_sample_size = cJSON_GetObjectItemCaseSensitive(gate_policyJSON, "minSampleSize");
     if (cJSON_IsNull(min_sample_size)) {
         min_sample_size = NULL;
     }

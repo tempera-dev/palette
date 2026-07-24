@@ -103,7 +103,7 @@ cJSON *alert_input_convertToJSON(alert_input_t *alert_input) {
 
     // alert_input->baseline_score
     if(alert_input->baseline_score) {
-    if(cJSON_AddNumberToObject(item, "baseline_score", alert_input->baseline_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "baselineScore", alert_input->baseline_score) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -113,7 +113,7 @@ cJSON *alert_input_convertToJSON(alert_input_t *alert_input) {
     if (!alert_input->group_key) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "group_key", alert_input->group_key) == NULL) {
+    if(cJSON_AddStringToObject(item, "groupKey", alert_input->group_key) == NULL) {
     goto fail; //String
     }
 
@@ -145,7 +145,7 @@ cJSON *alert_input_convertToJSON(alert_input_t *alert_input) {
     if (!alert_input->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", alert_input->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", alert_input->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -163,7 +163,7 @@ cJSON *alert_input_convertToJSON(alert_input_t *alert_input) {
     if (!alert_input->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", alert_input->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", alert_input->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -181,7 +181,7 @@ cJSON *alert_input_convertToJSON(alert_input_t *alert_input) {
     if (!alert_input->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", alert_input->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", alert_input->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -201,7 +201,7 @@ alert_input_t *alert_input_parseFromJSON(cJSON *alert_inputJSON){
     alert_links_t *links_local_nonprim = NULL;
 
     // alert_input->baseline_score
-    cJSON *baseline_score = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "baseline_score");
+    cJSON *baseline_score = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "baselineScore");
     if (cJSON_IsNull(baseline_score)) {
         baseline_score = NULL;
     }
@@ -213,7 +213,7 @@ alert_input_t *alert_input_parseFromJSON(cJSON *alert_inputJSON){
     }
 
     // alert_input->group_key
-    cJSON *group_key = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "group_key");
+    cJSON *group_key = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "groupKey");
     if (cJSON_IsNull(group_key)) {
         group_key = NULL;
     }
@@ -255,7 +255,7 @@ alert_input_t *alert_input_parseFromJSON(cJSON *alert_inputJSON){
     }
 
     // alert_input->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -285,7 +285,7 @@ alert_input_t *alert_input_parseFromJSON(cJSON *alert_inputJSON){
     }
 
     // alert_input->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -315,7 +315,7 @@ alert_input_t *alert_input_parseFromJSON(cJSON *alert_inputJSON){
     }
 
     // alert_input->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(alert_inputJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

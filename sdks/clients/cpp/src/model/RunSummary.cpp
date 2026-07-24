@@ -20,26 +20,26 @@ namespace model {
 
 RunSummary::RunSummary()
 {
-    m_Duration_ms = 0L;
-    m_Duration_msIsSet = false;
-    m_Ended_at = utility::datetime();
-    m_Ended_atIsSet = false;
-    m_First_span_name = utility::conversions::to_string_t("");
-    m_First_span_nameIsSet = false;
+    m_DurationMs = 0L;
+    m_DurationMsIsSet = false;
+    m_EndedAt = utility::datetime();
+    m_EndedAtIsSet = false;
+    m_FirstSpanName = utility::conversions::to_string_t("");
+    m_FirstSpanNameIsSet = false;
     m_ModelsIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Release_idsIsSet = false;
-    m_Span_count = 0;
-    m_Span_countIsSet = false;
-    m_Started_at = utility::datetime();
-    m_Started_atIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_ReleaseIdsIsSet = false;
+    m_SpanCount = 0;
+    m_SpanCountIsSet = false;
+    m_StartedAt = utility::datetime();
+    m_StartedAtIsSet = false;
     m_StatusIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Total_costIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TotalCostIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 RunSummary::~RunSummary()
@@ -54,65 +54,65 @@ void RunSummary::validate()
 web::json::value RunSummary::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Duration_msIsSet)
+    if(m_DurationMsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duration_ms"))] = ModelBase::toJson(m_Duration_ms);
+        val[utility::conversions::to_string_t(U("durationMs"))] = ModelBase::toJson(m_DurationMs);
     }
-    if(m_Ended_atIsSet)
+    if(m_EndedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("ended_at"))] = ModelBase::toJson(m_Ended_at);
+        val[utility::conversions::to_string_t(U("endedAt"))] = ModelBase::toJson(m_EndedAt);
     }
-    if(m_First_span_nameIsSet)
+    if(m_FirstSpanNameIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("first_span_name"))] = ModelBase::toJson(m_First_span_name);
+        val[utility::conversions::to_string_t(U("firstSpanName"))] = ModelBase::toJson(m_FirstSpanName);
     }
     if(m_ModelsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("models"))] = ModelBase::toJson(m_Models);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Release_idsIsSet)
+    if(m_ReleaseIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("release_ids"))] = ModelBase::toJson(m_Release_ids);
+        val[utility::conversions::to_string_t(U("releaseIds"))] = ModelBase::toJson(m_ReleaseIds);
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_count"))] = ModelBase::toJson(m_Span_count);
+        val[utility::conversions::to_string_t(U("spanCount"))] = ModelBase::toJson(m_SpanCount);
     }
-    if(m_Started_atIsSet)
+    if(m_StartedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("started_at"))] = ModelBase::toJson(m_Started_at);
+        val[utility::conversions::to_string_t(U("startedAt"))] = ModelBase::toJson(m_StartedAt);
     }
     if(m_StatusIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Total_costIsSet)
+    if(m_TotalCostIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("total_cost"))] = ModelBase::toJson(m_Total_cost);
+        val[utility::conversions::to_string_t(U("totalCost"))] = ModelBase::toJson(m_TotalCost);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -121,9 +121,9 @@ web::json::value RunSummary::toJson() const
 bool RunSummary::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("duration_ms"))))
+    if(val.has_field(utility::conversions::to_string_t(U("durationMs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duration_ms")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("durationMs")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setDurationMs;
@@ -132,9 +132,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("ended_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ended_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setEndedAt;
@@ -143,9 +143,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("first_span_name"))))
+    if(val.has_field(utility::conversions::to_string_t(U("firstSpanName"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("first_span_name")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("firstSpanName")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setFirstSpanName;
@@ -165,9 +165,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -176,9 +176,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("release_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("releaseIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("release_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("releaseIds")));
         if(!fieldValue.is_null())
         {
             std::vector<utility::string_t> refVal_setReleaseIds;
@@ -187,9 +187,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSpanCount;
@@ -198,9 +198,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("started_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("startedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("started_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("startedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setStartedAt;
@@ -220,9 +220,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -231,9 +231,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("total_cost"))))
+    if(val.has_field(utility::conversions::to_string_t(U("totalCost"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("total_cost")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("totalCost")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Money> refVal_setTotalCost;
@@ -242,9 +242,9 @@ bool RunSummary::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -263,53 +263,53 @@ void RunSummary::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Duration_msIsSet)
+    if(m_DurationMsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duration_ms")), m_Duration_ms));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("durationMs")), m_DurationMs));
     }
-    if(m_Ended_atIsSet)
+    if(m_EndedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ended_at")), m_Ended_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endedAt")), m_EndedAt));
     }
-    if(m_First_span_nameIsSet)
+    if(m_FirstSpanNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("first_span_name")), m_First_span_name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("firstSpanName")), m_FirstSpanName));
     }
     if(m_ModelsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("models")), m_Models));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Release_idsIsSet)
+    if(m_ReleaseIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("release_ids")), m_Release_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("releaseIds")), m_ReleaseIds));
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_count")), m_Span_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanCount")), m_SpanCount));
     }
-    if(m_Started_atIsSet)
+    if(m_StartedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("started_at")), m_Started_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("startedAt")), m_StartedAt));
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Total_costIsSet)
+    if(m_TotalCostIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("total_cost")), m_Total_cost));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("totalCost")), m_TotalCost));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -322,22 +322,22 @@ bool RunSummary::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duration_ms"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("durationMs"))))
     {
         int64_t refVal_setDurationMs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duration_ms"))), refVal_setDurationMs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("durationMs"))), refVal_setDurationMs );
         setDurationMs(refVal_setDurationMs);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("ended_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endedAt"))))
     {
         utility::datetime refVal_setEndedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ended_at"))), refVal_setEndedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endedAt"))), refVal_setEndedAt );
         setEndedAt(refVal_setEndedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("first_span_name"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("firstSpanName"))))
     {
         utility::string_t refVal_setFirstSpanName;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("first_span_name"))), refVal_setFirstSpanName );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("firstSpanName"))), refVal_setFirstSpanName );
         setFirstSpanName(refVal_setFirstSpanName);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("models"))))
@@ -346,28 +346,28 @@ bool RunSummary::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("models"))), refVal_setModels );
         setModels(refVal_setModels);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("release_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("releaseIds"))))
     {
         std::vector<utility::string_t> refVal_setReleaseIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("release_ids"))), refVal_setReleaseIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("releaseIds"))), refVal_setReleaseIds );
         setReleaseIds(refVal_setReleaseIds);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanCount"))))
     {
         int32_t refVal_setSpanCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_count"))), refVal_setSpanCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanCount"))), refVal_setSpanCount );
         setSpanCount(refVal_setSpanCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("started_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("startedAt"))))
     {
         utility::datetime refVal_setStartedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("started_at"))), refVal_setStartedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("startedAt"))), refVal_setStartedAt );
         setStartedAt(refVal_setStartedAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -376,22 +376,22 @@ bool RunSummary::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("total_cost"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("totalCost"))))
     {
         std::shared_ptr<Money> refVal_setTotalCost;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("total_cost"))), refVal_setTotalCost );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("totalCost"))), refVal_setTotalCost );
         setTotalCost(refVal_setTotalCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -400,65 +400,65 @@ bool RunSummary::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
 
 int64_t RunSummary::getDurationMs() const
 {
-    return m_Duration_ms;
+    return m_DurationMs;
 }
 
 void RunSummary::setDurationMs(int64_t value)
 {
-    m_Duration_ms = value;
-    m_Duration_msIsSet = true;
+    m_DurationMs = value;
+    m_DurationMsIsSet = true;
 }
 
 bool RunSummary::durationMsIsSet() const
 {
-    return m_Duration_msIsSet;
+    return m_DurationMsIsSet;
 }
 
-void RunSummary::unsetDuration_ms()
+void RunSummary::unsetDurationMs()
 {
-    m_Duration_msIsSet = false;
+    m_DurationMsIsSet = false;
 }
 utility::datetime RunSummary::getEndedAt() const
 {
-    return m_Ended_at;
+    return m_EndedAt;
 }
 
 
 void RunSummary::setEndedAt(const utility::datetime& value)
 {
-    m_Ended_at = value;
-    m_Ended_atIsSet = true;
+    m_EndedAt = value;
+    m_EndedAtIsSet = true;
 }
 
 bool RunSummary::endedAtIsSet() const
 {
-    return m_Ended_atIsSet;
+    return m_EndedAtIsSet;
 }
 
-void RunSummary::unsetEnded_at()
+void RunSummary::unsetEndedAt()
 {
-    m_Ended_atIsSet = false;
+    m_EndedAtIsSet = false;
 }
 utility::string_t RunSummary::getFirstSpanName() const
 {
-    return m_First_span_name;
+    return m_FirstSpanName;
 }
 
 
 void RunSummary::setFirstSpanName(const utility::string_t& value)
 {
-    m_First_span_name = value;
-    m_First_span_nameIsSet = true;
+    m_FirstSpanName = value;
+    m_FirstSpanNameIsSet = true;
 }
 
 bool RunSummary::firstSpanNameIsSet() const
 {
-    return m_First_span_nameIsSet;
+    return m_FirstSpanNameIsSet;
 }
 
-void RunSummary::unsetFirst_span_name()
+void RunSummary::unsetFirstSpanName()
 {
-    m_First_span_nameIsSet = false;
+    m_FirstSpanNameIsSet = false;
 }
 std::vector<std::shared_ptr<ModelRef>> RunSummary::getModels() const
 {
@@ -483,86 +483,86 @@ void RunSummary::unsetModels()
 }
 utility::string_t RunSummary::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void RunSummary::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool RunSummary::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void RunSummary::unsetProject_id()
+void RunSummary::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::vector<utility::string_t> RunSummary::getReleaseIds() const
 {
-    return m_Release_ids;
+    return m_ReleaseIds;
 }
 
 
 void RunSummary::setReleaseIds(const std::vector<utility::string_t>& value)
 {
-    m_Release_ids = value;
-    m_Release_idsIsSet = true;
+    m_ReleaseIds = value;
+    m_ReleaseIdsIsSet = true;
 }
 
 bool RunSummary::releaseIdsIsSet() const
 {
-    return m_Release_idsIsSet;
+    return m_ReleaseIdsIsSet;
 }
 
-void RunSummary::unsetRelease_ids()
+void RunSummary::unsetReleaseIds()
 {
-    m_Release_idsIsSet = false;
+    m_ReleaseIdsIsSet = false;
 }
 int32_t RunSummary::getSpanCount() const
 {
-    return m_Span_count;
+    return m_SpanCount;
 }
 
 void RunSummary::setSpanCount(int32_t value)
 {
-    m_Span_count = value;
-    m_Span_countIsSet = true;
+    m_SpanCount = value;
+    m_SpanCountIsSet = true;
 }
 
 bool RunSummary::spanCountIsSet() const
 {
-    return m_Span_countIsSet;
+    return m_SpanCountIsSet;
 }
 
-void RunSummary::unsetSpan_count()
+void RunSummary::unsetSpanCount()
 {
-    m_Span_countIsSet = false;
+    m_SpanCountIsSet = false;
 }
 utility::datetime RunSummary::getStartedAt() const
 {
-    return m_Started_at;
+    return m_StartedAt;
 }
 
 
 void RunSummary::setStartedAt(const utility::datetime& value)
 {
-    m_Started_at = value;
-    m_Started_atIsSet = true;
+    m_StartedAt = value;
+    m_StartedAtIsSet = true;
 }
 
 bool RunSummary::startedAtIsSet() const
 {
-    return m_Started_atIsSet;
+    return m_StartedAtIsSet;
 }
 
-void RunSummary::unsetStarted_at()
+void RunSummary::unsetStartedAt()
 {
-    m_Started_atIsSet = false;
+    m_StartedAtIsSet = false;
 }
 std::shared_ptr<SpanStatus> RunSummary::getStatus() const
 {
@@ -587,66 +587,66 @@ void RunSummary::unsetStatus()
 }
 utility::string_t RunSummary::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void RunSummary::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool RunSummary::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void RunSummary::unsetTenant_id()
+void RunSummary::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::shared_ptr<Money> RunSummary::getTotalCost() const
 {
-    return m_Total_cost;
+    return m_TotalCost;
 }
 
 
 void RunSummary::setTotalCost(const std::shared_ptr<Money>& value)
 {
-    m_Total_cost = value;
-    m_Total_costIsSet = true;
+    m_TotalCost = value;
+    m_TotalCostIsSet = true;
 }
 
 bool RunSummary::totalCostIsSet() const
 {
-    return m_Total_costIsSet;
+    return m_TotalCostIsSet;
 }
 
-void RunSummary::unsetTotal_cost()
+void RunSummary::unsetTotalCost()
 {
-    m_Total_costIsSet = false;
+    m_TotalCostIsSet = false;
 }
 utility::string_t RunSummary::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void RunSummary::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool RunSummary::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void RunSummary::unsetTrace_id()
+void RunSummary::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

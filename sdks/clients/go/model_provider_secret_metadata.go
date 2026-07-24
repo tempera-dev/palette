@@ -23,13 +23,13 @@ var _ MappedNullable = &ProviderSecretMetadata{}
 // ProviderSecretMetadata struct for ProviderSecretMetadata
 type ProviderSecretMetadata struct {
 	Active bool `json:"active"`
-	CreatedAt time.Time `json:"created_at"`
-	DisplayName string `json:"display_name"`
-	ProjectId string `json:"project_id"`
+	CreatedAt time.Time `json:"createdAt"`
+	DisplayName string `json:"displayName"`
+	ProjectId string `json:"projectId"`
 	Provider string `json:"provider"`
-	ProviderSecretId string `json:"provider_secret_id"`
-	RotatedAt NullableTime `json:"rotated_at,omitempty"`
-	TenantId string `json:"tenant_id"`
+	ProviderSecretId string `json:"providerSecretId"`
+	RotatedAt NullableTime `json:"rotatedAt,omitempty"`
+	TenantId string `json:"tenantId"`
 }
 
 type _ProviderSecretMetadata ProviderSecretMetadata
@@ -279,15 +279,15 @@ func (o ProviderSecretMetadata) MarshalJSON() ([]byte, error) {
 func (o ProviderSecretMetadata) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["active"] = o.Active
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["display_name"] = o.DisplayName
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["displayName"] = o.DisplayName
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["provider"] = o.Provider
-	toSerialize["provider_secret_id"] = o.ProviderSecretId
+	toSerialize["providerSecretId"] = o.ProviderSecretId
 	if o.RotatedAt.IsSet() {
-		toSerialize["rotated_at"] = o.RotatedAt.Get()
+		toSerialize["rotatedAt"] = o.RotatedAt.Get()
 	}
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -297,12 +297,12 @@ func (o *ProviderSecretMetadata) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"active",
-		"created_at",
-		"display_name",
-		"project_id",
+		"createdAt",
+		"displayName",
+		"projectId",
 		"provider",
-		"provider_secret_id",
-		"tenant_id",
+		"providerSecretId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

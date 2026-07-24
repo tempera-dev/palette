@@ -20,6 +20,7 @@ pub struct CreateApiKeyRequest {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct RevokedApiKey {
     pub api_key_id: ApiKeyId,
     pub active: bool,

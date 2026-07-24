@@ -62,17 +62,17 @@ public:
 
     int64_t getDurationMs() const;
     bool durationMsIsSet() const;
-    void unsetDuration_ms();
+    void unsetDurationMs();
     void setDurationMs(int64_t value);
 
     utility::datetime getEndedAt() const;
     bool endedAtIsSet() const;
-    void unsetEnded_at();
+    void unsetEndedAt();
     void setEndedAt(const utility::datetime& value);
 
     utility::string_t getFirstSpanName() const;
     bool firstSpanNameIsSet() const;
-    void unsetFirst_span_name();
+    void unsetFirstSpanName();
     void setFirstSpanName(const utility::string_t& value);
 
     std::vector<std::shared_ptr<ModelRef>> getModels() const;
@@ -82,22 +82,22 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::vector<utility::string_t> getReleaseIds() const;
     bool releaseIdsIsSet() const;
-    void unsetRelease_ids();
+    void unsetReleaseIds();
     void setReleaseIds(const std::vector<utility::string_t>& value);
 
     int32_t getSpanCount() const;
     bool spanCountIsSet() const;
-    void unsetSpan_count();
+    void unsetSpanCount();
     void setSpanCount(int32_t value);
 
     utility::datetime getStartedAt() const;
     bool startedAtIsSet() const;
-    void unsetStarted_at();
+    void unsetStartedAt();
     void setStartedAt(const utility::datetime& value);
 
     std::shared_ptr<SpanStatus> getStatus() const;
@@ -107,56 +107,56 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::shared_ptr<Money> getTotalCost() const;
     bool totalCostIsSet() const;
-    void unsetTotal_cost();
+    void unsetTotalCost();
     void setTotalCost(const std::shared_ptr<Money>& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
 protected:
-    int64_t m_Duration_ms;
-    bool m_Duration_msIsSet;
+    int64_t m_DurationMs;
+    bool m_DurationMsIsSet;
 
-    utility::datetime m_Ended_at;
-    bool m_Ended_atIsSet;
+    utility::datetime m_EndedAt;
+    bool m_EndedAtIsSet;
 
-    utility::string_t m_First_span_name;
-    bool m_First_span_nameIsSet;
+    utility::string_t m_FirstSpanName;
+    bool m_FirstSpanNameIsSet;
 
     std::vector<std::shared_ptr<ModelRef>> m_Models;
     bool m_ModelsIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    std::vector<utility::string_t> m_Release_ids;
-    bool m_Release_idsIsSet;
+    std::vector<utility::string_t> m_ReleaseIds;
+    bool m_ReleaseIdsIsSet;
 
-    int32_t m_Span_count;
-    bool m_Span_countIsSet;
+    int32_t m_SpanCount;
+    bool m_SpanCountIsSet;
 
-    utility::datetime m_Started_at;
-    bool m_Started_atIsSet;
+    utility::datetime m_StartedAt;
+    bool m_StartedAtIsSet;
 
     std::shared_ptr<SpanStatus> m_Status;
     bool m_StatusIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    std::shared_ptr<Money> m_Total_cost;
-    bool m_Total_costIsSet;
+    std::shared_ptr<Money> m_TotalCost;
+    bool m_TotalCostIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

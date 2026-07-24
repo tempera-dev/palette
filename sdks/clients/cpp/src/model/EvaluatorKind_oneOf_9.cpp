@@ -20,8 +20,8 @@ namespace model {
 
 EvaluatorKind_oneOf_9::EvaluatorKind_oneOf_9()
 {
-    m_Min_ratio = 0.0;
-    m_Min_ratioIsSet = false;
+    m_MinRatio = 0.0;
+    m_MinRatioIsSet = false;
     m_TypeIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void EvaluatorKind_oneOf_9::validate()
 web::json::value EvaluatorKind_oneOf_9::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Min_ratioIsSet)
+    if(m_MinRatioIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("min_ratio"))] = ModelBase::toJson(m_Min_ratio);
+        val[utility::conversions::to_string_t(U("minRatio"))] = ModelBase::toJson(m_MinRatio);
     }
     if(m_TypeIsSet)
     {   
@@ -56,9 +56,9 @@ web::json::value EvaluatorKind_oneOf_9::toJson() const
 bool EvaluatorKind_oneOf_9::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("min_ratio"))))
+    if(val.has_field(utility::conversions::to_string_t(U("minRatio"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("min_ratio")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("minRatio")));
         if(!fieldValue.is_null())
         {
             double refVal_setMinRatio;
@@ -89,9 +89,9 @@ void EvaluatorKind_oneOf_9::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Min_ratioIsSet)
+    if(m_MinRatioIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("min_ratio")), m_Min_ratio));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("minRatio")), m_MinRatio));
     }
     if(m_TypeIsSet)
     {
@@ -108,10 +108,10 @@ bool EvaluatorKind_oneOf_9::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("min_ratio"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("minRatio"))))
     {
         double refVal_setMinRatio;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("min_ratio"))), refVal_setMinRatio );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("minRatio"))), refVal_setMinRatio );
         setMinRatio(refVal_setMinRatio);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
@@ -147,23 +147,23 @@ const utility::string_t EvaluatorKind_oneOf_9::fromTypeEnum(const TypeEnum value
 
 double EvaluatorKind_oneOf_9::getMinRatio() const
 {
-    return m_Min_ratio;
+    return m_MinRatio;
 }
 
 void EvaluatorKind_oneOf_9::setMinRatio(double value)
 {
-    m_Min_ratio = value;
-    m_Min_ratioIsSet = true;
+    m_MinRatio = value;
+    m_MinRatioIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_9::minRatioIsSet() const
 {
-    return m_Min_ratioIsSet;
+    return m_MinRatioIsSet;
 }
 
-void EvaluatorKind_oneOf_9::unsetMin_ratio()
+void EvaluatorKind_oneOf_9::unsetMinRatio()
 {
-    m_Min_ratioIsSet = false;
+    m_MinRatioIsSet = false;
 }
 EvaluatorKind_oneOf_9::TypeEnum EvaluatorKind_oneOf_9::getType() const
 {

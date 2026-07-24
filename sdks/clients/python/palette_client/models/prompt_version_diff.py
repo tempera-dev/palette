@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.diff_line import DiffLine
 from typing import Optional, Set
@@ -27,10 +27,10 @@ class PromptVersionDiff(BaseModel):
     """
     PromptVersionDiff
     """ # noqa: E501
-    from_version_id: StrictStr
+    from_version_id: StrictStr = Field(alias="fromVersionId")
     lines: List[DiffLine]
-    to_version_id: StrictStr
-    __properties: ClassVar[List[str]] = ["from_version_id", "lines", "to_version_id"]
+    to_version_id: StrictStr = Field(alias="toVersionId")
+    __properties: ClassVar[List[str]] = ["fromVersionId", "lines", "toVersionId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,9 +90,9 @@ class PromptVersionDiff(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "from_version_id": obj.get("from_version_id"),
+            "fromVersionId": obj.get("fromVersionId"),
             "lines": [DiffLine.from_dict(_item) for _item in obj["lines"]] if obj.get("lines") is not None else None,
-            "to_version_id": obj.get("to_version_id")
+            "toVersionId": obj.get("toVersionId")
         })
         return _obj
 

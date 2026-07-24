@@ -65,7 +65,7 @@ public:
 
     std::shared_ptr<Money> getRemainingBudget() const;
     bool remainingBudgetIsSet() const;
-    void unsetRemaining_budget();
+    void unsetRemainingBudget();
     void setRemainingBudget(const std::shared_ptr<Money>& value);
 
     std::shared_ptr<ScoreResult> getResult() const;
@@ -78,8 +78,8 @@ protected:
     std::shared_ptr<JudgeAuditRecord> m_Audit;
     bool m_AuditIsSet;
 
-    std::shared_ptr<Money> m_Remaining_budget;
-    bool m_Remaining_budgetIsSet;
+    std::shared_ptr<Money> m_RemainingBudget;
+    bool m_RemainingBudgetIsSet;
 
     std::shared_ptr<ScoreResult> m_Result;
     bool m_ResultIsSet;

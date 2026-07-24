@@ -13,9 +13,9 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct MaintenanceWindow {
-    #[serde(rename = "ends_at")]
+    #[serde(rename = "endsAt")]
     pub ends_at: String,
-    #[serde(rename = "starts_at")]
+    #[serde(rename = "startsAt")]
     pub starts_at: String,
 }
 

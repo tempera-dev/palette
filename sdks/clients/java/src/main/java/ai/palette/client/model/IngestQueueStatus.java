@@ -45,27 +45,27 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class IngestQueueStatus {
-  public static final String JSON_PROPERTY_DEAD_LETTERS = "dead_letters";
+  public static final String JSON_PROPERTY_DEAD_LETTERS = "deadLetters";
   @javax.annotation.Nonnull
   private List<DeadLetter> deadLetters = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
-  public static final String JSON_PROPERTY_TOTAL_DEPTH = "total_depth";
+  public static final String JSON_PROPERTY_TOTAL_DEPTH = "totalDepth";
   @javax.annotation.Nonnull
   private Integer totalDepth;
 
-  public static final String JSON_PROPERTY_TRACE_INGESTED_DEPTH = "trace_ingested_depth";
+  public static final String JSON_PROPERTY_TRACE_INGESTED_DEPTH = "traceIngestedDepth";
   @javax.annotation.Nonnull
   private Integer traceIngestedDepth;
 
-  public static final String JSON_PROPERTY_TRACE_WRITE_DEPTH = "trace_write_depth";
+  public static final String JSON_PROPERTY_TRACE_WRITE_DEPTH = "traceWriteDepth";
   @javax.annotation.Nonnull
   private Integer traceWriteDepth;
 
@@ -309,39 +309,39 @@ public class IngestQueueStatus {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dead_letters` to the URL query string
+    // add `deadLetters` to the URL query string
     if (getDeadLetters() != null) {
       for (int i = 0; i < getDeadLetters().size(); i++) {
         if (getDeadLetters().get(i) != null) {
-          joiner.add(getDeadLetters().get(i).toUrlQueryString(String.format("%sdead_letters%s%s", prefix, suffix,
+          joiner.add(getDeadLetters().get(i).toUrlQueryString(String.format("%sdeadLetters%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `total_depth` to the URL query string
+    // add `totalDepth` to the URL query string
     if (getTotalDepth() != null) {
-      joiner.add(String.format("%stotal_depth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotalDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stotalDepth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTotalDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_ingested_depth` to the URL query string
+    // add `traceIngestedDepth` to the URL query string
     if (getTraceIngestedDepth() != null) {
-      joiner.add(String.format("%strace_ingested_depth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceIngestedDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceIngestedDepth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceIngestedDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_write_depth` to the URL query string
+    // add `traceWriteDepth` to the URL query string
     if (getTraceWriteDepth() != null) {
-      joiner.add(String.format("%strace_write_depth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceWriteDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceWriteDepth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceWriteDepth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

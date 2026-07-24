@@ -57,22 +57,22 @@ public:
 
     utility::string_t getAgentReleaseId() const;
     bool agentReleaseIdIsSet() const;
-    void unsetAgent_release_id();
+    void unsetAgentReleaseId();
     void setAgentReleaseId(const utility::string_t& value);
 
     utility::string_t getCodeHash() const;
     bool codeHashIsSet() const;
-    void unsetCode_hash();
+    void unsetCodeHash();
     void setCodeHash(const utility::string_t& value);
 
     utility::string_t getEvaluatorId() const;
     bool evaluatorIdIsSet() const;
-    void unsetEvaluator_id();
+    void unsetEvaluatorId();
     void setEvaluatorId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     std::shared_ptr<EvaluatorKind> getKind() const;
@@ -82,36 +82,36 @@ public:
 
     utility::string_t getPromptVersionId() const;
     bool promptVersionIdIsSet() const;
-    void unsetPrompt_version_id();
+    void unsetPromptVersionId();
     void setPromptVersionId(const utility::string_t& value);
 
     utility::string_t getWasmHash() const;
     bool wasmHashIsSet() const;
-    void unsetWasm_hash();
+    void unsetWasmHash();
     void setWasmHash(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Agent_release_id;
-    bool m_Agent_release_idIsSet;
+    utility::string_t m_AgentReleaseId;
+    bool m_AgentReleaseIdIsSet;
 
-    utility::string_t m_Code_hash;
-    bool m_Code_hashIsSet;
+    utility::string_t m_CodeHash;
+    bool m_CodeHashIsSet;
 
-    utility::string_t m_Evaluator_id;
-    bool m_Evaluator_idIsSet;
+    utility::string_t m_EvaluatorId;
+    bool m_EvaluatorIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
     std::shared_ptr<EvaluatorKind> m_Kind;
     bool m_KindIsSet;
 
-    utility::string_t m_Prompt_version_id;
-    bool m_Prompt_version_idIsSet;
+    utility::string_t m_PromptVersionId;
+    bool m_PromptVersionIdIsSet;
 
-    utility::string_t m_Wasm_hash;
-    bool m_Wasm_hashIsSet;
+    utility::string_t m_WasmHash;
+    bool m_WasmHashIsSet;
 
 };
 

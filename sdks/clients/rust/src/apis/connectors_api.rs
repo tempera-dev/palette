@@ -202,7 +202,7 @@ pub enum ConnectorsPeriodStatusError {
 
 pub async fn connectors_period_connect(configuration: &configuration::Configuration, params: ConnectorsPeriodConnectParams) -> Result<models::ConnectionLink, Error<ConnectorsPeriodConnectError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}/connect", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}/connect", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -239,7 +239,7 @@ pub async fn connectors_period_connect(configuration: &configuration::Configurat
 
 pub async fn connectors_period_get_skills(configuration: &configuration::Configuration, params: ConnectorsPeriodGetSkillsParams) -> Result<models::ConnectorSkillsResponse, Error<ConnectorsPeriodGetSkillsError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}/skills", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}/skills", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = req_builder.query(&[("toolkit", &params.toolkit.to_string())]);
@@ -276,7 +276,7 @@ pub async fn connectors_period_get_skills(configuration: &configuration::Configu
 
 pub async fn connectors_period_invoke_tool(configuration: &configuration::Configuration, params: ConnectorsPeriodInvokeToolParams) -> Result<models::ToolExecution, Error<ConnectorsPeriodInvokeToolError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}/invoke", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}/invoke", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -313,7 +313,7 @@ pub async fn connectors_period_invoke_tool(configuration: &configuration::Config
 
 pub async fn connectors_period_list(configuration: &configuration::Configuration, params: ConnectorsPeriodListParams) -> Result<models::ConnectorListResponse, Error<ConnectorsPeriodListError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {
@@ -355,7 +355,7 @@ pub async fn connectors_period_list(configuration: &configuration::Configuration
 
 pub async fn connectors_period_list_tools(configuration: &configuration::Configuration, params: ConnectorsPeriodListToolsParams) -> Result<models::ConnectorToolListResponse, Error<ConnectorsPeriodListToolsError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}/tools", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}/tools", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = req_builder.query(&[("toolkit", &params.toolkit.to_string())]);
@@ -398,7 +398,7 @@ pub async fn connectors_period_list_tools(configuration: &configuration::Configu
 
 pub async fn connectors_period_status(configuration: &configuration::Configuration, params: ConnectorsPeriodStatusParams) -> Result<models::ConnectionStatus, Error<ConnectorsPeriodStatusError>> {
 
-    let uri_str = format!("{}/v1/connectors/{tenant_id}/{project_id}/status", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connectors/{tenantId}/{projectId}/status", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = req_builder.query(&[("toolkit", &params.toolkit.to_string())]);

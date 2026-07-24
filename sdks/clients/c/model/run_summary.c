@@ -129,7 +129,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
 
     // run_summary->duration_ms
     if(run_summary->duration_ms) {
-    if(cJSON_AddNumberToObject(item, "duration_ms", run_summary->duration_ms) == NULL) {
+    if(cJSON_AddNumberToObject(item, "durationMs", run_summary->duration_ms) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -137,7 +137,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
 
     // run_summary->ended_at
     if(run_summary->ended_at) {
-    if(cJSON_AddStringToObject(item, "ended_at", run_summary->ended_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "endedAt", run_summary->ended_at) == NULL) {
     goto fail; //Date-Time
     }
     }
@@ -147,7 +147,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->first_span_name) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "first_span_name", run_summary->first_span_name) == NULL) {
+    if(cJSON_AddStringToObject(item, "firstSpanName", run_summary->first_span_name) == NULL) {
     goto fail; //String
     }
 
@@ -177,7 +177,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", run_summary->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", run_summary->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -186,7 +186,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->release_ids) {
         goto fail;
     }
-    cJSON *release_ids = cJSON_AddArrayToObject(item, "release_ids");
+    cJSON *release_ids = cJSON_AddArrayToObject(item, "releaseIds");
     if(release_ids == NULL) {
         goto fail; //primitive container
     }
@@ -204,7 +204,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->span_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "span_count", run_summary->span_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "spanCount", run_summary->span_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -213,7 +213,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->started_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "started_at", run_summary->started_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "startedAt", run_summary->started_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -236,7 +236,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", run_summary->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", run_summary->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -247,7 +247,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if(total_cost_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "total_cost", total_cost_local_JSON);
+    cJSON_AddItemToObject(item, "totalCost", total_cost_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -258,7 +258,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
     if (!run_summary->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", run_summary->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", run_summary->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -287,7 +287,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     money_t *total_cost_local_nonprim = NULL;
 
     // run_summary->duration_ms
-    cJSON *duration_ms = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "duration_ms");
+    cJSON *duration_ms = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "durationMs");
     if (cJSON_IsNull(duration_ms)) {
         duration_ms = NULL;
     }
@@ -299,7 +299,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->ended_at
-    cJSON *ended_at = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "ended_at");
+    cJSON *ended_at = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "endedAt");
     if (cJSON_IsNull(ended_at)) {
         ended_at = NULL;
     }
@@ -311,7 +311,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->first_span_name
-    cJSON *first_span_name = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "first_span_name");
+    cJSON *first_span_name = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "firstSpanName");
     if (cJSON_IsNull(first_span_name)) {
         first_span_name = NULL;
     }
@@ -353,7 +353,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -368,7 +368,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->release_ids
-    cJSON *release_ids = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "release_ids");
+    cJSON *release_ids = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "releaseIds");
     if (cJSON_IsNull(release_ids)) {
         release_ids = NULL;
     }
@@ -393,7 +393,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->span_count
-    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "span_count");
+    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "spanCount");
     if (cJSON_IsNull(span_count)) {
         span_count = NULL;
     }
@@ -408,7 +408,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->started_at
-    cJSON *started_at = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "started_at");
+    cJSON *started_at = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "startedAt");
     if (cJSON_IsNull(started_at)) {
         started_at = NULL;
     }
@@ -435,7 +435,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     status_local_nonprim = span_status_parseFromJSON(status); //custom
 
     // run_summary->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -450,7 +450,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->total_cost
-    cJSON *total_cost = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "total_cost");
+    cJSON *total_cost = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "totalCost");
     if (cJSON_IsNull(total_cost)) {
         total_cost = NULL;
     }
@@ -459,7 +459,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     }
 
     // run_summary->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(run_summaryJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

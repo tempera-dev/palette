@@ -63,12 +63,12 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
@@ -76,11 +76,11 @@ protected:
     std::vector<std::shared_ptr<CanonicalSpan>> m_Spans;
     bool m_SpansIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

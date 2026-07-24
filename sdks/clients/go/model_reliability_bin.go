@@ -22,12 +22,12 @@ var _ MappedNullable = &ReliabilityBin{}
 // ReliabilityBin struct for ReliabilityBin
 type ReliabilityBin struct {
 	Accuracy NullableFloat64 `json:"accuracy,omitempty"`
-	BinIndex int32 `json:"bin_index"`
-	CalibrationGap NullableFloat64 `json:"calibration_gap,omitempty"`
-	LowerBound float64 `json:"lower_bound"`
-	MeanConfidence NullableFloat64 `json:"mean_confidence,omitempty"`
-	SampleCount int32 `json:"sample_count"`
-	UpperBound float64 `json:"upper_bound"`
+	BinIndex int32 `json:"binIndex"`
+	CalibrationGap NullableFloat64 `json:"calibrationGap,omitempty"`
+	LowerBound float64 `json:"lowerBound"`
+	MeanConfidence NullableFloat64 `json:"meanConfidence,omitempty"`
+	SampleCount int32 `json:"sampleCount"`
+	UpperBound float64 `json:"upperBound"`
 }
 
 type _ReliabilityBin ReliabilityBin
@@ -288,16 +288,16 @@ func (o ReliabilityBin) ToMap() (map[string]interface{}, error) {
 	if o.Accuracy.IsSet() {
 		toSerialize["accuracy"] = o.Accuracy.Get()
 	}
-	toSerialize["bin_index"] = o.BinIndex
+	toSerialize["binIndex"] = o.BinIndex
 	if o.CalibrationGap.IsSet() {
-		toSerialize["calibration_gap"] = o.CalibrationGap.Get()
+		toSerialize["calibrationGap"] = o.CalibrationGap.Get()
 	}
-	toSerialize["lower_bound"] = o.LowerBound
+	toSerialize["lowerBound"] = o.LowerBound
 	if o.MeanConfidence.IsSet() {
-		toSerialize["mean_confidence"] = o.MeanConfidence.Get()
+		toSerialize["meanConfidence"] = o.MeanConfidence.Get()
 	}
-	toSerialize["sample_count"] = o.SampleCount
-	toSerialize["upper_bound"] = o.UpperBound
+	toSerialize["sampleCount"] = o.SampleCount
+	toSerialize["upperBound"] = o.UpperBound
 	return toSerialize, nil
 }
 
@@ -306,10 +306,10 @@ func (o *ReliabilityBin) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"bin_index",
-		"lower_bound",
-		"sample_count",
-		"upper_bound",
+		"binIndex",
+		"lowerBound",
+		"sampleCount",
+		"upperBound",
 	}
 
 	allProperties := make(map[string]interface{})

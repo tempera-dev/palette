@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,13 +26,13 @@ class EnqueueReviewTaskFromTraceHttpRequest(BaseModel):
     """
     EnqueueReviewTaskFromTraceHttpRequest
     """ # noqa: E501
-    dataset_case_id: Optional[StrictStr] = None
-    dataset_id: Optional[StrictStr] = None
+    dataset_case_id: Optional[StrictStr] = Field(default=None, alias="datasetCaseId")
+    dataset_id: Optional[StrictStr] = Field(default=None, alias="datasetId")
     priority: Optional[StrictInt] = None
-    span_id: Optional[StrictStr] = None
-    task_id: Optional[StrictStr] = None
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["dataset_case_id", "dataset_id", "priority", "span_id", "task_id", "trace_id"]
+    span_id: Optional[StrictStr] = Field(default=None, alias="spanId")
+    task_id: Optional[StrictStr] = Field(default=None, alias="taskId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["datasetCaseId", "datasetId", "priority", "spanId", "taskId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,12 +76,12 @@ class EnqueueReviewTaskFromTraceHttpRequest(BaseModel):
         # set to None if dataset_case_id (nullable) is None
         # and model_fields_set contains the field
         if self.dataset_case_id is None and "dataset_case_id" in self.model_fields_set:
-            _dict['dataset_case_id'] = None
+            _dict['datasetCaseId'] = None
 
         # set to None if dataset_id (nullable) is None
         # and model_fields_set contains the field
         if self.dataset_id is None and "dataset_id" in self.model_fields_set:
-            _dict['dataset_id'] = None
+            _dict['datasetId'] = None
 
         # set to None if priority (nullable) is None
         # and model_fields_set contains the field
@@ -91,12 +91,12 @@ class EnqueueReviewTaskFromTraceHttpRequest(BaseModel):
         # set to None if span_id (nullable) is None
         # and model_fields_set contains the field
         if self.span_id is None and "span_id" in self.model_fields_set:
-            _dict['span_id'] = None
+            _dict['spanId'] = None
 
         # set to None if task_id (nullable) is None
         # and model_fields_set contains the field
         if self.task_id is None and "task_id" in self.model_fields_set:
-            _dict['task_id'] = None
+            _dict['taskId'] = None
 
         return _dict
 
@@ -110,12 +110,12 @@ class EnqueueReviewTaskFromTraceHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dataset_case_id": obj.get("dataset_case_id"),
-            "dataset_id": obj.get("dataset_id"),
+            "datasetCaseId": obj.get("datasetCaseId"),
+            "datasetId": obj.get("datasetId"),
             "priority": obj.get("priority"),
-            "span_id": obj.get("span_id"),
-            "task_id": obj.get("task_id"),
-            "trace_id": obj.get("trace_id")
+            "spanId": obj.get("spanId"),
+            "taskId": obj.get("taskId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

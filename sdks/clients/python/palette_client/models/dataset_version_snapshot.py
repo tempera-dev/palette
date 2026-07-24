@@ -29,13 +29,13 @@ class DatasetVersionSnapshot(BaseModel):
     DatasetVersionSnapshot
     """ # noqa: E501
     cases: List[DatasetCase]
-    corpus_root: StrictStr = Field(description="A content-addressed Merkle root naming the exact contents of a corpus.  Serialized as its lowercase-hex SHA-256 string.")
-    created_at: datetime
-    dataset_id: StrictStr
-    project_id: StrictStr
-    tenant_id: StrictStr
-    version_id: StrictStr
-    __properties: ClassVar[List[str]] = ["cases", "corpus_root", "created_at", "dataset_id", "project_id", "tenant_id", "version_id"]
+    corpus_root: StrictStr = Field(description="A content-addressed Merkle root naming the exact contents of a corpus.  Serialized as its lowercase-hex SHA-256 string.", alias="corpusRoot")
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    version_id: StrictStr = Field(alias="versionId")
+    __properties: ClassVar[List[str]] = ["cases", "corpusRoot", "createdAt", "datasetId", "projectId", "tenantId", "versionId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,12 +96,12 @@ class DatasetVersionSnapshot(BaseModel):
 
         _obj = cls.model_validate({
             "cases": [DatasetCase.from_dict(_item) for _item in obj["cases"]] if obj.get("cases") is not None else None,
-            "corpus_root": obj.get("corpus_root"),
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "version_id": obj.get("version_id")
+            "corpusRoot": obj.get("corpusRoot"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId"),
+            "versionId": obj.get("versionId")
         })
         return _obj
 

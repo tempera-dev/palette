@@ -62,7 +62,7 @@ export function EvaluatorKindOneOf5FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'maxMs': json['max_ms'],
+        'maxMs': json['maxMs'],
         'type': json['type'],
     };
 }
@@ -78,7 +78,7 @@ export function EvaluatorKindOneOf5ToJSONTyped(value?: EvaluatorKindOneOf5 | nul
 
     return {
         
-        'max_ms': value['maxMs'],
+        'maxMs': value['maxMs'],
         'type': value['type'],
     };
 }

@@ -45,7 +45,7 @@ export function CalibrationPolicyFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'passThreshold': json['pass_threshold'],
+        'passThreshold': json['passThreshold'],
     };
 }
 
@@ -60,7 +60,7 @@ export function CalibrationPolicyToJSONTyped(value?: CalibrationPolicy | null, i
 
     return {
         
-        'pass_threshold': value['passThreshold'],
+        'passThreshold': value['passThreshold'],
     };
 }
 

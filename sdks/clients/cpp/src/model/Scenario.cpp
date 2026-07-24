@@ -20,21 +20,21 @@ namespace model {
 
 Scenario::Scenario()
 {
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Exemplar_trace_id = utility::conversions::to_string_t("");
-    m_Exemplar_trace_idIsSet = false;
-    m_Expected_outcome = utility::conversions::to_string_t("");
-    m_Expected_outcomeIsSet = false;
-    m_Failure_modeIsSet = false;
-    m_Perturbation_knobsIsSet = false;
-    m_Recurrence_count = 0;
-    m_Recurrence_countIsSet = false;
-    m_Redaction_classIsSet = false;
-    m_Scenario_id = utility::conversions::to_string_t("");
-    m_Scenario_idIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_ExemplarTraceId = utility::conversions::to_string_t("");
+    m_ExemplarTraceIdIsSet = false;
+    m_ExpectedOutcome = utility::conversions::to_string_t("");
+    m_ExpectedOutcomeIsSet = false;
+    m_FailureModeIsSet = false;
+    m_PerturbationKnobsIsSet = false;
+    m_RecurrenceCount = 0;
+    m_RecurrenceCountIsSet = false;
+    m_RedactionClassIsSet = false;
+    m_ScenarioId = utility::conversions::to_string_t("");
+    m_ScenarioIdIsSet = false;
     m_ScopeIsSet = false;
-    m_Source_trace_idsIsSet = false;
+    m_SourceTraceIdsIsSet = false;
     m_Title = utility::conversions::to_string_t("");
     m_TitleIsSet = false;
 }
@@ -51,55 +51,55 @@ void Scenario::validate()
 web::json::value Scenario::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("exemplar_trace_id"))] = ModelBase::toJson(m_Exemplar_trace_id);
+        val[utility::conversions::to_string_t(U("exemplarTraceId"))] = ModelBase::toJson(m_ExemplarTraceId);
     }
-    if(m_Expected_outcomeIsSet)
+    if(m_ExpectedOutcomeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("expected_outcome"))] = ModelBase::toJson(m_Expected_outcome);
+        val[utility::conversions::to_string_t(U("expectedOutcome"))] = ModelBase::toJson(m_ExpectedOutcome);
     }
-    if(m_Failure_modeIsSet)
+    if(m_FailureModeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failure_mode"))] = ModelBase::toJson(m_Failure_mode);
+        val[utility::conversions::to_string_t(U("failureMode"))] = ModelBase::toJson(m_FailureMode);
     }
-    if(m_Perturbation_knobsIsSet)
+    if(m_PerturbationKnobsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("perturbation_knobs"))] = ModelBase::toJson(m_Perturbation_knobs);
+        val[utility::conversions::to_string_t(U("perturbationKnobs"))] = ModelBase::toJson(m_PerturbationKnobs);
     }
-    if(m_Recurrence_countIsSet)
+    if(m_RecurrenceCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("recurrence_count"))] = ModelBase::toJson(m_Recurrence_count);
+        val[utility::conversions::to_string_t(U("recurrenceCount"))] = ModelBase::toJson(m_RecurrenceCount);
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("redaction_class"))] = ModelBase::toJson(m_Redaction_class);
+        val[utility::conversions::to_string_t(U("redactionClass"))] = ModelBase::toJson(m_RedactionClass);
     }
-    if(m_Scenario_idIsSet)
+    if(m_ScenarioIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("scenario_id"))] = ModelBase::toJson(m_Scenario_id);
+        val[utility::conversions::to_string_t(U("scenarioId"))] = ModelBase::toJson(m_ScenarioId);
     }
     if(m_ScopeIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("scope"))] = ModelBase::toJson(m_Scope);
     }
-    if(m_Source_trace_idsIsSet)
+    if(m_SourceTraceIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_trace_ids"))] = ModelBase::toJson(m_Source_trace_ids);
+        val[utility::conversions::to_string_t(U("sourceTraceIds"))] = ModelBase::toJson(m_SourceTraceIds);
     }
     if(m_TitleIsSet)
     {   
@@ -113,9 +113,9 @@ web::json::value Scenario::toJson() const
 bool Scenario::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -124,9 +124,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplar_trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplarTraceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExemplarTraceId;
@@ -135,9 +135,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("expected_outcome"))))
+    if(val.has_field(utility::conversions::to_string_t(U("expectedOutcome"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expected_outcome")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expectedOutcome")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExpectedOutcome;
@@ -146,9 +146,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("failure_mode"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failureMode"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failure_mode")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failureMode")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<FailureMode> refVal_setFailureMode;
@@ -157,9 +157,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("perturbation_knobs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("perturbationKnobs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("perturbation_knobs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("perturbationKnobs")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<PerturbationKnobs> refVal_setPerturbationKnobs;
@@ -168,9 +168,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("recurrence_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("recurrenceCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("recurrence_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("recurrenceCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setRecurrenceCount;
@@ -179,9 +179,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("redaction_class"))))
+    if(val.has_field(utility::conversions::to_string_t(U("redactionClass"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redaction_class")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redactionClass")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<RedactionClass> refVal_setRedactionClass;
@@ -190,9 +190,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("scenario_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("scenarioId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("scenario_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("scenarioId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setScenarioId;
@@ -212,9 +212,9 @@ bool Scenario::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_trace_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceTraceIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_trace_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceTraceIds")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<utility::string_t>> refVal_setSourceTraceIds;
@@ -244,45 +244,45 @@ void Scenario::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplar_trace_id")), m_Exemplar_trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplarTraceId")), m_ExemplarTraceId));
     }
-    if(m_Expected_outcomeIsSet)
+    if(m_ExpectedOutcomeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expected_outcome")), m_Expected_outcome));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expectedOutcome")), m_ExpectedOutcome));
     }
-    if(m_Failure_modeIsSet)
+    if(m_FailureModeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failure_mode")), m_Failure_mode));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failureMode")), m_FailureMode));
     }
-    if(m_Perturbation_knobsIsSet)
+    if(m_PerturbationKnobsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("perturbation_knobs")), m_Perturbation_knobs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("perturbationKnobs")), m_PerturbationKnobs));
     }
-    if(m_Recurrence_countIsSet)
+    if(m_RecurrenceCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("recurrence_count")), m_Recurrence_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("recurrenceCount")), m_RecurrenceCount));
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redaction_class")), m_Redaction_class));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redactionClass")), m_RedactionClass));
     }
-    if(m_Scenario_idIsSet)
+    if(m_ScenarioIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("scenario_id")), m_Scenario_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("scenarioId")), m_ScenarioId));
     }
     if(m_ScopeIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("scope")), m_Scope));
     }
-    if(m_Source_trace_idsIsSet)
+    if(m_SourceTraceIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_trace_ids")), m_Source_trace_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceTraceIds")), m_SourceTraceIds));
     }
     if(m_TitleIsSet)
     {
@@ -299,52 +299,52 @@ bool Scenario::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
         utility::string_t refVal_setExemplarTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplar_trace_id"))), refVal_setExemplarTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplarTraceId"))), refVal_setExemplarTraceId );
         setExemplarTraceId(refVal_setExemplarTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("expected_outcome"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("expectedOutcome"))))
     {
         utility::string_t refVal_setExpectedOutcome;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expected_outcome"))), refVal_setExpectedOutcome );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expectedOutcome"))), refVal_setExpectedOutcome );
         setExpectedOutcome(refVal_setExpectedOutcome);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failure_mode"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failureMode"))))
     {
         std::shared_ptr<FailureMode> refVal_setFailureMode;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failure_mode"))), refVal_setFailureMode );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failureMode"))), refVal_setFailureMode );
         setFailureMode(refVal_setFailureMode);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("perturbation_knobs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("perturbationKnobs"))))
     {
         std::shared_ptr<PerturbationKnobs> refVal_setPerturbationKnobs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("perturbation_knobs"))), refVal_setPerturbationKnobs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("perturbationKnobs"))), refVal_setPerturbationKnobs );
         setPerturbationKnobs(refVal_setPerturbationKnobs);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("recurrence_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("recurrenceCount"))))
     {
         int32_t refVal_setRecurrenceCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("recurrence_count"))), refVal_setRecurrenceCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("recurrenceCount"))), refVal_setRecurrenceCount );
         setRecurrenceCount(refVal_setRecurrenceCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("redaction_class"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("redactionClass"))))
     {
         std::shared_ptr<RedactionClass> refVal_setRedactionClass;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redaction_class"))), refVal_setRedactionClass );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redactionClass"))), refVal_setRedactionClass );
         setRedactionClass(refVal_setRedactionClass);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("scenario_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("scenarioId"))))
     {
         utility::string_t refVal_setScenarioId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("scenario_id"))), refVal_setScenarioId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("scenarioId"))), refVal_setScenarioId );
         setScenarioId(refVal_setScenarioId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("scope"))))
@@ -353,10 +353,10 @@ bool Scenario::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("scope"))), refVal_setScope );
         setScope(refVal_setScope);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_trace_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceTraceIds"))))
     {
         std::vector<std::shared_ptr<utility::string_t>> refVal_setSourceTraceIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_trace_ids"))), refVal_setSourceTraceIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceTraceIds"))), refVal_setSourceTraceIds );
         setSourceTraceIds(refVal_setSourceTraceIds);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("title"))))
@@ -371,170 +371,170 @@ bool Scenario::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
 
 utility::datetime Scenario::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void Scenario::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool Scenario::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void Scenario::unsetCreated_at()
+void Scenario::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t Scenario::getExemplarTraceId() const
 {
-    return m_Exemplar_trace_id;
+    return m_ExemplarTraceId;
 }
 
 
 void Scenario::setExemplarTraceId(const utility::string_t& value)
 {
-    m_Exemplar_trace_id = value;
-    m_Exemplar_trace_idIsSet = true;
+    m_ExemplarTraceId = value;
+    m_ExemplarTraceIdIsSet = true;
 }
 
 bool Scenario::exemplarTraceIdIsSet() const
 {
-    return m_Exemplar_trace_idIsSet;
+    return m_ExemplarTraceIdIsSet;
 }
 
-void Scenario::unsetExemplar_trace_id()
+void Scenario::unsetExemplarTraceId()
 {
-    m_Exemplar_trace_idIsSet = false;
+    m_ExemplarTraceIdIsSet = false;
 }
 utility::string_t Scenario::getExpectedOutcome() const
 {
-    return m_Expected_outcome;
+    return m_ExpectedOutcome;
 }
 
 
 void Scenario::setExpectedOutcome(const utility::string_t& value)
 {
-    m_Expected_outcome = value;
-    m_Expected_outcomeIsSet = true;
+    m_ExpectedOutcome = value;
+    m_ExpectedOutcomeIsSet = true;
 }
 
 bool Scenario::expectedOutcomeIsSet() const
 {
-    return m_Expected_outcomeIsSet;
+    return m_ExpectedOutcomeIsSet;
 }
 
-void Scenario::unsetExpected_outcome()
+void Scenario::unsetExpectedOutcome()
 {
-    m_Expected_outcomeIsSet = false;
+    m_ExpectedOutcomeIsSet = false;
 }
 std::shared_ptr<FailureMode> Scenario::getFailureMode() const
 {
-    return m_Failure_mode;
+    return m_FailureMode;
 }
 
 
 void Scenario::setFailureMode(const std::shared_ptr<FailureMode>& value)
 {
-    m_Failure_mode = value;
-    m_Failure_modeIsSet = true;
+    m_FailureMode = value;
+    m_FailureModeIsSet = true;
 }
 
 bool Scenario::failureModeIsSet() const
 {
-    return m_Failure_modeIsSet;
+    return m_FailureModeIsSet;
 }
 
-void Scenario::unsetFailure_mode()
+void Scenario::unsetFailureMode()
 {
-    m_Failure_modeIsSet = false;
+    m_FailureModeIsSet = false;
 }
 std::shared_ptr<PerturbationKnobs> Scenario::getPerturbationKnobs() const
 {
-    return m_Perturbation_knobs;
+    return m_PerturbationKnobs;
 }
 
 
 void Scenario::setPerturbationKnobs(const std::shared_ptr<PerturbationKnobs>& value)
 {
-    m_Perturbation_knobs = value;
-    m_Perturbation_knobsIsSet = true;
+    m_PerturbationKnobs = value;
+    m_PerturbationKnobsIsSet = true;
 }
 
 bool Scenario::perturbationKnobsIsSet() const
 {
-    return m_Perturbation_knobsIsSet;
+    return m_PerturbationKnobsIsSet;
 }
 
-void Scenario::unsetPerturbation_knobs()
+void Scenario::unsetPerturbationKnobs()
 {
-    m_Perturbation_knobsIsSet = false;
+    m_PerturbationKnobsIsSet = false;
 }
 int32_t Scenario::getRecurrenceCount() const
 {
-    return m_Recurrence_count;
+    return m_RecurrenceCount;
 }
 
 void Scenario::setRecurrenceCount(int32_t value)
 {
-    m_Recurrence_count = value;
-    m_Recurrence_countIsSet = true;
+    m_RecurrenceCount = value;
+    m_RecurrenceCountIsSet = true;
 }
 
 bool Scenario::recurrenceCountIsSet() const
 {
-    return m_Recurrence_countIsSet;
+    return m_RecurrenceCountIsSet;
 }
 
-void Scenario::unsetRecurrence_count()
+void Scenario::unsetRecurrenceCount()
 {
-    m_Recurrence_countIsSet = false;
+    m_RecurrenceCountIsSet = false;
 }
 std::shared_ptr<RedactionClass> Scenario::getRedactionClass() const
 {
-    return m_Redaction_class;
+    return m_RedactionClass;
 }
 
 
 void Scenario::setRedactionClass(const std::shared_ptr<RedactionClass>& value)
 {
-    m_Redaction_class = value;
-    m_Redaction_classIsSet = true;
+    m_RedactionClass = value;
+    m_RedactionClassIsSet = true;
 }
 
 bool Scenario::redactionClassIsSet() const
 {
-    return m_Redaction_classIsSet;
+    return m_RedactionClassIsSet;
 }
 
-void Scenario::unsetRedaction_class()
+void Scenario::unsetRedactionClass()
 {
-    m_Redaction_classIsSet = false;
+    m_RedactionClassIsSet = false;
 }
 utility::string_t Scenario::getScenarioId() const
 {
-    return m_Scenario_id;
+    return m_ScenarioId;
 }
 
 
 void Scenario::setScenarioId(const utility::string_t& value)
 {
-    m_Scenario_id = value;
-    m_Scenario_idIsSet = true;
+    m_ScenarioId = value;
+    m_ScenarioIdIsSet = true;
 }
 
 bool Scenario::scenarioIdIsSet() const
 {
-    return m_Scenario_idIsSet;
+    return m_ScenarioIdIsSet;
 }
 
-void Scenario::unsetScenario_id()
+void Scenario::unsetScenarioId()
 {
-    m_Scenario_idIsSet = false;
+    m_ScenarioIdIsSet = false;
 }
 std::shared_ptr<TenantScope> Scenario::getScope() const
 {
@@ -559,24 +559,24 @@ void Scenario::unsetScope()
 }
 std::vector<std::shared_ptr<utility::string_t>> Scenario::getSourceTraceIds() const
 {
-    return m_Source_trace_ids;
+    return m_SourceTraceIds;
 }
 
 
 void Scenario::setSourceTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value)
 {
-    m_Source_trace_ids = value;
-    m_Source_trace_idsIsSet = true;
+    m_SourceTraceIds = value;
+    m_SourceTraceIdsIsSet = true;
 }
 
 bool Scenario::sourceTraceIdsIsSet() const
 {
-    return m_Source_trace_idsIsSet;
+    return m_SourceTraceIdsIsSet;
 }
 
-void Scenario::unsetSource_trace_ids()
+void Scenario::unsetSourceTraceIds()
 {
-    m_Source_trace_idsIsSet = false;
+    m_SourceTraceIdsIsSet = false;
 }
 utility::string_t Scenario::getTitle() const
 {

@@ -150,17 +150,17 @@ export function ExperimentComparisonFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'adjustedAlpha': json['adjusted_alpha'],
-        'baselineMean': json['baseline_mean'],
-        'candidateMean': json['candidate_mean'],
-        'ciHigh': json['ci_high'],
-        'ciLow': json['ci_low'],
+        'adjustedAlpha': json['adjustedAlpha'],
+        'baselineMean': json['baselineMean'],
+        'candidateMean': json['candidateMean'],
+        'ciHigh': json['ciHigh'],
+        'ciLow': json['ciLow'],
         'decision': GateDecisionFromJSON(json['decision']),
         'delta': json['delta'],
         'mde': json['mde'] == null ? undefined : json['mde'],
-        'pValue': json['p_value'],
-        'requiredN': json['required_n'] == null ? undefined : json['required_n'],
-        'sampleSize': json['sample_size'],
+        'pValue': json['pValue'],
+        'requiredN': json['requiredN'] == null ? undefined : json['requiredN'],
+        'sampleSize': json['sampleSize'],
         'test': StatisticalTestFromJSON(json['test']),
     };
 }
@@ -176,17 +176,17 @@ export function ExperimentComparisonToJSONTyped(value?: ExperimentComparison | n
 
     return {
         
-        'adjusted_alpha': value['adjustedAlpha'],
-        'baseline_mean': value['baselineMean'],
-        'candidate_mean': value['candidateMean'],
-        'ci_high': value['ciHigh'],
-        'ci_low': value['ciLow'],
+        'adjustedAlpha': value['adjustedAlpha'],
+        'baselineMean': value['baselineMean'],
+        'candidateMean': value['candidateMean'],
+        'ciHigh': value['ciHigh'],
+        'ciLow': value['ciLow'],
         'decision': GateDecisionToJSON(value['decision']),
         'delta': value['delta'],
         'mde': value['mde'],
-        'p_value': value['pValue'],
-        'required_n': value['requiredN'],
-        'sample_size': value['sampleSize'],
+        'pValue': value['pValue'],
+        'requiredN': value['requiredN'],
+        'sampleSize': value['sampleSize'],
         'test': StatisticalTestToJSON(value['test']),
     };
 }

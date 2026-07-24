@@ -22,12 +22,12 @@ var _ MappedNullable = &ReviewQueue{}
 
 // ReviewQueue struct for ReviewQueue
 type ReviewQueue struct {
-	AnnotationSchema interface{} `json:"annotation_schema"`
-	CreatedAt time.Time `json:"created_at"`
+	AnnotationSchema interface{} `json:"annotationSchema"`
+	CreatedAt time.Time `json:"createdAt"`
 	Name string `json:"name"`
-	ProjectId string `json:"project_id"`
-	QueueId string `json:"queue_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	QueueId string `json:"queueId"`
+	TenantId string `json:"tenantId"`
 }
 
 type _ReviewQueue ReviewQueue
@@ -212,13 +212,13 @@ func (o ReviewQueue) MarshalJSON() ([]byte, error) {
 func (o ReviewQueue) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AnnotationSchema != nil {
-		toSerialize["annotation_schema"] = o.AnnotationSchema
+		toSerialize["annotationSchema"] = o.AnnotationSchema
 	}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["name"] = o.Name
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["queue_id"] = o.QueueId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["queueId"] = o.QueueId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -227,12 +227,12 @@ func (o *ReviewQueue) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"annotation_schema",
-		"created_at",
+		"annotationSchema",
+		"createdAt",
 		"name",
-		"project_id",
-		"queue_id",
-		"tenant_id",
+		"projectId",
+		"queueId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

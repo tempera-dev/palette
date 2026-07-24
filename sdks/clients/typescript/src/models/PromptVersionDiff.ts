@@ -67,9 +67,9 @@ export function PromptVersionDiffFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'fromVersionId': json['from_version_id'],
+        'fromVersionId': json['fromVersionId'],
         'lines': ((json['lines'] as Array<any>).map(DiffLineFromJSON)),
-        'toVersionId': json['to_version_id'],
+        'toVersionId': json['toVersionId'],
     };
 }
 
@@ -84,9 +84,9 @@ export function PromptVersionDiffToJSONTyped(value?: PromptVersionDiff | null, i
 
     return {
         
-        'from_version_id': value['fromVersionId'],
+        'fromVersionId': value['fromVersionId'],
         'lines': ((value['lines'] as Array<any>).map(DiffLineToJSON)),
-        'to_version_id': value['toVersionId'],
+        'toVersionId': value['toVersionId'],
     };
 }
 

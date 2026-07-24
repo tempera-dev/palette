@@ -65,7 +65,7 @@ cJSON *perturbation_knobs_convertToJSON(perturbation_knobs_t *perturbation_knobs
     if (!perturbation_knobs->auth_failure) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "auth_failure", perturbation_knobs->auth_failure) == NULL) {
+    if(cJSON_AddBoolToObject(item, "authFailure", perturbation_knobs->auth_failure) == NULL) {
     goto fail; //Bool
     }
 
@@ -74,7 +74,7 @@ cJSON *perturbation_knobs_convertToJSON(perturbation_knobs_t *perturbation_knobs
     if (!perturbation_knobs->contradictory_source) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "contradictory_source", perturbation_knobs->contradictory_source) == NULL) {
+    if(cJSON_AddBoolToObject(item, "contradictorySource", perturbation_knobs->contradictory_source) == NULL) {
     goto fail; //Bool
     }
 
@@ -83,7 +83,7 @@ cJSON *perturbation_knobs_convertToJSON(perturbation_knobs_t *perturbation_knobs
     if (!perturbation_knobs->prompt_injection) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "prompt_injection", perturbation_knobs->prompt_injection) == NULL) {
+    if(cJSON_AddBoolToObject(item, "promptInjection", perturbation_knobs->prompt_injection) == NULL) {
     goto fail; //Bool
     }
 
@@ -92,7 +92,7 @@ cJSON *perturbation_knobs_convertToJSON(perturbation_knobs_t *perturbation_knobs
     if (!perturbation_knobs->stale_source) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "stale_source", perturbation_knobs->stale_source) == NULL) {
+    if(cJSON_AddBoolToObject(item, "staleSource", perturbation_knobs->stale_source) == NULL) {
     goto fail; //Bool
     }
 
@@ -110,7 +110,7 @@ cJSON *perturbation_knobs_convertToJSON(perturbation_knobs_t *perturbation_knobs
     if (!perturbation_knobs->tool_schema_mismatch) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "tool_schema_mismatch", perturbation_knobs->tool_schema_mismatch) == NULL) {
+    if(cJSON_AddBoolToObject(item, "toolSchemaMismatch", perturbation_knobs->tool_schema_mismatch) == NULL) {
     goto fail; //Bool
     }
 
@@ -127,7 +127,7 @@ perturbation_knobs_t *perturbation_knobs_parseFromJSON(cJSON *perturbation_knobs
     perturbation_knobs_t *perturbation_knobs_local_var = NULL;
 
     // perturbation_knobs->auth_failure
-    cJSON *auth_failure = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "auth_failure");
+    cJSON *auth_failure = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "authFailure");
     if (cJSON_IsNull(auth_failure)) {
         auth_failure = NULL;
     }
@@ -142,7 +142,7 @@ perturbation_knobs_t *perturbation_knobs_parseFromJSON(cJSON *perturbation_knobs
     }
 
     // perturbation_knobs->contradictory_source
-    cJSON *contradictory_source = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "contradictory_source");
+    cJSON *contradictory_source = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "contradictorySource");
     if (cJSON_IsNull(contradictory_source)) {
         contradictory_source = NULL;
     }
@@ -157,7 +157,7 @@ perturbation_knobs_t *perturbation_knobs_parseFromJSON(cJSON *perturbation_knobs
     }
 
     // perturbation_knobs->prompt_injection
-    cJSON *prompt_injection = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "prompt_injection");
+    cJSON *prompt_injection = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "promptInjection");
     if (cJSON_IsNull(prompt_injection)) {
         prompt_injection = NULL;
     }
@@ -172,7 +172,7 @@ perturbation_knobs_t *perturbation_knobs_parseFromJSON(cJSON *perturbation_knobs
     }
 
     // perturbation_knobs->stale_source
-    cJSON *stale_source = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "stale_source");
+    cJSON *stale_source = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "staleSource");
     if (cJSON_IsNull(stale_source)) {
         stale_source = NULL;
     }
@@ -202,7 +202,7 @@ perturbation_knobs_t *perturbation_knobs_parseFromJSON(cJSON *perturbation_knobs
     }
 
     // perturbation_knobs->tool_schema_mismatch
-    cJSON *tool_schema_mismatch = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "tool_schema_mismatch");
+    cJSON *tool_schema_mismatch = cJSON_GetObjectItemCaseSensitive(perturbation_knobsJSON, "toolSchemaMismatch");
     if (cJSON_IsNull(tool_schema_mismatch)) {
         tool_schema_mismatch = NULL;
     }

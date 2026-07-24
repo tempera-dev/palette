@@ -57,17 +57,17 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetCaseId() const;
     bool datasetCaseIdIsSet() const;
-    void unsetDataset_case_id();
+    void unsetDatasetCaseId();
     void setDatasetCaseId(const utility::string_t& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     int64_t getPriority() const;
@@ -77,17 +77,17 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getQueueId() const;
     bool queueIdIsSet() const;
-    void unsetQueue_id();
+    void unsetQueueId();
     void setQueueId(const utility::string_t& value);
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     std::shared_ptr<ReviewTaskState> getState() const;
@@ -97,61 +97,61 @@ public:
 
     utility::string_t getTaskId() const;
     bool taskIdIsSet() const;
-    void unsetTask_id();
+    void unsetTaskId();
     void setTaskId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
     utility::datetime getUpdatedAt() const;
     bool updatedAtIsSet() const;
-    void unsetUpdated_at();
+    void unsetUpdatedAt();
     void setUpdatedAt(const utility::datetime& value);
 
 
 protected:
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_case_id;
-    bool m_Dataset_case_idIsSet;
+    utility::string_t m_DatasetCaseId;
+    bool m_DatasetCaseIdIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
     int64_t m_Priority;
     bool m_PriorityIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Queue_id;
-    bool m_Queue_idIsSet;
+    utility::string_t m_QueueId;
+    bool m_QueueIdIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
     std::shared_ptr<ReviewTaskState> m_State;
     bool m_StateIsSet;
 
-    utility::string_t m_Task_id;
-    bool m_Task_idIsSet;
+    utility::string_t m_TaskId;
+    bool m_TaskIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
-    utility::datetime m_Updated_at;
-    bool m_Updated_atIsSet;
+    utility::datetime m_UpdatedAt;
+    bool m_UpdatedAtIsSet;
 
 };
 

@@ -8,7 +8,7 @@
 
 
 api_key_created_response_t*
-ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,45 +22,45 @@ ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/api-keys/{tenant_id}/{project_id}/{environment_id}");
+    char *localVarPath = strdup("/v1/api-keys/{tenantId}/{projectId}/{environmentId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!environment_id)
+    if(!environmentId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_environment_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ environment_id }") - 1;
-    if(environment_id == NULL) {
+    long sizeOfPathParams_environmentId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ environmentId }") - 1;
+    if(environmentId == NULL) {
         goto end;
     }
-    char* localVarToReplace_environment_id = malloc(sizeOfPathParams_environment_id);
-    sprintf(localVarToReplace_environment_id, "{%s}", "environment_id");
+    char* localVarToReplace_environmentId = malloc(sizeOfPathParams_environmentId);
+    sprintf(localVarToReplace_environmentId, "{%s}", "environmentId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_environment_id, environment_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_environmentId, environmentId);
 
 
 
@@ -173,9 +173,9 @@ ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_environment_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_environmentId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -225,7 +225,7 @@ end:
 }
 
 revoked_api_key_t*
-ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *apiKeyId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -239,57 +239,57 @@ ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke");
+    char *localVarPath = strdup("/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!environment_id)
+    if(!environmentId)
         goto end;
-    if(!api_key_id)
+    if(!apiKeyId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + strlen(api_key_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + strlen(apiKeyId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + strlen(api_key_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + strlen(apiKeyId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_environment_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + strlen(api_key_id)+3 + sizeof("{ environment_id }") - 1;
-    if(environment_id == NULL) {
+    long sizeOfPathParams_environmentId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + strlen(apiKeyId)+3 + sizeof("{ environmentId }") - 1;
+    if(environmentId == NULL) {
         goto end;
     }
-    char* localVarToReplace_environment_id = malloc(sizeOfPathParams_environment_id);
-    sprintf(localVarToReplace_environment_id, "{%s}", "environment_id");
+    char* localVarToReplace_environmentId = malloc(sizeOfPathParams_environmentId);
+    sprintf(localVarToReplace_environmentId, "{%s}", "environmentId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_environment_id, environment_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_environmentId, environmentId);
 
     // Path Params
-    long sizeOfPathParams_api_key_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + strlen(api_key_id)+3 + sizeof("{ api_key_id }") - 1;
-    if(api_key_id == NULL) {
+    long sizeOfPathParams_apiKeyId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + strlen(apiKeyId)+3 + sizeof("{ apiKeyId }") - 1;
+    if(apiKeyId == NULL) {
         goto end;
     }
-    char* localVarToReplace_api_key_id = malloc(sizeOfPathParams_api_key_id);
-    sprintf(localVarToReplace_api_key_id, "{%s}", "api_key_id");
+    char* localVarToReplace_apiKeyId = malloc(sizeOfPathParams_apiKeyId);
+    sprintf(localVarToReplace_apiKeyId, "{%s}", "apiKeyId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_api_key_id, api_key_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_apiKeyId, apiKeyId);
 
 
 
@@ -395,10 +395,10 @@ ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_
     list_freeList(localVarHeaderType);
     
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_environment_id);
-    free(localVarToReplace_api_key_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_environmentId);
+    free(localVarToReplace_apiKeyId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

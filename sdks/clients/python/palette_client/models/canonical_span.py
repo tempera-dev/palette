@@ -35,27 +35,27 @@ class CanonicalSpan(BaseModel):
     """ # noqa: E501
     attributes: Dict[str, Any]
     cost: Optional[Money] = None
-    end_time: Optional[datetime] = None
-    environment_id: StrictStr
-    input_ref: Optional[ArtifactRef] = None
+    end_time: Optional[datetime] = Field(default=None, alias="endTime")
+    environment_id: StrictStr = Field(alias="environmentId")
+    input_ref: Optional[ArtifactRef] = Field(default=None, alias="inputRef")
     kind: StrictStr = Field(description="Canonical agent span kind such as agent.run or llm.call")
     model: Optional[ModelRef] = None
     name: StrictStr
-    normalizer_version: StrictStr
-    output_ref: Optional[ArtifactRef] = None
-    parent_span_id: Optional[StrictStr] = None
-    project_id: StrictStr
-    raw_ref: ArtifactRef
-    schema_version: Annotated[int, Field(strict=True, ge=0)]
+    normalizer_version: StrictStr = Field(alias="normalizerVersion")
+    output_ref: Optional[ArtifactRef] = Field(default=None, alias="outputRef")
+    parent_span_id: Optional[StrictStr] = Field(default=None, alias="parentSpanId")
+    project_id: StrictStr = Field(alias="projectId")
+    raw_ref: ArtifactRef = Field(alias="rawRef")
+    schema_version: Annotated[int, Field(strict=True, ge=0)] = Field(alias="schemaVersion")
     seq: Annotated[int, Field(strict=True, ge=0)]
-    span_id: StrictStr
-    start_time: datetime
+    span_id: StrictStr = Field(alias="spanId")
+    start_time: datetime = Field(alias="startTime")
     status: SpanStatus
-    tenant_id: StrictStr
+    tenant_id: StrictStr = Field(alias="tenantId")
     tokens: Optional[TokenCounts] = None
-    trace_id: StrictStr
-    unmapped_attrs: Optional[Any]
-    __properties: ClassVar[List[str]] = ["attributes", "cost", "end_time", "environment_id", "input_ref", "kind", "model", "name", "normalizer_version", "output_ref", "parent_span_id", "project_id", "raw_ref", "schema_version", "seq", "span_id", "start_time", "status", "tenant_id", "tokens", "trace_id", "unmapped_attrs"]
+    trace_id: StrictStr = Field(alias="traceId")
+    unmapped_attrs: Optional[Any] = Field(alias="unmappedAttrs")
+    __properties: ClassVar[List[str]] = ["attributes", "cost", "endTime", "environmentId", "inputRef", "kind", "model", "name", "normalizerVersion", "outputRef", "parentSpanId", "projectId", "rawRef", "schemaVersion", "seq", "spanId", "startTime", "status", "tenantId", "tokens", "traceId", "unmappedAttrs"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,16 +101,16 @@ class CanonicalSpan(BaseModel):
             _dict['cost'] = self.cost.to_dict()
         # override the default output from pydantic by calling `to_dict()` of input_ref
         if self.input_ref:
-            _dict['input_ref'] = self.input_ref.to_dict()
+            _dict['inputRef'] = self.input_ref.to_dict()
         # override the default output from pydantic by calling `to_dict()` of model
         if self.model:
             _dict['model'] = self.model.to_dict()
         # override the default output from pydantic by calling `to_dict()` of output_ref
         if self.output_ref:
-            _dict['output_ref'] = self.output_ref.to_dict()
+            _dict['outputRef'] = self.output_ref.to_dict()
         # override the default output from pydantic by calling `to_dict()` of raw_ref
         if self.raw_ref:
-            _dict['raw_ref'] = self.raw_ref.to_dict()
+            _dict['rawRef'] = self.raw_ref.to_dict()
         # override the default output from pydantic by calling `to_dict()` of tokens
         if self.tokens:
             _dict['tokens'] = self.tokens.to_dict()
@@ -122,12 +122,12 @@ class CanonicalSpan(BaseModel):
         # set to None if end_time (nullable) is None
         # and model_fields_set contains the field
         if self.end_time is None and "end_time" in self.model_fields_set:
-            _dict['end_time'] = None
+            _dict['endTime'] = None
 
         # set to None if input_ref (nullable) is None
         # and model_fields_set contains the field
         if self.input_ref is None and "input_ref" in self.model_fields_set:
-            _dict['input_ref'] = None
+            _dict['inputRef'] = None
 
         # set to None if model (nullable) is None
         # and model_fields_set contains the field
@@ -137,7 +137,7 @@ class CanonicalSpan(BaseModel):
         # set to None if output_ref (nullable) is None
         # and model_fields_set contains the field
         if self.output_ref is None and "output_ref" in self.model_fields_set:
-            _dict['output_ref'] = None
+            _dict['outputRef'] = None
 
         # set to None if tokens (nullable) is None
         # and model_fields_set contains the field
@@ -147,7 +147,7 @@ class CanonicalSpan(BaseModel):
         # set to None if unmapped_attrs (nullable) is None
         # and model_fields_set contains the field
         if self.unmapped_attrs is None and "unmapped_attrs" in self.model_fields_set:
-            _dict['unmapped_attrs'] = None
+            _dict['unmappedAttrs'] = None
 
         return _dict
 
@@ -163,26 +163,26 @@ class CanonicalSpan(BaseModel):
         _obj = cls.model_validate({
             "attributes": obj.get("attributes"),
             "cost": Money.from_dict(obj["cost"]) if obj.get("cost") is not None else None,
-            "end_time": obj.get("end_time"),
-            "environment_id": obj.get("environment_id"),
-            "input_ref": ArtifactRef.from_dict(obj["input_ref"]) if obj.get("input_ref") is not None else None,
+            "endTime": obj.get("endTime"),
+            "environmentId": obj.get("environmentId"),
+            "inputRef": ArtifactRef.from_dict(obj["inputRef"]) if obj.get("inputRef") is not None else None,
             "kind": obj.get("kind"),
             "model": ModelRef.from_dict(obj["model"]) if obj.get("model") is not None else None,
             "name": obj.get("name"),
-            "normalizer_version": obj.get("normalizer_version"),
-            "output_ref": ArtifactRef.from_dict(obj["output_ref"]) if obj.get("output_ref") is not None else None,
-            "parent_span_id": obj.get("parent_span_id"),
-            "project_id": obj.get("project_id"),
-            "raw_ref": ArtifactRef.from_dict(obj["raw_ref"]) if obj.get("raw_ref") is not None else None,
-            "schema_version": obj.get("schema_version"),
+            "normalizerVersion": obj.get("normalizerVersion"),
+            "outputRef": ArtifactRef.from_dict(obj["outputRef"]) if obj.get("outputRef") is not None else None,
+            "parentSpanId": obj.get("parentSpanId"),
+            "projectId": obj.get("projectId"),
+            "rawRef": ArtifactRef.from_dict(obj["rawRef"]) if obj.get("rawRef") is not None else None,
+            "schemaVersion": obj.get("schemaVersion"),
             "seq": obj.get("seq"),
-            "span_id": obj.get("span_id"),
-            "start_time": obj.get("start_time"),
+            "spanId": obj.get("spanId"),
+            "startTime": obj.get("startTime"),
             "status": obj.get("status"),
-            "tenant_id": obj.get("tenant_id"),
+            "tenantId": obj.get("tenantId"),
             "tokens": TokenCounts.from_dict(obj["tokens"]) if obj.get("tokens") is not None else None,
-            "trace_id": obj.get("trace_id"),
-            "unmapped_attrs": obj.get("unmapped_attrs")
+            "traceId": obj.get("traceId"),
+            "unmappedAttrs": obj.get("unmappedAttrs")
         })
         return _obj
 

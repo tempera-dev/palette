@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SearchHit {
-    #[serde(rename = "environment_id")]
+    #[serde(rename = "environmentId")]
     pub environment_id: String,
     #[serde(rename = "kind")]
     pub kind: String,
@@ -21,19 +21,19 @@ pub struct SearchHit {
     pub model: String,
     #[serde(rename = "name")]
     pub name: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "score")]
     pub score: f32,
-    #[serde(rename = "span_id")]
+    #[serde(rename = "spanId")]
     pub span_id: String,
     #[serde(rename = "status")]
     pub status: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "tool")]
     pub tool: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

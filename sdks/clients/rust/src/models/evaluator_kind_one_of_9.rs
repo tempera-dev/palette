@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 /// EvaluatorKindOneOf9 : Browser grounding: fraction of element-targeted steps that resolved to their intended element; score is the ratio, passes at `min_ratio`.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EvaluatorKindOneOf9 {
-    #[serde(rename = "min_ratio")]
+    #[serde(rename = "minRatio")]
     pub min_ratio: f64,
     #[serde(rename = "type")]
     pub r#type: Type,

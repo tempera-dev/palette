@@ -83,7 +83,7 @@ cJSON *judge_broker_outcome_convertToJSON(judge_broker_outcome_t *judge_broker_o
     if(remaining_budget_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "remaining_budget", remaining_budget_local_JSON);
+    cJSON_AddItemToObject(item, "remainingBudget", remaining_budget_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -136,7 +136,7 @@ judge_broker_outcome_t *judge_broker_outcome_parseFromJSON(cJSON *judge_broker_o
     audit_local_nonprim = judge_audit_record_parseFromJSON(audit); //nonprimitive
 
     // judge_broker_outcome->remaining_budget
-    cJSON *remaining_budget = cJSON_GetObjectItemCaseSensitive(judge_broker_outcomeJSON, "remaining_budget");
+    cJSON *remaining_budget = cJSON_GetObjectItemCaseSensitive(judge_broker_outcomeJSON, "remainingBudget");
     if (cJSON_IsNull(remaining_budget)) {
         remaining_budget = NULL;
     }

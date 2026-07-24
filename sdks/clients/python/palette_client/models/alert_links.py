@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,11 @@ class AlertLinks(BaseModel):
     """
     AlertLinks
     """ # noqa: E501
-    cluster_url: Optional[StrictStr] = None
-    dataset_url: Optional[StrictStr] = None
-    gate_url: Optional[StrictStr] = None
-    trace_url: StrictStr
-    __properties: ClassVar[List[str]] = ["cluster_url", "dataset_url", "gate_url", "trace_url"]
+    cluster_url: Optional[StrictStr] = Field(default=None, alias="clusterUrl")
+    dataset_url: Optional[StrictStr] = Field(default=None, alias="datasetUrl")
+    gate_url: Optional[StrictStr] = Field(default=None, alias="gateUrl")
+    trace_url: StrictStr = Field(alias="traceUrl")
+    __properties: ClassVar[List[str]] = ["clusterUrl", "datasetUrl", "gateUrl", "traceUrl"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,17 +74,17 @@ class AlertLinks(BaseModel):
         # set to None if cluster_url (nullable) is None
         # and model_fields_set contains the field
         if self.cluster_url is None and "cluster_url" in self.model_fields_set:
-            _dict['cluster_url'] = None
+            _dict['clusterUrl'] = None
 
         # set to None if dataset_url (nullable) is None
         # and model_fields_set contains the field
         if self.dataset_url is None and "dataset_url" in self.model_fields_set:
-            _dict['dataset_url'] = None
+            _dict['datasetUrl'] = None
 
         # set to None if gate_url (nullable) is None
         # and model_fields_set contains the field
         if self.gate_url is None and "gate_url" in self.model_fields_set:
-            _dict['gate_url'] = None
+            _dict['gateUrl'] = None
 
         return _dict
 
@@ -98,10 +98,10 @@ class AlertLinks(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cluster_url": obj.get("cluster_url"),
-            "dataset_url": obj.get("dataset_url"),
-            "gate_url": obj.get("gate_url"),
-            "trace_url": obj.get("trace_url")
+            "clusterUrl": obj.get("clusterUrl"),
+            "datasetUrl": obj.get("datasetUrl"),
+            "gateUrl": obj.get("gateUrl"),
+            "traceUrl": obj.get("traceUrl")
         })
         return _obj
 

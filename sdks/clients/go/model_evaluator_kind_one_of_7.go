@@ -21,9 +21,9 @@ var _ MappedNullable = &EvaluatorKindOneOf7{}
 
 // EvaluatorKindOneOf7 Browser world-state success: asserts the final step's observed page (url and/or DOM) matches the configured target — NOT the agent's self-reported \"done\". Reads `trace.browser_steps`.
 type EvaluatorKindOneOf7 struct {
-	DomContains NullableString `json:"dom_contains,omitempty"`
+	DomContains NullableString `json:"domContains,omitempty"`
 	Type string `json:"type"`
-	UrlContains NullableString `json:"url_contains,omitempty"`
+	UrlContains NullableString `json:"urlContains,omitempty"`
 }
 
 type _EvaluatorKindOneOf7 EvaluatorKindOneOf7
@@ -165,11 +165,11 @@ func (o EvaluatorKindOneOf7) MarshalJSON() ([]byte, error) {
 func (o EvaluatorKindOneOf7) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.DomContains.IsSet() {
-		toSerialize["dom_contains"] = o.DomContains.Get()
+		toSerialize["domContains"] = o.DomContains.Get()
 	}
 	toSerialize["type"] = o.Type
 	if o.UrlContains.IsSet() {
-		toSerialize["url_contains"] = o.UrlContains.Get()
+		toSerialize["urlContains"] = o.UrlContains.Get()
 	}
 	return toSerialize, nil
 }

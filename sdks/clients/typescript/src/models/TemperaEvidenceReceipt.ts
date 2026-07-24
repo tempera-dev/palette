@@ -147,18 +147,18 @@ export function TemperaEvidenceReceiptFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'created': json['created'],
-        'declaredContentSha256': json['declared_content_sha256'],
-        'externalId': json['external_id'],
+        'declaredContentSha256': json['declaredContentSha256'],
+        'externalId': json['externalId'],
         'kind': ExternalEvalEvidenceKindFromJSON(json['kind']),
-        'projectId': json['project_id'],
-        'publicKeySha256': json['public_key_sha256'],
-        'schemaVersion': json['schema_version'],
-        'signatureSha256': json['signature_sha256'],
-        'signedPayloadSha256': json['signed_payload_sha256'],
-        'sourceSchemaVersion': json['source_schema_version'],
-        'storedAt': (new Date(json['stored_at'])),
+        'projectId': json['projectId'],
+        'publicKeySha256': json['publicKeySha256'],
+        'schemaVersion': json['schemaVersion'],
+        'signatureSha256': json['signatureSha256'],
+        'signedPayloadSha256': json['signedPayloadSha256'],
+        'sourceSchemaVersion': json['sourceSchemaVersion'],
+        'storedAt': (new Date(json['storedAt'])),
         'summary': TemperaEvidenceSummaryFromJSON(json['summary']),
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -174,18 +174,18 @@ export function TemperaEvidenceReceiptToJSONTyped(value?: TemperaEvidenceReceipt
     return {
         
         'created': value['created'],
-        'declared_content_sha256': value['declaredContentSha256'],
-        'external_id': value['externalId'],
+        'declaredContentSha256': value['declaredContentSha256'],
+        'externalId': value['externalId'],
         'kind': ExternalEvalEvidenceKindToJSON(value['kind']),
-        'project_id': value['projectId'],
-        'public_key_sha256': value['publicKeySha256'],
-        'schema_version': value['schemaVersion'],
-        'signature_sha256': value['signatureSha256'],
-        'signed_payload_sha256': value['signedPayloadSha256'],
-        'source_schema_version': value['sourceSchemaVersion'],
-        'stored_at': ((value['storedAt']).toISOString()),
+        'projectId': value['projectId'],
+        'publicKeySha256': value['publicKeySha256'],
+        'schemaVersion': value['schemaVersion'],
+        'signatureSha256': value['signatureSha256'],
+        'signedPayloadSha256': value['signedPayloadSha256'],
+        'sourceSchemaVersion': value['sourceSchemaVersion'],
+        'storedAt': ((value['storedAt']).toISOString()),
         'summary': TemperaEvidenceSummaryToJSON(value['summary']),
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
     };
 }
 

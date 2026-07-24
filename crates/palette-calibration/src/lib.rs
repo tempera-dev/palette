@@ -27,6 +27,7 @@ pub enum CalibrationLabel {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CalibrationPolicy {
     pub pass_threshold: f64,
 }
@@ -40,6 +41,7 @@ impl Default for CalibrationPolicy {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CalibrationConfusion {
     pub human_pass_judge_pass: usize,
     pub human_pass_judge_fail: usize,
@@ -48,6 +50,7 @@ pub struct CalibrationConfusion {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ReliabilityBin {
     pub bin_index: usize,
     pub lower_bound: f64,
@@ -59,6 +62,7 @@ pub struct ReliabilityBin {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CalibrationItem {
     pub dataset_case_id: DatasetCaseId,
     pub human_label: CalibrationLabel,
@@ -72,6 +76,7 @@ pub struct CalibrationItem {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CalibrationReport {
     pub calibration_report_id: CalibrationReportId,
     pub tenant_id: TenantId,

@@ -57,7 +57,7 @@ cJSON *calibration_confusion_convertToJSON(calibration_confusion_t *calibration_
     if (!calibration_confusion->human_fail_judge_fail) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "human_fail_judge_fail", calibration_confusion->human_fail_judge_fail) == NULL) {
+    if(cJSON_AddNumberToObject(item, "humanFailJudgeFail", calibration_confusion->human_fail_judge_fail) == NULL) {
     goto fail; //Numeric
     }
 
@@ -66,7 +66,7 @@ cJSON *calibration_confusion_convertToJSON(calibration_confusion_t *calibration_
     if (!calibration_confusion->human_fail_judge_pass) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "human_fail_judge_pass", calibration_confusion->human_fail_judge_pass) == NULL) {
+    if(cJSON_AddNumberToObject(item, "humanFailJudgePass", calibration_confusion->human_fail_judge_pass) == NULL) {
     goto fail; //Numeric
     }
 
@@ -75,7 +75,7 @@ cJSON *calibration_confusion_convertToJSON(calibration_confusion_t *calibration_
     if (!calibration_confusion->human_pass_judge_fail) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "human_pass_judge_fail", calibration_confusion->human_pass_judge_fail) == NULL) {
+    if(cJSON_AddNumberToObject(item, "humanPassJudgeFail", calibration_confusion->human_pass_judge_fail) == NULL) {
     goto fail; //Numeric
     }
 
@@ -84,7 +84,7 @@ cJSON *calibration_confusion_convertToJSON(calibration_confusion_t *calibration_
     if (!calibration_confusion->human_pass_judge_pass) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "human_pass_judge_pass", calibration_confusion->human_pass_judge_pass) == NULL) {
+    if(cJSON_AddNumberToObject(item, "humanPassJudgePass", calibration_confusion->human_pass_judge_pass) == NULL) {
     goto fail; //Numeric
     }
 
@@ -101,7 +101,7 @@ calibration_confusion_t *calibration_confusion_parseFromJSON(cJSON *calibration_
     calibration_confusion_t *calibration_confusion_local_var = NULL;
 
     // calibration_confusion->human_fail_judge_fail
-    cJSON *human_fail_judge_fail = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "human_fail_judge_fail");
+    cJSON *human_fail_judge_fail = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "humanFailJudgeFail");
     if (cJSON_IsNull(human_fail_judge_fail)) {
         human_fail_judge_fail = NULL;
     }
@@ -116,7 +116,7 @@ calibration_confusion_t *calibration_confusion_parseFromJSON(cJSON *calibration_
     }
 
     // calibration_confusion->human_fail_judge_pass
-    cJSON *human_fail_judge_pass = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "human_fail_judge_pass");
+    cJSON *human_fail_judge_pass = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "humanFailJudgePass");
     if (cJSON_IsNull(human_fail_judge_pass)) {
         human_fail_judge_pass = NULL;
     }
@@ -131,7 +131,7 @@ calibration_confusion_t *calibration_confusion_parseFromJSON(cJSON *calibration_
     }
 
     // calibration_confusion->human_pass_judge_fail
-    cJSON *human_pass_judge_fail = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "human_pass_judge_fail");
+    cJSON *human_pass_judge_fail = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "humanPassJudgeFail");
     if (cJSON_IsNull(human_pass_judge_fail)) {
         human_pass_judge_fail = NULL;
     }
@@ -146,7 +146,7 @@ calibration_confusion_t *calibration_confusion_parseFromJSON(cJSON *calibration_
     }
 
     // calibration_confusion->human_pass_judge_pass
-    cJSON *human_pass_judge_pass = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "human_pass_judge_pass");
+    cJSON *human_pass_judge_pass = cJSON_GetObjectItemCaseSensitive(calibration_confusionJSON, "humanPassJudgePass");
     if (cJSON_IsNull(human_pass_judge_pass)) {
         human_pass_judge_pass = NULL;
     }

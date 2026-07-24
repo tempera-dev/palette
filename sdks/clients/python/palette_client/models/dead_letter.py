@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.bus_message import BusMessage
 from typing import Optional, Set
@@ -28,10 +28,10 @@ class DeadLetter(BaseModel):
     """
     DeadLetter
     """ # noqa: E501
-    failed_at: datetime
+    failed_at: datetime = Field(alias="failedAt")
     message: BusMessage
     reason: StrictStr
-    __properties: ClassVar[List[str]] = ["failed_at", "message", "reason"]
+    __properties: ClassVar[List[str]] = ["failedAt", "message", "reason"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,7 +87,7 @@ class DeadLetter(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "failed_at": obj.get("failed_at"),
+            "failedAt": obj.get("failedAt"),
             "message": BusMessage.from_dict(obj["message"]) if obj.get("message") is not None else None,
             "reason": obj.get("reason")
         })

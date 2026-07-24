@@ -77,14 +77,14 @@ public class CanonicalSpan {
   public static final String JSON_PROPERTY_COST = "cost";
   private JsonNullable<Money> cost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_END_TIME = "end_time";
+  public static final String JSON_PROPERTY_END_TIME = "endTime";
   private JsonNullable<OffsetDateTime> endTime = JsonNullable.<OffsetDateTime>undefined();
 
-  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environment_id";
+  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environmentId";
   @javax.annotation.Nonnull
   private String environmentId;
 
-  public static final String JSON_PROPERTY_INPUT_REF = "input_ref";
+  public static final String JSON_PROPERTY_INPUT_REF = "inputRef";
   private JsonNullable<ArtifactRef> inputRef = JsonNullable.<ArtifactRef>undefined();
 
   public static final String JSON_PROPERTY_KIND = "kind";
@@ -98,26 +98,26 @@ public class CanonicalSpan {
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_NORMALIZER_VERSION = "normalizer_version";
+  public static final String JSON_PROPERTY_NORMALIZER_VERSION = "normalizerVersion";
   @javax.annotation.Nonnull
   private String normalizerVersion;
 
-  public static final String JSON_PROPERTY_OUTPUT_REF = "output_ref";
+  public static final String JSON_PROPERTY_OUTPUT_REF = "outputRef";
   private JsonNullable<ArtifactRef> outputRef = JsonNullable.<ArtifactRef>undefined();
 
-  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parent_span_id";
+  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parentSpanId";
   @javax.annotation.Nullable
   private String parentSpanId;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_RAW_REF = "raw_ref";
+  public static final String JSON_PROPERTY_RAW_REF = "rawRef";
   @javax.annotation.Nonnull
   private ArtifactRef rawRef;
 
-  public static final String JSON_PROPERTY_SCHEMA_VERSION = "schema_version";
+  public static final String JSON_PROPERTY_SCHEMA_VERSION = "schemaVersion";
   @javax.annotation.Nonnull
   private Integer schemaVersion;
 
@@ -125,11 +125,11 @@ public class CanonicalSpan {
   @javax.annotation.Nonnull
   private Long seq;
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   @javax.annotation.Nonnull
   private String spanId;
 
-  public static final String JSON_PROPERTY_START_TIME = "start_time";
+  public static final String JSON_PROPERTY_START_TIME = "startTime";
   @javax.annotation.Nonnull
   private OffsetDateTime startTime;
 
@@ -137,18 +137,18 @@ public class CanonicalSpan {
   @javax.annotation.Nonnull
   private SpanStatus status;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
   public static final String JSON_PROPERTY_TOKENS = "tokens";
   private JsonNullable<TokenCounts> tokens = JsonNullable.<TokenCounts>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
-  public static final String JSON_PROPERTY_UNMAPPED_ATTRS = "unmapped_attrs";
+  public static final String JSON_PROPERTY_UNMAPPED_ATTRS = "unmappedAttrs";
   @javax.annotation.Nullable
   private Object unmappedAttrs = null;
 
@@ -880,19 +880,19 @@ public class CanonicalSpan {
       joiner.add(getCost().toUrlQueryString(prefix + "cost" + suffix));
     }
 
-    // add `end_time` to the URL query string
+    // add `endTime` to the URL query string
     if (getEndTime() != null) {
-      joiner.add(String.format("%send_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `environment_id` to the URL query string
+    // add `environmentId` to the URL query string
     if (getEnvironmentId() != null) {
-      joiner.add(String.format("%senvironment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senvironmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `input_ref` to the URL query string
+    // add `inputRef` to the URL query string
     if (getInputRef() != null) {
-      joiner.add(getInputRef().toUrlQueryString(prefix + "input_ref" + suffix));
+      joiner.add(getInputRef().toUrlQueryString(prefix + "inputRef" + suffix));
     }
 
     // add `kind` to the URL query string
@@ -910,34 +910,34 @@ public class CanonicalSpan {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `normalizer_version` to the URL query string
+    // add `normalizerVersion` to the URL query string
     if (getNormalizerVersion() != null) {
-      joiner.add(String.format("%snormalizer_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNormalizerVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snormalizerVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNormalizerVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `output_ref` to the URL query string
+    // add `outputRef` to the URL query string
     if (getOutputRef() != null) {
-      joiner.add(getOutputRef().toUrlQueryString(prefix + "output_ref" + suffix));
+      joiner.add(getOutputRef().toUrlQueryString(prefix + "outputRef" + suffix));
     }
 
-    // add `parent_span_id` to the URL query string
+    // add `parentSpanId` to the URL query string
     if (getParentSpanId() != null) {
-      joiner.add(String.format("%sparent_span_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sparentSpanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `raw_ref` to the URL query string
+    // add `rawRef` to the URL query string
     if (getRawRef() != null) {
-      joiner.add(getRawRef().toUrlQueryString(prefix + "raw_ref" + suffix));
+      joiner.add(getRawRef().toUrlQueryString(prefix + "rawRef" + suffix));
     }
 
-    // add `schema_version` to the URL query string
+    // add `schemaVersion` to the URL query string
     if (getSchemaVersion() != null) {
-      joiner.add(String.format("%sschema_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sschemaVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `seq` to the URL query string
@@ -945,14 +945,14 @@ public class CanonicalSpan {
       joiner.add(String.format("%sseq%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSeq()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `start_time` to the URL query string
+    // add `startTime` to the URL query string
     if (getStartTime() != null) {
-      joiner.add(String.format("%sstart_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstartTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -960,9 +960,9 @@ public class CanonicalSpan {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `tokens` to the URL query string
@@ -970,14 +970,14 @@ public class CanonicalSpan {
       joiner.add(getTokens().toUrlQueryString(prefix + "tokens" + suffix));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `unmapped_attrs` to the URL query string
+    // add `unmappedAttrs` to the URL query string
     if (getUnmappedAttrs() != null) {
-      joiner.add(String.format("%sunmapped_attrs%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnmappedAttrs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sunmappedAttrs%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnmappedAttrs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

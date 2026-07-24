@@ -76,7 +76,7 @@ cJSON *sampling_decision_convertToJSON(sampling_decision_t *sampling_decision) {
     if (!sampling_decision->stable_score_per_mille) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "stable_score_per_mille", sampling_decision->stable_score_per_mille) == NULL) {
+    if(cJSON_AddNumberToObject(item, "stableScorePerMille", sampling_decision->stable_score_per_mille) == NULL) {
     goto fail; //Numeric
     }
 
@@ -123,7 +123,7 @@ sampling_decision_t *sampling_decision_parseFromJSON(cJSON *sampling_decisionJSO
     }
 
     // sampling_decision->stable_score_per_mille
-    cJSON *stable_score_per_mille = cJSON_GetObjectItemCaseSensitive(sampling_decisionJSON, "stable_score_per_mille");
+    cJSON *stable_score_per_mille = cJSON_GetObjectItemCaseSensitive(sampling_decisionJSON, "stableScorePerMille");
     if (cJSON_IsNull(stable_score_per_mille)) {
         stable_score_per_mille = NULL;
     }

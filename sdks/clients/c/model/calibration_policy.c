@@ -45,7 +45,7 @@ cJSON *calibration_policy_convertToJSON(calibration_policy_t *calibration_policy
     if (!calibration_policy->pass_threshold) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "pass_threshold", calibration_policy->pass_threshold) == NULL) {
+    if(cJSON_AddNumberToObject(item, "passThreshold", calibration_policy->pass_threshold) == NULL) {
     goto fail; //Numeric
     }
 
@@ -62,7 +62,7 @@ calibration_policy_t *calibration_policy_parseFromJSON(cJSON *calibration_policy
     calibration_policy_t *calibration_policy_local_var = NULL;
 
     // calibration_policy->pass_threshold
-    cJSON *pass_threshold = cJSON_GetObjectItemCaseSensitive(calibration_policyJSON, "pass_threshold");
+    cJSON *pass_threshold = cJSON_GetObjectItemCaseSensitive(calibration_policyJSON, "passThreshold");
     if (cJSON_IsNull(pass_threshold)) {
         pass_threshold = NULL;
     }

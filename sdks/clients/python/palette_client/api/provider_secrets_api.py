@@ -348,9 +348,9 @@ class ProviderSecretsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -395,7 +395,7 @@ class ProviderSecretsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/provider-secrets/{tenant_id}/{project_id}',
+            resource_path='/v1/provider-secrets/{tenantId}/{projectId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -730,9 +730,9 @@ class ProviderSecretsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if page_size is not None:
 
@@ -770,7 +770,7 @@ class ProviderSecretsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/provider-secrets/{tenant_id}/{project_id}',
+            resource_path='/v1/provider-secrets/{tenantId}/{projectId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1095,11 +1095,11 @@ class ProviderSecretsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if provider_secret_id is not None:
-            _path_params['provider_secret_id'] = provider_secret_id
+            _path_params['providerSecretId'] = provider_secret_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1129,7 +1129,7 @@ class ProviderSecretsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke',
+            resource_path='/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

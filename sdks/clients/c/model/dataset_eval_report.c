@@ -116,7 +116,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->aggregate_score) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "aggregate_score", dataset_eval_report->aggregate_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "aggregateScore", dataset_eval_report->aggregate_score) == NULL) {
     goto fail; //Numeric
     }
 
@@ -125,7 +125,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", dataset_eval_report->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", dataset_eval_report->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -134,7 +134,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", dataset_eval_report->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", dataset_eval_report->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -143,7 +143,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->dataset_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_version_id", dataset_eval_report->dataset_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetVersionId", dataset_eval_report->dataset_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -152,7 +152,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", dataset_eval_report->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", dataset_eval_report->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -161,7 +161,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", dataset_eval_report->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", dataset_eval_report->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -170,7 +170,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->report_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "report_id", dataset_eval_report->report_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "reportId", dataset_eval_report->report_id) == NULL) {
     goto fail; //String
     }
 
@@ -179,7 +179,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->result_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "result_count", dataset_eval_report->result_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "resultCount", dataset_eval_report->result_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -209,7 +209,7 @@ cJSON *dataset_eval_report_convertToJSON(dataset_eval_report_t *dataset_eval_rep
     if (!dataset_eval_report->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", dataset_eval_report->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", dataset_eval_report->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -229,7 +229,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     list_t *resultsList = NULL;
 
     // dataset_eval_report->aggregate_score
-    cJSON *aggregate_score = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "aggregate_score");
+    cJSON *aggregate_score = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "aggregateScore");
     if (cJSON_IsNull(aggregate_score)) {
         aggregate_score = NULL;
     }
@@ -244,7 +244,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -259,7 +259,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -274,7 +274,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->dataset_version_id
-    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "dataset_version_id");
+    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "datasetVersionId");
     if (cJSON_IsNull(dataset_version_id)) {
         dataset_version_id = NULL;
     }
@@ -289,7 +289,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -304,7 +304,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -319,7 +319,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->report_id
-    cJSON *report_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "report_id");
+    cJSON *report_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "reportId");
     if (cJSON_IsNull(report_id)) {
         report_id = NULL;
     }
@@ -334,7 +334,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->result_count
-    cJSON *result_count = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "result_count");
+    cJSON *result_count = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "resultCount");
     if (cJSON_IsNull(result_count)) {
         result_count = NULL;
     }
@@ -376,7 +376,7 @@ dataset_eval_report_t *dataset_eval_report_parseFromJSON(cJSON *dataset_eval_rep
     }
 
     // dataset_eval_report->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_eval_reportJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

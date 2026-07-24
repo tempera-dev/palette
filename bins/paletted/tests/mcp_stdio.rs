@@ -96,7 +96,7 @@ fn paletted_mcp_stdio_calls_help_tool() -> anyhow::Result<()> {
     let tool = &result["structuredContent"]["tool"];
     assert_eq!(tool["name"], "traces.list");
     assert_eq!(tool["method"], "GET");
-    assert_eq!(tool["path"], "/v1/traces/{tenant_id}");
+    assert_eq!(tool["path"], "/v1/traces/{tenantId}");
     assert!(
         tool["inputSchema"].is_object(),
         "help should describe traces.list input schema: {rpc}"

@@ -75,7 +75,7 @@ cJSON *create_gate_request_convertToJSON(create_gate_request_t *create_gate_requ
 
     // create_gate_request->dataset_id
     if(create_gate_request->dataset_id) {
-    if(cJSON_AddStringToObject(item, "dataset_id", create_gate_request->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", create_gate_request->dataset_id) == NULL) {
     goto fail; //String
     }
     }
@@ -83,7 +83,7 @@ cJSON *create_gate_request_convertToJSON(create_gate_request_t *create_gate_requ
 
     // create_gate_request->evaluator_version_id
     if(create_gate_request->evaluator_version_id) {
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", create_gate_request->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", create_gate_request->evaluator_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -93,7 +93,7 @@ cJSON *create_gate_request_convertToJSON(create_gate_request_t *create_gate_requ
     if (!create_gate_request->gate_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "gate_id", create_gate_request->gate_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateId", create_gate_request->gate_id) == NULL) {
     goto fail; //String
     }
 
@@ -104,7 +104,7 @@ cJSON *create_gate_request_convertToJSON(create_gate_request_t *create_gate_requ
     if(inconclusive_policy_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "inconclusive_policy", inconclusive_policy_local_JSON);
+    cJSON_AddItemToObject(item, "inconclusivePolicy", inconclusive_policy_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -135,7 +135,7 @@ create_gate_request_t *create_gate_request_parseFromJSON(cJSON *create_gate_requ
     palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // create_gate_request->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -147,7 +147,7 @@ create_gate_request_t *create_gate_request_parseFromJSON(cJSON *create_gate_requ
     }
 
     // create_gate_request->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -159,7 +159,7 @@ create_gate_request_t *create_gate_request_parseFromJSON(cJSON *create_gate_requ
     }
 
     // create_gate_request->gate_id
-    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "gate_id");
+    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "gateId");
     if (cJSON_IsNull(gate_id)) {
         gate_id = NULL;
     }
@@ -174,7 +174,7 @@ create_gate_request_t *create_gate_request_parseFromJSON(cJSON *create_gate_requ
     }
 
     // create_gate_request->inconclusive_policy
-    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "inconclusive_policy");
+    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "inconclusivePolicy");
     if (cJSON_IsNull(inconclusive_policy)) {
         inconclusive_policy = NULL;
     }

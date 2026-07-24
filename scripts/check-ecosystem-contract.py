@@ -20,9 +20,9 @@ REQUIRED_DOC_MARKERS = (
     "PALETTE_TRACE_EXPORT_URL",
     "PALETTE_OTLP_EXPORT_URL",
     "POST /v1/traces",
-    "POST /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces",
+    "POST /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces",
     "POST /v1/traces/native",
-    "POST /v1/import/{tenant_id}/{project_id}/{environment_id}",
+    "POST /v1/import/{tenantId}/{projectId}/{environmentId}",
     "control plane owns checkout",
     "must not authorize or block local paletteOS actions",
     "PaymentEnvelope",
@@ -35,8 +35,8 @@ REQUIRED_DOC_MARKERS = (
 REQUIRED_API_MARKERS = (
     '.route("/v1/traces", post(ingest_otlp_json_collector))',
     '.route("/v1/traces/native", post(ingest_native))',
-    '"/v1/otlp/:tenant_id/:project_id/:environment_id/v1/traces"',
-    '"/v1/import/:tenant_id/:project_id/:environment_id"',
+    '"/v1/otlp/:tenantId/:projectId/:environmentId/v1/traces"',
+    '"/v1/import/:tenantId/:projectId/:environmentId"',
     "paletteos.payment_mandate_id",
     "aether.payment_envelope_id",
 )

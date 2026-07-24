@@ -179,22 +179,22 @@ public class SearchApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/search/{tenant_id}/spans"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()));
+    String localVarPath = "/v1/search/{tenantId}/spans"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "q";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("q", q));
-    localVarQueryParameterBaseName = "project_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("project_id", projectId));
-    localVarQueryParameterBaseName = "environment_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("environment_id", environmentId));
-    localVarQueryParameterBaseName = "trace_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("trace_id", traceId));
-    localVarQueryParameterBaseName = "span_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("span_id", spanId));
+    localVarQueryParameterBaseName = "projectId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("projectId", projectId));
+    localVarQueryParameterBaseName = "environmentId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("environmentId", environmentId));
+    localVarQueryParameterBaseName = "traceId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("traceId", traceId));
+    localVarQueryParameterBaseName = "spanId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("spanId", spanId));
     localVarQueryParameterBaseName = "kind";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("kind", kind));
     localVarQueryParameterBaseName = "status";

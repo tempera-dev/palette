@@ -89,7 +89,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->adjusted_alpha) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "adjusted_alpha", experiment_comparison->adjusted_alpha) == NULL) {
+    if(cJSON_AddNumberToObject(item, "adjustedAlpha", experiment_comparison->adjusted_alpha) == NULL) {
     goto fail; //Numeric
     }
 
@@ -98,7 +98,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->baseline_mean) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "baseline_mean", experiment_comparison->baseline_mean) == NULL) {
+    if(cJSON_AddNumberToObject(item, "baselineMean", experiment_comparison->baseline_mean) == NULL) {
     goto fail; //Numeric
     }
 
@@ -107,7 +107,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->candidate_mean) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "candidate_mean", experiment_comparison->candidate_mean) == NULL) {
+    if(cJSON_AddNumberToObject(item, "candidateMean", experiment_comparison->candidate_mean) == NULL) {
     goto fail; //Numeric
     }
 
@@ -116,7 +116,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->ci_high) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "ci_high", experiment_comparison->ci_high) == NULL) {
+    if(cJSON_AddNumberToObject(item, "ciHigh", experiment_comparison->ci_high) == NULL) {
     goto fail; //Numeric
     }
 
@@ -125,7 +125,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->ci_low) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "ci_low", experiment_comparison->ci_low) == NULL) {
+    if(cJSON_AddNumberToObject(item, "ciLow", experiment_comparison->ci_low) == NULL) {
     goto fail; //Numeric
     }
 
@@ -165,14 +165,14 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->p_value) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "p_value", experiment_comparison->p_value) == NULL) {
+    if(cJSON_AddNumberToObject(item, "pValue", experiment_comparison->p_value) == NULL) {
     goto fail; //Numeric
     }
 
 
     // experiment_comparison->required_n
     if(experiment_comparison->required_n) {
-    if(cJSON_AddNumberToObject(item, "required_n", experiment_comparison->required_n) == NULL) {
+    if(cJSON_AddNumberToObject(item, "requiredN", experiment_comparison->required_n) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -182,7 +182,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
     if (!experiment_comparison->sample_size) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "sample_size", experiment_comparison->sample_size) == NULL) {
+    if(cJSON_AddNumberToObject(item, "sampleSize", experiment_comparison->sample_size) == NULL) {
     goto fail; //Numeric
     }
 
@@ -219,7 +219,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     palette_api_statistical_test__e test_local_nonprim = 0;
 
     // experiment_comparison->adjusted_alpha
-    cJSON *adjusted_alpha = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "adjusted_alpha");
+    cJSON *adjusted_alpha = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "adjustedAlpha");
     if (cJSON_IsNull(adjusted_alpha)) {
         adjusted_alpha = NULL;
     }
@@ -234,7 +234,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->baseline_mean
-    cJSON *baseline_mean = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "baseline_mean");
+    cJSON *baseline_mean = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "baselineMean");
     if (cJSON_IsNull(baseline_mean)) {
         baseline_mean = NULL;
     }
@@ -249,7 +249,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->candidate_mean
-    cJSON *candidate_mean = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "candidate_mean");
+    cJSON *candidate_mean = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "candidateMean");
     if (cJSON_IsNull(candidate_mean)) {
         candidate_mean = NULL;
     }
@@ -264,7 +264,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->ci_high
-    cJSON *ci_high = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "ci_high");
+    cJSON *ci_high = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "ciHigh");
     if (cJSON_IsNull(ci_high)) {
         ci_high = NULL;
     }
@@ -279,7 +279,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->ci_low
-    cJSON *ci_low = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "ci_low");
+    cJSON *ci_low = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "ciLow");
     if (cJSON_IsNull(ci_low)) {
         ci_low = NULL;
     }
@@ -333,7 +333,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->p_value
-    cJSON *p_value = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "p_value");
+    cJSON *p_value = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "pValue");
     if (cJSON_IsNull(p_value)) {
         p_value = NULL;
     }
@@ -348,7 +348,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->required_n
-    cJSON *required_n = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "required_n");
+    cJSON *required_n = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "requiredN");
     if (cJSON_IsNull(required_n)) {
         required_n = NULL;
     }
@@ -360,7 +360,7 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     }
 
     // experiment_comparison->sample_size
-    cJSON *sample_size = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "sample_size");
+    cJSON *sample_size = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "sampleSize");
     if (cJSON_IsNull(sample_size)) {
         sample_size = NULL;
     }

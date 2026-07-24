@@ -22,6 +22,7 @@ pub enum BusError {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct BusMessage {
     pub message_id: String,
     pub tenant_id: TenantId,
@@ -58,6 +59,7 @@ impl BusMessage {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DeadLetter {
     pub message: BusMessage,
     pub reason: String,

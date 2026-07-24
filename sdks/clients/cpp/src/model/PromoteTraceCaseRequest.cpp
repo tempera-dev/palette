@@ -21,10 +21,10 @@ namespace model {
 PromoteTraceCaseRequest::PromoteTraceCaseRequest()
 {
     m_ReferenceIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 PromoteTraceCaseRequest::~PromoteTraceCaseRequest()
@@ -44,15 +44,15 @@ web::json::value PromoteTraceCaseRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("reference"))] = ModelBase::toJson(m_Reference);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -72,9 +72,9 @@ bool PromoteTraceCaseRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -83,9 +83,9 @@ bool PromoteTraceCaseRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -108,13 +108,13 @@ void PromoteTraceCaseRequest::toMultipart(std::shared_ptr<MultipartFormData> mul
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reference")), m_Reference));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -133,16 +133,16 @@ bool PromoteTraceCaseRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reference"))), refVal_setReference );
         setReference(refVal_setReference);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -172,45 +172,45 @@ void PromoteTraceCaseRequest::unsetReference()
 }
 utility::string_t PromoteTraceCaseRequest::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void PromoteTraceCaseRequest::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool PromoteTraceCaseRequest::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void PromoteTraceCaseRequest::unsetSpan_id()
+void PromoteTraceCaseRequest::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t PromoteTraceCaseRequest::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void PromoteTraceCaseRequest::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool PromoteTraceCaseRequest::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void PromoteTraceCaseRequest::unsetTrace_id()
+void PromoteTraceCaseRequest::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

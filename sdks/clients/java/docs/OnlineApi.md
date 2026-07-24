@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**onlineDecideSampling**](OnlineApi.md#onlineDecideSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
-| [**onlineDecideSamplingWithHttpInfo**](OnlineApi.md#onlineDecideSamplingWithHttpInfo) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
+| [**onlineDecideSampling**](OnlineApi.md#onlineDecideSampling) | **POST** /v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling |  |
+| [**onlineDecideSamplingWithHttpInfo**](OnlineApi.md#onlineDecideSamplingWithHttpInfo) | **POST** /v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling |  |
 
 
 

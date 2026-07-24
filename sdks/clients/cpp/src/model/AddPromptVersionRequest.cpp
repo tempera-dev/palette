@@ -20,8 +20,8 @@ namespace model {
 
 AddPromptVersionRequest::AddPromptVersionRequest()
 {
-    m_Created_by = utility::conversions::to_string_t("");
-    m_Created_byIsSet = false;
+    m_CreatedBy = utility::conversions::to_string_t("");
+    m_CreatedByIsSet = false;
     m_Message = utility::conversions::to_string_t("");
     m_MessageIsSet = false;
     m_r_templateIsSet = false;
@@ -39,10 +39,10 @@ void AddPromptVersionRequest::validate()
 web::json::value AddPromptVersionRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_by"))] = ModelBase::toJson(m_Created_by);
+        val[utility::conversions::to_string_t(U("createdBy"))] = ModelBase::toJson(m_CreatedBy);
     }
     if(m_MessageIsSet)
     {   
@@ -61,9 +61,9 @@ web::json::value AddPromptVersionRequest::toJson() const
 bool AddPromptVersionRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_by"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdBy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_by")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdBy")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCreatedBy;
@@ -104,9 +104,9 @@ void AddPromptVersionRequest::toMultipart(std::shared_ptr<MultipartFormData> mul
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_by")), m_Created_by));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdBy")), m_CreatedBy));
     }
     if(m_MessageIsSet)
     {
@@ -127,10 +127,10 @@ bool AddPromptVersionRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_by"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdBy"))))
     {
         utility::string_t refVal_setCreatedBy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_by"))), refVal_setCreatedBy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdBy"))), refVal_setCreatedBy );
         setCreatedBy(refVal_setCreatedBy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("message"))))
@@ -151,24 +151,24 @@ bool AddPromptVersionRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
 
 utility::string_t AddPromptVersionRequest::getCreatedBy() const
 {
-    return m_Created_by;
+    return m_CreatedBy;
 }
 
 
 void AddPromptVersionRequest::setCreatedBy(const utility::string_t& value)
 {
-    m_Created_by = value;
-    m_Created_byIsSet = true;
+    m_CreatedBy = value;
+    m_CreatedByIsSet = true;
 }
 
 bool AddPromptVersionRequest::createdByIsSet() const
 {
-    return m_Created_byIsSet;
+    return m_CreatedByIsSet;
 }
 
-void AddPromptVersionRequest::unsetCreated_by()
+void AddPromptVersionRequest::unsetCreatedBy()
 {
-    m_Created_byIsSet = false;
+    m_CreatedByIsSet = false;
 }
 utility::string_t AddPromptVersionRequest::getMessage() const
 {

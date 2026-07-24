@@ -51,8 +51,8 @@ export function MineScenariosRequestFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'jaccardThreshold': json['jaccard_threshold'] == null ? undefined : json['jaccard_threshold'],
-        'traceIds': json['trace_ids'],
+        'jaccardThreshold': json['jaccardThreshold'] == null ? undefined : json['jaccardThreshold'],
+        'traceIds': json['traceIds'],
     };
 }
 
@@ -67,8 +67,8 @@ export function MineScenariosRequestToJSONTyped(value?: MineScenariosRequest | n
 
     return {
         
-        'jaccard_threshold': value['jaccardThreshold'],
-        'trace_ids': value['traceIds'],
+        'jaccardThreshold': value['jaccardThreshold'],
+        'traceIds': value['traceIds'],
     };
 }
 

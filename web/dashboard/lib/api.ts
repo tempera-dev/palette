@@ -34,14 +34,14 @@ export type DashboardQuery = {
   selectedSpanId?: string;
   status?: TraceListQuery["status"];
   kind?: TraceListQuery["kind"];
-  startedAfter?: TraceListQuery["started_after"];
-  startedBefore?: TraceListQuery["started_before"];
+  startedAfter?: TraceListQuery["startedAfter"];
+  startedBefore?: TraceListQuery["startedBefore"];
   model?: TraceListQuery["model"];
   release?: TraceListQuery["release"];
-  minCostMicros?: TraceListQuery["min_cost_micros"];
-  maxCostMicros?: TraceListQuery["max_cost_micros"];
-  minLatencyMs?: TraceListQuery["min_latency_ms"];
-  maxLatencyMs?: TraceListQuery["max_latency_ms"];
+  minCostMicros?: TraceListQuery["minCostMicros"];
+  maxCostMicros?: TraceListQuery["maxCostMicros"];
+  minLatencyMs?: TraceListQuery["minLatencyMs"];
+  maxLatencyMs?: TraceListQuery["maxLatencyMs"];
   unmask?: TraceReadQuery["unmask"];
   unmaskReason?: TraceReadQuery["reason"];
 };
@@ -58,11 +58,11 @@ export type DashboardData = {
 
 export type SearchQuery = {
   tenantId: string;
-  projectId?: SearchQueryParams["project_id"];
-  environmentId?: SearchQueryParams["environment_id"];
+  projectId?: SearchQueryParams["projectId"];
+  environmentId?: SearchQueryParams["environmentId"];
   q?: SearchQueryParams["q"];
-  traceId?: SearchQueryParams["trace_id"];
-  spanId?: SearchQueryParams["span_id"];
+  traceId?: SearchQueryParams["traceId"];
+  spanId?: SearchQueryParams["spanId"];
   kind?: SearchQueryParams["kind"];
   status?: SearchQueryParams["status"];
   model?: SearchQueryParams["model"];
@@ -105,28 +105,28 @@ export function dashboardApiHeaders(
 
 export function searchParamsForTraceList(query: DashboardQuery): URLSearchParams {
   const params = new URLSearchParams();
-  if (query.projectId) params.set("project_id", query.projectId);
-  if (query.environmentId) params.set("environment_id", query.environmentId);
-  if (query.traceId) params.set("trace_id", query.traceId);
+  if (query.projectId) params.set("projectId", query.projectId);
+  if (query.environmentId) params.set("environmentId", query.environmentId);
+  if (query.traceId) params.set("traceId", query.traceId);
   applyFilterParams(query, params);
   params.set("pageSize", "50");
   return params;
 }
 
 export function traceListPath(query: DashboardQuery): string {
-  const path: TraceListPathParams = { tenant_id: query.tenantId };
+  const path: TraceListPathParams = { tenantId: query.tenantId };
   const params = searchParamsForTraceList(query);
   const suffix = params.toString();
-  return `/v1/traces/${encodeURIComponent(path.tenant_id)}${suffix ? `?${suffix}` : ""}`;
+  return `/v1/traces/${encodeURIComponent(path.tenantId)}${suffix ? `?${suffix}` : ""}`;
 }
 
 export function searchParamsForSpanSearch(query: SearchQuery): URLSearchParams {
   const params = new URLSearchParams();
   if (query.q) params.set("q", query.q);
-  if (query.projectId) params.set("project_id", query.projectId);
-  if (query.environmentId) params.set("environment_id", query.environmentId);
-  if (query.traceId) params.set("trace_id", query.traceId);
-  if (query.spanId) params.set("span_id", query.spanId);
+  if (query.projectId) params.set("projectId", query.projectId);
+  if (query.environmentId) params.set("environmentId", query.environmentId);
+  if (query.traceId) params.set("traceId", query.traceId);
+  if (query.spanId) params.set("spanId", query.spanId);
   if (query.kind) params.set("kind", query.kind);
   if (query.status) params.set("status", query.status);
   if (query.model) params.set("model", query.model);
@@ -136,45 +136,45 @@ export function searchParamsForSpanSearch(query: SearchQuery): URLSearchParams {
 }
 
 export function searchSpansPath(query: SearchQuery): string {
-  const path: SearchPathParams = { tenant_id: query.tenantId };
+  const path: SearchPathParams = { tenantId: query.tenantId };
   const params = searchParamsForSpanSearch(query);
   const suffix = params.toString();
-  return `/v1/search/${encodeURIComponent(path.tenant_id)}/spans${suffix ? `?${suffix}` : ""}`;
+  return `/v1/search/${encodeURIComponent(path.tenantId)}/spans${suffix ? `?${suffix}` : ""}`;
 }
 
 export function tracePath(query: DashboardQuery, traceId: string): string {
-  const path: TracePathParams = { tenant_id: query.tenantId, trace_id: traceId };
+  const path: TracePathParams = { tenantId: query.tenantId, traceId: traceId };
   const params = traceReadParams(query);
   const suffix = params.toString();
-  return `/v1/traces/${encodeURIComponent(path.tenant_id)}/${encodeURIComponent(path.trace_id)}${
+  return `/v1/traces/${encodeURIComponent(path.tenantId)}/${encodeURIComponent(path.traceId)}${
     suffix ? `?${suffix}` : ""
   }`;
 }
 
 export function spanPath(query: DashboardQuery, traceId: string, spanId: string): string {
   const path: SpanPathParams = {
-    tenant_id: query.tenantId,
-    trace_id: traceId,
-    span_id: spanId
+    tenantId: query.tenantId,
+    traceId: traceId,
+    spanId: spanId
   };
   const params = traceReadParams(query);
   const suffix = params.toString();
-  return `/v1/spans/${encodeURIComponent(path.tenant_id)}/${encodeURIComponent(
-    path.trace_id
-  )}/${encodeURIComponent(path.span_id)}${suffix ? `?${suffix}` : ""}`;
+  return `/v1/spans/${encodeURIComponent(path.tenantId)}/${encodeURIComponent(
+    path.traceId
+  )}/${encodeURIComponent(path.spanId)}${suffix ? `?${suffix}` : ""}`;
 }
 
 export function spanIoPath(query: DashboardQuery, traceId: string, spanId: string): string {
   const path: SpanIoPathParams = {
-    tenant_id: query.tenantId,
-    trace_id: traceId,
-    span_id: spanId
+    tenantId: query.tenantId,
+    traceId: traceId,
+    spanId: spanId
   };
   const params = traceReadParams(query);
   const suffix = params.toString();
-  return `/v1/spans/${encodeURIComponent(path.tenant_id)}/${encodeURIComponent(
-    path.trace_id
-  )}/${encodeURIComponent(path.span_id)}/io${suffix ? `?${suffix}` : ""}`;
+  return `/v1/spans/${encodeURIComponent(path.tenantId)}/${encodeURIComponent(
+    path.traceId
+  )}/${encodeURIComponent(path.spanId)}/io${suffix ? `?${suffix}` : ""}`;
 }
 
 function traceReadParams(query: DashboardQuery): URLSearchParams {
@@ -222,13 +222,13 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
   }
 
   const activeRun = query.traceId
-    ? runs.runs.find((run) => run.trace_id === query.traceId) ?? runs.runs[0]
+    ? runs.runs.find((run) => run.traceId === query.traceId) ?? runs.runs[0]
     : runs.runs[0];
-  const activeTraceId = query.traceId || activeRun?.trace_id;
-  const activeRunMatchesTrace = activeRun !== undefined && activeRun.trace_id === activeTraceId;
+  const activeTraceId = query.traceId || activeRun?.traceId;
+  const activeRunMatchesTrace = activeRun !== undefined && activeRun.traceId === activeTraceId;
   const traceQuery =
-    activeRunMatchesTrace && activeRun.project_id && !query.projectId
-      ? { ...query, projectId: activeRun.project_id }
+    activeRunMatchesTrace && activeRun.projectId && !query.projectId
+      ? { ...query, projectId: activeRun.projectId }
       : query;
   let trace: TraceView | null = null;
   let selectedSpan: CanonicalSpan | null = null;
@@ -249,20 +249,20 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
   const waterfallSpans = trace ? orderSpansForWaterfall(trace.spans) : [];
   const requestedSpanFromTrace =
     trace && query.selectedSpanId
-      ? waterfallSpans.find((span) => span.span_id === query.selectedSpanId) ?? null
+      ? waterfallSpans.find((span) => span.spanId === query.selectedSpanId) ?? null
       : null;
   const selectedSpanFromTrace = query.selectedSpanId
     ? requestedSpanFromTrace
     : waterfallSpans[0] ?? null;
   if (trace && query.selectedSpanId && !requestedSpanFromTrace) {
-    error = `Span ${query.selectedSpanId} was not found in trace ${trace.trace_id}.`;
+    error = `Span ${query.selectedSpanId} was not found in trace ${trace.traceId}.`;
   }
-  const activeSpanId = selectedSpanFromTrace?.span_id;
+  const activeSpanId = selectedSpanFromTrace?.spanId;
 
   if (trace && activeSpanId) {
     try {
       selectedSpan = await fetchJson<CanonicalSpan>(
-        `${apiBaseUrl}${spanPath(traceQuery, trace.trace_id, activeSpanId)}`,
+        `${apiBaseUrl}${spanPath(traceQuery, trace.traceId, activeSpanId)}`,
         dashboardApiHeaders(traceQuery)
       );
     } catch (spanError) {
@@ -274,7 +274,7 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
   if (trace && selectedSpan) {
     try {
       selectedIo = await fetchJson<SpanIoResponse>(
-        `${apiBaseUrl}${spanIoPath(traceQuery, trace.trace_id, selectedSpan.span_id)}`,
+        `${apiBaseUrl}${spanIoPath(traceQuery, trace.traceId, selectedSpan.spanId)}`,
         dashboardApiHeaders(traceQuery)
       );
     } catch (ioError) {
@@ -368,7 +368,7 @@ export function timestampMicros(value: string): number | null {
 
 export function formatCost(cost: Money | null | undefined): string {
   if (!cost) return "none";
-  return `${cost.currency} ${(cost.amount_micros / 1_000_000).toFixed(6)}`;
+  return `${cost.currency} ${(cost.amountMicros / 1_000_000).toFixed(6)}`;
 }
 
 export function formatModels(models: RunSummary["models"] | undefined): string {
@@ -391,7 +391,7 @@ export function formatLatency(durationMs: number | null | undefined): string {
 
 export function spanTokenTotal(span: Pick<CanonicalSpan, "tokens">): number {
   if (!span.tokens) return 0;
-  return span.tokens.input + span.tokens.output + span.tokens.cache_read + span.tokens.reasoning;
+  return span.tokens.input + span.tokens.output + span.tokens.cacheRead + span.tokens.reasoning;
 }
 
 export function spanTokenSummary(span: Pick<CanonicalSpan, "kind" | "tokens">): string {
@@ -406,8 +406,8 @@ export function spanTokenSummary(span: Pick<CanonicalSpan, "kind" | "tokens">): 
   if (span.tokens.reasoning > 0) {
     parts.push(`${span.tokens.reasoning.toLocaleString("en-US")} reasoning`);
   }
-  if (span.tokens.cache_read > 0) {
-    parts.push(`${span.tokens.cache_read.toLocaleString("en-US")} cached`);
+  if (span.tokens.cacheRead > 0) {
+    parts.push(`${span.tokens.cacheRead.toLocaleString("en-US")} cached`);
   }
   return parts.join(", ");
 }
@@ -425,16 +425,16 @@ export function ioVisibilityLabel(hasRedactedIo: boolean, unmask: boolean | unde
 
 type WaterfallSpan = Pick<
   CanonicalSpan,
-  "span_id" | "parent_span_id" | "start_time" | "seq"
+  "spanId" | "parentSpanId" | "startTime" | "seq"
 >;
 
 export function orderSpansForWaterfall<T extends WaterfallSpan>(spans: T[]): T[] {
-  const ids = new Set(spans.map((span) => span.span_id));
+  const ids = new Set(spans.map((span) => span.spanId));
   const children = new Map<string | null, T[]>();
   for (const span of spans) {
     const parentId =
-      span.parent_span_id && span.parent_span_id !== span.span_id && ids.has(span.parent_span_id)
-        ? span.parent_span_id
+      span.parentSpanId && span.parentSpanId !== span.spanId && ids.has(span.parentSpanId)
+        ? span.parentSpanId
         : null;
     const bucket = children.get(parentId) ?? [];
     bucket.push(span);
@@ -448,10 +448,10 @@ export function orderSpansForWaterfall<T extends WaterfallSpan>(spans: T[]): T[]
   const ordered: T[] = [];
   const seen = new Set<string>();
   const visit = (span: T) => {
-    if (seen.has(span.span_id)) return;
-    seen.add(span.span_id);
+    if (seen.has(span.spanId)) return;
+    seen.add(span.spanId);
     ordered.push(span);
-    for (const child of children.get(span.span_id) ?? []) {
+    for (const child of children.get(span.spanId) ?? []) {
       visit(child);
     }
   };
@@ -466,12 +466,12 @@ export function orderSpansForWaterfall<T extends WaterfallSpan>(spans: T[]): T[]
 }
 
 function compareWaterfallSiblings(left: WaterfallSpan, right: WaterfallSpan): number {
-  const leftStart = timestampMicros(left.start_time) ?? Number.MAX_SAFE_INTEGER;
-  const rightStart = timestampMicros(right.start_time) ?? Number.MAX_SAFE_INTEGER;
+  const leftStart = timestampMicros(left.startTime) ?? Number.MAX_SAFE_INTEGER;
+  const rightStart = timestampMicros(right.startTime) ?? Number.MAX_SAFE_INTEGER;
   if (leftStart !== rightStart) return leftStart - rightStart;
   if (left.seq !== right.seq) return left.seq - right.seq;
-  if (left.span_id < right.span_id) return -1;
-  if (left.span_id > right.span_id) return 1;
+  if (left.spanId < right.spanId) return -1;
+  if (left.spanId > right.spanId) return 1;
   return 0;
 }
 
@@ -483,13 +483,13 @@ function formatMilliseconds(ms: number): string {
 
 export function spanDepth(span: CanonicalSpan, spans: CanonicalSpan[]): number {
   let depth = 0;
-  let parent = span.parent_span_id;
-  const byId = new Map(spans.map((candidate) => [candidate.span_id, candidate]));
-  const seen = new Set([span.span_id]);
+  let parent = span.parentSpanId;
+  const byId = new Map(spans.map((candidate) => [candidate.spanId, candidate]));
+  const seen = new Set([span.spanId]);
   while (parent && byId.has(parent) && !seen.has(parent) && depth < 12) {
     depth += 1;
     seen.add(parent);
-    parent = byId.get(parent)?.parent_span_id ?? null;
+    parent = byId.get(parent)?.parentSpanId ?? null;
   }
   return depth;
 }

@@ -78,6 +78,7 @@ pub trait DatasetStore: Send + Sync {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct Dataset {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -88,6 +89,7 @@ pub struct Dataset {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DatasetCase {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -112,6 +114,7 @@ pub struct DatasetCase {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DatasetVersionSnapshot {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -223,6 +226,7 @@ pub struct DatasetJudgeEvalSpec {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DatasetEvalReport {
     pub report_id: String,
     pub tenant_id: TenantId,

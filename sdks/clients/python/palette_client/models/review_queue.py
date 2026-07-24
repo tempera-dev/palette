@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,13 +27,13 @@ class ReviewQueue(BaseModel):
     """
     ReviewQueue
     """ # noqa: E501
-    annotation_schema: Optional[Any]
-    created_at: datetime
+    annotation_schema: Optional[Any] = Field(alias="annotationSchema")
+    created_at: datetime = Field(alias="createdAt")
     name: StrictStr
-    project_id: StrictStr
-    queue_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["annotation_schema", "created_at", "name", "project_id", "queue_id", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    queue_id: StrictStr = Field(alias="queueId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["annotationSchema", "createdAt", "name", "projectId", "queueId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,7 +77,7 @@ class ReviewQueue(BaseModel):
         # set to None if annotation_schema (nullable) is None
         # and model_fields_set contains the field
         if self.annotation_schema is None and "annotation_schema" in self.model_fields_set:
-            _dict['annotation_schema'] = None
+            _dict['annotationSchema'] = None
 
         return _dict
 
@@ -91,12 +91,12 @@ class ReviewQueue(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "annotation_schema": obj.get("annotation_schema"),
-            "created_at": obj.get("created_at"),
+            "annotationSchema": obj.get("annotationSchema"),
+            "createdAt": obj.get("createdAt"),
             "name": obj.get("name"),
-            "project_id": obj.get("project_id"),
-            "queue_id": obj.get("queue_id"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "queueId": obj.get("queueId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

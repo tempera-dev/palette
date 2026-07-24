@@ -230,6 +230,7 @@ pub fn infer_failure_mode(trace: &TraceSummary) -> Option<FailureMode> {
 
 /// A cluster of failing traces that share a similar failure signature.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ScenarioCluster {
     /// The signature of the cluster's exemplar.
     pub signature: Signature,
@@ -374,6 +375,7 @@ fn dominant_mode(members: &[Failing]) -> FailureMode {
 
 /// Tunable knobs describing how a scenario may be perturbed during replay.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct PerturbationKnobs {
     /// Serve a stale version of a context source.
     pub stale_source: bool,
@@ -408,6 +410,7 @@ impl PerturbationKnobs {
 
 /// A reusable failure scenario mined from production traces.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct Scenario {
     /// Stable, deterministic identifier for the scenario.
     pub scenario_id: String,

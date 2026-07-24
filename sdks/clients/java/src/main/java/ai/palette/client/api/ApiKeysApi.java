@@ -177,10 +177,10 @@ public class ApiKeysApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{environment_id}", ApiClient.urlEncode(environmentId.toString()));
+    String localVarPath = "/v1/api-keys/{tenantId}/{projectId}/{environmentId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{environmentId}", ApiClient.urlEncode(environmentId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -307,11 +307,11 @@ public class ApiKeysApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{environment_id}", ApiClient.urlEncode(environmentId.toString()))
-        .replace("{api_key_id}", ApiClient.urlEncode(apiKeyId.toString()));
+    String localVarPath = "/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{environmentId}", ApiClient.urlEncode(environmentId.toString()))
+        .replace("{apiKeyId}", ApiClient.urlEncode(apiKeyId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

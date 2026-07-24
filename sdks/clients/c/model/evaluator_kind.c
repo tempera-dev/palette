@@ -163,7 +163,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
     if (!evaluator_kind->max_micros) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_micros", evaluator_kind->max_micros) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxMicros", evaluator_kind->max_micros) == NULL) {
     goto fail; //Numeric
     }
 
@@ -172,7 +172,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
     if (!evaluator_kind->max_ms) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_ms", evaluator_kind->max_ms) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxMs", evaluator_kind->max_ms) == NULL) {
     goto fail; //Numeric
     }
 
@@ -197,7 +197,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
 
     // evaluator_kind->dom_contains
     if(evaluator_kind->dom_contains) {
-    if(cJSON_AddStringToObject(item, "dom_contains", evaluator_kind->dom_contains) == NULL) {
+    if(cJSON_AddStringToObject(item, "domContains", evaluator_kind->dom_contains) == NULL) {
     goto fail; //String
     }
     }
@@ -205,7 +205,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
 
     // evaluator_kind->url_contains
     if(evaluator_kind->url_contains) {
-    if(cJSON_AddStringToObject(item, "url_contains", evaluator_kind->url_contains) == NULL) {
+    if(cJSON_AddStringToObject(item, "urlContains", evaluator_kind->url_contains) == NULL) {
     goto fail; //String
     }
     }
@@ -215,7 +215,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
     if (!evaluator_kind->max_steps) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_steps", evaluator_kind->max_steps) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxSteps", evaluator_kind->max_steps) == NULL) {
     goto fail; //Numeric
     }
 
@@ -224,7 +224,7 @@ cJSON *evaluator_kind_convertToJSON(evaluator_kind_t *evaluator_kind) {
     if (!evaluator_kind->min_ratio) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "min_ratio", evaluator_kind->min_ratio) == NULL) {
+    if(cJSON_AddNumberToObject(item, "minRatio", evaluator_kind->min_ratio) == NULL) {
     goto fail; //Numeric
     }
 
@@ -303,7 +303,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->max_micros
-    cJSON *max_micros = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "max_micros");
+    cJSON *max_micros = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "maxMicros");
     if (cJSON_IsNull(max_micros)) {
         max_micros = NULL;
     }
@@ -318,7 +318,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->max_ms
-    cJSON *max_ms = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "max_ms");
+    cJSON *max_ms = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "maxMs");
     if (cJSON_IsNull(max_ms)) {
         max_ms = NULL;
     }
@@ -363,7 +363,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->dom_contains
-    cJSON *dom_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "dom_contains");
+    cJSON *dom_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "domContains");
     if (cJSON_IsNull(dom_contains)) {
         dom_contains = NULL;
     }
@@ -375,7 +375,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->url_contains
-    cJSON *url_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "url_contains");
+    cJSON *url_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "urlContains");
     if (cJSON_IsNull(url_contains)) {
         url_contains = NULL;
     }
@@ -387,7 +387,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->max_steps
-    cJSON *max_steps = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "max_steps");
+    cJSON *max_steps = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "maxSteps");
     if (cJSON_IsNull(max_steps)) {
         max_steps = NULL;
     }
@@ -402,7 +402,7 @@ evaluator_kind_t *evaluator_kind_parseFromJSON(cJSON *evaluator_kindJSON){
     }
 
     // evaluator_kind->min_ratio
-    cJSON *min_ratio = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "min_ratio");
+    cJSON *min_ratio = cJSON_GetObjectItemCaseSensitive(evaluator_kindJSON, "minRatio");
     if (cJSON_IsNull(min_ratio)) {
         min_ratio = NULL;
     }

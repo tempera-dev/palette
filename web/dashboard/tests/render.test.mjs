@@ -489,7 +489,7 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /aria-label="Token breakdown"/);
   assert.match(page, /className="token-chip"/);
   assert.match(page, /label: "Reasoning", value: span\.tokens\.reasoning/);
-  assert.match(page, /label: "Cached", value: span\.tokens\.cache_read/);
+  assert.match(page, /label: "Cached", value: span\.tokens\.cacheRead/);
   assert.doesNotMatch(page, /label: "AI"/);
   assert.doesNotMatch(page, /label: "Fn"/);
   assert.match(page, /data-label="Spans"/);
@@ -523,11 +523,11 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.doesNotMatch(page, /next\.unmask \?\? query\.unmask/);
   assert.match(page, /name="status"/);
   assert.match(page, /name="kind"/);
-  assert.match(page, /name="started_after"/);
+  assert.match(page, /name="startedAfter"/);
   assert.match(page, /name="model"/);
   assert.match(page, /name="release"/);
-  assert.match(page, /name="min_cost_micros"/);
-  assert.match(page, /name="min_latency_ms"/);
+  assert.match(page, /name="minCostMicros"/);
+  assert.match(page, /name="minLatencyMs"/);
   assert.match(page, /traceBreadcrumbLabel/);
   assert.match(page, /tracePlaceholder/);
   assert.match(page, /placeholder=\{traceInputPlaceholder\}/);
@@ -643,11 +643,11 @@ test("dashboard search page uses generated span search", () => {
   assert.match(page, /boundedLimit/);
   assert.match(page, /Math\.min\(100, Math\.max\(1, Math\.trunc\(parsed\)\)\)/);
   assert.match(page, /name="q"/);
-  assert.match(page, /name="trace_id"/);
-  assert.match(page, /name="span_id"/);
+  assert.match(page, /name="traceId"/);
+  assert.match(page, /name="spanId"/);
   assert.match(page, /traceHitHref/);
-  assert.match(page, /params\.set\("trace", hit\.trace_id\)/);
-  assert.match(page, /params\.set\("span", hit\.span_id\)/);
+  assert.match(page, /params\.set\("trace", hit\.traceId\)/);
+  assert.match(page, /params\.set\("span", hit\.spanId\)/);
   assert.match(page, /No search hits match this query/);
   assert.doesNotMatch(page, /"use client"/);
 
@@ -657,7 +657,7 @@ test("dashboard search page uses generated span search", () => {
   assert.match(api, /export type SearchResponse = components\["schemas"\]\["SearchSpanListResponse"\]/);
   assert.match(api, /searchParamsForSpanSearch/);
   assert.match(api, /searchSpansPath/);
-  assert.match(api, /\/v1\/search\/\$\{encodeURIComponent\(path\.tenant_id\)\}\/spans/);
+  assert.match(api, /\/v1\/search\/\$\{encodeURIComponent\(path\.tenantId\)\}\/spans/);
   assert.match(api, /fetchJson<SearchResponse>/);
   assert.match(api, /response: \{ hits: \[\] \}/);
 
@@ -687,7 +687,7 @@ test("dashboard client uses public palette read endpoints", () => {
   assert.match(api, /TraceReadQuery/);
   assert.match(api, /SearchOperation/);
   assert.match(api, /SearchPathParams/);
-  assert.match(api, /encodeURIComponent\(path\.tenant_id\)/);
+  assert.match(api, /encodeURIComponent\(path\.tenantId\)/);
   assert.match(api, /spanPath/);
   assert.match(api, /searchSpansPath/);
   assert.match(api, /searchParamsForSpanSearch/);
@@ -700,10 +700,10 @@ test("dashboard client uses public palette read endpoints", () => {
   assert.match(api, /\/v1\/search\//);
   assert.match(api, /\/io/);
   assert.match(api, /const activeRun = query\.traceId/);
-  assert.match(api, /const activeRunMatchesTrace = activeRun !== undefined && activeRun\.trace_id === activeTraceId/);
-  assert.match(api, /activeRunMatchesTrace && activeRun\.project_id && !query\.projectId/);
+  assert.match(api, /const activeRunMatchesTrace = activeRun !== undefined && activeRun\.traceId === activeTraceId/);
+  assert.match(api, /activeRunMatchesTrace && activeRun\.projectId && !query\.projectId/);
   assert.match(api, /tracePath\(traceQuery, activeTraceId\)/);
-  assert.match(api, /spanPath\(traceQuery, trace\.trace_id, activeSpanId\)/);
+  assert.match(api, /spanPath\(traceQuery, trace\.traceId, activeSpanId\)/);
   assert.match(api, /query,\n\s+runs,/);
   assert.doesNotMatch(api, /query: \{ \.\.\.query, traceId: activeTraceId/);
   assert.match(api, /PALETTE_API_TOKEN/);
@@ -733,7 +733,7 @@ test("dashboard search URLs use generated search.spans params", () => {
       tool: "browser",
       pageSize: 25
     }),
-    "/v1/search/tenant%2F1/spans?q=prompt+error&project_id=demo&environment_id=local&trace_id=trace-1&span_id=span-1&kind=llm.call&status=error&model=gpt-4.1&tool=browser&pageSize=25"
+    "/v1/search/tenant%2F1/spans?q=prompt+error&projectId=demo&environmentId=local&traceId=trace-1&spanId=span-1&kind=llm.call&status=error&model=gpt-4.1&tool=browser&pageSize=25"
   );
 });
 
@@ -812,11 +812,11 @@ test("dashboard token helpers include cached reads in UI totals", () => {
   const { spanTokenSummary, spanTokenTotal } = loadDashboardApiModule();
   const span = {
     kind: "llm.call",
-    tokens: { input: 3, output: 4, cache_read: 8, reasoning: 2 }
+    tokens: { input: 3, output: 4, cacheRead: 8, reasoning: 2 }
   };
   const toolSpan = {
     kind: "tool.call",
-    tokens: { input: 1, output: 2, cache_read: 3, reasoning: 0 }
+    tokens: { input: 1, output: 2, cacheRead: 3, reasoning: 0 }
   };
 
   assert.equal(spanTokenTotal(span), 17);
@@ -841,12 +841,12 @@ test("dashboard redaction helpers treat inline sentinels as redacted", () => {
 test("dashboard span depth stops on malformed parent cycles", () => {
   const { spanDepth } = loadDashboardApiModule();
   const a = {
-    span_id: "a",
-    parent_span_id: "b"
+    spanId: "a",
+    parentSpanId: "b"
   };
   const b = {
-    span_id: "b",
-    parent_span_id: "a"
+    spanId: "b",
+    parentSpanId: "a"
   };
 
   assert.equal(spanDepth(a, [a, b]), 1);
@@ -864,7 +864,7 @@ test("dashboard waterfall ordering keeps parents before backend-unsorted childre
     spanFixture("step", "turn", "2026-01-01T00:00:00.002500Z", 6)
   ];
 
-  const orderedIds = Array.from(orderSpansForWaterfall(spans), (span) => span.span_id);
+  const orderedIds = Array.from(orderSpansForWaterfall(spans), (span) => span.spanId);
 
   assert.deepEqual(orderedIds, ["run", "turn", "step", "tool", "mcp", "llm"]);
 });
@@ -877,7 +877,7 @@ test("dashboard waterfall ordering does not drop malformed cycles or missing par
     spanFixture("cycle-b", "cycle-a", "2026-01-01T00:00:00.003Z", 3)
   ];
 
-  const orderedIds = orderSpansForWaterfall(spans).map((span) => span.span_id);
+  const orderedIds = orderSpansForWaterfall(spans).map((span) => span.spanId);
 
   assert.deepEqual([...orderedIds].sort(), ["cycle-a", "cycle-b", "orphan"]);
   assert.equal(new Set(orderedIds).size, spans.length);
@@ -910,27 +910,27 @@ test("dashboard read URLs send unmask reason only with unmask=true", () => {
 
 test("dashboard loader preserves trace context when span I/O fails", async () => {
   const runs = {
-    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
+    runs: [{ tenantId: "demo", projectId: "demo", traceId: "trace-1", firstSpanName: "run", spanCount: 1 }],
     nextPageToken: null
   };
   const span = {
-    trace_id: "trace-1",
-    span_id: "span-1",
-    parent_span_id: null,
+    traceId: "trace-1",
+    spanId: "span-1",
+    parentSpanId: null,
     name: "call-policy-model",
     kind: "llm.call",
     status: "ok",
-    start_time: "2026-01-01T00:00:00Z",
-    end_time: "2026-01-01T00:00:01Z",
+    startTime: "2026-01-01T00:00:00Z",
+    endTime: "2026-01-01T00:00:01Z",
     attributes: {},
-    unmapped_attrs: {},
+    unmappedAttrs: {},
     events: [],
     links: [],
-    tokens: { input: 1, output: 2, cache_read: 3, reasoning: 4 },
+    tokens: { input: 1, output: 2, cacheRead: 3, reasoning: 4 },
     cost: null,
     model: null
   };
-  const trace = { trace_id: "trace-1", spans: [span] };
+  const trace = { traceId: "trace-1", spans: [span] };
   const { loadDashboardData } = loadDashboardApiModule({
     fetch: async (url) => {
       const href = String(url);
@@ -947,30 +947,30 @@ test("dashboard loader preserves trace context when span I/O fails", async () =>
   const data = await loadDashboardData({ tenantId: "demo" });
 
   assert.equal(data.runs.runs.length, 1);
-  assert.equal(data.trace?.trace_id, "trace-1");
-  assert.equal(data.selectedSpan?.span_id, "span-1");
+  assert.equal(data.trace?.traceId, "trace-1");
+  assert.equal(data.selectedSpan?.spanId, "span-1");
   assert.equal(data.selectedIo, null);
   assert.match(data.error, /span I\/O unavailable/);
 });
 
 test("dashboard loader selects the ordered root span when trace spans arrive unsorted", async () => {
   const runs = {
-    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 2 }],
+    runs: [{ tenantId: "demo", projectId: "demo", traceId: "trace-1", firstSpanName: "run", spanCount: 2 }],
     nextPageToken: null
   };
   const child = {
     ...spanFixture("child", "root", "2026-01-01T00:00:00.002Z", 2),
-    trace_id: "trace-1",
+    traceId: "trace-1",
     name: "child-llm",
     kind: "llm.call"
   };
   const root = {
     ...spanFixture("root", null, "2026-01-01T00:00:00.001Z", 1),
-    trace_id: "trace-1",
+    traceId: "trace-1",
     name: "agent-run",
     kind: "agent.run"
   };
-  const trace = { trace_id: "trace-1", spans: [child, root] };
+  const trace = { traceId: "trace-1", spans: [child, root] };
   const requests = [];
   const { loadDashboardData } = loadDashboardApiModule({
     fetch: async (url) => {
@@ -988,33 +988,33 @@ test("dashboard loader selects the ordered root span when trace spans arrive uns
 
   const data = await loadDashboardData({ tenantId: "demo" });
 
-  assert.equal(data.selectedSpan?.span_id, "root");
+  assert.equal(data.selectedSpan?.spanId, "root");
   assert.equal(requests.some((href) => href.includes("/v1/spans/demo/trace-1/child")), false);
 });
 
 test("dashboard loader does not select a fallback span for stale span URLs", async () => {
   const runs = {
-    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
+    runs: [{ tenantId: "demo", projectId: "demo", traceId: "trace-1", firstSpanName: "run", spanCount: 1 }],
     nextPageToken: null
   };
   const span = {
-    trace_id: "trace-1",
-    span_id: "span-1",
-    parent_span_id: null,
+    traceId: "trace-1",
+    spanId: "span-1",
+    parentSpanId: null,
     name: "call-policy-model",
     kind: "llm.call",
     status: "ok",
-    start_time: "2026-01-01T00:00:00Z",
-    end_time: "2026-01-01T00:00:01Z",
+    startTime: "2026-01-01T00:00:00Z",
+    endTime: "2026-01-01T00:00:01Z",
     attributes: {},
-    unmapped_attrs: {},
+    unmappedAttrs: {},
     events: [],
     links: [],
-    tokens: { input: 1, output: 2, cache_read: 3, reasoning: 4 },
+    tokens: { input: 1, output: 2, cacheRead: 3, reasoning: 4 },
     cost: null,
     model: null
   };
-  const trace = { trace_id: "trace-1", spans: [span] };
+  const trace = { traceId: "trace-1", spans: [span] };
   const requests = [];
   const { loadDashboardData } = loadDashboardApiModule({
     fetch: async (url) => {
@@ -1032,7 +1032,7 @@ test("dashboard loader does not select a fallback span for stale span URLs", asy
     selectedSpanId: "missing-span"
   });
 
-  assert.equal(data.trace?.trace_id, "trace-1");
+  assert.equal(data.trace?.traceId, "trace-1");
   assert.equal(data.selectedSpan, null);
   assert.equal(data.selectedIo, null);
   assert.match(data.error, /Span missing-span was not found in trace trace-1/);
@@ -1043,22 +1043,22 @@ test("dashboard loader scopes tenant-wide trace details to the selected run proj
   const runs = {
     runs: [
       {
-        tenant_id: "demo",
-        project_id: "project-b",
-        trace_id: "trace-1",
-        first_span_name: "run",
-        span_count: 1
+        tenantId: "demo",
+        projectId: "project-b",
+        traceId: "trace-1",
+        firstSpanName: "run",
+        spanCount: 1
       }
     ],
     nextPageToken: null
   };
   const span = {
     ...spanFixture("span-1", null, "2026-01-01T00:00:00Z", 1),
-    project_id: "project-b",
-    trace_id: "trace-1",
+    projectId: "project-b",
+    traceId: "trace-1",
     kind: "llm.call"
   };
-  const trace = { tenant_id: "demo", trace_id: "trace-1", spans: [span] };
+  const trace = { tenantId: "demo", traceId: "trace-1", spans: [span] };
   const requests = [];
   const { loadDashboardData } = loadDashboardApiModule({
     fetch: async (url, init) => {
@@ -1076,7 +1076,7 @@ test("dashboard loader scopes tenant-wide trace details to the selected run proj
 
   const data = await loadDashboardData({ tenantId: "demo" });
 
-  assert.equal(data.selectedSpan?.project_id, "project-b");
+  assert.equal(data.selectedSpan?.projectId, "project-b");
   const detailRequests = requests.filter(({ href }) => href.includes("/v1/traces/demo/trace-1") || href.includes("/v1/spans/demo/trace-1"));
   assert.equal(detailRequests.length, 3);
   assert.ok(
@@ -1090,22 +1090,22 @@ test("dashboard loader does not scope explicit trace details to an unrelated fal
   const runs = {
     runs: [
       {
-        tenant_id: "demo",
-        project_id: "project-b",
-        trace_id: "trace-2",
-        first_span_name: "other-run",
-        span_count: 1
+        tenantId: "demo",
+        projectId: "project-b",
+        traceId: "trace-2",
+        firstSpanName: "other-run",
+        spanCount: 1
       }
     ],
     nextPageToken: null
   };
   const span = {
     ...spanFixture("span-1", null, "2026-01-01T00:00:00Z", 1),
-    project_id: "project-a",
-    trace_id: "trace-1",
+    projectId: "project-a",
+    traceId: "trace-1",
     kind: "llm.call"
   };
-  const trace = { tenant_id: "demo", trace_id: "trace-1", spans: [span] };
+  const trace = { tenantId: "demo", traceId: "trace-1", spans: [span] };
   const requests = [];
   const { loadDashboardData } = loadDashboardApiModule({
     fetch: async (url, init) => {
@@ -1123,7 +1123,7 @@ test("dashboard loader does not scope explicit trace details to an unrelated fal
 
   const data = await loadDashboardData({ tenantId: "demo", traceId: "trace-1" });
 
-  assert.equal(data.selectedSpan?.project_id, "project-a");
+  assert.equal(data.selectedSpan?.projectId, "project-a");
   const detailRequests = requests.filter(({ href }) => href.includes("/v1/traces/demo/trace-1") || href.includes("/v1/spans/demo/trace-1"));
   assert.equal(detailRequests.length, 3);
   assert.ok(
@@ -1151,30 +1151,30 @@ function errorJson(status, statusText, value) {
 
 function spanFixture(spanId, parentSpanId, startTime, seq) {
   return {
-    tenant_id: "demo",
-    project_id: "demo",
-    environment_id: "local",
-    trace_id: "trace-1",
-    span_id: spanId,
-    parent_span_id: parentSpanId,
+    tenantId: "demo",
+    projectId: "demo",
+    environmentId: "local",
+    traceId: "trace-1",
+    spanId: spanId,
+    parentSpanId: parentSpanId,
     name: spanId,
     kind: "agent.step",
     status: "ok",
-    start_time: startTime,
-    end_time: "2026-01-01T00:00:00.010Z",
+    startTime: startTime,
+    endTime: "2026-01-01T00:00:00.010Z",
     seq,
     attributes: {},
-    unmapped_attrs: {},
+    unmappedAttrs: {},
     events: [],
     links: [],
     tokens: null,
     cost: null,
     model: null,
-    raw_ref: {
-      artifact_id: `${spanId}-raw`,
+    rawRef: {
+      artifactId: `${spanId}-raw`,
       uri: `artifact://${spanId}`,
-      mime_type: "application/json",
-      size_bytes: 2,
+      mimeType: "application/json",
+      sizeBytes: 2,
       sha256: "0".repeat(64)
     }
   };
@@ -1183,12 +1183,12 @@ function spanFixture(spanId, parentSpanId, startTime, seq) {
 test("generated api client is produced from the checked-in openapi snapshot", () => {
   const spec = readFileSync(join(root, "openapi/palette-read-api.json"), "utf8");
   const generated = readFileSync(join(root, "lib/generated/api-types.ts"), "utf8");
-  assert.match(spec, /"\/v1\/traces\/\{tenant_id\}"/);
-  assert.match(spec, /"started_after"/);
-  assert.match(spec, /"min_cost_micros"/);
+  assert.match(spec, /"\/v1\/traces\/\{tenantId\}"/);
+  assert.match(spec, /"startedAfter"/);
+  assert.match(spec, /"minCostMicros"/);
   assert.match(generated, /traces\.list/);
-  assert.match(generated, /started_after/);
-  assert.match(generated, /min_cost_micros/);
+  assert.match(generated, /startedAfter/);
+  assert.match(generated, /minCostMicros/);
 });
 
 test("in-app docs runtime surfaces are generated from the openapi contract", () => {
@@ -1540,12 +1540,12 @@ test("dashboard query field table covers every filter field exactly once", () =>
     { field: "kind",           urlParam: "kind" },
     { field: "model",          urlParam: "model" },
     { field: "release",        urlParam: "release" },
-    { field: "startedAfter",   urlParam: "started_after" },
-    { field: "startedBefore",  urlParam: "started_before" },
-    { field: "minCostMicros",  urlParam: "min_cost_micros" },
-    { field: "maxCostMicros",  urlParam: "max_cost_micros" },
-    { field: "minLatencyMs",   urlParam: "min_latency_ms" },
-    { field: "maxLatencyMs",   urlParam: "max_latency_ms" },
+    { field: "startedAfter",   urlParam: "startedAfter" },
+    { field: "startedBefore",  urlParam: "startedBefore" },
+    { field: "minCostMicros",  urlParam: "minCostMicros" },
+    { field: "maxCostMicros",  urlParam: "maxCostMicros" },
+    { field: "minLatencyMs",   urlParam: "minLatencyMs" },
+    { field: "maxLatencyMs",   urlParam: "maxLatencyMs" },
   ];
 
   assert.equal(FILTER_FIELDS.length, expected.length, "FILTER_FIELDS length mismatch");
@@ -1570,12 +1570,12 @@ test("dashboard query parse → API params round-trip for every filter field", (
     kind: "agent.run",
     model: "openai/gpt-4o",
     release: "v1.2.3",
-    started_after: "2026-01-01T00:00:00Z",
-    started_before: "2026-06-01T00:00:00Z",
-    min_cost_micros: "500",
-    max_cost_micros: "9999",
-    min_latency_ms: "100",
-    max_latency_ms: "5000",
+    startedAfter: "2026-01-01T00:00:00Z",
+    startedBefore: "2026-06-01T00:00:00Z",
+    minCostMicros: "500",
+    maxCostMicros: "9999",
+    minLatencyMs: "100",
+    maxLatencyMs: "5000",
     unmask: "true",
     reason: "incident-007",
   };
@@ -1611,12 +1611,12 @@ test("dashboard query parse → API params round-trip for every filter field", (
   assert.equal(apiParams.get("kind"), "agent.run");
   assert.equal(apiParams.get("model"), "openai/gpt-4o");
   assert.equal(apiParams.get("release"), "v1.2.3");
-  assert.equal(apiParams.get("started_after"), "2026-01-01T00:00:00Z");
-  assert.equal(apiParams.get("started_before"), "2026-06-01T00:00:00Z");
-  assert.equal(apiParams.get("min_cost_micros"), "500");
-  assert.equal(apiParams.get("max_cost_micros"), "9999");
-  assert.equal(apiParams.get("min_latency_ms"), "100");
-  assert.equal(apiParams.get("max_latency_ms"), "5000");
+  assert.equal(apiParams.get("startedAfter"), "2026-01-01T00:00:00Z");
+  assert.equal(apiParams.get("startedBefore"), "2026-06-01T00:00:00Z");
+  assert.equal(apiParams.get("minCostMicros"), "500");
+  assert.equal(apiParams.get("maxCostMicros"), "9999");
+  assert.equal(apiParams.get("minLatencyMs"), "100");
+  assert.equal(apiParams.get("maxLatencyMs"), "5000");
 });
 
 test("dashboard query parse → href params round-trip for every filter field", () => {
@@ -1630,12 +1630,12 @@ test("dashboard query parse → href params round-trip for every filter field", 
     kind: "llm.call",
     model: "anthropic/claude-3-5-sonnet",
     release: "r42",
-    started_after: "2026-03-01T00:00:00Z",
-    started_before: "2026-03-31T00:00:00Z",
-    min_cost_micros: "0",
-    max_cost_micros: "1000000",
-    min_latency_ms: "50",
-    max_latency_ms: "2000",
+    startedAfter: "2026-03-01T00:00:00Z",
+    startedBefore: "2026-03-31T00:00:00Z",
+    minCostMicros: "0",
+    maxCostMicros: "1000000",
+    minLatencyMs: "50",
+    maxLatencyMs: "2000",
   };
 
   const query = parseQueryFromSearchParams(rawParams);
@@ -1654,12 +1654,12 @@ test("dashboard query parse → href params round-trip for every filter field", 
   assert.equal(hrefParams.get("kind"), "llm.call");
   assert.equal(hrefParams.get("model"), "anthropic/claude-3-5-sonnet");
   assert.equal(hrefParams.get("release"), "r42");
-  assert.equal(hrefParams.get("started_after"), "2026-03-01T00:00:00Z");
-  assert.equal(hrefParams.get("started_before"), "2026-03-31T00:00:00Z");
-  assert.equal(hrefParams.get("min_cost_micros"), "0");
-  assert.equal(hrefParams.get("max_cost_micros"), "1000000");
-  assert.equal(hrefParams.get("min_latency_ms"), "50");
-  assert.equal(hrefParams.get("max_latency_ms"), "2000");
+  assert.equal(hrefParams.get("startedAfter"), "2026-03-01T00:00:00Z");
+  assert.equal(hrefParams.get("startedBefore"), "2026-03-31T00:00:00Z");
+  assert.equal(hrefParams.get("minCostMicros"), "0");
+  assert.equal(hrefParams.get("maxCostMicros"), "1000000");
+  assert.equal(hrefParams.get("minLatencyMs"), "50");
+  assert.equal(hrefParams.get("maxLatencyMs"), "2000");
 });
 
 test("dashboard query filterChips returns correct labels and display values", () => {
@@ -1671,12 +1671,12 @@ test("dashboard query filterChips returns correct labels and display values", ()
     kind: "llm.call",
     model: "gpt-4o",
     release: "v1",
-    started_after: "2026-01-01T00:00:00Z",
-    started_before: "2026-06-01T00:00:00Z",
-    min_cost_micros: "100",
-    max_cost_micros: "200",
-    min_latency_ms: "50",
-    max_latency_ms: "2000",
+    startedAfter: "2026-01-01T00:00:00Z",
+    startedBefore: "2026-06-01T00:00:00Z",
+    minCostMicros: "100",
+    maxCostMicros: "200",
+    minLatencyMs: "50",
+    maxLatencyMs: "2000",
   });
 
   const chips = filterChips(query);
@@ -1719,12 +1719,12 @@ test("dashboard query advancedFilterCount counts only advanced fields", () => {
   const allAdvanced = parseQueryFromSearchParams({
     model: "gpt-4o",
     release: "v1",
-    started_after: "2026-01-01T00:00:00Z",
-    started_before: "2026-06-01T00:00:00Z",
-    min_cost_micros: "100",
-    max_cost_micros: "200",
-    min_latency_ms: "50",
-    max_latency_ms: "2000",
+    startedAfter: "2026-01-01T00:00:00Z",
+    startedBefore: "2026-06-01T00:00:00Z",
+    minCostMicros: "100",
+    maxCostMicros: "200",
+    minLatencyMs: "50",
+    maxLatencyMs: "2000",
   });
   assert.equal(advancedFilterCount(allAdvanced), 8);
 
@@ -1781,20 +1781,20 @@ test("dashboard query searchParamsForTraceList includes all filter fields", () =
   const params = searchParamsForTraceList(query);
 
   // Scope/selection → different API param names
-  assert.equal(params.get("project_id"), "proj");
-  assert.equal(params.get("environment_id"), "prod");
-  assert.equal(params.get("trace_id"), "t1");
+  assert.equal(params.get("projectId"), "proj");
+  assert.equal(params.get("environmentId"), "prod");
+  assert.equal(params.get("traceId"), "t1");
   // Filter fields → same names in URL and API
   assert.equal(params.get("status"), "error");
   assert.equal(params.get("kind"), "llm.call");
   assert.equal(params.get("model"), "gpt-4o");
   assert.equal(params.get("release"), "v1");
-  assert.equal(params.get("started_after"), "2026-01-01T00:00:00Z");
-  assert.equal(params.get("started_before"), "2026-06-01T00:00:00Z");
-  assert.equal(params.get("min_cost_micros"), "100");
-  assert.equal(params.get("max_cost_micros"), "200");
-  assert.equal(params.get("min_latency_ms"), "50");
-  assert.equal(params.get("max_latency_ms"), "2000");
+  assert.equal(params.get("startedAfter"), "2026-01-01T00:00:00Z");
+  assert.equal(params.get("startedBefore"), "2026-06-01T00:00:00Z");
+  assert.equal(params.get("minCostMicros"), "100");
+  assert.equal(params.get("maxCostMicros"), "200");
+  assert.equal(params.get("minLatencyMs"), "50");
+  assert.equal(params.get("maxLatencyMs"), "2000");
   assert.equal(params.get("pageSize"), "50");
 });
 

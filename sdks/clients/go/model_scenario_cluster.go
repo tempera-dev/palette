@@ -22,10 +22,10 @@ var _ MappedNullable = &ScenarioCluster{}
 // ScenarioCluster A cluster of failing traces that share a similar failure signature.
 type ScenarioCluster struct {
 	// The most common failure mode across members.
-	DominantFailureMode FailureMode `json:"dominant_failure_mode"`
-	ExemplarTraceId string `json:"exemplar_trace_id"`
+	DominantFailureMode FailureMode `json:"dominantFailureMode"`
+	ExemplarTraceId string `json:"exemplarTraceId"`
 	// All member trace ids, sorted ascending.
-	MemberTraceIds []string `json:"member_trace_ids"`
+	MemberTraceIds []string `json:"memberTraceIds"`
 	// The signature of the cluster's exemplar.
 	Signature Signature `json:"signature"`
 	// Number of member traces.
@@ -186,9 +186,9 @@ func (o ScenarioCluster) MarshalJSON() ([]byte, error) {
 
 func (o ScenarioCluster) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["dominant_failure_mode"] = o.DominantFailureMode
-	toSerialize["exemplar_trace_id"] = o.ExemplarTraceId
-	toSerialize["member_trace_ids"] = o.MemberTraceIds
+	toSerialize["dominantFailureMode"] = o.DominantFailureMode
+	toSerialize["exemplarTraceId"] = o.ExemplarTraceId
+	toSerialize["memberTraceIds"] = o.MemberTraceIds
 	toSerialize["signature"] = o.Signature
 	toSerialize["size"] = o.Size
 	return toSerialize, nil
@@ -199,9 +199,9 @@ func (o *ScenarioCluster) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"dominant_failure_mode",
-		"exemplar_trace_id",
-		"member_trace_ids",
+		"dominantFailureMode",
+		"exemplarTraceId",
+		"memberTraceIds",
 		"signature",
 		"size",
 	}

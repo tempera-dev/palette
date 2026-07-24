@@ -112,7 +112,7 @@ export class ApiKeysApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/api-keys/{tenant_id}/{project_id}/{environment_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environment_id"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
+            path: `/v1/api-keys/{tenantId}/{projectId}/{environmentId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environmentId"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -181,7 +181,7 @@ export class ApiKeysApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environment_id"}}`, encodeURIComponent(String(requestParameters['environmentId']))).replace(`{${"api_key_id"}}`, encodeURIComponent(String(requestParameters['apiKeyId']))),
+            path: `/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environmentId"}}`, encodeURIComponent(String(requestParameters['environmentId']))).replace(`{${"apiKeyId"}}`, encodeURIComponent(String(requestParameters['apiKeyId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

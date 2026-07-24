@@ -91,7 +91,7 @@ cJSON *dead_letter_replay_report_convertToJSON(dead_letter_replay_report_t *dead
     if (!dead_letter_replay_report->message_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "message_id", dead_letter_replay_report->message_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "messageId", dead_letter_replay_report->message_id) == NULL) {
     goto fail; //String
     }
 
@@ -100,7 +100,7 @@ cJSON *dead_letter_replay_report_convertToJSON(dead_letter_replay_report_t *dead
     if (!dead_letter_replay_report->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", dead_letter_replay_report->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", dead_letter_replay_report->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -109,7 +109,7 @@ cJSON *dead_letter_replay_report_convertToJSON(dead_letter_replay_report_t *dead
     if (!dead_letter_replay_report->reset_attempts) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "reset_attempts", dead_letter_replay_report->reset_attempts) == NULL) {
+    if(cJSON_AddBoolToObject(item, "resetAttempts", dead_letter_replay_report->reset_attempts) == NULL) {
     goto fail; //Bool
     }
 
@@ -118,7 +118,7 @@ cJSON *dead_letter_replay_report_convertToJSON(dead_letter_replay_report_t *dead
     if (!dead_letter_replay_report->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", dead_letter_replay_report->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", dead_letter_replay_report->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -150,7 +150,7 @@ dead_letter_replay_report_t *dead_letter_replay_report_parseFromJSON(cJSON *dead
     ack_local_nonprim = publish_ack_parseFromJSON(ack); //nonprimitive
 
     // dead_letter_replay_report->message_id
-    cJSON *message_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "message_id");
+    cJSON *message_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "messageId");
     if (cJSON_IsNull(message_id)) {
         message_id = NULL;
     }
@@ -165,7 +165,7 @@ dead_letter_replay_report_t *dead_letter_replay_report_parseFromJSON(cJSON *dead
     }
 
     // dead_letter_replay_report->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -180,7 +180,7 @@ dead_letter_replay_report_t *dead_letter_replay_report_parseFromJSON(cJSON *dead
     }
 
     // dead_letter_replay_report->reset_attempts
-    cJSON *reset_attempts = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "reset_attempts");
+    cJSON *reset_attempts = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "resetAttempts");
     if (cJSON_IsNull(reset_attempts)) {
         reset_attempts = NULL;
     }
@@ -195,7 +195,7 @@ dead_letter_replay_report_t *dead_letter_replay_report_parseFromJSON(cJSON *dead
     }
 
     // dead_letter_replay_report->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dead_letter_replay_reportJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

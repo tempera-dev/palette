@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.failure_mode import FailureMode
 from typing import Optional, Set
@@ -27,12 +27,12 @@ class CreateScenarioRequest(BaseModel):
     """
     CreateScenarioRequest
     """ # noqa: E501
-    exemplar_trace_id: Optional[StrictStr] = None
-    expected_outcome: Optional[StrictStr] = None
-    failure_mode: Optional[FailureMode] = None
-    source_trace_ids: List[StrictStr]
+    exemplar_trace_id: Optional[StrictStr] = Field(default=None, alias="exemplarTraceId")
+    expected_outcome: Optional[StrictStr] = Field(default=None, alias="expectedOutcome")
+    failure_mode: Optional[FailureMode] = Field(default=None, alias="failureMode")
+    source_trace_ids: List[StrictStr] = Field(alias="sourceTraceIds")
     title: StrictStr
-    __properties: ClassVar[List[str]] = ["exemplar_trace_id", "expected_outcome", "failure_mode", "source_trace_ids", "title"]
+    __properties: ClassVar[List[str]] = ["exemplarTraceId", "expectedOutcome", "failureMode", "sourceTraceIds", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,17 +76,17 @@ class CreateScenarioRequest(BaseModel):
         # set to None if exemplar_trace_id (nullable) is None
         # and model_fields_set contains the field
         if self.exemplar_trace_id is None and "exemplar_trace_id" in self.model_fields_set:
-            _dict['exemplar_trace_id'] = None
+            _dict['exemplarTraceId'] = None
 
         # set to None if expected_outcome (nullable) is None
         # and model_fields_set contains the field
         if self.expected_outcome is None and "expected_outcome" in self.model_fields_set:
-            _dict['expected_outcome'] = None
+            _dict['expectedOutcome'] = None
 
         # set to None if failure_mode (nullable) is None
         # and model_fields_set contains the field
         if self.failure_mode is None and "failure_mode" in self.model_fields_set:
-            _dict['failure_mode'] = None
+            _dict['failureMode'] = None
 
         return _dict
 
@@ -100,10 +100,10 @@ class CreateScenarioRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "exemplar_trace_id": obj.get("exemplar_trace_id"),
-            "expected_outcome": obj.get("expected_outcome"),
-            "failure_mode": obj.get("failure_mode"),
-            "source_trace_ids": obj.get("source_trace_ids"),
+            "exemplarTraceId": obj.get("exemplarTraceId"),
+            "expectedOutcome": obj.get("expectedOutcome"),
+            "failureMode": obj.get("failureMode"),
+            "sourceTraceIds": obj.get("sourceTraceIds"),
             "title": obj.get("title")
         })
         return _obj

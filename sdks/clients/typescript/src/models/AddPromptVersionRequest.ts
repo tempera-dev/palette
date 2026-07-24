@@ -65,7 +65,7 @@ export function AddPromptVersionRequestFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'createdBy': json['created_by'] == null ? undefined : json['created_by'],
+        'createdBy': json['createdBy'] == null ? undefined : json['createdBy'],
         'message': json['message'] == null ? undefined : json['message'],
         'template': PromptTemplateFromJSON(json['template']),
     };
@@ -82,7 +82,7 @@ export function AddPromptVersionRequestToJSONTyped(value?: AddPromptVersionReque
 
     return {
         
-        'created_by': value['createdBy'],
+        'createdBy': value['createdBy'],
         'message': value['message'],
         'template': PromptTemplateToJSON(value['template']),
     };

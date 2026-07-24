@@ -37,7 +37,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CalibrationPolicy {
-  public static final String JSON_PROPERTY_PASS_THRESHOLD = "pass_threshold";
+  public static final String JSON_PROPERTY_PASS_THRESHOLD = "passThreshold";
   @javax.annotation.Nonnull
   private Double passThreshold;
 
@@ -140,9 +140,9 @@ public class CalibrationPolicy {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `pass_threshold` to the URL query string
+    // add `passThreshold` to the URL query string
     if (getPassThreshold() != null) {
-      joiner.add(String.format("%spass_threshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spassThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -26,10 +26,10 @@ class ConnectionLink(BaseModel):
     """
     One-time login link returned when initiating a managed-OAuth connection.
     """ # noqa: E501
-    connected_account_id: StrictStr = Field(description="Composio connection id (`ca_…`) created for this handshake.")
-    expires_at: Optional[StrictStr] = Field(default=None, description="When the link expires (RFC 3339), if provided.")
-    redirect_url: StrictStr = Field(description="URL the end user opens once to authorize the app.")
-    __properties: ClassVar[List[str]] = ["connected_account_id", "expires_at", "redirect_url"]
+    connected_account_id: StrictStr = Field(description="Composio connection id (`ca_…`) created for this handshake.", alias="connectedAccountId")
+    expires_at: Optional[StrictStr] = Field(default=None, description="When the link expires (RFC 3339), if provided.", alias="expiresAt")
+    redirect_url: StrictStr = Field(description="URL the end user opens once to authorize the app.", alias="redirectUrl")
+    __properties: ClassVar[List[str]] = ["connectedAccountId", "expiresAt", "redirectUrl"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,7 +73,7 @@ class ConnectionLink(BaseModel):
         # set to None if expires_at (nullable) is None
         # and model_fields_set contains the field
         if self.expires_at is None and "expires_at" in self.model_fields_set:
-            _dict['expires_at'] = None
+            _dict['expiresAt'] = None
 
         return _dict
 
@@ -87,9 +87,9 @@ class ConnectionLink(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "connected_account_id": obj.get("connected_account_id"),
-            "expires_at": obj.get("expires_at"),
-            "redirect_url": obj.get("redirect_url")
+            "connectedAccountId": obj.get("connectedAccountId"),
+            "expiresAt": obj.get("expiresAt"),
+            "redirectUrl": obj.get("redirectUrl")
         })
         return _obj
 

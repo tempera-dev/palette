@@ -45,7 +45,7 @@ public class WebhookDelivery {
   @javax.annotation.Nullable
   private Object body = null;
 
-  public static final String JSON_PROPERTY_ENDPOINT_URL = "endpoint_url";
+  public static final String JSON_PROPERTY_ENDPOINT_URL = "endpointUrl";
   @javax.annotation.Nonnull
   private String endpointUrl;
 
@@ -217,9 +217,9 @@ public class WebhookDelivery {
       joiner.add(String.format("%sbody%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBody()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `endpoint_url` to the URL query string
+    // add `endpointUrl` to the URL query string
     if (getEndpointUrl() != null) {
-      joiner.add(String.format("%sendpoint_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndpointUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendpointUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndpointUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `headers` to the URL query string

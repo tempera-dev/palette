@@ -10,8 +10,7 @@ Enforces the conventions that keep the API/MCP/CLI/SDKs nice and in-sync:
     (pageSize/pageToken/nextPageToken), with no migration exceptions
   - migrated operations reject legacy limit/cursor aliases
   - the shared error schema has the core AIP-193 HTTP/JSON envelope
-  - ordinary JSON schema fields are lowerCamel, with an explicit per-schema
-    brownfield-debt budget that may only decrease
+  - ordinary JSON schema fields are lowerCamel, with zero migration debt
 Exit 1 on any violation.
 """
 
@@ -34,112 +33,10 @@ AIP158_MIGRATION_DEBT = set()
 # Custom verbs that are nevertheless public collection/search operations.
 CUSTOM_COLLECTION_OPERATIONS = {"archive.querySpans", "search.spans"}
 LOWER_CAMEL_PROPERTY = re.compile(r"^[a-z][A-Za-z0-9]*$")
-# Exact per-schema count of ordinary JSON properties that still use legacy
-# snake_case. Every schema omitted here has a zero-debt budget. This is
-# deliberately granular enough that debt cannot move to a new schema, and each
-# entry may only decrease while HTTP DTOs are separated from persisted domain
-# models. Raw OTLP bodies and MCP protocol payloads are not component schemas in
-# this product OpenAPI document and therefore retain their protocol spellings.
-AIP127_PROPERTY_DEBT_BUDGET = {
-    "AddPromptVersionRequest": 1,
-    "AlertDecision": 1,
-    "AlertInput": 5,
-    "AlertLinks": 4,
-    "AlertPolicy": 6,
-    "ApiKeyCreatedResponse": 5,
-    "ArchiveManifest": 4,
-    "ArchivedSpanRow": 20,
-    "ArtifactRef": 4,
-    "AuditEvent": 8,
-    "AuthContext": 1,
-    "BusMessage": 6,
-    "CalibrationConfusion": 4,
-    "CalibrationItem": 5,
-    "CalibrationPolicy": 1,
-    "CalibrationReport": 19,
-    "CanonicalSpan": 14,
-    "CaseExperimentScore": 15,
-    "CaseOutputOverrideRequest": 1,
-    "ConnectionLink": 3,
-    "ConnectionStatus": 1,
-    "ConnectorTool": 2,
-    "CreateDatasetVersionRequest": 1,
-    "CreateGateRequest": 4,
-    "CreatePromptRequest": 1,
-    "CreateProviderSecretHttpRequest": 2,
-    "CreateReviewQueueHttpRequest": 2,
-    "CreateScenarioRequest": 4,
-    "Dataset": 4,
-    "DatasetCase": 11,
-    "DatasetEvalReport": 9,
-    "DatasetVersionSnapshot": 6,
-    "DeadLetter": 1,
-    "DeadLetterReplayReport": 4,
-    "DiffLine": 2,
-    "EnqueueReviewTaskFromTraceHttpRequest": 5,
-    "EvalReproducibility": 16,
-    "EvalResult": 7,
-    "ExperimentComparison": 8,
-    "ExperimentRunReport": 11,
-    "GateDefinition": 7,
-    "GatePolicy": 3,
-    "GateRunReport": 17,
-    "ImportTemperaEvidenceRequest": 3,
-    "IngestOutcome": 1,
-    "IngestQueueStatus": 6,
-    "JudgeAuditRecord": 10,
-    "JudgeBrokerOutcome": 1,
-    "MaintenanceWindow": 2,
-    "MineScenariosRequest": 2,
-    "Money": 1,
-    "NativeIngestRequest": 8,
-    "OnlineSamplingPolicy": 4,
-    "OtlpIngestOutcome": 5,
-    "PaletteConnectStatusResponse": 5,
-    "PerturbationKnobs": 5,
-    "PromoteReviewAnnotationHttpRequest": 1,
-    "PromoteTraceCaseRequest": 2,
-    "Prompt": 5,
-    "PromptVersion": 5,
-    "PromptVersionDiff": 2,
-    "PromptVersionMetadata": 2,
-    "ProviderSecretMetadata": 6,
-    "PublicJudgeAuditRecord": 8,
-    "QueuedTraceWork": 3,
-    "ReliabilityBin": 6,
-    "ReviewAnnotation": 7,
-    "ReviewQueue": 5,
-    "ReviewTask": 10,
-    "RevokedApiKey": 2,
-    "RevokedProviderSecret": 2,
-    "RunCalibrationHttpRequest": 3,
-    "RunDeterministicEvalRequest": 6,
-    "RunExperimentRequest": 7,
-    "RunGateRequest": 1,
-    "RunJudgeDatasetEvalRequest": 6,
-    "RunJudgeEvalHttpRequest": 2,
-    "RunJudgeExperimentRequest": 8,
-    "RunSummary": 10,
-    "SamplingDecision": 1,
-    "Scenario": 9,
-    "ScenarioCluster": 3,
-    "SearchHit": 5,
-    "SpanIoResponse": 3,
-    "SubmitReviewAnnotationHttpRequest": 2,
-    "TemperaEvidenceReceipt": 10,
-    "TemperaEvidenceSummary": 4,
-    "TenantScope": 3,
-    "TokenCounts": 1,
-    "ToolExecution": 1,
-    "Toolkit": 3,
-    "TraceIngestedDrainReport": 4,
-    "TraceIngestedReconcileReport": 7,
-    "TraceView": 2,
-    "TraceWriteDrainReport": 11,
-    "UsageSummary": 2,
-    "WebhookDelivery": 1,
-    "WriteAck": 4,
-}
+# The migration is complete. Every ordinary component-schema property must now
+# use lowerCamelCase. Raw OTLP bodies and MCP protocol payloads are not component
+# schemas in this product OpenAPI document and retain their protocol spellings.
+AIP127_PROPERTY_DEBT_BUDGET: dict[str, int] = {}
 
 
 @dataclass(frozen=True)
@@ -191,12 +88,8 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
 
         responses = op.get("responses", {})
         # Health is the only allowed exception to the error-body rule.
-        # 422 is used for partial-success (drain-with-dead-letters) and carries a
-        # domain payload, not the shared error body, so it's exempt from this rule.
         if oid != "health.check":
-            err_codes = [
-                c for c in responses if c.startswith(("4", "5")) and c != "422"
-            ]
+            err_codes = [c for c in responses if c.startswith(("4", "5"))]
             if not err_codes:
                 violations.append(f"{where}: no documented 4xx/5xx error response")
             for code in err_codes:

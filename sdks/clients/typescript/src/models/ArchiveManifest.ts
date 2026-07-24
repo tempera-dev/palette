@@ -73,11 +73,11 @@ export function ArchiveManifestFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
+        'createdAt': (new Date(json['createdAt'])),
         'path': json['path'],
-        'projectId': json['project_id'],
-        'spanCount': json['span_count'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'spanCount': json['spanCount'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -92,11 +92,11 @@ export function ArchiveManifestToJSONTyped(value?: ArchiveManifest | null, ignor
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
+        'createdAt': ((value['createdAt']).toISOString()),
         'path': value['path'],
-        'project_id': value['projectId'],
-        'span_count': value['spanCount'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'spanCount': value['spanCount'],
+        'tenantId': value['tenantId'],
     };
 }
 

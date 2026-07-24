@@ -39,7 +39,7 @@ class TestConnectorToolListResponse(unittest.TestCase):
                 tools = [
                     palette_client.models.connector_tool.ConnectorTool(
                         description = '',
-                        input_schema = palette_client.models.input_schema.input_schema(),
+                        input_schema = palette_client.models.input_schema.inputSchema(),
                         name = '',
                         no_auth = True,
                         slug = '',
@@ -54,7 +54,7 @@ class TestConnectorToolListResponse(unittest.TestCase):
                 tools = [
                     palette_client.models.connector_tool.ConnectorTool(
                         description = '',
-                        input_schema = palette_client.models.input_schema.input_schema(),
+                        input_schema = palette_client.models.input_schema.inputSchema(),
                         name = '',
                         no_auth = True,
                         slug = '',

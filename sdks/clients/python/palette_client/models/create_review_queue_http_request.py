@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class CreateReviewQueueHttpRequest(BaseModel):
     """
     CreateReviewQueueHttpRequest
     """ # noqa: E501
-    annotation_schema: Optional[Any]
+    annotation_schema: Optional[Any] = Field(alias="annotationSchema")
     name: StrictStr
-    queue_id: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["annotation_schema", "name", "queue_id"]
+    queue_id: Optional[StrictStr] = Field(default=None, alias="queueId")
+    __properties: ClassVar[List[str]] = ["annotationSchema", "name", "queueId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,12 +73,12 @@ class CreateReviewQueueHttpRequest(BaseModel):
         # set to None if annotation_schema (nullable) is None
         # and model_fields_set contains the field
         if self.annotation_schema is None and "annotation_schema" in self.model_fields_set:
-            _dict['annotation_schema'] = None
+            _dict['annotationSchema'] = None
 
         # set to None if queue_id (nullable) is None
         # and model_fields_set contains the field
         if self.queue_id is None and "queue_id" in self.model_fields_set:
-            _dict['queue_id'] = None
+            _dict['queueId'] = None
 
         return _dict
 
@@ -92,9 +92,9 @@ class CreateReviewQueueHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "annotation_schema": obj.get("annotation_schema"),
+            "annotationSchema": obj.get("annotationSchema"),
             "name": obj.get("name"),
-            "queue_id": obj.get("queue_id")
+            "queueId": obj.get("queueId")
         })
         return _obj
 

@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**archive_period_archive_trace**](ArchiveApi.md#archive_period_archive_trace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**archive_period_query_spans**](ArchiveApi.md#archive_period_query_spans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
+[**archive_period_archive_trace**](ArchiveApi.md#archive_period_archive_trace) | **POST** /v1/archive/{tenantId}/{projectId}/{traceId} |
+[**archive_period_query_spans**](ArchiveApi.md#archive_period_query_spans) | **GET** /v1/archive/{tenantId}/{projectId}/spans |
 
 
 

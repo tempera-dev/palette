@@ -11,14 +11,14 @@
 
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenant_id, char *project_id, char *kind, char *external_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenantId, char *projectId, char *kind, char *externalId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tenant_id, char *project_id, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tenantId, char *projectId, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *tenant_id, char *project_id, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *tenantId, char *projectId, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 

@@ -85,12 +85,12 @@ export function ReliabilityBinFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'accuracy': json['accuracy'] == null ? undefined : json['accuracy'],
-        'binIndex': json['bin_index'],
-        'calibrationGap': json['calibration_gap'] == null ? undefined : json['calibration_gap'],
-        'lowerBound': json['lower_bound'],
-        'meanConfidence': json['mean_confidence'] == null ? undefined : json['mean_confidence'],
-        'sampleCount': json['sample_count'],
-        'upperBound': json['upper_bound'],
+        'binIndex': json['binIndex'],
+        'calibrationGap': json['calibrationGap'] == null ? undefined : json['calibrationGap'],
+        'lowerBound': json['lowerBound'],
+        'meanConfidence': json['meanConfidence'] == null ? undefined : json['meanConfidence'],
+        'sampleCount': json['sampleCount'],
+        'upperBound': json['upperBound'],
     };
 }
 
@@ -106,12 +106,12 @@ export function ReliabilityBinToJSONTyped(value?: ReliabilityBin | null, ignoreD
     return {
         
         'accuracy': value['accuracy'],
-        'bin_index': value['binIndex'],
-        'calibration_gap': value['calibrationGap'],
-        'lower_bound': value['lowerBound'],
-        'mean_confidence': value['meanConfidence'],
-        'sample_count': value['sampleCount'],
-        'upper_bound': value['upperBound'],
+        'binIndex': value['binIndex'],
+        'calibrationGap': value['calibrationGap'],
+        'lowerBound': value['lowerBound'],
+        'meanConfidence': value['meanConfidence'],
+        'sampleCount': value['sampleCount'],
+        'upperBound': value['upperBound'],
     };
 }
 

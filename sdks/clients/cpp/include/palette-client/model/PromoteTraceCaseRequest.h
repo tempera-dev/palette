@@ -61,12 +61,12 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
@@ -74,11 +74,11 @@ protected:
     std::shared_ptr<AnyType> m_Reference;
     bool m_ReferenceIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

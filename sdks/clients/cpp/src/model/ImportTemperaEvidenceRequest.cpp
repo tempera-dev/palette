@@ -20,12 +20,12 @@ namespace model {
 
 ImportTemperaEvidenceRequest::ImportTemperaEvidenceRequest()
 {
-    m_Canonical_json = utility::conversions::to_string_t("");
-    m_Canonical_jsonIsSet = false;
-    m_Public_key_pem = utility::conversions::to_string_t("");
-    m_Public_key_pemIsSet = false;
-    m_Signature_base64 = utility::conversions::to_string_t("");
-    m_Signature_base64IsSet = false;
+    m_CanonicalJson = utility::conversions::to_string_t("");
+    m_CanonicalJsonIsSet = false;
+    m_PublicKeyPem = utility::conversions::to_string_t("");
+    m_PublicKeyPemIsSet = false;
+    m_SignatureBase64 = utility::conversions::to_string_t("");
+    m_SignatureBase64IsSet = false;
 }
 
 ImportTemperaEvidenceRequest::~ImportTemperaEvidenceRequest()
@@ -40,20 +40,20 @@ void ImportTemperaEvidenceRequest::validate()
 web::json::value ImportTemperaEvidenceRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Canonical_jsonIsSet)
+    if(m_CanonicalJsonIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("canonical_json"))] = ModelBase::toJson(m_Canonical_json);
+        val[utility::conversions::to_string_t(U("canonicalJson"))] = ModelBase::toJson(m_CanonicalJson);
     }
-    if(m_Public_key_pemIsSet)
+    if(m_PublicKeyPemIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("public_key_pem"))] = ModelBase::toJson(m_Public_key_pem);
+        val[utility::conversions::to_string_t(U("publicKeyPem"))] = ModelBase::toJson(m_PublicKeyPem);
     }
-    if(m_Signature_base64IsSet)
+    if(m_SignatureBase64IsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("signature_base64"))] = ModelBase::toJson(m_Signature_base64);
+        val[utility::conversions::to_string_t(U("signatureBase64"))] = ModelBase::toJson(m_SignatureBase64);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value ImportTemperaEvidenceRequest::toJson() const
 bool ImportTemperaEvidenceRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("canonical_json"))))
+    if(val.has_field(utility::conversions::to_string_t(U("canonicalJson"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("canonical_json")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("canonicalJson")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCanonicalJson;
@@ -73,9 +73,9 @@ bool ImportTemperaEvidenceRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("public_key_pem"))))
+    if(val.has_field(utility::conversions::to_string_t(U("publicKeyPem"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("public_key_pem")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("publicKeyPem")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPublicKeyPem;
@@ -84,9 +84,9 @@ bool ImportTemperaEvidenceRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("signature_base64"))))
+    if(val.has_field(utility::conversions::to_string_t(U("signatureBase64"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signature_base64")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signatureBase64")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSignatureBase64;
@@ -105,17 +105,17 @@ void ImportTemperaEvidenceRequest::toMultipart(std::shared_ptr<MultipartFormData
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Canonical_jsonIsSet)
+    if(m_CanonicalJsonIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("canonical_json")), m_Canonical_json));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("canonicalJson")), m_CanonicalJson));
     }
-    if(m_Public_key_pemIsSet)
+    if(m_PublicKeyPemIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("public_key_pem")), m_Public_key_pem));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("publicKeyPem")), m_PublicKeyPem));
     }
-    if(m_Signature_base64IsSet)
+    if(m_SignatureBase64IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signature_base64")), m_Signature_base64));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signatureBase64")), m_SignatureBase64));
     }
 }
 
@@ -128,22 +128,22 @@ bool ImportTemperaEvidenceRequest::fromMultiPart(std::shared_ptr<MultipartFormDa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("canonical_json"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("canonicalJson"))))
     {
         utility::string_t refVal_setCanonicalJson;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("canonical_json"))), refVal_setCanonicalJson );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("canonicalJson"))), refVal_setCanonicalJson );
         setCanonicalJson(refVal_setCanonicalJson);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("public_key_pem"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("publicKeyPem"))))
     {
         utility::string_t refVal_setPublicKeyPem;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("public_key_pem"))), refVal_setPublicKeyPem );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("publicKeyPem"))), refVal_setPublicKeyPem );
         setPublicKeyPem(refVal_setPublicKeyPem);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("signature_base64"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("signatureBase64"))))
     {
         utility::string_t refVal_setSignatureBase64;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signature_base64"))), refVal_setSignatureBase64 );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signatureBase64"))), refVal_setSignatureBase64 );
         setSignatureBase64(refVal_setSignatureBase64);
     }
     return ok;
@@ -152,66 +152,66 @@ bool ImportTemperaEvidenceRequest::fromMultiPart(std::shared_ptr<MultipartFormDa
 
 utility::string_t ImportTemperaEvidenceRequest::getCanonicalJson() const
 {
-    return m_Canonical_json;
+    return m_CanonicalJson;
 }
 
 
 void ImportTemperaEvidenceRequest::setCanonicalJson(const utility::string_t& value)
 {
-    m_Canonical_json = value;
-    m_Canonical_jsonIsSet = true;
+    m_CanonicalJson = value;
+    m_CanonicalJsonIsSet = true;
 }
 
 bool ImportTemperaEvidenceRequest::canonicalJsonIsSet() const
 {
-    return m_Canonical_jsonIsSet;
+    return m_CanonicalJsonIsSet;
 }
 
-void ImportTemperaEvidenceRequest::unsetCanonical_json()
+void ImportTemperaEvidenceRequest::unsetCanonicalJson()
 {
-    m_Canonical_jsonIsSet = false;
+    m_CanonicalJsonIsSet = false;
 }
 utility::string_t ImportTemperaEvidenceRequest::getPublicKeyPem() const
 {
-    return m_Public_key_pem;
+    return m_PublicKeyPem;
 }
 
 
 void ImportTemperaEvidenceRequest::setPublicKeyPem(const utility::string_t& value)
 {
-    m_Public_key_pem = value;
-    m_Public_key_pemIsSet = true;
+    m_PublicKeyPem = value;
+    m_PublicKeyPemIsSet = true;
 }
 
 bool ImportTemperaEvidenceRequest::publicKeyPemIsSet() const
 {
-    return m_Public_key_pemIsSet;
+    return m_PublicKeyPemIsSet;
 }
 
-void ImportTemperaEvidenceRequest::unsetPublic_key_pem()
+void ImportTemperaEvidenceRequest::unsetPublicKeyPem()
 {
-    m_Public_key_pemIsSet = false;
+    m_PublicKeyPemIsSet = false;
 }
 utility::string_t ImportTemperaEvidenceRequest::getSignatureBase64() const
 {
-    return m_Signature_base64;
+    return m_SignatureBase64;
 }
 
 
 void ImportTemperaEvidenceRequest::setSignatureBase64(const utility::string_t& value)
 {
-    m_Signature_base64 = value;
-    m_Signature_base64IsSet = true;
+    m_SignatureBase64 = value;
+    m_SignatureBase64IsSet = true;
 }
 
 bool ImportTemperaEvidenceRequest::signatureBase64IsSet() const
 {
-    return m_Signature_base64IsSet;
+    return m_SignatureBase64IsSet;
 }
 
-void ImportTemperaEvidenceRequest::unsetSignature_base64()
+void ImportTemperaEvidenceRequest::unsetSignatureBase64()
 {
-    m_Signature_base64IsSet = false;
+    m_SignatureBase64IsSet = false;
 }
 
 }

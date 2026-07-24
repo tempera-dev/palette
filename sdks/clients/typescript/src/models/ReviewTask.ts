@@ -129,18 +129,18 @@ export function ReviewTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
-        'datasetCaseId': json['dataset_case_id'] == null ? undefined : json['dataset_case_id'],
-        'datasetId': json['dataset_id'] == null ? undefined : json['dataset_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetCaseId': json['datasetCaseId'] == null ? undefined : json['datasetCaseId'],
+        'datasetId': json['datasetId'] == null ? undefined : json['datasetId'],
         'priority': json['priority'],
-        'projectId': json['project_id'],
-        'queueId': json['queue_id'],
-        'spanId': json['span_id'] == null ? undefined : json['span_id'],
+        'projectId': json['projectId'],
+        'queueId': json['queueId'],
+        'spanId': json['spanId'] == null ? undefined : json['spanId'],
         'state': ReviewTaskStateFromJSON(json['state']),
-        'taskId': json['task_id'],
-        'tenantId': json['tenant_id'],
-        'traceId': json['trace_id'],
-        'updatedAt': (new Date(json['updated_at'])),
+        'taskId': json['taskId'],
+        'tenantId': json['tenantId'],
+        'traceId': json['traceId'],
+        'updatedAt': (new Date(json['updatedAt'])),
     };
 }
 
@@ -155,18 +155,18 @@ export function ReviewTaskToJSONTyped(value?: ReviewTask | null, ignoreDiscrimin
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_case_id': value['datasetCaseId'],
-        'dataset_id': value['datasetId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetCaseId': value['datasetCaseId'],
+        'datasetId': value['datasetId'],
         'priority': value['priority'],
-        'project_id': value['projectId'],
-        'queue_id': value['queueId'],
-        'span_id': value['spanId'],
+        'projectId': value['projectId'],
+        'queueId': value['queueId'],
+        'spanId': value['spanId'],
         'state': ReviewTaskStateToJSON(value['state']),
-        'task_id': value['taskId'],
-        'tenant_id': value['tenantId'],
-        'trace_id': value['traceId'],
-        'updated_at': ((value['updatedAt']).toISOString()),
+        'taskId': value['taskId'],
+        'tenantId': value['tenantId'],
+        'traceId': value['traceId'],
+        'updatedAt': ((value['updatedAt']).toISOString()),
     };
 }
 

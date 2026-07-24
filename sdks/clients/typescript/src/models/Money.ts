@@ -62,7 +62,7 @@ export function MoneyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Mon
     }
     return {
         
-        'amountMicros': json['amount_micros'],
+        'amountMicros': json['amountMicros'],
         'currency': CurrencyFromJSON(json['currency']),
     };
 }
@@ -78,7 +78,7 @@ export function MoneyToJSONTyped(value?: Money | null, ignoreDiscriminator: bool
 
     return {
         
-        'amount_micros': value['amountMicros'],
+        'amountMicros': value['amountMicros'],
         'currency': CurrencyToJSON(value['currency']),
     };
 }

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,14 +27,14 @@ class Prompt(BaseModel):
     """
     Prompt
     """ # noqa: E501
-    created_at: datetime
+    created_at: datetime = Field(alias="createdAt")
     description: Optional[StrictStr] = None
     name: StrictStr
-    project_id: StrictStr
-    prompt_id: StrictStr
-    tenant_id: StrictStr
-    updated_at: datetime
-    __properties: ClassVar[List[str]] = ["created_at", "description", "name", "project_id", "prompt_id", "tenant_id", "updated_at"]
+    project_id: StrictStr = Field(alias="projectId")
+    prompt_id: StrictStr = Field(alias="promptId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    updated_at: datetime = Field(alias="updatedAt")
+    __properties: ClassVar[List[str]] = ["createdAt", "description", "name", "projectId", "promptId", "tenantId", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,13 +92,13 @@ class Prompt(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
+            "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
             "name": obj.get("name"),
-            "project_id": obj.get("project_id"),
-            "prompt_id": obj.get("prompt_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "updated_at": obj.get("updated_at")
+            "projectId": obj.get("projectId"),
+            "promptId": obj.get("promptId"),
+            "tenantId": obj.get("tenantId"),
+            "updatedAt": obj.get("updatedAt")
         })
         return _obj
 

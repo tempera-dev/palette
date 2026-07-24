@@ -77,7 +77,7 @@ export class UsageApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/usage/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/usage/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

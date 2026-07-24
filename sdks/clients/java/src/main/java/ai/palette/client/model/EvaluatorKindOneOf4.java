@@ -38,7 +38,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvaluatorKindOneOf4 {
-  public static final String JSON_PROPERTY_MAX_MICROS = "max_micros";
+  public static final String JSON_PROPERTY_MAX_MICROS = "maxMicros";
   @javax.annotation.Nonnull
   private Long maxMicros;
 
@@ -204,9 +204,9 @@ public class EvaluatorKindOneOf4 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `max_micros` to the URL query string
+    // add `maxMicros` to the URL query string
     if (getMaxMicros() != null) {
-      joiner.add(String.format("%smax_micros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smaxMicros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `type` to the URL query string

@@ -20,29 +20,29 @@ namespace model {
 
 ReviewTask::ReviewTask()
 {
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_case_id = utility::conversions::to_string_t("");
-    m_Dataset_case_idIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetCaseId = utility::conversions::to_string_t("");
+    m_DatasetCaseIdIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
     m_Priority = 0L;
     m_PriorityIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Queue_id = utility::conversions::to_string_t("");
-    m_Queue_idIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_QueueId = utility::conversions::to_string_t("");
+    m_QueueIdIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
     m_StateIsSet = false;
-    m_Task_id = utility::conversions::to_string_t("");
-    m_Task_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
-    m_Updated_at = utility::datetime();
-    m_Updated_atIsSet = false;
+    m_TaskId = utility::conversions::to_string_t("");
+    m_TaskIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
+    m_UpdatedAt = utility::datetime();
+    m_UpdatedAtIsSet = false;
 }
 
 ReviewTask::~ReviewTask()
@@ -57,65 +57,65 @@ void ReviewTask::validate()
 web::json::value ReviewTask::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_case_id"))] = ModelBase::toJson(m_Dataset_case_id);
+        val[utility::conversions::to_string_t(U("datasetCaseId"))] = ModelBase::toJson(m_DatasetCaseId);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
     if(m_PriorityIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("priority"))] = ModelBase::toJson(m_Priority);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("queue_id"))] = ModelBase::toJson(m_Queue_id);
+        val[utility::conversions::to_string_t(U("queueId"))] = ModelBase::toJson(m_QueueId);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
     if(m_StateIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("state"))] = ModelBase::toJson(m_State);
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("task_id"))] = ModelBase::toJson(m_Task_id);
+        val[utility::conversions::to_string_t(U("taskId"))] = ModelBase::toJson(m_TaskId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
-    if(m_Updated_atIsSet)
+    if(m_UpdatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("updated_at"))] = ModelBase::toJson(m_Updated_at);
+        val[utility::conversions::to_string_t(U("updatedAt"))] = ModelBase::toJson(m_UpdatedAt);
     }
 
     return val;
@@ -124,9 +124,9 @@ web::json::value ReviewTask::toJson() const
 bool ReviewTask::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -135,9 +135,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetCaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetCaseId;
@@ -146,9 +146,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -168,9 +168,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -179,9 +179,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("queue_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("queueId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queue_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queueId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setQueueId;
@@ -190,9 +190,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -212,9 +212,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("task_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("taskId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("task_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("taskId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTaskId;
@@ -223,9 +223,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -234,9 +234,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -245,9 +245,9 @@ bool ReviewTask::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("updated_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("updatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("updated_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("updatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setUpdatedAt;
@@ -266,53 +266,53 @@ void ReviewTask::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_case_id")), m_Dataset_case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetCaseId")), m_DatasetCaseId));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
     if(m_PriorityIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("priority")), m_Priority));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queue_id")), m_Queue_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queueId")), m_QueueId));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
     if(m_StateIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("state")), m_State));
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("task_id")), m_Task_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("taskId")), m_TaskId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
-    if(m_Updated_atIsSet)
+    if(m_UpdatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("updated_at")), m_Updated_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("updatedAt")), m_UpdatedAt));
     }
 }
 
@@ -325,22 +325,22 @@ bool ReviewTask::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
         utility::string_t refVal_setDatasetCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_case_id"))), refVal_setDatasetCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetCaseId"))), refVal_setDatasetCaseId );
         setDatasetCaseId(refVal_setDatasetCaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("priority"))))
@@ -349,22 +349,22 @@ bool ReviewTask::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("priority"))), refVal_setPriority );
         setPriority(refVal_setPriority);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("queue_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("queueId"))))
     {
         utility::string_t refVal_setQueueId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queue_id"))), refVal_setQueueId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queueId"))), refVal_setQueueId );
         setQueueId(refVal_setQueueId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("state"))))
@@ -373,28 +373,28 @@ bool ReviewTask::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("state"))), refVal_setState );
         setState(refVal_setState);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("task_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("taskId"))))
     {
         utility::string_t refVal_setTaskId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("task_id"))), refVal_setTaskId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("taskId"))), refVal_setTaskId );
         setTaskId(refVal_setTaskId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("updated_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("updatedAt"))))
     {
         utility::datetime refVal_setUpdatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("updated_at"))), refVal_setUpdatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("updatedAt"))), refVal_setUpdatedAt );
         setUpdatedAt(refVal_setUpdatedAt);
     }
     return ok;
@@ -403,66 +403,66 @@ bool ReviewTask::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
 
 utility::datetime ReviewTask::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void ReviewTask::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool ReviewTask::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void ReviewTask::unsetCreated_at()
+void ReviewTask::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t ReviewTask::getDatasetCaseId() const
 {
-    return m_Dataset_case_id;
+    return m_DatasetCaseId;
 }
 
 
 void ReviewTask::setDatasetCaseId(const utility::string_t& value)
 {
-    m_Dataset_case_id = value;
-    m_Dataset_case_idIsSet = true;
+    m_DatasetCaseId = value;
+    m_DatasetCaseIdIsSet = true;
 }
 
 bool ReviewTask::datasetCaseIdIsSet() const
 {
-    return m_Dataset_case_idIsSet;
+    return m_DatasetCaseIdIsSet;
 }
 
-void ReviewTask::unsetDataset_case_id()
+void ReviewTask::unsetDatasetCaseId()
 {
-    m_Dataset_case_idIsSet = false;
+    m_DatasetCaseIdIsSet = false;
 }
 utility::string_t ReviewTask::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void ReviewTask::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool ReviewTask::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void ReviewTask::unsetDataset_id()
+void ReviewTask::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 int64_t ReviewTask::getPriority() const
 {
@@ -486,66 +486,66 @@ void ReviewTask::unsetPriority()
 }
 utility::string_t ReviewTask::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ReviewTask::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ReviewTask::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ReviewTask::unsetProject_id()
+void ReviewTask::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t ReviewTask::getQueueId() const
 {
-    return m_Queue_id;
+    return m_QueueId;
 }
 
 
 void ReviewTask::setQueueId(const utility::string_t& value)
 {
-    m_Queue_id = value;
-    m_Queue_idIsSet = true;
+    m_QueueId = value;
+    m_QueueIdIsSet = true;
 }
 
 bool ReviewTask::queueIdIsSet() const
 {
-    return m_Queue_idIsSet;
+    return m_QueueIdIsSet;
 }
 
-void ReviewTask::unsetQueue_id()
+void ReviewTask::unsetQueueId()
 {
-    m_Queue_idIsSet = false;
+    m_QueueIdIsSet = false;
 }
 utility::string_t ReviewTask::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void ReviewTask::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool ReviewTask::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void ReviewTask::unsetSpan_id()
+void ReviewTask::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 std::shared_ptr<ReviewTaskState> ReviewTask::getState() const
 {
@@ -570,87 +570,87 @@ void ReviewTask::unsetState()
 }
 utility::string_t ReviewTask::getTaskId() const
 {
-    return m_Task_id;
+    return m_TaskId;
 }
 
 
 void ReviewTask::setTaskId(const utility::string_t& value)
 {
-    m_Task_id = value;
-    m_Task_idIsSet = true;
+    m_TaskId = value;
+    m_TaskIdIsSet = true;
 }
 
 bool ReviewTask::taskIdIsSet() const
 {
-    return m_Task_idIsSet;
+    return m_TaskIdIsSet;
 }
 
-void ReviewTask::unsetTask_id()
+void ReviewTask::unsetTaskId()
 {
-    m_Task_idIsSet = false;
+    m_TaskIdIsSet = false;
 }
 utility::string_t ReviewTask::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ReviewTask::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ReviewTask::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ReviewTask::unsetTenant_id()
+void ReviewTask::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t ReviewTask::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void ReviewTask::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool ReviewTask::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void ReviewTask::unsetTrace_id()
+void ReviewTask::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 utility::datetime ReviewTask::getUpdatedAt() const
 {
-    return m_Updated_at;
+    return m_UpdatedAt;
 }
 
 
 void ReviewTask::setUpdatedAt(const utility::datetime& value)
 {
-    m_Updated_at = value;
-    m_Updated_atIsSet = true;
+    m_UpdatedAt = value;
+    m_UpdatedAtIsSet = true;
 }
 
 bool ReviewTask::updatedAtIsSet() const
 {
-    return m_Updated_atIsSet;
+    return m_UpdatedAtIsSet;
 }
 
-void ReviewTask::unsetUpdated_at()
+void ReviewTask::unsetUpdatedAt()
 {
-    m_Updated_atIsSet = false;
+    m_UpdatedAtIsSet = false;
 }
 
 }

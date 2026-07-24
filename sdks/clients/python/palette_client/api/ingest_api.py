@@ -128,7 +128,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceIngestedDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -222,7 +221,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceIngestedDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -316,7 +314,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceIngestedDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -356,9 +353,9 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if limit is not None:
 
@@ -392,7 +389,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain',
+            resource_path='/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -489,7 +486,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceWriteDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -583,7 +579,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceWriteDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -677,7 +672,6 @@ class IngestApi:
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
-            '422': "TraceWriteDrainReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -717,9 +711,9 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if limit is not None:
 
@@ -753,7 +747,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain',
+            resource_path='/v1/ingest/{tenantId}/{projectId}/trace-writes/drain',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1062,9 +1056,9 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1094,7 +1088,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/ingest/{tenant_id}/{project_id}/queue',
+            resource_path='/v1/ingest/{tenantId}/{projectId}/queue',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1422,11 +1416,11 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if environment_id is not None:
-            _path_params['environment_id'] = environment_id
+            _path_params['environmentId'] = environment_id
         # process the query parameters
         if durability is not None:
 
@@ -1471,7 +1465,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/import/{tenant_id}/{project_id}/{environment_id}',
+            resource_path='/v1/import/{tenantId}/{projectId}/{environmentId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2174,11 +2168,11 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if environment_id is not None:
-            _path_params['environment_id'] = environment_id
+            _path_params['environmentId'] = environment_id
         # process the query parameters
         if durability is not None:
 
@@ -2212,7 +2206,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces',
+            resource_path='/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2886,11 +2880,11 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -2920,7 +2914,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile',
+            resource_path='/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3258,15 +3252,15 @@ class IngestApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if message_id is not None:
-            _path_params['message_id'] = message_id
+            _path_params['messageId'] = message_id
         # process the query parameters
         if reset_attempts is not None:
 
-            _query_params.append(('reset_attempts', reset_attempts))
+            _query_params.append(('resetAttempts', reset_attempts))
 
         # process the header parameters
         if authorization is not None:
@@ -3296,7 +3290,7 @@ class IngestApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay',
+            resource_path='/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

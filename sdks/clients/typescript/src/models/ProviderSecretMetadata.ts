@@ -94,13 +94,13 @@ export function ProviderSecretMetadataFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'active': json['active'],
-        'createdAt': (new Date(json['created_at'])),
-        'displayName': json['display_name'],
-        'projectId': json['project_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'displayName': json['displayName'],
+        'projectId': json['projectId'],
         'provider': json['provider'],
-        'providerSecretId': json['provider_secret_id'],
-        'rotatedAt': json['rotated_at'] == null ? undefined : (new Date(json['rotated_at'])),
-        'tenantId': json['tenant_id'],
+        'providerSecretId': json['providerSecretId'],
+        'rotatedAt': json['rotatedAt'] == null ? undefined : (new Date(json['rotatedAt'])),
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -116,13 +116,13 @@ export function ProviderSecretMetadataToJSONTyped(value?: ProviderSecretMetadata
     return {
         
         'active': value['active'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'display_name': value['displayName'],
-        'project_id': value['projectId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'displayName': value['displayName'],
+        'projectId': value['projectId'],
         'provider': value['provider'],
-        'provider_secret_id': value['providerSecretId'],
-        'rotated_at': value['rotatedAt'] == null ? undefined : ((value['rotatedAt'] as any).toISOString()),
-        'tenant_id': value['tenantId'],
+        'providerSecretId': value['providerSecretId'],
+        'rotatedAt': value['rotatedAt'] == null ? undefined : ((value['rotatedAt'] as any).toISOString()),
+        'tenantId': value['tenantId'],
     };
 }
 

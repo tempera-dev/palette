@@ -21,30 +21,30 @@ var _ MappedNullable = &ArchivedSpanRow{}
 
 // ArchivedSpanRow struct for ArchivedSpanRow
 type ArchivedSpanRow struct {
-	AttributesJson string `json:"attributes_json"`
-	CostAmountMicros NullableString `json:"cost_amount_micros,omitempty"`
-	CostCurrency NullableString `json:"cost_currency,omitempty"`
-	EndTime NullableString `json:"end_time,omitempty"`
-	EnvironmentId string `json:"environment_id"`
-	InputTokens NullableString `json:"input_tokens,omitempty"`
-	InputUri NullableString `json:"input_uri,omitempty"`
+	AttributesJson string `json:"attributesJson"`
+	CostAmountMicros NullableString `json:"costAmountMicros,omitempty"`
+	CostCurrency NullableString `json:"costCurrency,omitempty"`
+	EndTime NullableString `json:"endTime,omitempty"`
+	EnvironmentId string `json:"environmentId"`
+	InputTokens NullableString `json:"inputTokens,omitempty"`
+	InputUri NullableString `json:"inputUri,omitempty"`
 	Kind string `json:"kind"`
-	ModelName NullableString `json:"model_name,omitempty"`
-	ModelProvider NullableString `json:"model_provider,omitempty"`
+	ModelName NullableString `json:"modelName,omitempty"`
+	ModelProvider NullableString `json:"modelProvider,omitempty"`
 	Name string `json:"name"`
-	OutputTokens NullableString `json:"output_tokens,omitempty"`
-	OutputUri NullableString `json:"output_uri,omitempty"`
-	ParentSpanId NullableString `json:"parent_span_id,omitempty"`
-	ProjectId string `json:"project_id"`
-	RawUri string `json:"raw_uri"`
-	ReasoningTokens NullableString `json:"reasoning_tokens,omitempty"`
+	OutputTokens NullableString `json:"outputTokens,omitempty"`
+	OutputUri NullableString `json:"outputUri,omitempty"`
+	ParentSpanId NullableString `json:"parentSpanId,omitempty"`
+	ProjectId string `json:"projectId"`
+	RawUri string `json:"rawUri"`
+	ReasoningTokens NullableString `json:"reasoningTokens,omitempty"`
 	Seq int64 `json:"seq"`
-	SpanId string `json:"span_id"`
-	StartTime string `json:"start_time"`
+	SpanId string `json:"spanId"`
+	StartTime string `json:"startTime"`
 	Status string `json:"status"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
-	UnmappedJson string `json:"unmapped_json"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
+	UnmappedJson string `json:"unmappedJson"`
 }
 
 type _ArchivedSpanRow ArchivedSpanRow
@@ -863,52 +863,52 @@ func (o ArchivedSpanRow) MarshalJSON() ([]byte, error) {
 
 func (o ArchivedSpanRow) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["attributes_json"] = o.AttributesJson
+	toSerialize["attributesJson"] = o.AttributesJson
 	if o.CostAmountMicros.IsSet() {
-		toSerialize["cost_amount_micros"] = o.CostAmountMicros.Get()
+		toSerialize["costAmountMicros"] = o.CostAmountMicros.Get()
 	}
 	if o.CostCurrency.IsSet() {
-		toSerialize["cost_currency"] = o.CostCurrency.Get()
+		toSerialize["costCurrency"] = o.CostCurrency.Get()
 	}
 	if o.EndTime.IsSet() {
-		toSerialize["end_time"] = o.EndTime.Get()
+		toSerialize["endTime"] = o.EndTime.Get()
 	}
-	toSerialize["environment_id"] = o.EnvironmentId
+	toSerialize["environmentId"] = o.EnvironmentId
 	if o.InputTokens.IsSet() {
-		toSerialize["input_tokens"] = o.InputTokens.Get()
+		toSerialize["inputTokens"] = o.InputTokens.Get()
 	}
 	if o.InputUri.IsSet() {
-		toSerialize["input_uri"] = o.InputUri.Get()
+		toSerialize["inputUri"] = o.InputUri.Get()
 	}
 	toSerialize["kind"] = o.Kind
 	if o.ModelName.IsSet() {
-		toSerialize["model_name"] = o.ModelName.Get()
+		toSerialize["modelName"] = o.ModelName.Get()
 	}
 	if o.ModelProvider.IsSet() {
-		toSerialize["model_provider"] = o.ModelProvider.Get()
+		toSerialize["modelProvider"] = o.ModelProvider.Get()
 	}
 	toSerialize["name"] = o.Name
 	if o.OutputTokens.IsSet() {
-		toSerialize["output_tokens"] = o.OutputTokens.Get()
+		toSerialize["outputTokens"] = o.OutputTokens.Get()
 	}
 	if o.OutputUri.IsSet() {
-		toSerialize["output_uri"] = o.OutputUri.Get()
+		toSerialize["outputUri"] = o.OutputUri.Get()
 	}
 	if o.ParentSpanId.IsSet() {
-		toSerialize["parent_span_id"] = o.ParentSpanId.Get()
+		toSerialize["parentSpanId"] = o.ParentSpanId.Get()
 	}
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["raw_uri"] = o.RawUri
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["rawUri"] = o.RawUri
 	if o.ReasoningTokens.IsSet() {
-		toSerialize["reasoning_tokens"] = o.ReasoningTokens.Get()
+		toSerialize["reasoningTokens"] = o.ReasoningTokens.Get()
 	}
 	toSerialize["seq"] = o.Seq
-	toSerialize["span_id"] = o.SpanId
-	toSerialize["start_time"] = o.StartTime
+	toSerialize["spanId"] = o.SpanId
+	toSerialize["startTime"] = o.StartTime
 	toSerialize["status"] = o.Status
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
-	toSerialize["unmapped_json"] = o.UnmappedJson
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
+	toSerialize["unmappedJson"] = o.UnmappedJson
 	return toSerialize, nil
 }
 
@@ -917,19 +917,19 @@ func (o *ArchivedSpanRow) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"attributes_json",
-		"environment_id",
+		"attributesJson",
+		"environmentId",
 		"kind",
 		"name",
-		"project_id",
-		"raw_uri",
+		"projectId",
+		"rawUri",
 		"seq",
-		"span_id",
-		"start_time",
+		"spanId",
+		"startTime",
 		"status",
-		"tenant_id",
-		"trace_id",
-		"unmapped_json",
+		"tenantId",
+		"traceId",
+		"unmappedJson",
 	}
 
 	allProperties := make(map[string]interface{})

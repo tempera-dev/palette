@@ -20,17 +20,17 @@ namespace model {
 
 Toolkit::Toolkit()
 {
-    m_Auth_schemesIsSet = false;
+    m_AuthSchemesIsSet = false;
     m_Description = utility::conversions::to_string_t("");
     m_DescriptionIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_No_auth = false;
-    m_No_authIsSet = false;
+    m_NoAuth = false;
+    m_NoAuthIsSet = false;
     m_Slug = utility::conversions::to_string_t("");
     m_SlugIsSet = false;
-    m_Tools_count = 0;
-    m_Tools_countIsSet = false;
+    m_ToolsCount = 0;
+    m_ToolsCountIsSet = false;
 }
 
 Toolkit::~Toolkit()
@@ -45,10 +45,10 @@ void Toolkit::validate()
 web::json::value Toolkit::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Auth_schemesIsSet)
+    if(m_AuthSchemesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("auth_schemes"))] = ModelBase::toJson(m_Auth_schemes);
+        val[utility::conversions::to_string_t(U("authSchemes"))] = ModelBase::toJson(m_AuthSchemes);
     }
     if(m_DescriptionIsSet)
     {   
@@ -60,20 +60,20 @@ web::json::value Toolkit::toJson() const
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_No_authIsSet)
+    if(m_NoAuthIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("no_auth"))] = ModelBase::toJson(m_No_auth);
+        val[utility::conversions::to_string_t(U("noAuth"))] = ModelBase::toJson(m_NoAuth);
     }
     if(m_SlugIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("slug"))] = ModelBase::toJson(m_Slug);
     }
-    if(m_Tools_countIsSet)
+    if(m_ToolsCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tools_count"))] = ModelBase::toJson(m_Tools_count);
+        val[utility::conversions::to_string_t(U("toolsCount"))] = ModelBase::toJson(m_ToolsCount);
     }
 
     return val;
@@ -82,9 +82,9 @@ web::json::value Toolkit::toJson() const
 bool Toolkit::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("auth_schemes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("authSchemes"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("auth_schemes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("authSchemes")));
         if(!fieldValue.is_null())
         {
             std::vector<utility::string_t> refVal_setAuthSchemes;
@@ -115,9 +115,9 @@ bool Toolkit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("no_auth"))))
+    if(val.has_field(utility::conversions::to_string_t(U("noAuth"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("no_auth")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("noAuth")));
         if(!fieldValue.is_null())
         {
             bool refVal_setNoAuth;
@@ -137,9 +137,9 @@ bool Toolkit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tools_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("toolsCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tools_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("toolsCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setToolsCount;
@@ -158,9 +158,9 @@ void Toolkit::toMultipart(std::shared_ptr<MultipartFormData> multipart, const ut
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Auth_schemesIsSet)
+    if(m_AuthSchemesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("auth_schemes")), m_Auth_schemes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("authSchemes")), m_AuthSchemes));
     }
     if(m_DescriptionIsSet)
     {
@@ -170,17 +170,17 @@ void Toolkit::toMultipart(std::shared_ptr<MultipartFormData> multipart, const ut
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_No_authIsSet)
+    if(m_NoAuthIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("no_auth")), m_No_auth));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("noAuth")), m_NoAuth));
     }
     if(m_SlugIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("slug")), m_Slug));
     }
-    if(m_Tools_countIsSet)
+    if(m_ToolsCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tools_count")), m_Tools_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("toolsCount")), m_ToolsCount));
     }
 }
 
@@ -193,10 +193,10 @@ bool Toolkit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("auth_schemes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("authSchemes"))))
     {
         std::vector<utility::string_t> refVal_setAuthSchemes;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("auth_schemes"))), refVal_setAuthSchemes );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("authSchemes"))), refVal_setAuthSchemes );
         setAuthSchemes(refVal_setAuthSchemes);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("description"))))
@@ -211,10 +211,10 @@ bool Toolkit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("no_auth"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("noAuth"))))
     {
         bool refVal_setNoAuth;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("no_auth"))), refVal_setNoAuth );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("noAuth"))), refVal_setNoAuth );
         setNoAuth(refVal_setNoAuth);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("slug"))))
@@ -223,10 +223,10 @@ bool Toolkit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("slug"))), refVal_setSlug );
         setSlug(refVal_setSlug);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tools_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("toolsCount"))))
     {
         int32_t refVal_setToolsCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tools_count"))), refVal_setToolsCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("toolsCount"))), refVal_setToolsCount );
         setToolsCount(refVal_setToolsCount);
     }
     return ok;
@@ -235,24 +235,24 @@ bool Toolkit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
 
 std::vector<utility::string_t> Toolkit::getAuthSchemes() const
 {
-    return m_Auth_schemes;
+    return m_AuthSchemes;
 }
 
 
 void Toolkit::setAuthSchemes(const std::vector<utility::string_t>& value)
 {
-    m_Auth_schemes = value;
-    m_Auth_schemesIsSet = true;
+    m_AuthSchemes = value;
+    m_AuthSchemesIsSet = true;
 }
 
 bool Toolkit::authSchemesIsSet() const
 {
-    return m_Auth_schemesIsSet;
+    return m_AuthSchemesIsSet;
 }
 
-void Toolkit::unsetAuth_schemes()
+void Toolkit::unsetAuthSchemes()
 {
-    m_Auth_schemesIsSet = false;
+    m_AuthSchemesIsSet = false;
 }
 utility::string_t Toolkit::getDescription() const
 {
@@ -298,23 +298,23 @@ void Toolkit::unsetName()
 }
 bool Toolkit::isNoAuth() const
 {
-    return m_No_auth;
+    return m_NoAuth;
 }
 
 void Toolkit::setNoAuth(bool value)
 {
-    m_No_auth = value;
-    m_No_authIsSet = true;
+    m_NoAuth = value;
+    m_NoAuthIsSet = true;
 }
 
 bool Toolkit::noAuthIsSet() const
 {
-    return m_No_authIsSet;
+    return m_NoAuthIsSet;
 }
 
-void Toolkit::unsetNo_auth()
+void Toolkit::unsetNoAuth()
 {
-    m_No_authIsSet = false;
+    m_NoAuthIsSet = false;
 }
 utility::string_t Toolkit::getSlug() const
 {
@@ -339,23 +339,23 @@ void Toolkit::unsetSlug()
 }
 int32_t Toolkit::getToolsCount() const
 {
-    return m_Tools_count;
+    return m_ToolsCount;
 }
 
 void Toolkit::setToolsCount(int32_t value)
 {
-    m_Tools_count = value;
-    m_Tools_countIsSet = true;
+    m_ToolsCount = value;
+    m_ToolsCountIsSet = true;
 }
 
 bool Toolkit::toolsCountIsSet() const
 {
-    return m_Tools_countIsSet;
+    return m_ToolsCountIsSet;
 }
 
-void Toolkit::unsetTools_count()
+void Toolkit::unsetToolsCount()
 {
-    m_Tools_countIsSet = false;
+    m_ToolsCountIsSet = false;
 }
 
 }

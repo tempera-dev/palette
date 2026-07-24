@@ -20,19 +20,19 @@ namespace model {
 
 RunDeterministicEvalRequest::RunDeterministicEvalRequest()
 {
-    m_Agent_release_id = utility::conversions::to_string_t("");
-    m_Agent_release_idIsSet = false;
-    m_Code_hash = utility::conversions::to_string_t("");
-    m_Code_hashIsSet = false;
-    m_Evaluator_id = utility::conversions::to_string_t("");
-    m_Evaluator_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
+    m_AgentReleaseId = utility::conversions::to_string_t("");
+    m_AgentReleaseIdIsSet = false;
+    m_CodeHash = utility::conversions::to_string_t("");
+    m_CodeHashIsSet = false;
+    m_EvaluatorId = utility::conversions::to_string_t("");
+    m_EvaluatorIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
     m_KindIsSet = false;
-    m_Prompt_version_id = utility::conversions::to_string_t("");
-    m_Prompt_version_idIsSet = false;
-    m_Wasm_hash = utility::conversions::to_string_t("");
-    m_Wasm_hashIsSet = false;
+    m_PromptVersionId = utility::conversions::to_string_t("");
+    m_PromptVersionIdIsSet = false;
+    m_WasmHash = utility::conversions::to_string_t("");
+    m_WasmHashIsSet = false;
 }
 
 RunDeterministicEvalRequest::~RunDeterministicEvalRequest()
@@ -47,40 +47,40 @@ void RunDeterministicEvalRequest::validate()
 web::json::value RunDeterministicEvalRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("agent_release_id"))] = ModelBase::toJson(m_Agent_release_id);
+        val[utility::conversions::to_string_t(U("agentReleaseId"))] = ModelBase::toJson(m_AgentReleaseId);
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("code_hash"))] = ModelBase::toJson(m_Code_hash);
+        val[utility::conversions::to_string_t(U("codeHash"))] = ModelBase::toJson(m_CodeHash);
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_id"))] = ModelBase::toJson(m_Evaluator_id);
+        val[utility::conversions::to_string_t(U("evaluatorId"))] = ModelBase::toJson(m_EvaluatorId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
     if(m_KindIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_version_id"))] = ModelBase::toJson(m_Prompt_version_id);
+        val[utility::conversions::to_string_t(U("promptVersionId"))] = ModelBase::toJson(m_PromptVersionId);
     }
-    if(m_Wasm_hashIsSet)
+    if(m_WasmHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("wasm_hash"))] = ModelBase::toJson(m_Wasm_hash);
+        val[utility::conversions::to_string_t(U("wasmHash"))] = ModelBase::toJson(m_WasmHash);
     }
 
     return val;
@@ -89,9 +89,9 @@ web::json::value RunDeterministicEvalRequest::toJson() const
 bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agent_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agentReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAgentReleaseId;
@@ -100,9 +100,9 @@ bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("code_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("codeHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("code_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("codeHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCodeHash;
@@ -111,9 +111,9 @@ bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorId;
@@ -122,9 +122,9 @@ bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -144,9 +144,9 @@ bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPromptVersionId;
@@ -155,9 +155,9 @@ bool RunDeterministicEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("wasm_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("wasmHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasm_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasmHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setWasmHash;
@@ -176,33 +176,33 @@ void RunDeterministicEvalRequest::toMultipart(std::shared_ptr<MultipartFormData>
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agent_release_id")), m_Agent_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agentReleaseId")), m_AgentReleaseId));
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("code_hash")), m_Code_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("codeHash")), m_CodeHash));
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_id")), m_Evaluator_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorId")), m_EvaluatorId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
     if(m_KindIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_version_id")), m_Prompt_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptVersionId")), m_PromptVersionId));
     }
-    if(m_Wasm_hashIsSet)
+    if(m_WasmHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasm_hash")), m_Wasm_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasmHash")), m_WasmHash));
     }
 }
 
@@ -215,28 +215,28 @@ bool RunDeterministicEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
         utility::string_t refVal_setAgentReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agent_release_id"))), refVal_setAgentReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agentReleaseId"))), refVal_setAgentReleaseId );
         setAgentReleaseId(refVal_setAgentReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("code_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("codeHash"))))
     {
         utility::string_t refVal_setCodeHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("code_hash"))), refVal_setCodeHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("codeHash"))), refVal_setCodeHash );
         setCodeHash(refVal_setCodeHash);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorId"))))
     {
         utility::string_t refVal_setEvaluatorId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_id"))), refVal_setEvaluatorId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorId"))), refVal_setEvaluatorId );
         setEvaluatorId(refVal_setEvaluatorId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -245,16 +245,16 @@ bool RunDeterministicEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptVersionId"))))
     {
         utility::string_t refVal_setPromptVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_version_id"))), refVal_setPromptVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptVersionId"))), refVal_setPromptVersionId );
         setPromptVersionId(refVal_setPromptVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("wasm_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("wasmHash"))))
     {
         utility::string_t refVal_setWasmHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasm_hash"))), refVal_setWasmHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasmHash"))), refVal_setWasmHash );
         setWasmHash(refVal_setWasmHash);
     }
     return ok;
@@ -263,87 +263,87 @@ bool RunDeterministicEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
 
 utility::string_t RunDeterministicEvalRequest::getAgentReleaseId() const
 {
-    return m_Agent_release_id;
+    return m_AgentReleaseId;
 }
 
 
 void RunDeterministicEvalRequest::setAgentReleaseId(const utility::string_t& value)
 {
-    m_Agent_release_id = value;
-    m_Agent_release_idIsSet = true;
+    m_AgentReleaseId = value;
+    m_AgentReleaseIdIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::agentReleaseIdIsSet() const
 {
-    return m_Agent_release_idIsSet;
+    return m_AgentReleaseIdIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetAgent_release_id()
+void RunDeterministicEvalRequest::unsetAgentReleaseId()
 {
-    m_Agent_release_idIsSet = false;
+    m_AgentReleaseIdIsSet = false;
 }
 utility::string_t RunDeterministicEvalRequest::getCodeHash() const
 {
-    return m_Code_hash;
+    return m_CodeHash;
 }
 
 
 void RunDeterministicEvalRequest::setCodeHash(const utility::string_t& value)
 {
-    m_Code_hash = value;
-    m_Code_hashIsSet = true;
+    m_CodeHash = value;
+    m_CodeHashIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::codeHashIsSet() const
 {
-    return m_Code_hashIsSet;
+    return m_CodeHashIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetCode_hash()
+void RunDeterministicEvalRequest::unsetCodeHash()
 {
-    m_Code_hashIsSet = false;
+    m_CodeHashIsSet = false;
 }
 utility::string_t RunDeterministicEvalRequest::getEvaluatorId() const
 {
-    return m_Evaluator_id;
+    return m_EvaluatorId;
 }
 
 
 void RunDeterministicEvalRequest::setEvaluatorId(const utility::string_t& value)
 {
-    m_Evaluator_id = value;
-    m_Evaluator_idIsSet = true;
+    m_EvaluatorId = value;
+    m_EvaluatorIdIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::evaluatorIdIsSet() const
 {
-    return m_Evaluator_idIsSet;
+    return m_EvaluatorIdIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetEvaluator_id()
+void RunDeterministicEvalRequest::unsetEvaluatorId()
 {
-    m_Evaluator_idIsSet = false;
+    m_EvaluatorIdIsSet = false;
 }
 utility::string_t RunDeterministicEvalRequest::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void RunDeterministicEvalRequest::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetEvaluator_version_id()
+void RunDeterministicEvalRequest::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 std::shared_ptr<EvaluatorKind> RunDeterministicEvalRequest::getKind() const
 {
@@ -368,45 +368,45 @@ void RunDeterministicEvalRequest::unsetKind()
 }
 utility::string_t RunDeterministicEvalRequest::getPromptVersionId() const
 {
-    return m_Prompt_version_id;
+    return m_PromptVersionId;
 }
 
 
 void RunDeterministicEvalRequest::setPromptVersionId(const utility::string_t& value)
 {
-    m_Prompt_version_id = value;
-    m_Prompt_version_idIsSet = true;
+    m_PromptVersionId = value;
+    m_PromptVersionIdIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::promptVersionIdIsSet() const
 {
-    return m_Prompt_version_idIsSet;
+    return m_PromptVersionIdIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetPrompt_version_id()
+void RunDeterministicEvalRequest::unsetPromptVersionId()
 {
-    m_Prompt_version_idIsSet = false;
+    m_PromptVersionIdIsSet = false;
 }
 utility::string_t RunDeterministicEvalRequest::getWasmHash() const
 {
-    return m_Wasm_hash;
+    return m_WasmHash;
 }
 
 
 void RunDeterministicEvalRequest::setWasmHash(const utility::string_t& value)
 {
-    m_Wasm_hash = value;
-    m_Wasm_hashIsSet = true;
+    m_WasmHash = value;
+    m_WasmHashIsSet = true;
 }
 
 bool RunDeterministicEvalRequest::wasmHashIsSet() const
 {
-    return m_Wasm_hashIsSet;
+    return m_WasmHashIsSet;
 }
 
-void RunDeterministicEvalRequest::unsetWasm_hash()
+void RunDeterministicEvalRequest::unsetWasmHash()
 {
-    m_Wasm_hashIsSet = false;
+    m_WasmHashIsSet = false;
 }
 
 }

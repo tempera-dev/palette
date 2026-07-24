@@ -680,208 +680,208 @@ pub fn router(state: ApiState) -> Router {
         .route("/v1/traces/native", post(ingest_native))
         .route("/v1/traces", post(ingest_otlp_json_collector))
         .route(
-            "/v1/api-keys/:tenant_id/:project_id/:environment_id",
+            "/v1/api-keys/:tenantId/:projectId/:environmentId",
             post(create_api_key_route),
         )
         .route(
-            "/v1/api-keys/:tenant_id/:project_id/:environment_id/:api_key_id/revoke",
+            "/v1/api-keys/:tenantId/:projectId/:environmentId/:apiKeyId/revoke",
             post(revoke_api_key_route),
         )
         .route(
-            "/v1/provider-secrets/:tenant_id/:project_id",
+            "/v1/provider-secrets/:tenantId/:projectId",
             get(list_provider_secrets_route).post(create_provider_secret_route),
         )
         .route(
-            "/v1/provider-secrets/:tenant_id/:project_id/:provider_secret_id/revoke",
+            "/v1/provider-secrets/:tenantId/:projectId/:providerSecretId/revoke",
             post(revoke_provider_secret_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id",
+            "/v1/connectors/:tenantId/:projectId",
             get(list_connectors_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id/tools",
+            "/v1/connectors/:tenantId/:projectId/tools",
             get(list_connector_tools_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id/skills",
+            "/v1/connectors/:tenantId/:projectId/skills",
             get(connector_skills_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id/connect",
+            "/v1/connectors/:tenantId/:projectId/connect",
             post(connect_connector_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id/status",
+            "/v1/connectors/:tenantId/:projectId/status",
             get(connector_status_route),
         )
         .route(
-            "/v1/connectors/:tenant_id/:project_id/invoke",
+            "/v1/connectors/:tenantId/:projectId/invoke",
             post(invoke_connector_tool_route),
         )
         .route(
-            "/v1/judge/:tenant_id/:project_id/evaluate",
+            "/v1/judge/:tenantId/:projectId/evaluate",
             post(run_judge_eval_route),
         )
         .route(
-            "/v1/judge/:tenant_id/:project_id/ledger",
+            "/v1/judge/:tenantId/:projectId/ledger",
             get(list_judge_ledger_route),
         )
-        .route("/v1/usage/:tenant_id/:project_id", get(get_usage_summary_route))
+        .route("/v1/usage/:tenantId/:projectId", get(get_usage_summary_route))
         .route(
-            "/v1/connect/status/:tenant_id/:project_id",
+            "/v1/connect/status/:tenantId/:projectId",
             get(get_palette_connect_status_route),
         )
-        .route("/v1/audit/:tenant_id/:project_id", get(list_audit_events_route))
+        .route("/v1/audit/:tenantId/:projectId", get(list_audit_events_route))
         .route(
-            "/v1/ingest/:tenant_id/:project_id/queue",
+            "/v1/ingest/:tenantId/:projectId/queue",
             get(get_ingest_queue_status_route),
         )
         .route(
-            "/v1/ingest/:tenant_id/:project_id/traces/:trace_id/reconcile",
+            "/v1/ingest/:tenantId/:projectId/traces/:traceId/reconcile",
             post(reconcile_trace_ingested_route),
         )
         .route(
-            "/v1/ingest/:tenant_id/:project_id/dead-letters/:message_id/replay",
+            "/v1/ingest/:tenantId/:projectId/dead-letters/:messageId/replay",
             post(replay_dead_letter_route),
         )
         .route(
-            "/v1/ingest/:tenant_id/:project_id/trace-writes/drain",
+            "/v1/ingest/:tenantId/:projectId/trace-writes/drain",
             post(drain_trace_writes_route),
         )
         .route(
-            "/v1/ingest/:tenant_id/:project_id/trace-ingested/drain",
+            "/v1/ingest/:tenantId/:projectId/trace-ingested/drain",
             post(drain_trace_ingested_route),
         )
-        .route("/v1/search/:tenant_id/spans", get(search_spans))
-        .route("/v1/traces/:tenant_id", get(list_traces))
+        .route("/v1/search/:tenantId/spans", get(search_spans))
+        .route("/v1/traces/:tenantId", get(list_traces))
         .route(
-            "/v1/spans/:tenant_id/:trace_id/:span_id",
+            "/v1/spans/:tenantId/:traceId/:spanId",
             get(get_span_route),
         )
         .route(
-            "/v1/spans/:tenant_id/:trace_id/:span_id/io",
+            "/v1/spans/:tenantId/:traceId/:spanId/io",
             get(get_span_io_route),
         )
         .route(
-            "/v1/archive/:tenant_id/:project_id/:trace_id",
+            "/v1/archive/:tenantId/:projectId/:traceId",
             post(archive_trace),
         )
         .route(
-            "/v1/archive/:tenant_id/:project_id/spans",
+            "/v1/archive/:tenantId/:projectId/spans",
             get(query_archive_spans),
         )
         .route(
-            "/v1/prompts/:tenant_id/:project_id",
+            "/v1/prompts/:tenantId/:projectId",
             get(list_prompts_route).post(create_prompt_route),
         )
         .route(
-            "/v1/prompts/:tenant_id/:project_id/:prompt_id",
+            "/v1/prompts/:tenantId/:projectId/:promptId",
             get(get_prompt_route),
         )
         .route(
-            "/v1/prompts/:tenant_id/:project_id/:prompt_id/versions",
+            "/v1/prompts/:tenantId/:projectId/:promptId/versions",
             get(list_prompt_versions_route).post(add_prompt_version_route),
         )
         .route(
-            "/v1/prompts/:tenant_id/:project_id/:prompt_id/diff",
+            "/v1/prompts/:tenantId/:projectId/:promptId/diff",
             get(diff_prompt_versions_route),
         )
-        .route("/v1/datasets/:tenant_id/:project_id", post(create_dataset))
+        .route("/v1/datasets/:tenantId/:projectId", post(create_dataset))
         .route(
-            "/v1/scenarios/:tenant_id/:project_id",
+            "/v1/scenarios/:tenantId/:projectId",
             post(create_scenario).get(list_scenarios),
         )
         .route(
-            "/v1/scenarios/:tenant_id/:project_id/mine",
+            "/v1/scenarios/:tenantId/:projectId/mine",
             post(mine_scenarios),
         )
         .route(
-            "/v1/scenarios/:tenant_id/:project_id/:scenario_id",
+            "/v1/scenarios/:tenantId/:projectId/:scenarioId",
             get(get_scenario),
         )
         .route(
-            "/v1/datasets/:tenant_id/:project_id/:dataset_id/cases/from-trace",
+            "/v1/datasets/:tenantId/:projectId/:datasetId/cases/from-trace",
             post(promote_dataset_case),
         )
         .route(
-            "/v1/datasets/:tenant_id/:project_id/:dataset_id/versions",
+            "/v1/datasets/:tenantId/:projectId/:datasetId/versions",
             post(create_dataset_version),
         )
         .route(
-            "/v1/datasets/:tenant_id/:project_id/:dataset_id/versions/:version_id/evals/deterministic",
+            "/v1/datasets/:tenantId/:projectId/:datasetId/versions/:versionId/evals/deterministic",
             post(run_deterministic_dataset_eval),
         )
         .route(
-            "/v1/datasets/:tenant_id/:project_id/:dataset_id/versions/:version_id/evals/judge",
+            "/v1/datasets/:tenantId/:projectId/:datasetId/versions/:versionId/evals/judge",
             post(run_judge_dataset_eval),
         )
         .route(
-            "/v1/calibrations/:tenant_id/:project_id/:dataset_id/versions/:version_id",
+            "/v1/calibrations/:tenantId/:projectId/:datasetId/versions/:versionId",
             post(run_calibration_route),
         )
         .route(
-            "/v1/experiments/:tenant_id/:project_id/:dataset_id/versions/:version_id/deterministic",
+            "/v1/experiments/:tenantId/:projectId/:datasetId/versions/:versionId/deterministic",
             post(run_deterministic_experiment_route),
         )
         .route(
-            "/v1/experiments/:tenant_id/:project_id/:dataset_id/versions/:version_id/judge",
+            "/v1/experiments/:tenantId/:projectId/:datasetId/versions/:versionId/judge",
             post(run_judge_experiment_route),
         )
         .route(
-            "/v1/eval-results/:tenant_id/:project_id/tempera/bundles",
+            "/v1/eval-results/:tenantId/:projectId/tempera/bundles",
             post(import_tempera_bundle_route),
         )
         .route(
-            "/v1/eval-results/:tenant_id/:project_id/tempera/decisions",
+            "/v1/eval-results/:tenantId/:projectId/tempera/decisions",
             post(record_tempera_decision_route),
         )
         .route(
-            "/v1/eval-results/:tenant_id/:project_id/tempera/:kind/:external_id",
+            "/v1/eval-results/:tenantId/:projectId/tempera/:kind/:externalId",
             get(get_tempera_evidence_route),
         )
-        .route("/v1/gates/:tenant_id/:project_id", post(create_gate_route))
+        .route("/v1/gates/:tenantId/:projectId", post(create_gate_route))
         .route(
-            "/v1/gates/:tenant_id/:project_id/:gate_id/run",
+            "/v1/gates/:tenantId/:projectId/:gateId/run",
             post(run_gate_route),
         )
         .route(
-            "/v1/review-queues/:tenant_id/:project_id",
+            "/v1/review-queues/:tenantId/:projectId",
             post(create_review_queue_route),
         )
         .route(
-            "/v1/review-queues/:tenant_id/:project_id/:queue_id/tasks",
+            "/v1/review-queues/:tenantId/:projectId/:queueId/tasks",
             get(list_review_tasks_route),
         )
         .route(
-            "/v1/review-queues/:tenant_id/:project_id/:queue_id/tasks/from-trace",
+            "/v1/review-queues/:tenantId/:projectId/:queueId/tasks/from-trace",
             post(enqueue_review_task_from_trace_route),
         )
         .route(
-            "/v1/review-queues/:tenant_id/:project_id/:queue_id/tasks/:task_id/annotations",
+            "/v1/review-queues/:tenantId/:projectId/:queueId/tasks/:taskId/annotations",
             post(submit_review_annotation_route),
         )
         .route(
-            "/v1/review-queues/:tenant_id/:project_id/:queue_id/tasks/:task_id/annotations/:annotation_id/promote",
+            "/v1/review-queues/:tenantId/:projectId/:queueId/tasks/:taskId/annotations/:annotationId/promote",
             post(promote_review_annotation_route),
         )
         .route(
-            "/v1/online/:tenant_id/:project_id/traces/:trace_id/sampling",
+            "/v1/online/:tenantId/:projectId/traces/:traceId/sampling",
             post(decide_online_sampling),
         )
         .route(
-            "/v1/alerts/:tenant_id/:project_id/traces/:trace_id/webhook",
+            "/v1/alerts/:tenantId/:projectId/traces/:traceId/webhook",
             post(evaluate_alert),
         )
         .route(
-            "/v1/otlp/:tenant_id/:project_id/:environment_id/v1/traces",
+            "/v1/otlp/:tenantId/:projectId/:environmentId/v1/traces",
             post(ingest_otlp_http),
         )
         .route(
-            "/v1/import/:tenant_id/:project_id/:environment_id",
+            "/v1/import/:tenantId/:projectId/:environmentId",
             post(import_source_route),
         )
-        .route("/v1/traces/:tenant_id/:trace_id", get(get_trace));
+        .route("/v1/traces/:tenantId/:traceId", get(get_trace));
 
     router.with_state(state)
 }
@@ -951,13 +951,13 @@ async fn ingest_native(
 
 #[utoipa::path(
     post,
-    path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}",
+    path = "/v1/api-keys/{tenantId}/{projectId}/{environmentId}",
     tag = "apiKeys",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("environment_id" = String, Path, description = "environment_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("environmentId" = String, Path, description = "environment_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1031,14 +1031,14 @@ async fn create_api_key_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke",
+    path = "/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke",
     tag = "apiKeys",
     operation_id = "revoke",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("environment_id" = String, Path, description = "environment_id"),
-        ("api_key_id" = String, Path, description = "api_key_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("environmentId" = String, Path, description = "environment_id"),
+        ("apiKeyId" = String, Path, description = "api_key_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1120,12 +1120,12 @@ async fn revoke_api_key_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/provider-secrets/{tenant_id}/{project_id}",
+    path = "/v1/provider-secrets/{tenantId}/{projectId}",
     tag = "providerSecrets",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1173,7 +1173,7 @@ async fn create_provider_secret_route(
             reason: None,
             attributes: serde_json::json!({
                 "provider": metadata.provider.as_str(),
-                "display_name": metadata.display_name.as_str(),
+                "displayName": metadata.display_name.as_str(),
                 "active": metadata.active,
             }),
         },
@@ -1184,12 +1184,12 @@ async fn create_provider_secret_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/provider-secrets/{tenant_id}/{project_id}",
+    path = "/v1/provider-secrets/{tenantId}/{projectId}",
     tag = "providerSecrets",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -1239,13 +1239,13 @@ async fn list_provider_secrets_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke",
+    path = "/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke",
     tag = "providerSecrets",
     operation_id = "revoke",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("provider_secret_id" = String, Path, description = "provider_secret_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("providerSecretId" = String, Path, description = "provider_secret_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1404,12 +1404,12 @@ struct ConnectorSkillsResponse {
 
 #[utoipa::path(
     get,
-    path = "/v1/connectors/{tenant_id}/{project_id}",
+    path = "/v1/connectors/{tenantId}/{projectId}",
     tag = "connectors",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         CatalogQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -1462,12 +1462,12 @@ async fn list_connectors_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/connectors/{tenant_id}/{project_id}/tools",
+    path = "/v1/connectors/{tenantId}/{projectId}/tools",
     tag = "connectors",
     operation_id = "listTools",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ToolListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -1524,12 +1524,12 @@ async fn list_connector_tools_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/connectors/{tenant_id}/{project_id}/skills",
+    path = "/v1/connectors/{tenantId}/{projectId}/skills",
     tag = "connectors",
     operation_id = "getSkills",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ToolkitQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -1577,12 +1577,12 @@ async fn connector_skills_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/connectors/{tenant_id}/{project_id}/connect",
+    path = "/v1/connectors/{tenantId}/{projectId}/connect",
     tag = "connectors",
     operation_id = "connect",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1617,12 +1617,12 @@ async fn connect_connector_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/connectors/{tenant_id}/{project_id}/status",
+    path = "/v1/connectors/{tenantId}/{projectId}/status",
     tag = "connectors",
     operation_id = "status",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ToolkitQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -1664,12 +1664,12 @@ async fn connector_status_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/connectors/{tenant_id}/{project_id}/invoke",
+    path = "/v1/connectors/{tenantId}/{projectId}/invoke",
     tag = "connectors",
     operation_id = "invokeTool",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1773,12 +1773,12 @@ async fn record_connector_tool_policy_audit_if_configured(
 
 #[utoipa::path(
     post,
-    path = "/v1/judge/{tenant_id}/{project_id}/evaluate",
+    path = "/v1/judge/{tenantId}/{projectId}/evaluate",
     tag = "judge",
     operation_id = "evaluate",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1819,12 +1819,12 @@ async fn run_judge_eval_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/usage/{tenant_id}/{project_id}",
+    path = "/v1/usage/{tenantId}/{projectId}",
     tag = "usage",
     operation_id = "getSummary",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1860,6 +1860,7 @@ enum PaletteConnectStatus {
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct PaletteConnectStatusResponse {
     tenant_id: TenantId,
     project_id: ProjectId,
@@ -1873,12 +1874,12 @@ struct PaletteConnectStatusResponse {
 
 #[utoipa::path(
     get,
-    path = "/v1/connect/status/{tenant_id}/{project_id}",
+    path = "/v1/connect/status/{tenantId}/{projectId}",
     tag = "connect",
     operation_id = "getStatus",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -1948,12 +1949,12 @@ async fn get_palette_connect_status_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/judge/{tenant_id}/{project_id}/ledger",
+    path = "/v1/judge/{tenantId}/{projectId}/ledger",
     tag = "judge",
     operation_id = "listLedger",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2007,12 +2008,12 @@ async fn list_judge_ledger_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/ingest/{tenant_id}/{project_id}/queue",
+    path = "/v1/ingest/{tenantId}/{projectId}/queue",
     tag = "ingest",
     operation_id = "getQueueStatus",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -2040,13 +2041,13 @@ async fn get_ingest_queue_status_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay",
+    path = "/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay",
     tag = "ingest",
     operation_id = "replayDeadLetter",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("message_id" = String, Path, description = "message_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("messageId" = String, Path, description = "message_id"),
         ReplayDeadLetterQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2080,13 +2081,13 @@ async fn replay_dead_letter_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile",
+    path = "/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile",
     tag = "ingest",
     operation_id = "reconcileTrace",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("traceId" = String, Path, description = "trace_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -2119,12 +2120,12 @@ async fn reconcile_trace_ingested_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain",
+    path = "/v1/ingest/{tenantId}/{projectId}/trace-writes/drain",
     tag = "ingest",
     operation_id = "drainTraceWrites",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         DrainTraceWritesQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2132,11 +2133,10 @@ async fn reconcile_trace_ingested_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "Drain pending trace writes", body = TraceWriteDrainReport),
+        (status = 200, description = "Drain pending trace writes, including retry and dead-letter outcomes", body = TraceWriteDrainReport),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
-        (status = 422, description = "Drained with dead-letters", body = TraceWriteDrainReport),
     )
 )]
 async fn drain_trace_writes_route(
@@ -2144,7 +2144,7 @@ async fn drain_trace_writes_route(
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
     Query(params): Query<DrainTraceWritesQuery>,
-) -> Result<(StatusCode, Json<TraceWriteDrainReport>), ApiError> {
+) -> Result<Json<TraceWriteDrainReport>, ApiError> {
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
@@ -2153,17 +2153,17 @@ async fn drain_trace_writes_route(
         .ingest
         .drain_trace_writes_for(&tenant_id, &project_id, limit)
         .await?;
-    Ok((drain_status(report.dead_lettered), Json(report)))
+    Ok(Json(report))
 }
 
 #[utoipa::path(
     post,
-    path = "/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain",
+    path = "/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain",
     tag = "ingest",
     operation_id = "drainTraceIngested",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         DrainTraceWritesQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2171,11 +2171,10 @@ async fn drain_trace_writes_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "Drain pending trace-ingested events", body = TraceIngestedDrainReport),
+        (status = 200, description = "Drain pending trace-ingested events, including retry and dead-letter outcomes", body = TraceIngestedDrainReport),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
-        (status = 422, description = "Drained with dead-letters", body = TraceIngestedDrainReport),
     )
 )]
 async fn drain_trace_ingested_route(
@@ -2183,7 +2182,7 @@ async fn drain_trace_ingested_route(
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
     Query(params): Query<DrainTraceWritesQuery>,
-) -> Result<(StatusCode, Json<TraceIngestedDrainReport>), ApiError> {
+) -> Result<Json<TraceIngestedDrainReport>, ApiError> {
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
@@ -2205,26 +2204,18 @@ async fn drain_trace_ingested_route(
             }
         })
         .await?;
-    Ok((drain_status(report.dead_lettered), Json(report)))
-}
-
-fn drain_status(dead_lettered: usize) -> StatusCode {
-    if dead_lettered > 0 {
-        StatusCode::UNPROCESSABLE_ENTITY
-    } else {
-        StatusCode::OK
-    }
+    Ok(Json(report))
 }
 
 #[utoipa::path(
     post,
-    path = "/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces",
+    path = "/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces",
     tag = "ingest",
     operation_id = "otlp",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("environment_id" = String, Path, description = "environment_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("environmentId" = String, Path, description = "environment_id"),
         IngestDurabilityQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2358,13 +2349,13 @@ struct ImportSourceHttpRequest {
 
 #[utoipa::path(
     post,
-    path = "/v1/import/{tenant_id}/{project_id}/{environment_id}",
+    path = "/v1/import/{tenantId}/{projectId}/{environmentId}",
     tag = "ingest",
     operation_id = "importSource",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("environment_id" = String, Path, description = "environment_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("environmentId" = String, Path, description = "environment_id"),
         IngestDurabilityQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2423,11 +2414,11 @@ async fn import_source_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/search/{tenant_id}/spans",
+    path = "/v1/search/{tenantId}/spans",
     tag = "search",
     operation_id = "spans",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
         SearchQueryParams,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2536,11 +2527,11 @@ async fn search_spans(
 
 #[utoipa::path(
     get,
-    path = "/v1/traces/{tenant_id}",
+    path = "/v1/traces/{tenantId}",
     tag = "traces",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
         ListTracesQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2641,12 +2632,12 @@ async fn list_traces(
 
 #[utoipa::path(
     get,
-    path = "/v1/traces/{tenant_id}/{trace_id}",
+    path = "/v1/traces/{tenantId}/{traceId}",
     tag = "traces",
     operation_id = "get",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("traceId" = String, Path, description = "trace_id"),
         TraceReadQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2688,13 +2679,13 @@ async fn get_trace(
 
 #[utoipa::path(
     get,
-    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}",
+    path = "/v1/spans/{tenantId}/{traceId}/{spanId}",
     tag = "spans",
     operation_id = "get",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
-        ("span_id" = String, Path, description = "span_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("traceId" = String, Path, description = "trace_id"),
+        ("spanId" = String, Path, description = "span_id"),
         TraceReadQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2721,13 +2712,13 @@ async fn get_span_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io",
+    path = "/v1/spans/{tenantId}/{traceId}/{spanId}/io",
     tag = "spans",
     operation_id = "getIo",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
-        ("span_id" = String, Path, description = "span_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("traceId" = String, Path, description = "trace_id"),
+        ("spanId" = String, Path, description = "span_id"),
         TraceReadQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2760,12 +2751,12 @@ async fn get_span_io_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/audit/{tenant_id}/{project_id}",
+    path = "/v1/audit/{tenantId}/{projectId}",
     tag = "audit",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2815,13 +2806,13 @@ async fn list_audit_events_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/archive/{tenant_id}/{project_id}/{trace_id}",
+    path = "/v1/archive/{tenantId}/{projectId}/{traceId}",
     tag = "archive",
     operation_id = "archiveTrace",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("traceId" = String, Path, description = "trace_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -2876,12 +2867,12 @@ async fn archive_trace(
 
 #[utoipa::path(
     get,
-    path = "/v1/archive/{tenant_id}/{project_id}/spans",
+    path = "/v1/archive/{tenantId}/{projectId}/spans",
     tag = "archive",
     operation_id = "querySpans",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ArchiveQueryParams,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -2987,6 +2978,7 @@ async fn query_archive_spans(
 /// Request body for `createPrompt`: the new prompt's metadata plus its initial
 /// (version 1) template.
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreatePromptRequest {
     name: String,
     #[serde(default)]
@@ -3000,6 +2992,7 @@ struct CreatePromptRequest {
 
 /// Request body for `addPromptVersion`: a new immutable template revision.
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct AddPromptVersionRequest {
     template: PromptTemplate,
     #[serde(default)]
@@ -3034,12 +3027,12 @@ struct DiffPromptVersionsQuery {
 
 #[utoipa::path(
     post,
-    path = "/v1/prompts/{tenant_id}/{project_id}",
+    path = "/v1/prompts/{tenantId}/{projectId}",
     tag = "prompts",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3084,12 +3077,12 @@ async fn create_prompt_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/prompts/{tenant_id}/{project_id}",
+    path = "/v1/prompts/{tenantId}/{projectId}",
     tag = "prompts",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -3142,13 +3135,13 @@ async fn list_prompts_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}",
+    path = "/v1/prompts/{tenantId}/{projectId}/{promptId}",
     tag = "prompts",
     operation_id = "get",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("prompt_id" = String, Path, description = "prompt_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("promptId" = String, Path, description = "prompt_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3185,13 +3178,13 @@ async fn get_prompt_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions",
+    path = "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions",
     tag = "prompts",
     operation_id = "addVersion",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("prompt_id" = String, Path, description = "prompt_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("promptId" = String, Path, description = "prompt_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3237,13 +3230,13 @@ async fn add_prompt_version_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions",
+    path = "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions",
     tag = "prompts",
     operation_id = "listVersions",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("prompt_id" = String, Path, description = "prompt_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("promptId" = String, Path, description = "prompt_id"),
         AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -3298,13 +3291,13 @@ async fn list_prompt_versions_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff",
+    path = "/v1/prompts/{tenantId}/{projectId}/{promptId}/diff",
     tag = "prompts",
     operation_id = "diffVersions",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("prompt_id" = String, Path, description = "prompt_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("promptId" = String, Path, description = "prompt_id"),
         DiffPromptVersionsQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -3351,12 +3344,12 @@ async fn diff_prompt_versions_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/datasets/{tenant_id}/{project_id}",
+    path = "/v1/datasets/{tenantId}/{projectId}",
     tag = "datasets",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3395,12 +3388,12 @@ async fn create_dataset(
 
 #[utoipa::path(
     post,
-    path = "/v1/scenarios/{tenant_id}/{project_id}",
+    path = "/v1/scenarios/{tenantId}/{projectId}",
     tag = "scenarios",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3464,12 +3457,12 @@ async fn create_scenario(
 
 #[utoipa::path(
     get,
-    path = "/v1/scenarios/{tenant_id}/{project_id}",
+    path = "/v1/scenarios/{tenantId}/{projectId}",
     tag = "scenarios",
     operation_id = "list",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ListScenariosQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -3517,13 +3510,13 @@ async fn list_scenarios(
 
 #[utoipa::path(
     get,
-    path = "/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}",
+    path = "/v1/scenarios/{tenantId}/{projectId}/{scenarioId}",
     tag = "scenarios",
     operation_id = "get",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("scenario_id" = String, Path, description = "scenario_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("scenarioId" = String, Path, description = "scenario_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3562,12 +3555,12 @@ async fn get_scenario(
 
 #[utoipa::path(
     post,
-    path = "/v1/scenarios/{tenant_id}/{project_id}/mine",
+    path = "/v1/scenarios/{tenantId}/{projectId}/mine",
     tag = "scenarios",
     operation_id = "mine",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3616,13 +3609,13 @@ async fn mine_scenarios(
 
 #[utoipa::path(
     post,
-    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace",
+    path = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace",
     tag = "datasets",
     operation_id = "promoteCaseFromTrace",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3681,13 +3674,13 @@ async fn promote_dataset_case(
 
 #[utoipa::path(
     post,
-    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions",
+    path = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions",
     tag = "datasets",
     operation_id = "createVersion",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3736,14 +3729,14 @@ async fn create_dataset_version(
 
 #[utoipa::path(
     post,
-    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic",
+    path = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic",
     tag = "evals",
     operation_id = "runDeterministic",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
-        ("version_id" = String, Path, description = "version_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
+        ("versionId" = String, Path, description = "version_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3802,14 +3795,14 @@ async fn run_deterministic_dataset_eval(
 
 #[utoipa::path(
     post,
-    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge",
+    path = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge",
     tag = "evals",
     operation_id = "runJudge",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
-        ("version_id" = String, Path, description = "version_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
+        ("versionId" = String, Path, description = "version_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3876,14 +3869,14 @@ async fn run_judge_dataset_eval(
 
 #[utoipa::path(
     post,
-    path = "/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}",
+    path = "/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}",
     tag = "calibrations",
     operation_id = "run",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
-        ("version_id" = String, Path, description = "version_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
+        ("versionId" = String, Path, description = "version_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3961,14 +3954,14 @@ async fn run_calibration_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic",
+    path = "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic",
     tag = "experiments",
     operation_id = "runDeterministic",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
-        ("version_id" = String, Path, description = "version_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
+        ("versionId" = String, Path, description = "version_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4026,14 +4019,14 @@ async fn run_deterministic_experiment_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge",
+    path = "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge",
     tag = "experiments",
     operation_id = "runJudge",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("dataset_id" = String, Path, description = "dataset_id"),
-        ("version_id" = String, Path, description = "version_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("datasetId" = String, Path, description = "dataset_id"),
+        ("versionId" = String, Path, description = "version_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4099,12 +4092,12 @@ async fn run_judge_experiment_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles",
+    path = "/v1/eval-results/{tenantId}/{projectId}/tempera/bundles",
     tag = "evalResults",
     operation_id = "importTemperaBundle",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4141,12 +4134,12 @@ async fn import_tempera_bundle_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions",
+    path = "/v1/eval-results/{tenantId}/{projectId}/tempera/decisions",
     tag = "evalResults",
     operation_id = "recordTemperaDecision",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4183,14 +4176,14 @@ async fn record_tempera_decision_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}",
+    path = "/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}",
     tag = "evalResults",
     operation_id = "getTemperaEvidence",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("kind" = String, Path, description = "result_bundle or ab_decision"),
-        ("external_id" = String, Path, description = "Bundle or experiment id"),
+        ("externalId" = String, Path, description = "Bundle or experiment id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4268,12 +4261,12 @@ async fn import_tempera_evidence(
 
 #[utoipa::path(
     post,
-    path = "/v1/gates/{tenant_id}/{project_id}",
+    path = "/v1/gates/{tenantId}/{projectId}",
     tag = "gates",
     operation_id = "create",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4317,13 +4310,13 @@ async fn create_gate_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/gates/{tenant_id}/{project_id}/{gate_id}/run",
+    path = "/v1/gates/{tenantId}/{projectId}/{gateId}/run",
     tag = "gates",
     operation_id = "run",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("gate_id" = String, Path, description = "gate_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("gateId" = String, Path, description = "gate_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4366,12 +4359,12 @@ async fn run_gate_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/review-queues/{tenant_id}/{project_id}",
+    path = "/v1/review-queues/{tenantId}/{projectId}",
     tag = "reviews",
     operation_id = "createQueue",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4416,13 +4409,13 @@ async fn create_review_queue_route(
 
 #[utoipa::path(
     get,
-    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks",
+    path = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks",
     tag = "reviews",
     operation_id = "listTasks",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("queue_id" = String, Path, description = "queue_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("queueId" = String, Path, description = "queue_id"),
         ListReviewTasksQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
@@ -4493,13 +4486,13 @@ async fn list_review_tasks_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace",
+    path = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace",
     tag = "reviews",
     operation_id = "enqueueTaskFromTrace",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("queue_id" = String, Path, description = "queue_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("queueId" = String, Path, description = "queue_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4563,14 +4556,14 @@ async fn enqueue_review_task_from_trace_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations",
+    path = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations",
     tag = "reviews",
     operation_id = "submitAnnotation",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("queue_id" = String, Path, description = "queue_id"),
-        ("task_id" = String, Path, description = "task_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("queueId" = String, Path, description = "queue_id"),
+        ("taskId" = String, Path, description = "task_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4619,15 +4612,15 @@ async fn submit_review_annotation_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote",
+    path = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote",
     tag = "reviews",
     operation_id = "promoteAnnotation",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("queue_id" = String, Path, description = "queue_id"),
-        ("task_id" = String, Path, description = "task_id"),
-        ("annotation_id" = String, Path, description = "annotation_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("queueId" = String, Path, description = "queue_id"),
+        ("taskId" = String, Path, description = "task_id"),
+        ("annotationId" = String, Path, description = "annotation_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4708,13 +4701,13 @@ async fn promote_review_annotation_route(
 
 #[utoipa::path(
     post,
-    path = "/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling",
+    path = "/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling",
     tag = "online",
     operation_id = "decideSampling",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("traceId" = String, Path, description = "trace_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4756,13 +4749,13 @@ async fn decide_online_sampling(
 
 #[utoipa::path(
     post,
-    path = "/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook",
+    path = "/v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook",
     tag = "alerts",
     operation_id = "evaluate",
     params(
-        ("tenant_id" = String, Path, description = "tenant_id"),
-        ("project_id" = String, Path, description = "project_id"),
-        ("trace_id" = String, Path, description = "trace_id"),
+        ("tenantId" = String, Path, description = "tenant_id"),
+        ("projectId" = String, Path, description = "project_id"),
+        ("traceId" = String, Path, description = "trace_id"),
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -4950,6 +4943,7 @@ struct ErrorStatus {
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct OtlpIngestOutcome {
     accepted_raw: usize,
     accepted_spans: usize,
@@ -5036,6 +5030,7 @@ struct CreateDatasetRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreateScenarioRequest {
     title: String,
     failure_mode: Option<FailureMode>,
@@ -5045,6 +5040,7 @@ struct CreateScenarioRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct MineScenariosRequest {
     trace_ids: Vec<String>,
     jaccard_threshold: Option<f64>,
@@ -5075,6 +5071,7 @@ struct MineScenariosResponse {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct PromoteTraceCaseRequest {
     trace_id: String,
     span_id: Option<String>,
@@ -5083,11 +5080,13 @@ struct PromoteTraceCaseRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreateDatasetVersionRequest {
     case_ids: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunDeterministicEvalRequest {
     evaluator_id: String,
     evaluator_version_id: String,
@@ -5099,6 +5098,7 @@ struct RunDeterministicEvalRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunJudgeDatasetEvalRequest {
     evaluator_id: String,
     evaluator_version_id: String,
@@ -5110,6 +5110,7 @@ struct RunJudgeDatasetEvalRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunCalibrationHttpRequest {
     eval_report_id: Option<String>,
     evaluator_version_id: Option<String>,
@@ -5117,6 +5118,7 @@ struct RunCalibrationHttpRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CaseOutputOverrideRequest {
     case_id: String,
     #[schema(value_type = serde_json::Value)]
@@ -5126,6 +5128,7 @@ struct CaseOutputOverrideRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunExperimentRequest {
     baseline_release_id: String,
     candidate_release_id: String,
@@ -5138,6 +5141,7 @@ struct RunExperimentRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunJudgeExperimentRequest {
     baseline_release_id: String,
     candidate_release_id: String,
@@ -5151,6 +5155,7 @@ struct RunJudgeExperimentRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct ImportTemperaEvidenceRequest {
     /// Canonical compact JSON signed by the release/decision key. The endpoint
     /// rejects equivalent but non-canonical JSON so the verified bytes are
@@ -5164,6 +5169,7 @@ struct ImportTemperaEvidenceRequest {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct TemperaEvidenceSummary {
     #[serde(skip_serializing_if = "Option::is_none")]
     suite_id: Option<String>,
@@ -5180,6 +5186,7 @@ struct TemperaEvidenceSummary {
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct TemperaEvidenceReceipt {
     schema_version: String,
     tenant_id: TenantId,
@@ -6427,6 +6434,7 @@ fn tempera_evidence_receipt(
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreateGateRequest {
     gate_id: String,
     name: String,
@@ -6436,11 +6444,13 @@ struct CreateGateRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunGateRequest {
     experiment_run_id: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreateReviewQueueHttpRequest {
     queue_id: Option<String>,
     name: String,
@@ -6472,6 +6482,7 @@ struct ListReviewTasksQuery {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct EnqueueReviewTaskFromTraceHttpRequest {
     task_id: Option<String>,
     trace_id: String,
@@ -6482,6 +6493,7 @@ struct EnqueueReviewTaskFromTraceHttpRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct SubmitReviewAnnotationHttpRequest {
     annotation_id: Option<String>,
     reviewer_id: String,
@@ -6491,6 +6503,7 @@ struct SubmitReviewAnnotationHttpRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct PromoteReviewAnnotationHttpRequest {
     dataset_id: String,
     #[schema(value_type = Option<serde_json::Value>)]
@@ -6509,6 +6522,7 @@ struct CreateApiKeyHttpRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct CreateProviderSecretHttpRequest {
     provider: String,
     display_name: String,
@@ -6516,6 +6530,7 @@ struct CreateProviderSecretHttpRequest {
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct RunJudgeEvalHttpRequest {
     evaluator: EvaluatorSpec,
     case: EvaluationCase,
@@ -6527,6 +6542,7 @@ struct RunJudgeEvalHttpRequest {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct ApiKeyCreatedResponse {
     api_key_id: ApiKeyId,
     tenant_id: TenantId,
@@ -6555,8 +6571,8 @@ impl ApiKeyCreatedResponse {
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
-#[serde(deny_unknown_fields)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct SearchQueryParams {
     q: Option<String>,
     project_id: Option<String>,
@@ -6567,17 +6583,13 @@ struct SearchQueryParams {
     status: Option<String>,
     model: Option<String>,
     tool: Option<String>,
-    #[serde(rename = "pageSize")]
-    #[param(rename = "pageSize")]
     page_size: Option<u32>,
-    #[serde(rename = "pageToken")]
-    #[param(rename = "pageToken")]
     page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, IntoParams)]
-#[serde(deny_unknown_fields)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ListTracesQuery {
     project_id: Option<String>,
     environment_id: Option<String>,
@@ -6592,11 +6604,7 @@ struct ListTracesQuery {
     max_cost_micros: Option<i64>,
     min_latency_ms: Option<i64>,
     max_latency_ms: Option<i64>,
-    #[serde(rename = "pageSize")]
-    #[param(rename = "pageSize")]
     page_size: Option<u32>,
-    #[serde(rename = "pageToken")]
-    #[param(rename = "pageToken")]
     page_token: Option<String>,
 }
 
@@ -6620,12 +6628,14 @@ struct DrainTraceWritesQuery {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, IntoParams)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ReplayDeadLetterQuery {
     reset_attempts: Option<bool>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct SpanIoResponse {
     tenant_id: TenantId,
     trace_id: TraceId,
@@ -6635,13 +6645,18 @@ struct SpanIoResponse {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
-#[serde(tag = "kind", rename_all = "snake_case")]
+#[serde(
+    tag = "kind",
+    rename_all = "snake_case",
+    rename_all_fields = "camelCase"
+)]
 enum SpanIoValue {
     Inline {
         #[schema(value_type = serde_json::Value)]
         value: serde_json::Value,
     },
     Artifact {
+        #[serde(rename = "artifactRef")]
         artifact_ref: ArtifactRef,
     },
     Redacted {
@@ -6651,19 +6666,15 @@ enum SpanIoValue {
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
-#[serde(deny_unknown_fields)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ArchiveQueryParams {
     environment_id: Option<String>,
     trace_id: Option<String>,
     span_id: Option<String>,
     kind: Option<String>,
     status: Option<String>,
-    #[serde(rename = "pageSize")]
-    #[param(rename = "pageSize")]
     page_size: Option<u32>,
-    #[serde(rename = "pageToken")]
-    #[param(rename = "pageToken")]
     page_token: Option<String>,
 }
 
@@ -9017,8 +9028,8 @@ mod tests {
         let body: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(body["status"], serde_json::json!("waiting_for_eval"));
-        assert_eq!(body["first_trace_received"], serde_json::json!(true));
-        assert_eq!(body["first_eval_run"], serde_json::json!(false));
+        assert_eq!(body["firstTraceReceived"], serde_json::json!(true));
+        assert_eq!(body["firstEvalRun"], serde_json::json!(false));
 
         usage
             .record_usage(UsageRecordInsert {
@@ -9050,7 +9061,7 @@ mod tests {
         let body: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(body["status"], serde_json::json!("connected"));
-        assert_eq!(body["first_eval_run"], serde_json::json!(true));
+        assert_eq!(body["firstEvalRun"], serde_json::json!(true));
     }
 
     #[tokio::test]
@@ -9439,24 +9450,24 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         let spec: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-        assert!(spec["paths"].get("/v1/traces/{tenant_id}").is_some());
+        assert!(spec["paths"].get("/v1/traces/{tenantId}").is_some());
         assert!(
             spec["paths"]
-                .get("/v1/spans/{tenant_id}/{trace_id}/{span_id}/io")
+                .get("/v1/spans/{tenantId}/{traceId}/{spanId}/io")
                 .is_some()
         );
-        let trace_params = spec["paths"]["/v1/traces/{tenant_id}"]["get"]["parameters"]
+        let trace_params = spec["paths"]["/v1/traces/{tenantId}"]["get"]["parameters"]
             .as_array()
             .unwrap_or_else(|| panic!("trace list params must be an array"));
         assert!(
             trace_params
                 .iter()
-                .any(|param| param["name"] == json!("started_after"))
+                .any(|param| param["name"] == json!("startedAfter"))
         );
         assert!(
             trace_params
                 .iter()
-                .any(|param| param["name"] == json!("min_cost_micros"))
+                .any(|param| param["name"] == json!("minCostMicros"))
         );
     }
 

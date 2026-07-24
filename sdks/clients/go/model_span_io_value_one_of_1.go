@@ -21,7 +21,7 @@ var _ MappedNullable = &SpanIoValueOneOf1{}
 
 // SpanIoValueOneOf1 struct for SpanIoValueOneOf1
 type SpanIoValueOneOf1 struct {
-	ArtifactRef ArtifactRef `json:"artifact_ref"`
+	ArtifactRef ArtifactRef `json:"artifactRef"`
 	Kind string `json:"kind"`
 }
 
@@ -104,7 +104,7 @@ func (o SpanIoValueOneOf1) MarshalJSON() ([]byte, error) {
 
 func (o SpanIoValueOneOf1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["artifact_ref"] = o.ArtifactRef
+	toSerialize["artifactRef"] = o.ArtifactRef
 	toSerialize["kind"] = o.Kind
 	return toSerialize, nil
 }
@@ -114,7 +114,7 @@ func (o *SpanIoValueOneOf1) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"artifact_ref",
+		"artifactRef",
 		"kind",
 	}
 

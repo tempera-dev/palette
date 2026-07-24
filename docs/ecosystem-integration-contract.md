@@ -37,11 +37,11 @@ Palette accepts ecosystem traces through stable, additive ingress paths:
 - Collector-compatible OTLP HTTP/JSON:
   `POST /v1/traces`
 - Scoped OTLP HTTP/protobuf:
-  `POST /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces`
+  `POST /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces`
 - Native canonical ingest:
   `POST /v1/traces/native`
 - Importer-based source ingest:
-  `POST /v1/import/{tenant_id}/{project_id}/{environment_id}`
+  `POST /v1/import/{tenantId}/{projectId}/{environmentId}`
 
 The zero-lock-in floor is the OTLP trace data model. Collector-style OTLP/JSON
 exporters may post directly to `/v1/traces`; Palette resolves tenant, project,

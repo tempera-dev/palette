@@ -155,7 +155,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
 
     // case_experiment_score->baseline_cached
     if(case_experiment_score->baseline_cached) {
-    if(cJSON_AddBoolToObject(item, "baseline_cached", case_experiment_score->baseline_cached) == NULL) {
+    if(cJSON_AddBoolToObject(item, "baselineCached", case_experiment_score->baseline_cached) == NULL) {
     goto fail; //Bool
     }
     }
@@ -167,7 +167,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(baseline_cost_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "baseline_cost", baseline_cost_local_JSON);
+    cJSON_AddItemToObject(item, "baselineCost", baseline_cost_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -182,7 +182,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(baseline_evidence_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "baseline_evidence", baseline_evidence_local_JSON);
+    cJSON_AddItemToObject(item, "baselineEvidence", baseline_evidence_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -190,7 +190,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
 
     // case_experiment_score->baseline_judge_call_id
     if(case_experiment_score->baseline_judge_call_id) {
-    if(cJSON_AddStringToObject(item, "baseline_judge_call_id", case_experiment_score->baseline_judge_call_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "baselineJudgeCallId", case_experiment_score->baseline_judge_call_id) == NULL) {
     goto fail; //String
     }
     }
@@ -204,7 +204,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(baseline_output_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "baseline_output", baseline_output_local_JSON);
+    cJSON_AddItemToObject(item, "baselineOutput", baseline_output_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -214,7 +214,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if (!case_experiment_score->baseline_score) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "baseline_score", case_experiment_score->baseline_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "baselineScore", case_experiment_score->baseline_score) == NULL) {
     goto fail; //Numeric
     }
 
@@ -225,7 +225,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(baseline_trace_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "baseline_trace", baseline_trace_local_JSON);
+    cJSON_AddItemToObject(item, "baselineTrace", baseline_trace_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -234,7 +234,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
 
     // case_experiment_score->candidate_cached
     if(case_experiment_score->candidate_cached) {
-    if(cJSON_AddBoolToObject(item, "candidate_cached", case_experiment_score->candidate_cached) == NULL) {
+    if(cJSON_AddBoolToObject(item, "candidateCached", case_experiment_score->candidate_cached) == NULL) {
     goto fail; //Bool
     }
     }
@@ -246,7 +246,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(candidate_cost_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "candidate_cost", candidate_cost_local_JSON);
+    cJSON_AddItemToObject(item, "candidateCost", candidate_cost_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -261,7 +261,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(candidate_evidence_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "candidate_evidence", candidate_evidence_local_JSON);
+    cJSON_AddItemToObject(item, "candidateEvidence", candidate_evidence_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -269,7 +269,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
 
     // case_experiment_score->candidate_judge_call_id
     if(case_experiment_score->candidate_judge_call_id) {
-    if(cJSON_AddStringToObject(item, "candidate_judge_call_id", case_experiment_score->candidate_judge_call_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "candidateJudgeCallId", case_experiment_score->candidate_judge_call_id) == NULL) {
     goto fail; //String
     }
     }
@@ -283,7 +283,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(candidate_output_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "candidate_output", candidate_output_local_JSON);
+    cJSON_AddItemToObject(item, "candidateOutput", candidate_output_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -293,7 +293,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if (!case_experiment_score->candidate_score) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "candidate_score", case_experiment_score->candidate_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "candidateScore", case_experiment_score->candidate_score) == NULL) {
     goto fail; //Numeric
     }
 
@@ -304,7 +304,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if(candidate_trace_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "candidate_trace", candidate_trace_local_JSON);
+    cJSON_AddItemToObject(item, "candidateTrace", candidate_trace_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -315,7 +315,7 @@ cJSON *case_experiment_score_convertToJSON(case_experiment_score_t *case_experim
     if (!case_experiment_score->case_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "case_id", case_experiment_score->case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "caseId", case_experiment_score->case_id) == NULL) {
     goto fail; //String
     }
 
@@ -381,7 +381,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     _t *reference_local_nonprim = NULL;
 
     // case_experiment_score->baseline_cached
-    cJSON *baseline_cached = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_cached");
+    cJSON *baseline_cached = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineCached");
     if (cJSON_IsNull(baseline_cached)) {
         baseline_cached = NULL;
     }
@@ -393,7 +393,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->baseline_cost
-    cJSON *baseline_cost = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_cost");
+    cJSON *baseline_cost = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineCost");
     if (cJSON_IsNull(baseline_cost)) {
         baseline_cost = NULL;
     }
@@ -402,7 +402,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->baseline_evidence
-    cJSON *baseline_evidence = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_evidence");
+    cJSON *baseline_evidence = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineEvidence");
     if (cJSON_IsNull(baseline_evidence)) {
         baseline_evidence = NULL;
     }
@@ -414,7 +414,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     baseline_evidence_local_nonprim = _parseFromJSON(baseline_evidence); //custom
 
     // case_experiment_score->baseline_judge_call_id
-    cJSON *baseline_judge_call_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_judge_call_id");
+    cJSON *baseline_judge_call_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineJudgeCallId");
     if (cJSON_IsNull(baseline_judge_call_id)) {
         baseline_judge_call_id = NULL;
     }
@@ -426,7 +426,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->baseline_output
-    cJSON *baseline_output = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_output");
+    cJSON *baseline_output = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineOutput");
     if (cJSON_IsNull(baseline_output)) {
         baseline_output = NULL;
     }
@@ -438,7 +438,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     baseline_output_local_nonprim = _parseFromJSON(baseline_output); //custom
 
     // case_experiment_score->baseline_score
-    cJSON *baseline_score = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_score");
+    cJSON *baseline_score = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineScore");
     if (cJSON_IsNull(baseline_score)) {
         baseline_score = NULL;
     }
@@ -453,7 +453,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->baseline_trace
-    cJSON *baseline_trace = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baseline_trace");
+    cJSON *baseline_trace = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "baselineTrace");
     if (cJSON_IsNull(baseline_trace)) {
         baseline_trace = NULL;
     }
@@ -462,7 +462,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->candidate_cached
-    cJSON *candidate_cached = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_cached");
+    cJSON *candidate_cached = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateCached");
     if (cJSON_IsNull(candidate_cached)) {
         candidate_cached = NULL;
     }
@@ -474,7 +474,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->candidate_cost
-    cJSON *candidate_cost = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_cost");
+    cJSON *candidate_cost = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateCost");
     if (cJSON_IsNull(candidate_cost)) {
         candidate_cost = NULL;
     }
@@ -483,7 +483,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->candidate_evidence
-    cJSON *candidate_evidence = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_evidence");
+    cJSON *candidate_evidence = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateEvidence");
     if (cJSON_IsNull(candidate_evidence)) {
         candidate_evidence = NULL;
     }
@@ -495,7 +495,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     candidate_evidence_local_nonprim = _parseFromJSON(candidate_evidence); //custom
 
     // case_experiment_score->candidate_judge_call_id
-    cJSON *candidate_judge_call_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_judge_call_id");
+    cJSON *candidate_judge_call_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateJudgeCallId");
     if (cJSON_IsNull(candidate_judge_call_id)) {
         candidate_judge_call_id = NULL;
     }
@@ -507,7 +507,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->candidate_output
-    cJSON *candidate_output = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_output");
+    cJSON *candidate_output = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateOutput");
     if (cJSON_IsNull(candidate_output)) {
         candidate_output = NULL;
     }
@@ -519,7 +519,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     candidate_output_local_nonprim = _parseFromJSON(candidate_output); //custom
 
     // case_experiment_score->candidate_score
-    cJSON *candidate_score = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_score");
+    cJSON *candidate_score = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateScore");
     if (cJSON_IsNull(candidate_score)) {
         candidate_score = NULL;
     }
@@ -534,7 +534,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->candidate_trace
-    cJSON *candidate_trace = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidate_trace");
+    cJSON *candidate_trace = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "candidateTrace");
     if (cJSON_IsNull(candidate_trace)) {
         candidate_trace = NULL;
     }
@@ -543,7 +543,7 @@ case_experiment_score_t *case_experiment_score_parseFromJSON(cJSON *case_experim
     }
 
     // case_experiment_score->case_id
-    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "case_id");
+    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(case_experiment_scoreJSON, "caseId");
     if (cJSON_IsNull(case_id)) {
         case_id = NULL;
     }

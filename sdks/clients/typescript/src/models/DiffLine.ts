@@ -75,8 +75,8 @@ export function DiffLineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'kind': DiffLineKindFromJSON(json['kind']),
-        'newLine': json['new_line'] == null ? undefined : json['new_line'],
-        'oldLine': json['old_line'] == null ? undefined : json['old_line'],
+        'newLine': json['newLine'] == null ? undefined : json['newLine'],
+        'oldLine': json['oldLine'] == null ? undefined : json['oldLine'],
         'text': json['text'],
     };
 }
@@ -93,8 +93,8 @@ export function DiffLineToJSONTyped(value?: DiffLine | null, ignoreDiscriminator
     return {
         
         'kind': DiffLineKindToJSON(value['kind']),
-        'new_line': value['newLine'],
-        'old_line': value['oldLine'],
+        'newLine': value['newLine'],
+        'oldLine': value['oldLine'],
         'text': value['text'],
     };
 }

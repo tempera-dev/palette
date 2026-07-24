@@ -68,7 +68,7 @@ public:
 
     int64_t getMaxSteps() const;
     bool maxStepsIsSet() const;
-    void unsetMax_steps();
+    void unsetMaxSteps();
     void setMaxSteps(int64_t value);
 
     TypeEnum getType() const;
@@ -78,8 +78,8 @@ public:
 
 
 protected:
-    int64_t m_Max_steps;
-    bool m_Max_stepsIsSet;
+    int64_t m_MaxSteps;
+    bool m_MaxStepsIsSet;
 
     TypeEnum m_Type;
     bool m_TypeIsSet;

@@ -8,7 +8,7 @@
 
 
 judge_broker_outcome_t*
-JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenantId, char *projectId, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/judge/{tenant_id}/{project_id}/evaluate");
+    char *localVarPath = strdup("/v1/judge/{tenantId}/{projectId}/evaluate");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -161,8 +161,8 @@ JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -212,7 +212,7 @@ end:
 }
 
 judge_ledger_list_response_t*
-JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -226,33 +226,33 @@ JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenant_id, char *project_
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/judge/{tenant_id}/{project_id}/ledger");
+    char *localVarPath = strdup("/v1/judge/{tenantId}/{projectId}/ledger");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -379,8 +379,8 @@ JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenant_id, char *project_
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CalibrationPolicy {
-    #[serde(rename = "pass_threshold")]
+    #[serde(rename = "passThreshold")]
     pub pass_threshold: f64,
 }
 

@@ -73,7 +73,11 @@ pub struct EvaluatorSpec {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(
+    tag = "type",
+    rename_all = "snake_case",
+    rename_all_fields = "camelCase"
+)]
 pub enum EvaluatorKind {
     ExactMatch,
     RegexMatch {
@@ -85,9 +89,11 @@ pub enum EvaluatorKind {
     },
     JsonObject,
     CostBudget {
+        #[serde(rename = "maxMicros")]
         max_micros: i64,
     },
     LatencyBudgetMs {
+        #[serde(rename = "maxMs")]
         max_ms: u64,
     },
     LlmJudge {
@@ -98,17 +104,21 @@ pub enum EvaluatorKind {
     /// (url and/or DOM) matches the configured target — NOT the agent's
     /// self-reported "done". Reads `trace.browser_steps`.
     BrowserTaskSuccess {
+        #[serde(rename = "urlContains")]
         url_contains: Option<String>,
+        #[serde(rename = "domContains")]
         dom_contains: Option<String>,
     },
     /// Browser step efficiency: passes when the run used at most `max_steps`
     /// browser steps (catches looping/backtracking). Reads `trace.browser_steps`.
     BrowserStepEfficiency {
+        #[serde(rename = "maxSteps")]
         max_steps: u64,
     },
     /// Browser grounding: fraction of element-targeted steps that resolved to
     /// their intended element; score is the ratio, passes at `min_ratio`.
     BrowserGrounding {
+        #[serde(rename = "minRatio")]
         min_ratio: f64,
     },
     /// Browser recovery: passes when the run either hit no errors or recovered
@@ -610,6 +620,7 @@ pub struct JudgeResponse {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ExperimentComparison {
     pub sample_size: usize,
     pub baseline_mean: f64,
@@ -701,6 +712,7 @@ impl From<palette_stats::TestKind> for StatisticalTest {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct GatePolicy {
     pub min_sample_size: usize,
     pub max_regression: f64,

@@ -20,12 +20,12 @@ namespace model {
 
 ConnectionLink::ConnectionLink()
 {
-    m_Connected_account_id = utility::conversions::to_string_t("");
-    m_Connected_account_idIsSet = false;
-    m_Expires_at = utility::conversions::to_string_t("");
-    m_Expires_atIsSet = false;
-    m_Redirect_url = utility::conversions::to_string_t("");
-    m_Redirect_urlIsSet = false;
+    m_ConnectedAccountId = utility::conversions::to_string_t("");
+    m_ConnectedAccountIdIsSet = false;
+    m_ExpiresAt = utility::conversions::to_string_t("");
+    m_ExpiresAtIsSet = false;
+    m_RedirectUrl = utility::conversions::to_string_t("");
+    m_RedirectUrlIsSet = false;
 }
 
 ConnectionLink::~ConnectionLink()
@@ -40,20 +40,20 @@ void ConnectionLink::validate()
 web::json::value ConnectionLink::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Connected_account_idIsSet)
+    if(m_ConnectedAccountIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("connected_account_id"))] = ModelBase::toJson(m_Connected_account_id);
+        val[utility::conversions::to_string_t(U("connectedAccountId"))] = ModelBase::toJson(m_ConnectedAccountId);
     }
-    if(m_Expires_atIsSet)
+    if(m_ExpiresAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("expires_at"))] = ModelBase::toJson(m_Expires_at);
+        val[utility::conversions::to_string_t(U("expiresAt"))] = ModelBase::toJson(m_ExpiresAt);
     }
-    if(m_Redirect_urlIsSet)
+    if(m_RedirectUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("redirect_url"))] = ModelBase::toJson(m_Redirect_url);
+        val[utility::conversions::to_string_t(U("redirectUrl"))] = ModelBase::toJson(m_RedirectUrl);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value ConnectionLink::toJson() const
 bool ConnectionLink::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("connected_account_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("connectedAccountId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("connected_account_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("connectedAccountId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setConnectedAccountId;
@@ -73,9 +73,9 @@ bool ConnectionLink::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("expires_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("expiresAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expires_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expiresAt")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExpiresAt;
@@ -84,9 +84,9 @@ bool ConnectionLink::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("redirect_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("redirectUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redirect_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redirectUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setRedirectUrl;
@@ -105,17 +105,17 @@ void ConnectionLink::toMultipart(std::shared_ptr<MultipartFormData> multipart, c
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Connected_account_idIsSet)
+    if(m_ConnectedAccountIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("connected_account_id")), m_Connected_account_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("connectedAccountId")), m_ConnectedAccountId));
     }
-    if(m_Expires_atIsSet)
+    if(m_ExpiresAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expires_at")), m_Expires_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expiresAt")), m_ExpiresAt));
     }
-    if(m_Redirect_urlIsSet)
+    if(m_RedirectUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redirect_url")), m_Redirect_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redirectUrl")), m_RedirectUrl));
     }
 }
 
@@ -128,22 +128,22 @@ bool ConnectionLink::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("connected_account_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("connectedAccountId"))))
     {
         utility::string_t refVal_setConnectedAccountId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("connected_account_id"))), refVal_setConnectedAccountId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("connectedAccountId"))), refVal_setConnectedAccountId );
         setConnectedAccountId(refVal_setConnectedAccountId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("expires_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("expiresAt"))))
     {
         utility::string_t refVal_setExpiresAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expires_at"))), refVal_setExpiresAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expiresAt"))), refVal_setExpiresAt );
         setExpiresAt(refVal_setExpiresAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("redirect_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("redirectUrl"))))
     {
         utility::string_t refVal_setRedirectUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redirect_url"))), refVal_setRedirectUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redirectUrl"))), refVal_setRedirectUrl );
         setRedirectUrl(refVal_setRedirectUrl);
     }
     return ok;
@@ -152,66 +152,66 @@ bool ConnectionLink::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
 
 utility::string_t ConnectionLink::getConnectedAccountId() const
 {
-    return m_Connected_account_id;
+    return m_ConnectedAccountId;
 }
 
 
 void ConnectionLink::setConnectedAccountId(const utility::string_t& value)
 {
-    m_Connected_account_id = value;
-    m_Connected_account_idIsSet = true;
+    m_ConnectedAccountId = value;
+    m_ConnectedAccountIdIsSet = true;
 }
 
 bool ConnectionLink::connectedAccountIdIsSet() const
 {
-    return m_Connected_account_idIsSet;
+    return m_ConnectedAccountIdIsSet;
 }
 
-void ConnectionLink::unsetConnected_account_id()
+void ConnectionLink::unsetConnectedAccountId()
 {
-    m_Connected_account_idIsSet = false;
+    m_ConnectedAccountIdIsSet = false;
 }
 utility::string_t ConnectionLink::getExpiresAt() const
 {
-    return m_Expires_at;
+    return m_ExpiresAt;
 }
 
 
 void ConnectionLink::setExpiresAt(const utility::string_t& value)
 {
-    m_Expires_at = value;
-    m_Expires_atIsSet = true;
+    m_ExpiresAt = value;
+    m_ExpiresAtIsSet = true;
 }
 
 bool ConnectionLink::expiresAtIsSet() const
 {
-    return m_Expires_atIsSet;
+    return m_ExpiresAtIsSet;
 }
 
-void ConnectionLink::unsetExpires_at()
+void ConnectionLink::unsetExpiresAt()
 {
-    m_Expires_atIsSet = false;
+    m_ExpiresAtIsSet = false;
 }
 utility::string_t ConnectionLink::getRedirectUrl() const
 {
-    return m_Redirect_url;
+    return m_RedirectUrl;
 }
 
 
 void ConnectionLink::setRedirectUrl(const utility::string_t& value)
 {
-    m_Redirect_url = value;
-    m_Redirect_urlIsSet = true;
+    m_RedirectUrl = value;
+    m_RedirectUrlIsSet = true;
 }
 
 bool ConnectionLink::redirectUrlIsSet() const
 {
-    return m_Redirect_urlIsSet;
+    return m_RedirectUrlIsSet;
 }
 
-void ConnectionLink::unsetRedirect_url()
+void ConnectionLink::unsetRedirectUrl()
 {
-    m_Redirect_urlIsSet = false;
+    m_RedirectUrlIsSet = false;
 }
 
 }

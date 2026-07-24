@@ -79,8 +79,8 @@ export default async function DashboardPage({
   const listedSelectedRun = data.trace
     ? data.runs.runs.find(
         (run) =>
-          run.trace_id === data.trace?.trace_id &&
-          (!selectedTraceProjectId || run.project_id === selectedTraceProjectId)
+          run.traceId === data.trace?.traceId &&
+          (!selectedTraceProjectId || run.projectId === selectedTraceProjectId)
       )
     : undefined;
   const selectedRun = listedSelectedRun ?? runSummaryFromTrace(data.trace);
@@ -98,8 +98,8 @@ export default async function DashboardPage({
   const tokenTotal = spans.reduce((total, span) => total + spanTokenTotal(span), 0);
   const activeFilters = filterChips(data.query);
   const advancedFilterTotal = advancedFilterCount(data.query);
-  const traceLabel = traceBreadcrumbLabel(data.query.traceId, data.trace?.trace_id);
-  const traceInputPlaceholder = tracePlaceholder(data.trace?.trace_id);
+  const traceLabel = traceBreadcrumbLabel(data.query.traceId, data.trace?.traceId);
+  const traceInputPlaceholder = tracePlaceholder(data.trace?.traceId);
 
   return (
     <main className="shell">
@@ -141,7 +141,7 @@ export default async function DashboardPage({
             className="refresh-action"
             href={hrefFor(data.query, {
               trace: data.query.traceId,
-              span: data.query.selectedSpanId && data.selectedSpan ? data.selectedSpan.span_id : undefined
+              span: data.query.selectedSpanId && data.selectedSpan ? data.selectedSpan.spanId : undefined
             })}
           >
             <RotateCcw aria-hidden="true" />
@@ -166,25 +166,25 @@ export default async function DashboardPage({
         />
         <SummaryItem
           label="Spans"
-          value={activeRun ? String(activeRun.span_count) : "0"}
+          value={activeRun ? String(activeRun.spanCount) : "0"}
           meta={spanSummaryMeta}
           tone={spanSummaryTone}
         />
         <SummaryItem
           label="Model"
           value={activeRun ? formatModels(activeRun.models) : "none"}
-          meta={activeRun ? formatReleases(activeRun.release_ids) : "no release"}
+          meta={activeRun ? formatReleases(activeRun.releaseIds) : "no release"}
           tone="model"
         />
         <SummaryItem
           label="Cost"
-          value={activeRun ? formatCost(activeRun.total_cost) : "none"}
+          value={activeRun ? formatCost(activeRun.totalCost) : "none"}
           meta="run total"
           tone="cost"
         />
         <SummaryItem
           label="Latency"
-          value={activeRun ? formatLatency(activeRun.duration_ms) : "open"}
+          value={activeRun ? formatLatency(activeRun.durationMs) : "open"}
           meta="wall clock"
           tone="latency"
         />
@@ -272,7 +272,7 @@ export default async function DashboardPage({
               <label>
                 <span>Started After</span>
                 <input
-                  name="started_after"
+                  name="startedAfter"
                   defaultValue={data.query.startedAfter}
                   placeholder="2026-01-01T00:00:00Z"
                 />
@@ -280,7 +280,7 @@ export default async function DashboardPage({
               <label>
                 <span>Started Before</span>
                 <input
-                  name="started_before"
+                  name="startedBefore"
                   defaultValue={data.query.startedBefore}
                   placeholder="2026-01-01T01:00:00Z"
                 />
@@ -296,7 +296,7 @@ export default async function DashboardPage({
               <label>
                 <span>Min Cost</span>
                 <input
-                  name="min_cost_micros"
+                  name="minCostMicros"
                   type="number"
                   min="0"
                   defaultValue={numberInput(data.query.minCostMicros)}
@@ -306,7 +306,7 @@ export default async function DashboardPage({
               <label>
                 <span>Max Cost</span>
                 <input
-                  name="max_cost_micros"
+                  name="maxCostMicros"
                   type="number"
                   min="0"
                   defaultValue={numberInput(data.query.maxCostMicros)}
@@ -316,7 +316,7 @@ export default async function DashboardPage({
               <label>
                 <span>Min Latency</span>
                 <input
-                  name="min_latency_ms"
+                  name="minLatencyMs"
                   type="number"
                   min="0"
                   defaultValue={numberInput(data.query.minLatencyMs)}
@@ -326,7 +326,7 @@ export default async function DashboardPage({
               <label>
                 <span>Max Latency</span>
                 <input
-                  name="max_latency_ms"
+                  name="maxLatencyMs"
                   type="number"
                   min="0"
                   defaultValue={numberInput(data.query.maxLatencyMs)}
@@ -357,19 +357,19 @@ export default async function DashboardPage({
             </div>
             {runRows.map((run) => {
               const isSelected =
-                run.trace_id === data.trace?.trace_id &&
-                (!selectedTraceProjectId || run.project_id === selectedTraceProjectId);
+                run.traceId === data.trace?.traceId &&
+                (!selectedTraceProjectId || run.projectId === selectedTraceProjectId);
               const isOutsideFilters = isSelected && selectedTraceOutsideFilters;
               return (
                 <Link
-                  key={`${run.project_id}:${run.trace_id}`}
+                  key={`${run.projectId}:${run.traceId}`}
                   className={isSelected ? "run-row active" : "run-row"}
                   aria-current={isSelected ? "location" : undefined}
                   data-status={run.status}
                   data-outside-filters={isOutsideFilters ? "true" : undefined}
                   href={hrefFor(data.query, {
-                    project: run.project_id,
-                    trace: run.trace_id,
+                    project: run.projectId,
+                    trace: run.traceId,
                     span: undefined
                   })}
                 >
@@ -377,9 +377,9 @@ export default async function DashboardPage({
                   <span className="run-body">
                     <span className="run-title-line">
                       <span className="run-name">
-                        <strong>{run.first_span_name}</strong>
+                        <strong>{run.firstSpanName}</strong>
                         <small>
-                          {run.project_id}/{run.trace_id}
+                          {run.projectId}/{run.traceId}
                         </small>
                       </span>
                       <span className="run-badges">
@@ -392,15 +392,15 @@ export default async function DashboardPage({
                     <span className="run-metrics">
                       <span className="run-cell metric-emphasis" data-label="Spans">
                         <span className="sr-only">Spans </span>
-                        {run.span_count}
+                        {run.spanCount}
                       </span>
                       <span className="run-cell" data-label="Latency">
                         <span className="sr-only">Latency </span>
-                        {formatLatency(run.duration_ms)}
+                        {formatLatency(run.durationMs)}
                       </span>
                       <span className="run-cell" data-label="Cost">
                         <span className="sr-only">Cost </span>
-                        {formatCost(run.total_cost)}
+                        {formatCost(run.totalCost)}
                       </span>
                       <span className="run-cell" data-label="Model">
                         <span className="sr-only">Model </span>
@@ -408,7 +408,7 @@ export default async function DashboardPage({
                       </span>
                       <span className="run-cell" data-label="Release">
                         <span className="sr-only">Release </span>
-                        {formatReleases(run.release_ids)}
+                        {formatReleases(run.releaseIds)}
                       </span>
                     </span>
                   </span>
@@ -465,22 +465,22 @@ export default async function DashboardPage({
               const isLlmCall = isLlmCallKind(span.kind);
               return (
                 <Link
-                  key={span.span_id}
-                  href={hrefFor(data.query, { trace: span.trace_id, span: span.span_id })}
+                  key={span.spanId}
+                  href={hrefFor(data.query, { trace: span.traceId, span: span.spanId })}
                   aria-current={
-                    data.selectedSpan?.span_id === span.span_id ? "location" : undefined
+                    data.selectedSpan?.spanId === span.spanId ? "location" : undefined
                   }
                   className={
-                    data.selectedSpan?.span_id === span.span_id ? "span-line selected" : "span-line"
+                    data.selectedSpan?.spanId === span.spanId ? "span-line selected" : "span-line"
                   }
                   data-depth={depth}
                   data-kind={span.kind}
                   data-status={span.status}
-                  data-critical={criticalIds.has(span.span_id) ? "true" : undefined}
-                  data-span-id={span.span_id}
+                  data-critical={criticalIds.has(span.spanId) ? "true" : undefined}
+                  data-span-id={span.spanId}
                   data-span-seq={span.seq}
                   data-gate2-confirm-span={isLlmCall ? "true" : undefined}
-                  data-trace-id={isLlmCall ? span.trace_id : undefined}
+                  data-trace-id={isLlmCall ? span.traceId : undefined}
                   style={
                     {
                       "--depth": depth,
@@ -508,7 +508,7 @@ export default async function DashboardPage({
                     <span className="span-track" role="presentation">
                       <span className="span-bar" />
                     </span>
-                    <span>{formatDuration(span.start_time, span.end_time)}</span>
+                    <span>{formatDuration(span.startTime, span.endTime)}</span>
                   </span>
                 </Link>
               );
@@ -580,7 +580,7 @@ function SpanDetail({
   const artifacts = spanArtifactRefs(span);
   const ancestry = spanAncestry(span, spans);
   const ioLabels = displaySpanIoLabels(span.kind);
-  const showConfirmationSlot = isLlmCallKind(span.kind) && query.selectedSpanId === span.span_id;
+  const showConfirmationSlot = isLlmCallKind(span.kind) && query.selectedSpanId === span.spanId;
   return (
     <div className="detail-stack">
       <div className="span-identity">
@@ -598,7 +598,7 @@ function SpanDetail({
             <span>{span.kind}</span>
             <span>{span.model ? `${span.model.provider}/${span.model.name}` : "no model"}</span>
           </p>
-          <p>{span.span_id}</p>
+          <p>{span.spanId}</p>
         </div>
         <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
       </div>
@@ -623,10 +623,10 @@ function SpanDetail({
         </div>
         <div>
           <dt>Latency</dt>
-          <dd>{formatDuration(span.start_time, span.end_time)}</dd>
+          <dd>{formatDuration(span.startTime, span.endTime)}</dd>
         </div>
         {showConfirmationSlot ? (
-          <Gate2ConfirmationCode traceId={span.trace_id} spanId={span.span_id} />
+          <Gate2ConfirmationCode traceId={span.traceId} spanId={span.spanId} />
         ) : null}
       </dl>
       <RedactionControls span={span} query={query} hasRedactedIo={hasRedactedIo} />
@@ -643,7 +643,7 @@ function SpanDetail({
       <div className="span-path" aria-label="Selected span path">
         <span className="span-path-label">Path</span>
         {ancestry.map((node, index) => (
-          <span className="path-fragment" key={node.span_id}>
+          <span className="path-fragment" key={node.spanId}>
             {index > 0 ? (
               <span className="path-separator" aria-hidden="true">
                 /
@@ -677,19 +677,19 @@ function SpanDetail({
         </div>
         <div>
           <dt>Latency</dt>
-          <dd>{formatDuration(span.start_time, span.end_time)}</dd>
+          <dd>{formatDuration(span.startTime, span.endTime)}</dd>
         </div>
         <div>
           <dt>Parent</dt>
-          <dd>{span.parent_span_id ?? "root"}</dd>
+          <dd>{span.parentSpanId ?? "root"}</dd>
         </div>
         <div>
           <dt>Started</dt>
-          <dd>{formatTimestamp(span.start_time)}</dd>
+          <dd>{formatTimestamp(span.startTime)}</dd>
         </div>
         <div>
           <dt>Ended</dt>
-          <dd>{span.end_time ? formatTimestamp(span.end_time) : "open"}</dd>
+          <dd>{span.endTime ? formatTimestamp(span.endTime) : "open"}</dd>
         </div>
       </dl>
       <section className="detail-section" aria-label="Artifact references">
@@ -699,11 +699,11 @@ function SpanDetail({
         </div>
         <div className="artifact-list">
           {artifacts.map((artifact) => (
-            <div className="artifact-row" key={`${artifact.label}:${artifact.ref.artifact_id}`}>
+            <div className="artifact-row" key={`${artifact.label}:${artifact.ref.artifactId}`}>
               <span>{artifact.label}</span>
               <code>{artifact.ref.uri}</code>
               <small>
-                {artifact.ref.mime_type} | {formatBytes(artifact.ref.size_bytes)} |{" "}
+                {artifact.ref.mimeType} | {formatBytes(artifact.ref.sizeBytes)} |{" "}
                 {shortHash(artifact.ref.sha256)}
               </small>
             </div>
@@ -716,7 +716,7 @@ function SpanDetail({
           <span>canonical + unmapped</span>
         </div>
         <JsonPanel label="Canonical" value={span.attributes} />
-        <JsonPanel label="Unmapped" value={span.unmapped_attrs} />
+        <JsonPanel label="Unmapped" value={span.unmappedAttrs} />
       </section>
     </div>
   );
@@ -729,7 +729,7 @@ function TokenBreakdown({ span }: { span: Pick<CanonicalSpan, "kind" | "tokens">
     { label: inputLabel, value: span.tokens.input },
     { label: outputLabel, value: span.tokens.output },
     { label: "Reasoning", value: span.tokens.reasoning },
-    { label: "Cached", value: span.tokens.cache_read }
+    { label: "Cached", value: span.tokens.cacheRead }
   ];
 
   return (
@@ -759,7 +759,7 @@ function RedactionControls({
       <div className="redaction-controls active">
         <span>{state}</span>
         <small>{query.unmaskReason || "no reason"}</small>
-        <Link href={hrefFor(query, { trace: span.trace_id, span: span.span_id, unmask: false })}>
+        <Link href={hrefFor(query, { trace: span.traceId, span: span.spanId, unmask: false })}>
           Redacted view
         </Link>
       </div>
@@ -768,7 +768,7 @@ function RedactionControls({
   if (!hasRedactedIo) return null;
   return (
     <form className="redaction-controls" aria-label="Unmask redacted I/O">
-      <HiddenQueryInputs query={query} traceId={span.trace_id} spanId={span.span_id} />
+      <HiddenQueryInputs query={query} traceId={span.traceId} spanId={span.spanId} />
       <input type="hidden" name="unmask" value="true" />
       <label>
         <span>Reason</span>
@@ -796,14 +796,14 @@ function HiddenQueryInputs({
     ["span", spanId],
     ["status", query.status],
     ["kind", query.kind],
-    ["started_after", query.startedAfter],
-    ["started_before", query.startedBefore],
+    ["startedAfter", query.startedAfter],
+    ["startedBefore", query.startedBefore],
     ["model", query.model],
     ["release", query.release],
-    ["min_cost_micros", query.minCostMicros],
-    ["max_cost_micros", query.maxCostMicros],
-    ["min_latency_ms", query.minLatencyMs],
-    ["max_latency_ms", query.maxLatencyMs]
+    ["minCostMicros", query.minCostMicros],
+    ["maxCostMicros", query.maxCostMicros],
+    ["minLatencyMs", query.minLatencyMs],
+    ["maxLatencyMs", query.maxLatencyMs]
   ];
   return (
     <>
@@ -820,8 +820,8 @@ function IoBlock({ label, value }: { label: string; value: SpanIoResponse["input
   let body = "No captured I/O";
   if (value?.kind === "inline") body = prettyJson(value.value);
   if (value?.kind === "artifact") {
-    body = `${value.artifact_ref.mime_type}\n${value.artifact_ref.uri}\n${formatBytes(
-      value.artifact_ref.size_bytes
+    body = `${value.artifactRef.mimeType}\n${value.artifactRef.uri}\n${formatBytes(
+      value.artifactRef.sizeBytes
     )}`;
   }
   if (value?.kind === "redacted") body = value.reason;
@@ -886,31 +886,31 @@ function runSummaryFromTrace(trace: TraceView | null): RunSummary | null {
   if (!trace || trace.spans.length === 0) return null;
   const spans = [...trace.spans].sort(compareSpansByStart);
   const firstSpan = spans[0];
-  const startedAt = firstSpan.start_time;
+  const startedAt = firstSpan.startTime;
   const endedAt = latestEndedAt(spans);
   return {
-    tenant_id: trace.tenant_id,
-    project_id: firstSpan.project_id,
-    trace_id: trace.trace_id,
-    first_span_name: firstSpan.name,
-    span_count: spans.length,
+    tenantId: trace.tenantId,
+    projectId: firstSpan.projectId,
+    traceId: trace.traceId,
+    firstSpanName: firstSpan.name,
+    spanCount: spans.length,
     status: aggregateRunStatus(spans),
-    started_at: startedAt,
-    ended_at: endedAt,
-    duration_ms: durationMs(startedAt, endedAt),
-    total_cost: spans.reduce<Money | null>((total, span) => mergeRunCost(total, span.cost), null),
+    startedAt: startedAt,
+    endedAt: endedAt,
+    durationMs: durationMs(startedAt, endedAt),
+    totalCost: spans.reduce<Money | null>((total, span) => mergeRunCost(total, span.cost), null),
     models: uniqueModels(spans),
-    release_ids: uniqueReleaseIds(spans)
+    releaseIds: uniqueReleaseIds(spans)
   };
 }
 
 function traceProjectId(trace: TraceView | null): string | undefined {
-  return trace?.spans[0]?.project_id;
+  return trace?.spans[0]?.projectId;
 }
 
 function compareSpansByStart(left: CanonicalSpan, right: CanonicalSpan): number {
-  const leftStart = parsedTimeOrMax(left.start_time);
-  const rightStart = parsedTimeOrMax(right.start_time);
+  const leftStart = parsedTimeOrMax(left.startTime);
+  const rightStart = parsedTimeOrMax(right.startTime);
   if (leftStart !== rightStart) return leftStart - rightStart;
   return left.seq - right.seq;
 }
@@ -922,10 +922,10 @@ function parsedTimeOrMax(value: string): number {
 function latestEndedAt(spans: CanonicalSpan[]): string | null {
   let latest: { value: string; micros: number } | null = null;
   for (const span of spans) {
-    if (!span.end_time) continue;
-    const micros = timestampMicros(span.end_time);
+    if (!span.endTime) continue;
+    const micros = timestampMicros(span.endTime);
     if (micros === null) continue;
-    if (!latest || micros > latest.micros) latest = { value: span.end_time, micros };
+    if (!latest || micros > latest.micros) latest = { value: span.endTime, micros };
   }
   return latest?.value ?? null;
 }
@@ -942,7 +942,7 @@ function mergeRunCost(total: Money | null, next: Money | null | undefined): Mone
   if (total.currency !== next.currency) return total;
   return {
     currency: total.currency,
-    amount_micros: total.amount_micros + next.amount_micros
+    amountMicros: total.amountMicros + next.amountMicros
   };
 }
 
@@ -986,27 +986,27 @@ function stringAttribute(attributes: unknown, keys: string[]): string | null {
 }
 
 function spanAncestry(span: CanonicalSpan, spans: CanonicalSpan[]): CanonicalSpan[] {
-  const byId = new Map(spans.map((candidate) => [candidate.span_id, candidate]));
+  const byId = new Map(spans.map((candidate) => [candidate.spanId, candidate]));
   const ancestry = [span];
-  const seen = new Set([span.span_id]);
-  let parentId = span.parent_span_id;
+  const seen = new Set([span.spanId]);
+  let parentId = span.parentSpanId;
   while (parentId && byId.has(parentId) && !seen.has(parentId)) {
     const parent = byId.get(parentId);
     if (!parent) break;
     ancestry.unshift(parent);
-    seen.add(parent.span_id);
-    parentId = parent.parent_span_id;
+    seen.add(parent.spanId);
+    parentId = parent.parentSpanId;
   }
   return ancestry;
 }
 
 function spanArtifactRefs(span: CanonicalSpan) {
   return [
-    { label: "raw", ref: span.raw_ref },
-    span.input_ref ? { label: "input", ref: span.input_ref } : null,
-    span.output_ref ? { label: "output", ref: span.output_ref } : null
+    { label: "raw", ref: span.rawRef },
+    span.inputRef ? { label: "input", ref: span.inputRef } : null,
+    span.outputRef ? { label: "output", ref: span.outputRef } : null
   ].filter(
-    (artifact): artifact is { label: string; ref: NonNullable<CanonicalSpan["raw_ref"]> } =>
+    (artifact): artifact is { label: string; ref: NonNullable<CanonicalSpan["rawRef"]> } =>
       artifact !== null
   );
 }
@@ -1056,8 +1056,8 @@ function searchHref(query: DashboardQuery): string {
   params.set("tenant", query.tenantId);
   if (query.projectId) params.set("project", query.projectId);
   if (query.environmentId) params.set("environment", query.environmentId);
-  if (query.traceId) params.set("trace_id", query.traceId);
-  if (query.selectedSpanId) params.set("span_id", query.selectedSpanId);
+  if (query.traceId) params.set("traceId", query.traceId);
+  if (query.selectedSpanId) params.set("spanId", query.selectedSpanId);
   if (query.status) params.set("status", query.status);
   if (query.kind) params.set("kind", query.kind);
   if (query.model) params.set("model", query.model);
@@ -1092,8 +1092,8 @@ function spanTimeline(
 ): { offset: string; width: string } {
   const bounds = spans
     .map((candidate) => {
-      const start = timestampMicros(candidate.start_time);
-      const end = candidate.end_time ? timestampMicros(candidate.end_time) : start;
+      const start = timestampMicros(candidate.startTime);
+      const end = candidate.endTime ? timestampMicros(candidate.endTime) : start;
       if (start === null || end === null) return null;
       return { start, end: Math.max(start, end) };
     })
@@ -1104,8 +1104,8 @@ function spanTimeline(
   const traceStart = Math.min(...bounds.map((bound) => bound.start));
   const traceEnd = Math.max(...bounds.map((bound) => bound.end));
   const traceDuration = traceEnd - traceStart;
-  const spanStart = timestampMicros(span.start_time);
-  const spanEnd = span.end_time ? timestampMicros(span.end_time) : spanStart;
+  const spanStart = timestampMicros(span.startTime);
+  const spanEnd = span.endTime ? timestampMicros(span.endTime) : spanStart;
 
   if (spanStart === null || spanEnd === null) {
     return { offset: "0%", width: "8%" };
@@ -1149,8 +1149,8 @@ function traceAxis(
 ): { ticks: { offset: string; label: string }[] } | null {
   const bounds = spans
     .map((span) => {
-      const start = timestampMicros(span.start_time);
-      const end = span.end_time ? timestampMicros(span.end_time) : start;
+      const start = timestampMicros(span.startTime);
+      const end = span.endTime ? timestampMicros(span.endTime) : start;
       if (start === null || end === null) return null;
       return { start, end: Math.max(start, end) };
     })

@@ -375,13 +375,13 @@ class CalibrationsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if dataset_id is not None:
-            _path_params['dataset_id'] = dataset_id
+            _path_params['datasetId'] = dataset_id
         if version_id is not None:
-            _path_params['version_id'] = version_id
+            _path_params['versionId'] = version_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -426,7 +426,7 @@ class CalibrationsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}',
+            resource_path='/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

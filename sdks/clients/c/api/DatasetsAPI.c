@@ -8,7 +8,7 @@
 
 
 dataset_t*
-DatasetsAPI_datasetsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_dataset_request_t *create_dataset_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+DatasetsAPI_datasetsCreate(apiClient_t *apiClient, char *tenantId, char *projectId, create_dataset_request_t *create_dataset_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ DatasetsAPI_datasetsCreate(apiClient_t *apiClient, char *tenant_id, char *projec
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/datasets/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/datasets/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -161,8 +161,8 @@ DatasetsAPI_datasetsCreate(apiClient_t *apiClient, char *tenant_id, char *projec
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -212,7 +212,7 @@ end:
 }
 
 dataset_version_snapshot_t*
-DatasetsAPI_datasetsCreateVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+DatasetsAPI_datasetsCreateVersion(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -226,45 +226,45 @@ DatasetsAPI_datasetsCreateVersion(apiClient_t *apiClient, char *tenant_id, char 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions");
+    char *localVarPath = strdup("/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!dataset_id)
+    if(!datasetId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_dataset_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ dataset_id }") - 1;
-    if(dataset_id == NULL) {
+    long sizeOfPathParams_datasetId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ datasetId }") - 1;
+    if(datasetId == NULL) {
         goto end;
     }
-    char* localVarToReplace_dataset_id = malloc(sizeOfPathParams_dataset_id);
-    sprintf(localVarToReplace_dataset_id, "{%s}", "dataset_id");
+    char* localVarToReplace_datasetId = malloc(sizeOfPathParams_datasetId);
+    sprintf(localVarToReplace_datasetId, "{%s}", "datasetId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_dataset_id, dataset_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_datasetId, datasetId);
 
 
 
@@ -381,9 +381,9 @@ DatasetsAPI_datasetsCreateVersion(apiClient_t *apiClient, char *tenant_id, char 
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_dataset_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_datasetId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -433,7 +433,7 @@ end:
 }
 
 dataset_case_t*
-DatasetsAPI_datasetsPromoteCaseFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+DatasetsAPI_datasetsPromoteCaseFromTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -447,45 +447,45 @@ DatasetsAPI_datasetsPromoteCaseFromTrace(apiClient_t *apiClient, char *tenant_id
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace");
+    char *localVarPath = strdup("/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!dataset_id)
+    if(!datasetId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_dataset_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + sizeof("{ dataset_id }") - 1;
-    if(dataset_id == NULL) {
+    long sizeOfPathParams_datasetId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + sizeof("{ datasetId }") - 1;
+    if(datasetId == NULL) {
         goto end;
     }
-    char* localVarToReplace_dataset_id = malloc(sizeOfPathParams_dataset_id);
-    sprintf(localVarToReplace_dataset_id, "{%s}", "dataset_id");
+    char* localVarToReplace_datasetId = malloc(sizeOfPathParams_datasetId);
+    sprintf(localVarToReplace_datasetId, "{%s}", "datasetId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_dataset_id, dataset_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_datasetId, datasetId);
 
 
 
@@ -602,9 +602,9 @@ DatasetsAPI_datasetsPromoteCaseFromTrace(apiClient_t *apiClient, char *tenant_id
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_dataset_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_datasetId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

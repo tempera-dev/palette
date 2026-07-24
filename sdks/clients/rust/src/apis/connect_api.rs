@@ -45,7 +45,7 @@ pub enum ConnectPeriodGetStatusError {
 
 pub async fn connect_period_get_status(configuration: &configuration::Configuration, params: ConnectPeriodGetStatusParams) -> Result<models::PaletteConnectStatusResponse, Error<ConnectPeriodGetStatusError>> {
 
-    let uri_str = format!("{}/v1/connect/status/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/connect/status/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

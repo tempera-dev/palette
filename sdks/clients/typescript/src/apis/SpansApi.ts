@@ -110,7 +110,7 @@ export class SpansApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/spans/{tenant_id}/{trace_id}/{span_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))).replace(`{${"span_id"}}`, encodeURIComponent(String(requestParameters['spanId']))),
+            path: `/v1/spans/{tenantId}/{traceId}/{spanId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))).replace(`{${"spanId"}}`, encodeURIComponent(String(requestParameters['spanId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -179,7 +179,7 @@ export class SpansApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/spans/{tenant_id}/{trace_id}/{span_id}/io`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))).replace(`{${"span_id"}}`, encodeURIComponent(String(requestParameters['spanId']))),
+            path: `/v1/spans/{tenantId}/{traceId}/{spanId}/io`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))).replace(`{${"spanId"}}`, encodeURIComponent(String(requestParameters['spanId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

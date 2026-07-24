@@ -56,7 +56,7 @@ public:
 
     int64_t getAmountMicros() const;
     bool amountMicrosIsSet() const;
-    void unsetAmount_micros();
+    void unsetAmountMicros();
     void setAmountMicros(int64_t value);
 
     std::shared_ptr<Currency> getCurrency() const;
@@ -66,8 +66,8 @@ public:
 
 
 protected:
-    int64_t m_Amount_micros;
-    bool m_Amount_microsIsSet;
+    int64_t m_AmountMicros;
+    bool m_AmountMicrosIsSet;
 
     std::shared_ptr<Currency> m_Currency;
     bool m_CurrencyIsSet;

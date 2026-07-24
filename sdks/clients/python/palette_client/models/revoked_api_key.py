@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,9 +28,9 @@ class RevokedApiKey(BaseModel):
     RevokedApiKey
     """ # noqa: E501
     active: StrictBool
-    api_key_id: StrictStr
-    rotated_at: datetime
-    __properties: ClassVar[List[str]] = ["active", "api_key_id", "rotated_at"]
+    api_key_id: StrictStr = Field(alias="apiKeyId")
+    rotated_at: datetime = Field(alias="rotatedAt")
+    __properties: ClassVar[List[str]] = ["active", "apiKeyId", "rotatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,8 +84,8 @@ class RevokedApiKey(BaseModel):
 
         _obj = cls.model_validate({
             "active": obj.get("active"),
-            "api_key_id": obj.get("api_key_id"),
-            "rotated_at": obj.get("rotated_at")
+            "apiKeyId": obj.get("apiKeyId"),
+            "rotatedAt": obj.get("rotatedAt")
         })
         return _obj
 

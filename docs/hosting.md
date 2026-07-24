@@ -50,7 +50,7 @@ Admin key — a chicken-and-egg. Break it once, offline, inside the machine
 fly ssh console -C "palettectl api-key-create \
   --data-dir /data --tenant-id demo --project-id demo --environment-id local \
   --scopes admin,trace-read,trace-write,pii-unmask"
-# prints { "api_key_id": "...", "secret": "bt_...", ... } ONCE — copy the secret.
+# prints { "apiKeyId": "...", "secret": "bt_...", ... } ONCE — copy the secret.
 ```
 
 Use that `bt_...` Admin secret only to mint narrower project-scoped keys. Do not

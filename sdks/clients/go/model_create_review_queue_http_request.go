@@ -21,9 +21,9 @@ var _ MappedNullable = &CreateReviewQueueHttpRequest{}
 
 // CreateReviewQueueHttpRequest struct for CreateReviewQueueHttpRequest
 type CreateReviewQueueHttpRequest struct {
-	AnnotationSchema interface{} `json:"annotation_schema"`
+	AnnotationSchema interface{} `json:"annotationSchema"`
 	Name string `json:"name"`
-	QueueId NullableString `json:"queue_id,omitempty"`
+	QueueId NullableString `json:"queueId,omitempty"`
 }
 
 type _CreateReviewQueueHttpRequest CreateReviewQueueHttpRequest
@@ -150,11 +150,11 @@ func (o CreateReviewQueueHttpRequest) MarshalJSON() ([]byte, error) {
 func (o CreateReviewQueueHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AnnotationSchema != nil {
-		toSerialize["annotation_schema"] = o.AnnotationSchema
+		toSerialize["annotationSchema"] = o.AnnotationSchema
 	}
 	toSerialize["name"] = o.Name
 	if o.QueueId.IsSet() {
-		toSerialize["queue_id"] = o.QueueId.Get()
+		toSerialize["queueId"] = o.QueueId.Get()
 	}
 	return toSerialize, nil
 }
@@ -164,7 +164,7 @@ func (o *CreateReviewQueueHttpRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"annotation_schema",
+		"annotationSchema",
 		"name",
 	}
 

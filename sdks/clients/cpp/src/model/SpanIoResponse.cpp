@@ -22,12 +22,12 @@ SpanIoResponse::SpanIoResponse()
 {
     m_InputIsSet = false;
     m_OutputIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 SpanIoResponse::~SpanIoResponse()
@@ -52,20 +52,20 @@ web::json::value SpanIoResponse::toJson() const
         
         val[utility::conversions::to_string_t(U("output"))] = ModelBase::toJson(m_Output);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -96,9 +96,9 @@ bool SpanIoResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -107,9 +107,9 @@ bool SpanIoResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -118,9 +118,9 @@ bool SpanIoResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -147,17 +147,17 @@ void SpanIoResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, c
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output")), m_Output));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -182,22 +182,22 @@ bool SpanIoResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output"))), refVal_setOutput );
         setOutput(refVal_setOutput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -248,66 +248,66 @@ void SpanIoResponse::unsetOutput()
 }
 utility::string_t SpanIoResponse::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void SpanIoResponse::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool SpanIoResponse::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void SpanIoResponse::unsetSpan_id()
+void SpanIoResponse::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t SpanIoResponse::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void SpanIoResponse::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool SpanIoResponse::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void SpanIoResponse::unsetTenant_id()
+void SpanIoResponse::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t SpanIoResponse::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void SpanIoResponse::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool SpanIoResponse::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void SpanIoResponse::unsetTrace_id()
+void SpanIoResponse::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

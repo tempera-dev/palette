@@ -43,13 +43,13 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunCalibrationHttpRequest {
-  public static final String JSON_PROPERTY_EVAL_REPORT_ID = "eval_report_id";
+  public static final String JSON_PROPERTY_EVAL_REPORT_ID = "evalReportId";
   private JsonNullable<String> evalReportId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   private JsonNullable<String> evaluatorVersionId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_PASS_THRESHOLD = "pass_threshold";
+  public static final String JSON_PROPERTY_PASS_THRESHOLD = "passThreshold";
   private JsonNullable<Double> passThreshold = JsonNullable.<Double>undefined();
 
   public RunCalibrationHttpRequest() { 
@@ -238,19 +238,19 @@ public class RunCalibrationHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `eval_report_id` to the URL query string
+    // add `evalReportId` to the URL query string
     if (getEvalReportId() != null) {
-      joiner.add(String.format("%seval_report_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevalReportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `pass_threshold` to the URL query string
+    // add `passThreshold` to the URL query string
     if (getPassThreshold() != null) {
-      joiner.add(String.format("%spass_threshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spassThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

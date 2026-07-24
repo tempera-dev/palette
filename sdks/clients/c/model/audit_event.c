@@ -141,7 +141,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
 
     // audit_event->actor_api_key_id
     if(audit_event->actor_api_key_id) {
-    if(cJSON_AddStringToObject(item, "actor_api_key_id", audit_event->actor_api_key_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "actorApiKeyId", audit_event->actor_api_key_id) == NULL) {
     goto fail; //String
     }
     }
@@ -165,7 +165,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->audit_event_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "audit_event_id", audit_event->audit_event_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "auditEventId", audit_event->audit_event_id) == NULL) {
     goto fail; //String
     }
 
@@ -174,14 +174,14 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", audit_event->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", audit_event->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
 
     // audit_event->environment_id
     if(audit_event->environment_id) {
-    if(cJSON_AddStringToObject(item, "environment_id", audit_event->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", audit_event->environment_id) == NULL) {
     goto fail; //String
     }
     }
@@ -205,7 +205,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", audit_event->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", audit_event->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -222,7 +222,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->resource_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "resource_id", audit_event->resource_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "resourceId", audit_event->resource_id) == NULL) {
     goto fail; //String
     }
 
@@ -231,7 +231,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->resource_type) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "resource_type", audit_event->resource_type) == NULL) {
+    if(cJSON_AddStringToObject(item, "resourceType", audit_event->resource_type) == NULL) {
     goto fail; //String
     }
 
@@ -240,7 +240,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     if (!audit_event->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", audit_event->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", audit_event->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -278,7 +278,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     action_local_nonprim = audit_action_parseFromJSON(action); //custom
 
     // audit_event->actor_api_key_id
-    cJSON *actor_api_key_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "actor_api_key_id");
+    cJSON *actor_api_key_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "actorApiKeyId");
     if (cJSON_IsNull(actor_api_key_id)) {
         actor_api_key_id = NULL;
     }
@@ -302,7 +302,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     attributes_local_nonprim = _parseFromJSON(attributes); //custom
 
     // audit_event->audit_event_id
-    cJSON *audit_event_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "audit_event_id");
+    cJSON *audit_event_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "auditEventId");
     if (cJSON_IsNull(audit_event_id)) {
         audit_event_id = NULL;
     }
@@ -317,7 +317,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     }
 
     // audit_event->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -332,7 +332,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     }
 
     // audit_event->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -356,7 +356,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     outcome_local_nonprim = audit_outcome_parseFromJSON(outcome); //custom
 
     // audit_event->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -383,7 +383,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     }
 
     // audit_event->resource_id
-    cJSON *resource_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "resource_id");
+    cJSON *resource_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "resourceId");
     if (cJSON_IsNull(resource_id)) {
         resource_id = NULL;
     }
@@ -398,7 +398,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     }
 
     // audit_event->resource_type
-    cJSON *resource_type = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "resource_type");
+    cJSON *resource_type = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "resourceType");
     if (cJSON_IsNull(resource_type)) {
         resource_type = NULL;
     }
@@ -413,7 +413,7 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     }
 
     // audit_event->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

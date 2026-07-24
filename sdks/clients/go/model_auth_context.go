@@ -21,7 +21,7 @@ var _ MappedNullable = &AuthContext{}
 
 // AuthContext struct for AuthContext
 type AuthContext struct {
-	ApiKeyId *string `json:"api_key_id,omitempty"`
+	ApiKeyId *string `json:"apiKeyId,omitempty"`
 	Scopes []string `json:"scopes"`
 }
 
@@ -112,7 +112,7 @@ func (o AuthContext) MarshalJSON() ([]byte, error) {
 func (o AuthContext) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.ApiKeyId) {
-		toSerialize["api_key_id"] = o.ApiKeyId
+		toSerialize["apiKeyId"] = o.ApiKeyId
 	}
 	toSerialize["scopes"] = o.Scopes
 	return toSerialize, nil

@@ -137,17 +137,17 @@ export function AuditEventFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'action': AuditActionFromJSON(json['action']),
-        'actorApiKeyId': json['actor_api_key_id'] == null ? undefined : json['actor_api_key_id'],
+        'actorApiKeyId': json['actorApiKeyId'] == null ? undefined : json['actorApiKeyId'],
         'attributes': json['attributes'],
-        'auditEventId': json['audit_event_id'],
-        'createdAt': (new Date(json['created_at'])),
-        'environmentId': json['environment_id'] == null ? undefined : json['environment_id'],
+        'auditEventId': json['auditEventId'],
+        'createdAt': (new Date(json['createdAt'])),
+        'environmentId': json['environmentId'] == null ? undefined : json['environmentId'],
         'outcome': AuditOutcomeFromJSON(json['outcome']),
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'reason': json['reason'] == null ? undefined : json['reason'],
-        'resourceId': json['resource_id'],
-        'resourceType': json['resource_type'],
-        'tenantId': json['tenant_id'],
+        'resourceId': json['resourceId'],
+        'resourceType': json['resourceType'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -163,17 +163,17 @@ export function AuditEventToJSONTyped(value?: AuditEvent | null, ignoreDiscrimin
     return {
         
         'action': AuditActionToJSON(value['action']),
-        'actor_api_key_id': value['actorApiKeyId'],
+        'actorApiKeyId': value['actorApiKeyId'],
         'attributes': value['attributes'],
-        'audit_event_id': value['auditEventId'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'environment_id': value['environmentId'],
+        'auditEventId': value['auditEventId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'environmentId': value['environmentId'],
         'outcome': AuditOutcomeToJSON(value['outcome']),
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'reason': value['reason'],
-        'resource_id': value['resourceId'],
-        'resource_type': value['resourceType'],
-        'tenant_id': value['tenantId'],
+        'resourceId': value['resourceId'],
+        'resourceType': value['resourceType'],
+        'tenantId': value['tenantId'],
     };
 }
 

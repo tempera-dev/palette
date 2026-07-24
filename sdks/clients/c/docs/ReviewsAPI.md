@@ -4,24 +4,24 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ReviewsAPI_reviewsCreateQueue**](ReviewsAPI.md#ReviewsAPI_reviewsCreateQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
-[**ReviewsAPI_reviewsEnqueueTaskFromTrace**](ReviewsAPI.md#ReviewsAPI_reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
-[**ReviewsAPI_reviewsListTasks**](ReviewsAPI.md#ReviewsAPI_reviewsListTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
-[**ReviewsAPI_reviewsPromoteAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
-[**ReviewsAPI_reviewsSubmitAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
+[**ReviewsAPI_reviewsCreateQueue**](ReviewsAPI.md#ReviewsAPI_reviewsCreateQueue) | **POST** /v1/review-queues/{tenantId}/{projectId} |
+[**ReviewsAPI_reviewsEnqueueTaskFromTrace**](ReviewsAPI.md#ReviewsAPI_reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace |
+[**ReviewsAPI_reviewsListTasks**](ReviewsAPI.md#ReviewsAPI_reviewsListTasks) | **GET** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks |
+[**ReviewsAPI_reviewsPromoteAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote |
+[**ReviewsAPI_reviewsSubmitAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations |
 
 
 # **ReviewsAPI_reviewsCreateQueue**
 ```c
-review_queue_t* ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_queue_t* ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenantId, char *projectId, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **create_review_queue_http_request** | **[create_review_queue_http_request_t](create_review_queue_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -46,16 +46,16 @@ No authorization required
 
 # **ReviewsAPI_reviewsEnqueueTaskFromTrace**
 ```c
-review_task_t* ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_task_t* ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**queue_id** | **char \*** | queue_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**queueId** | **char \*** | queue_id |
 **enqueue_review_task_from_trace_http_request** | **[enqueue_review_task_from_trace_http_request_t](enqueue_review_task_from_trace_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -80,16 +80,16 @@ No authorization required
 
 # **ReviewsAPI_reviewsListTasks**
 ```c
-review_task_list_response_t* ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_task_list_response_t* ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**queue_id** | **char \*** | queue_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**queueId** | **char \*** | queue_id |
 **state** | **review_task_state_e** |  | [optional]
 **pageSize** | **int \*** | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
 **pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
@@ -116,18 +116,18 @@ No authorization required
 
 # **ReviewsAPI_reviewsPromoteAnnotation**
 ```c
-dataset_case_t* ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_case_t* ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, char *taskId, char *annotationId, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**queue_id** | **char \*** | queue_id |
-**task_id** | **char \*** | task_id |
-**annotation_id** | **char \*** | annotation_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**queueId** | **char \*** | queue_id |
+**taskId** | **char \*** | task_id |
+**annotationId** | **char \*** | annotation_id |
 **promote_review_annotation_http_request** | **[promote_review_annotation_http_request_t](promote_review_annotation_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -152,17 +152,17 @@ No authorization required
 
 # **ReviewsAPI_reviewsSubmitAnnotation**
 ```c
-review_annotation_t* ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_annotation_t* ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, char *taskId, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**queue_id** | **char \*** | queue_id |
-**task_id** | **char \*** | task_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**queueId** | **char \*** | queue_id |
+**taskId** | **char \*** | task_id |
 **submit_review_annotation_http_request** | **[submit_review_annotation_http_request_t](submit_review_annotation_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]

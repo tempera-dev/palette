@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CaseOutputOverrideRequest {
-    #[serde(rename = "case_id")]
+    #[serde(rename = "caseId")]
     pub case_id: String,
     #[serde(rename = "output", deserialize_with = "Option::deserialize")]
     pub output: Option<serde_json::Value>,

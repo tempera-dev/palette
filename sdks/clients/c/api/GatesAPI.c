@@ -8,7 +8,7 @@
 
 
 gate_definition_t*
-GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenantId, char *projectId, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/gates/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/gates/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -161,8 +161,8 @@ GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -212,7 +212,7 @@ end:
 }
 
 gate_run_report_t*
-GatesAPI_gatesRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *gate_id, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+GatesAPI_gatesRun(apiClient_t *apiClient, char *tenantId, char *projectId, char *gateId, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -226,45 +226,45 @@ GatesAPI_gatesRun(apiClient_t *apiClient, char *tenant_id, char *project_id, cha
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/gates/{tenant_id}/{project_id}/{gate_id}/run");
+    char *localVarPath = strdup("/v1/gates/{tenantId}/{projectId}/{gateId}/run");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!gate_id)
+    if(!gateId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(gate_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(gateId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(gate_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(gateId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_gate_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(gate_id)+3 + sizeof("{ gate_id }") - 1;
-    if(gate_id == NULL) {
+    long sizeOfPathParams_gateId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(gateId)+3 + sizeof("{ gateId }") - 1;
+    if(gateId == NULL) {
         goto end;
     }
-    char* localVarToReplace_gate_id = malloc(sizeOfPathParams_gate_id);
-    sprintf(localVarToReplace_gate_id, "{%s}", "gate_id");
+    char* localVarToReplace_gateId = malloc(sizeOfPathParams_gateId);
+    sprintf(localVarToReplace_gateId, "{%s}", "gateId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_gate_id, gate_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_gateId, gateId);
 
 
 
@@ -381,9 +381,9 @@ GatesAPI_gatesRun(apiClient_t *apiClient, char *tenant_id, char *project_id, cha
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_gate_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_gateId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

@@ -172,9 +172,9 @@ public class GatesApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/gates/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/gates/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -301,10 +301,10 @@ public class GatesApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/gates/{tenant_id}/{project_id}/{gate_id}/run"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{gate_id}", ApiClient.urlEncode(gateId.toString()));
+    String localVarPath = "/v1/gates/{tenantId}/{projectId}/{gateId}/run"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{gateId}", ApiClient.urlEncode(gateId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

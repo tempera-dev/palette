@@ -22,7 +22,7 @@ var _ MappedNullable = &WebhookDelivery{}
 // WebhookDelivery struct for WebhookDelivery
 type WebhookDelivery struct {
 	Body interface{} `json:"body"`
-	EndpointUrl string `json:"endpoint_url"`
+	EndpointUrl string `json:"endpointUrl"`
 	Headers map[string]string `json:"headers"`
 }
 
@@ -135,7 +135,7 @@ func (o WebhookDelivery) ToMap() (map[string]interface{}, error) {
 	if o.Body != nil {
 		toSerialize["body"] = o.Body
 	}
-	toSerialize["endpoint_url"] = o.EndpointUrl
+	toSerialize["endpointUrl"] = o.EndpointUrl
 	toSerialize["headers"] = o.Headers
 	return toSerialize, nil
 }
@@ -146,7 +146,7 @@ func (o *WebhookDelivery) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"body",
-		"endpoint_url",
+		"endpointUrl",
 		"headers",
 	}
 

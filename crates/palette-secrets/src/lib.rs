@@ -37,6 +37,7 @@ impl Debug for PutProviderSecretRequest {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ProviderSecretMetadata {
     pub provider_secret_id: ProviderSecretId,
     pub tenant_id: TenantId,
@@ -82,6 +83,7 @@ impl Debug for ProviderSecret {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct RevokedProviderSecret {
     pub provider_secret_id: ProviderSecretId,
     pub active: bool,

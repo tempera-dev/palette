@@ -15,27 +15,27 @@ use serde::{Deserialize, Serialize};
 pub struct AuditEvent {
     #[serde(rename = "action")]
     pub action: models::AuditAction,
-    #[serde(rename = "actor_api_key_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "actorApiKeyId", skip_serializing_if = "Option::is_none")]
     pub actor_api_key_id: Option<String>,
     #[serde(rename = "attributes", deserialize_with = "Option::deserialize")]
     pub attributes: Option<serde_json::Value>,
-    #[serde(rename = "audit_event_id")]
+    #[serde(rename = "auditEventId")]
     pub audit_event_id: String,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "environment_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "environmentId", skip_serializing_if = "Option::is_none")]
     pub environment_id: Option<String>,
     #[serde(rename = "outcome")]
     pub outcome: models::AuditOutcome,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "reason", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub reason: Option<Option<String>>,
-    #[serde(rename = "resource_id")]
+    #[serde(rename = "resourceId")]
     pub resource_id: String,
-    #[serde(rename = "resource_type")]
+    #[serde(rename = "resourceType")]
     pub resource_type: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

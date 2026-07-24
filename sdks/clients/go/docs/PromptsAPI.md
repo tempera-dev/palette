@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PromptsAddVersion**](PromptsAPI.md#PromptsAddVersion) | **Post** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**PromptsCreate**](PromptsAPI.md#PromptsCreate) | **Post** /v1/prompts/{tenant_id}/{project_id} |
-[**PromptsDiffVersions**](PromptsAPI.md#PromptsDiffVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
-[**PromptsGet**](PromptsAPI.md#PromptsGet) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
-[**PromptsList**](PromptsAPI.md#PromptsList) | **Get** /v1/prompts/{tenant_id}/{project_id} |
-[**PromptsListVersions**](PromptsAPI.md#PromptsListVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
+[**PromptsAddVersion**](PromptsAPI.md#PromptsAddVersion) | **Post** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
+[**PromptsCreate**](PromptsAPI.md#PromptsCreate) | **Post** /v1/prompts/{tenantId}/{projectId} |
+[**PromptsDiffVersions**](PromptsAPI.md#PromptsDiffVersions) | **Get** /v1/prompts/{tenantId}/{projectId}/{promptId}/diff |
+[**PromptsGet**](PromptsAPI.md#PromptsGet) | **Get** /v1/prompts/{tenantId}/{projectId}/{promptId} |
+[**PromptsList**](PromptsAPI.md#PromptsList) | **Get** /v1/prompts/{tenantId}/{projectId} |
+[**PromptsListVersions**](PromptsAPI.md#PromptsListVersions) | **Get** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
 
 
 

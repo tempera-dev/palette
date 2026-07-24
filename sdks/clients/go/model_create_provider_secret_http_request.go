@@ -21,9 +21,9 @@ var _ MappedNullable = &CreateProviderSecretHttpRequest{}
 
 // CreateProviderSecretHttpRequest struct for CreateProviderSecretHttpRequest
 type CreateProviderSecretHttpRequest struct {
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"displayName"`
 	Provider string `json:"provider"`
-	SecretValue string `json:"secret_value"`
+	SecretValue string `json:"secretValue"`
 }
 
 type _CreateProviderSecretHttpRequest CreateProviderSecretHttpRequest
@@ -130,9 +130,9 @@ func (o CreateProviderSecretHttpRequest) MarshalJSON() ([]byte, error) {
 
 func (o CreateProviderSecretHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["display_name"] = o.DisplayName
+	toSerialize["displayName"] = o.DisplayName
 	toSerialize["provider"] = o.Provider
-	toSerialize["secret_value"] = o.SecretValue
+	toSerialize["secretValue"] = o.SecretValue
 	return toSerialize, nil
 }
 
@@ -141,9 +141,9 @@ func (o *CreateProviderSecretHttpRequest) UnmarshalJSON(data []byte) (err error)
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"display_name",
+		"displayName",
 		"provider",
-		"secret_value",
+		"secretValue",
 	}
 
 	allProperties := make(map[string]interface{})

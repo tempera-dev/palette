@@ -22,28 +22,28 @@ TemperaEvidenceReceipt::TemperaEvidenceReceipt()
 {
     m_Created = false;
     m_CreatedIsSet = false;
-    m_Declared_content_sha256 = utility::conversions::to_string_t("");
-    m_Declared_content_sha256IsSet = false;
-    m_External_id = utility::conversions::to_string_t("");
-    m_External_idIsSet = false;
+    m_DeclaredContentSha256 = utility::conversions::to_string_t("");
+    m_DeclaredContentSha256IsSet = false;
+    m_ExternalId = utility::conversions::to_string_t("");
+    m_ExternalIdIsSet = false;
     m_KindIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Public_key_sha256 = utility::conversions::to_string_t("");
-    m_Public_key_sha256IsSet = false;
-    m_Schema_version = utility::conversions::to_string_t("");
-    m_Schema_versionIsSet = false;
-    m_Signature_sha256 = utility::conversions::to_string_t("");
-    m_Signature_sha256IsSet = false;
-    m_Signed_payload_sha256 = utility::conversions::to_string_t("");
-    m_Signed_payload_sha256IsSet = false;
-    m_Source_schema_version = utility::conversions::to_string_t("");
-    m_Source_schema_versionIsSet = false;
-    m_Stored_at = utility::datetime();
-    m_Stored_atIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_PublicKeySha256 = utility::conversions::to_string_t("");
+    m_PublicKeySha256IsSet = false;
+    m_SchemaVersion = utility::conversions::to_string_t("");
+    m_SchemaVersionIsSet = false;
+    m_SignatureSha256 = utility::conversions::to_string_t("");
+    m_SignatureSha256IsSet = false;
+    m_SignedPayloadSha256 = utility::conversions::to_string_t("");
+    m_SignedPayloadSha256IsSet = false;
+    m_SourceSchemaVersion = utility::conversions::to_string_t("");
+    m_SourceSchemaVersionIsSet = false;
+    m_StoredAt = utility::datetime();
+    m_StoredAtIsSet = false;
     m_SummaryIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 TemperaEvidenceReceipt::~TemperaEvidenceReceipt()
@@ -63,65 +63,65 @@ web::json::value TemperaEvidenceReceipt::toJson() const
         
         val[utility::conversions::to_string_t(U("created"))] = ModelBase::toJson(m_Created);
     }
-    if(m_Declared_content_sha256IsSet)
+    if(m_DeclaredContentSha256IsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("declared_content_sha256"))] = ModelBase::toJson(m_Declared_content_sha256);
+        val[utility::conversions::to_string_t(U("declaredContentSha256"))] = ModelBase::toJson(m_DeclaredContentSha256);
     }
-    if(m_External_idIsSet)
+    if(m_ExternalIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("external_id"))] = ModelBase::toJson(m_External_id);
+        val[utility::conversions::to_string_t(U("externalId"))] = ModelBase::toJson(m_ExternalId);
     }
     if(m_KindIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Public_key_sha256IsSet)
+    if(m_PublicKeySha256IsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("public_key_sha256"))] = ModelBase::toJson(m_Public_key_sha256);
+        val[utility::conversions::to_string_t(U("publicKeySha256"))] = ModelBase::toJson(m_PublicKeySha256);
     }
-    if(m_Schema_versionIsSet)
+    if(m_SchemaVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("schema_version"))] = ModelBase::toJson(m_Schema_version);
+        val[utility::conversions::to_string_t(U("schemaVersion"))] = ModelBase::toJson(m_SchemaVersion);
     }
-    if(m_Signature_sha256IsSet)
+    if(m_SignatureSha256IsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("signature_sha256"))] = ModelBase::toJson(m_Signature_sha256);
+        val[utility::conversions::to_string_t(U("signatureSha256"))] = ModelBase::toJson(m_SignatureSha256);
     }
-    if(m_Signed_payload_sha256IsSet)
+    if(m_SignedPayloadSha256IsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("signed_payload_sha256"))] = ModelBase::toJson(m_Signed_payload_sha256);
+        val[utility::conversions::to_string_t(U("signedPayloadSha256"))] = ModelBase::toJson(m_SignedPayloadSha256);
     }
-    if(m_Source_schema_versionIsSet)
+    if(m_SourceSchemaVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_schema_version"))] = ModelBase::toJson(m_Source_schema_version);
+        val[utility::conversions::to_string_t(U("sourceSchemaVersion"))] = ModelBase::toJson(m_SourceSchemaVersion);
     }
-    if(m_Stored_atIsSet)
+    if(m_StoredAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("stored_at"))] = ModelBase::toJson(m_Stored_at);
+        val[utility::conversions::to_string_t(U("storedAt"))] = ModelBase::toJson(m_StoredAt);
     }
     if(m_SummaryIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("summary"))] = ModelBase::toJson(m_Summary);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -141,9 +141,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("declared_content_sha256"))))
+    if(val.has_field(utility::conversions::to_string_t(U("declaredContentSha256"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("declared_content_sha256")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("declaredContentSha256")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDeclaredContentSha256;
@@ -152,9 +152,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("external_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("externalId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("external_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("externalId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExternalId;
@@ -174,9 +174,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -185,9 +185,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("public_key_sha256"))))
+    if(val.has_field(utility::conversions::to_string_t(U("publicKeySha256"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("public_key_sha256")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("publicKeySha256")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPublicKeySha256;
@@ -196,9 +196,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("schema_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("schemaVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("schema_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("schemaVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSchemaVersion;
@@ -207,9 +207,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("signature_sha256"))))
+    if(val.has_field(utility::conversions::to_string_t(U("signatureSha256"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signature_sha256")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signatureSha256")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSignatureSha256;
@@ -218,9 +218,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("signed_payload_sha256"))))
+    if(val.has_field(utility::conversions::to_string_t(U("signedPayloadSha256"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signed_payload_sha256")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signedPayloadSha256")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSignedPayloadSha256;
@@ -229,9 +229,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_schema_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceSchemaVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_schema_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceSchemaVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSourceSchemaVersion;
@@ -240,9 +240,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("stored_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("storedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("stored_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("storedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setStoredAt;
@@ -262,9 +262,9 @@ bool TemperaEvidenceReceipt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -287,53 +287,53 @@ void TemperaEvidenceReceipt::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created")), m_Created));
     }
-    if(m_Declared_content_sha256IsSet)
+    if(m_DeclaredContentSha256IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("declared_content_sha256")), m_Declared_content_sha256));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("declaredContentSha256")), m_DeclaredContentSha256));
     }
-    if(m_External_idIsSet)
+    if(m_ExternalIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("external_id")), m_External_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("externalId")), m_ExternalId));
     }
     if(m_KindIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Public_key_sha256IsSet)
+    if(m_PublicKeySha256IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("public_key_sha256")), m_Public_key_sha256));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("publicKeySha256")), m_PublicKeySha256));
     }
-    if(m_Schema_versionIsSet)
+    if(m_SchemaVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("schema_version")), m_Schema_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("schemaVersion")), m_SchemaVersion));
     }
-    if(m_Signature_sha256IsSet)
+    if(m_SignatureSha256IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signature_sha256")), m_Signature_sha256));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signatureSha256")), m_SignatureSha256));
     }
-    if(m_Signed_payload_sha256IsSet)
+    if(m_SignedPayloadSha256IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signed_payload_sha256")), m_Signed_payload_sha256));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signedPayloadSha256")), m_SignedPayloadSha256));
     }
-    if(m_Source_schema_versionIsSet)
+    if(m_SourceSchemaVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_schema_version")), m_Source_schema_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceSchemaVersion")), m_SourceSchemaVersion));
     }
-    if(m_Stored_atIsSet)
+    if(m_StoredAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("stored_at")), m_Stored_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("storedAt")), m_StoredAt));
     }
     if(m_SummaryIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("summary")), m_Summary));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -352,16 +352,16 @@ bool TemperaEvidenceReceipt::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created"))), refVal_setCreated );
         setCreated(refVal_setCreated);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("declared_content_sha256"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("declaredContentSha256"))))
     {
         utility::string_t refVal_setDeclaredContentSha256;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("declared_content_sha256"))), refVal_setDeclaredContentSha256 );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("declaredContentSha256"))), refVal_setDeclaredContentSha256 );
         setDeclaredContentSha256(refVal_setDeclaredContentSha256);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("external_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("externalId"))))
     {
         utility::string_t refVal_setExternalId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("external_id"))), refVal_setExternalId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("externalId"))), refVal_setExternalId );
         setExternalId(refVal_setExternalId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -370,46 +370,46 @@ bool TemperaEvidenceReceipt::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("public_key_sha256"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("publicKeySha256"))))
     {
         utility::string_t refVal_setPublicKeySha256;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("public_key_sha256"))), refVal_setPublicKeySha256 );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("publicKeySha256"))), refVal_setPublicKeySha256 );
         setPublicKeySha256(refVal_setPublicKeySha256);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("schema_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("schemaVersion"))))
     {
         utility::string_t refVal_setSchemaVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("schema_version"))), refVal_setSchemaVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("schemaVersion"))), refVal_setSchemaVersion );
         setSchemaVersion(refVal_setSchemaVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("signature_sha256"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("signatureSha256"))))
     {
         utility::string_t refVal_setSignatureSha256;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signature_sha256"))), refVal_setSignatureSha256 );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signatureSha256"))), refVal_setSignatureSha256 );
         setSignatureSha256(refVal_setSignatureSha256);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("signed_payload_sha256"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("signedPayloadSha256"))))
     {
         utility::string_t refVal_setSignedPayloadSha256;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signed_payload_sha256"))), refVal_setSignedPayloadSha256 );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signedPayloadSha256"))), refVal_setSignedPayloadSha256 );
         setSignedPayloadSha256(refVal_setSignedPayloadSha256);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_schema_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceSchemaVersion"))))
     {
         utility::string_t refVal_setSourceSchemaVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_schema_version"))), refVal_setSourceSchemaVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceSchemaVersion"))), refVal_setSourceSchemaVersion );
         setSourceSchemaVersion(refVal_setSourceSchemaVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("stored_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("storedAt"))))
     {
         utility::datetime refVal_setStoredAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("stored_at"))), refVal_setStoredAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("storedAt"))), refVal_setStoredAt );
         setStoredAt(refVal_setStoredAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("summary"))))
@@ -418,10 +418,10 @@ bool TemperaEvidenceReceipt::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("summary"))), refVal_setSummary );
         setSummary(refVal_setSummary);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -450,45 +450,45 @@ void TemperaEvidenceReceipt::unsetCreated()
 }
 utility::string_t TemperaEvidenceReceipt::getDeclaredContentSha256() const
 {
-    return m_Declared_content_sha256;
+    return m_DeclaredContentSha256;
 }
 
 
 void TemperaEvidenceReceipt::setDeclaredContentSha256(const utility::string_t& value)
 {
-    m_Declared_content_sha256 = value;
-    m_Declared_content_sha256IsSet = true;
+    m_DeclaredContentSha256 = value;
+    m_DeclaredContentSha256IsSet = true;
 }
 
 bool TemperaEvidenceReceipt::declaredContentSha256IsSet() const
 {
-    return m_Declared_content_sha256IsSet;
+    return m_DeclaredContentSha256IsSet;
 }
 
-void TemperaEvidenceReceipt::unsetDeclared_content_sha256()
+void TemperaEvidenceReceipt::unsetDeclaredContentSha256()
 {
-    m_Declared_content_sha256IsSet = false;
+    m_DeclaredContentSha256IsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getExternalId() const
 {
-    return m_External_id;
+    return m_ExternalId;
 }
 
 
 void TemperaEvidenceReceipt::setExternalId(const utility::string_t& value)
 {
-    m_External_id = value;
-    m_External_idIsSet = true;
+    m_ExternalId = value;
+    m_ExternalIdIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::externalIdIsSet() const
 {
-    return m_External_idIsSet;
+    return m_ExternalIdIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetExternal_id()
+void TemperaEvidenceReceipt::unsetExternalId()
 {
-    m_External_idIsSet = false;
+    m_ExternalIdIsSet = false;
 }
 std::shared_ptr<ExternalEvalEvidenceKind> TemperaEvidenceReceipt::getKind() const
 {
@@ -513,150 +513,150 @@ void TemperaEvidenceReceipt::unsetKind()
 }
 utility::string_t TemperaEvidenceReceipt::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void TemperaEvidenceReceipt::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetProject_id()
+void TemperaEvidenceReceipt::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getPublicKeySha256() const
 {
-    return m_Public_key_sha256;
+    return m_PublicKeySha256;
 }
 
 
 void TemperaEvidenceReceipt::setPublicKeySha256(const utility::string_t& value)
 {
-    m_Public_key_sha256 = value;
-    m_Public_key_sha256IsSet = true;
+    m_PublicKeySha256 = value;
+    m_PublicKeySha256IsSet = true;
 }
 
 bool TemperaEvidenceReceipt::publicKeySha256IsSet() const
 {
-    return m_Public_key_sha256IsSet;
+    return m_PublicKeySha256IsSet;
 }
 
-void TemperaEvidenceReceipt::unsetPublic_key_sha256()
+void TemperaEvidenceReceipt::unsetPublicKeySha256()
 {
-    m_Public_key_sha256IsSet = false;
+    m_PublicKeySha256IsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getSchemaVersion() const
 {
-    return m_Schema_version;
+    return m_SchemaVersion;
 }
 
 
 void TemperaEvidenceReceipt::setSchemaVersion(const utility::string_t& value)
 {
-    m_Schema_version = value;
-    m_Schema_versionIsSet = true;
+    m_SchemaVersion = value;
+    m_SchemaVersionIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::schemaVersionIsSet() const
 {
-    return m_Schema_versionIsSet;
+    return m_SchemaVersionIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetSchema_version()
+void TemperaEvidenceReceipt::unsetSchemaVersion()
 {
-    m_Schema_versionIsSet = false;
+    m_SchemaVersionIsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getSignatureSha256() const
 {
-    return m_Signature_sha256;
+    return m_SignatureSha256;
 }
 
 
 void TemperaEvidenceReceipt::setSignatureSha256(const utility::string_t& value)
 {
-    m_Signature_sha256 = value;
-    m_Signature_sha256IsSet = true;
+    m_SignatureSha256 = value;
+    m_SignatureSha256IsSet = true;
 }
 
 bool TemperaEvidenceReceipt::signatureSha256IsSet() const
 {
-    return m_Signature_sha256IsSet;
+    return m_SignatureSha256IsSet;
 }
 
-void TemperaEvidenceReceipt::unsetSignature_sha256()
+void TemperaEvidenceReceipt::unsetSignatureSha256()
 {
-    m_Signature_sha256IsSet = false;
+    m_SignatureSha256IsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getSignedPayloadSha256() const
 {
-    return m_Signed_payload_sha256;
+    return m_SignedPayloadSha256;
 }
 
 
 void TemperaEvidenceReceipt::setSignedPayloadSha256(const utility::string_t& value)
 {
-    m_Signed_payload_sha256 = value;
-    m_Signed_payload_sha256IsSet = true;
+    m_SignedPayloadSha256 = value;
+    m_SignedPayloadSha256IsSet = true;
 }
 
 bool TemperaEvidenceReceipt::signedPayloadSha256IsSet() const
 {
-    return m_Signed_payload_sha256IsSet;
+    return m_SignedPayloadSha256IsSet;
 }
 
-void TemperaEvidenceReceipt::unsetSigned_payload_sha256()
+void TemperaEvidenceReceipt::unsetSignedPayloadSha256()
 {
-    m_Signed_payload_sha256IsSet = false;
+    m_SignedPayloadSha256IsSet = false;
 }
 utility::string_t TemperaEvidenceReceipt::getSourceSchemaVersion() const
 {
-    return m_Source_schema_version;
+    return m_SourceSchemaVersion;
 }
 
 
 void TemperaEvidenceReceipt::setSourceSchemaVersion(const utility::string_t& value)
 {
-    m_Source_schema_version = value;
-    m_Source_schema_versionIsSet = true;
+    m_SourceSchemaVersion = value;
+    m_SourceSchemaVersionIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::sourceSchemaVersionIsSet() const
 {
-    return m_Source_schema_versionIsSet;
+    return m_SourceSchemaVersionIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetSource_schema_version()
+void TemperaEvidenceReceipt::unsetSourceSchemaVersion()
 {
-    m_Source_schema_versionIsSet = false;
+    m_SourceSchemaVersionIsSet = false;
 }
 utility::datetime TemperaEvidenceReceipt::getStoredAt() const
 {
-    return m_Stored_at;
+    return m_StoredAt;
 }
 
 
 void TemperaEvidenceReceipt::setStoredAt(const utility::datetime& value)
 {
-    m_Stored_at = value;
-    m_Stored_atIsSet = true;
+    m_StoredAt = value;
+    m_StoredAtIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::storedAtIsSet() const
 {
-    return m_Stored_atIsSet;
+    return m_StoredAtIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetStored_at()
+void TemperaEvidenceReceipt::unsetStoredAt()
 {
-    m_Stored_atIsSet = false;
+    m_StoredAtIsSet = false;
 }
 std::shared_ptr<TemperaEvidenceSummary> TemperaEvidenceReceipt::getSummary() const
 {
@@ -681,24 +681,24 @@ void TemperaEvidenceReceipt::unsetSummary()
 }
 utility::string_t TemperaEvidenceReceipt::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void TemperaEvidenceReceipt::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool TemperaEvidenceReceipt::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void TemperaEvidenceReceipt::unsetTenant_id()
+void TemperaEvidenceReceipt::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

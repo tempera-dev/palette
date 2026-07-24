@@ -4,22 +4,22 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CalibrationsAPI_calibrationsRun**](CalibrationsAPI.md#CalibrationsAPI_calibrationsRun) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**CalibrationsAPI_calibrationsRun**](CalibrationsAPI.md#CalibrationsAPI_calibrationsRun) | **POST** /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId} |
 
 
 # **CalibrationsAPI_calibrationsRun**
 ```c
-calibration_report_t* CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+calibration_report_t* CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, char *versionId, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**dataset_id** | **char \*** | dataset_id |
-**version_id** | **char \*** | version_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**datasetId** | **char \*** | dataset_id |
+**versionId** | **char \*** | version_id |
 **run_calibration_http_request** | **[run_calibration_http_request_t](run_calibration_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]

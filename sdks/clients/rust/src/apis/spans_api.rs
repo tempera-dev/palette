@@ -82,7 +82,7 @@ pub enum SpansPeriodGetIoError {
 
 pub async fn spans_period_get(configuration: &configuration::Configuration, params: SpansPeriodGetParams) -> Result<models::CanonicalSpan, Error<SpansPeriodGetError>> {
 
-    let uri_str = format!("{}/v1/spans/{tenant_id}/{trace_id}/{span_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), trace_id=crate::apis::urlencode(params.trace_id), span_id=crate::apis::urlencode(params.span_id));
+    let uri_str = format!("{}/v1/spans/{tenantId}/{traceId}/{spanId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), traceId=crate::apis::urlencode(params.trace_id), spanId=crate::apis::urlencode(params.span_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.unmask {
@@ -124,7 +124,7 @@ pub async fn spans_period_get(configuration: &configuration::Configuration, para
 
 pub async fn spans_period_get_io(configuration: &configuration::Configuration, params: SpansPeriodGetIoParams) -> Result<models::SpanIoResponse, Error<SpansPeriodGetIoError>> {
 
-    let uri_str = format!("{}/v1/spans/{tenant_id}/{trace_id}/{span_id}/io", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), trace_id=crate::apis::urlencode(params.trace_id), span_id=crate::apis::urlencode(params.span_id));
+    let uri_str = format!("{}/v1/spans/{tenantId}/{traceId}/{spanId}/io", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), traceId=crate::apis::urlencode(params.trace_id), spanId=crate::apis::urlencode(params.span_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.unmask {

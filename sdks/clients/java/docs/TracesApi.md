@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**tracesGet**](TracesApi.md#tracesGet) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
-| [**tracesGetWithHttpInfo**](TracesApi.md#tracesGetWithHttpInfo) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
-| [**tracesList**](TracesApi.md#tracesList) | **GET** /v1/traces/{tenant_id} |  |
-| [**tracesListWithHttpInfo**](TracesApi.md#tracesListWithHttpInfo) | **GET** /v1/traces/{tenant_id} |  |
+| [**tracesGet**](TracesApi.md#tracesGet) | **GET** /v1/traces/{tenantId}/{traceId} |  |
+| [**tracesGetWithHttpInfo**](TracesApi.md#tracesGetWithHttpInfo) | **GET** /v1/traces/{tenantId}/{traceId} |  |
+| [**tracesList**](TracesApi.md#tracesList) | **GET** /v1/traces/{tenantId} |  |
+| [**tracesListWithHttpInfo**](TracesApi.md#tracesListWithHttpInfo) | **GET** /v1/traces/{tenantId} |  |
 
 
 

@@ -62,22 +62,22 @@ public:
 
     utility::string_t getMessageId() const;
     bool messageIdIsSet() const;
-    void unsetMessage_id();
+    void unsetMessageId();
     void setMessageId(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     bool isResetAttempts() const;
     bool resetAttemptsIsSet() const;
-    void unsetReset_attempts();
+    void unsetResetAttempts();
     void setResetAttempts(bool value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -85,17 +85,17 @@ protected:
     std::shared_ptr<PublishAck> m_Ack;
     bool m_AckIsSet;
 
-    utility::string_t m_Message_id;
-    bool m_Message_idIsSet;
+    utility::string_t m_MessageId;
+    bool m_MessageIdIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    bool m_Reset_attempts;
-    bool m_Reset_attemptsIsSet;
+    bool m_ResetAttempts;
+    bool m_ResetAttemptsIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

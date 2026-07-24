@@ -90,9 +90,9 @@ export function ScenarioClusterFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'dominantFailureMode': FailureModeFromJSON(json['dominant_failure_mode']),
-        'exemplarTraceId': json['exemplar_trace_id'],
-        'memberTraceIds': json['member_trace_ids'],
+        'dominantFailureMode': FailureModeFromJSON(json['dominantFailureMode']),
+        'exemplarTraceId': json['exemplarTraceId'],
+        'memberTraceIds': json['memberTraceIds'],
         'signature': SignatureFromJSON(json['signature']),
         'size': json['size'],
     };
@@ -109,9 +109,9 @@ export function ScenarioClusterToJSONTyped(value?: ScenarioCluster | null, ignor
 
     return {
         
-        'dominant_failure_mode': FailureModeToJSON(value['dominantFailureMode']),
-        'exemplar_trace_id': value['exemplarTraceId'],
-        'member_trace_ids': value['memberTraceIds'],
+        'dominantFailureMode': FailureModeToJSON(value['dominantFailureMode']),
+        'exemplarTraceId': value['exemplarTraceId'],
+        'memberTraceIds': value['memberTraceIds'],
         'signature': SignatureToJSON(value['signature']),
         'size': value['size'],
     };

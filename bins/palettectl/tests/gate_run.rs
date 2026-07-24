@@ -32,7 +32,7 @@ fn gate_run_exits_nonzero_for_latest_regression() -> anyhow::Result<()> {
     );
     let stdout = String::from_utf8(gate_run.stdout)?;
     assert!(stdout.contains(r#""passed": false"#));
-    assert!(stdout.contains(r#""experiment_run_id": "gate-latest-fail""#));
+    assert!(stdout.contains(r#""experimentRunId": "gate-latest-fail""#));
     Ok(())
 }
 
@@ -76,7 +76,7 @@ fn gate_run_exits_nonzero_for_explicit_inconclusive() -> anyhow::Result<()> {
     );
     let stdout: serde_json::Value = serde_json::from_slice(&gate_run.stdout)?;
     assert_eq!(stdout["passed"], false);
-    assert_eq!(stdout["experiment_decision"], "inconclusive");
+    assert_eq!(stdout["experimentDecision"], "inconclusive");
     assert_eq!(
         stdout["reason"],
         "experiment gate-explicit-inconclusive was inconclusive; deploy gates never pass inconclusive results"

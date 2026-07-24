@@ -24,6 +24,7 @@ pub enum InconclusivePolicy {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct GateDefinition {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -40,6 +41,7 @@ pub struct GateDefinition {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct GateRunReport {
     pub gate_run_id: GateRunId,
     pub tenant_id: TenantId,

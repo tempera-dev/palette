@@ -59,7 +59,7 @@ cJSON *run_calibration_http_request_convertToJSON(run_calibration_http_request_t
 
     // run_calibration_http_request->eval_report_id
     if(run_calibration_http_request->eval_report_id) {
-    if(cJSON_AddStringToObject(item, "eval_report_id", run_calibration_http_request->eval_report_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evalReportId", run_calibration_http_request->eval_report_id) == NULL) {
     goto fail; //String
     }
     }
@@ -67,7 +67,7 @@ cJSON *run_calibration_http_request_convertToJSON(run_calibration_http_request_t
 
     // run_calibration_http_request->evaluator_version_id
     if(run_calibration_http_request->evaluator_version_id) {
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", run_calibration_http_request->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", run_calibration_http_request->evaluator_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -75,7 +75,7 @@ cJSON *run_calibration_http_request_convertToJSON(run_calibration_http_request_t
 
     // run_calibration_http_request->pass_threshold
     if(run_calibration_http_request->pass_threshold) {
-    if(cJSON_AddNumberToObject(item, "pass_threshold", run_calibration_http_request->pass_threshold) == NULL) {
+    if(cJSON_AddNumberToObject(item, "passThreshold", run_calibration_http_request->pass_threshold) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -93,7 +93,7 @@ run_calibration_http_request_t *run_calibration_http_request_parseFromJSON(cJSON
     run_calibration_http_request_t *run_calibration_http_request_local_var = NULL;
 
     // run_calibration_http_request->eval_report_id
-    cJSON *eval_report_id = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "eval_report_id");
+    cJSON *eval_report_id = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "evalReportId");
     if (cJSON_IsNull(eval_report_id)) {
         eval_report_id = NULL;
     }
@@ -105,7 +105,7 @@ run_calibration_http_request_t *run_calibration_http_request_parseFromJSON(cJSON
     }
 
     // run_calibration_http_request->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -117,7 +117,7 @@ run_calibration_http_request_t *run_calibration_http_request_parseFromJSON(cJSON
     }
 
     // run_calibration_http_request->pass_threshold
-    cJSON *pass_threshold = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "pass_threshold");
+    cJSON *pass_threshold = cJSON_GetObjectItemCaseSensitive(run_calibration_http_requestJSON, "passThreshold");
     if (cJSON_IsNull(pass_threshold)) {
         pass_threshold = NULL;
     }

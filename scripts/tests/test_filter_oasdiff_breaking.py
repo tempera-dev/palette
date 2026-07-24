@@ -112,3 +112,77 @@ def test_allows_only_reviewed_aip158_wrapper_changes() -> None:
             "removed the required property `items` from the response with the `200` status",
         )
     )
+
+
+def test_allows_only_digest_pinned_aip127_alignment_shapes() -> None:
+    assert FILTER.aip127_migration_active()
+    assert FILTER.is_allowed_alignment_break(
+        block(
+            "new-required-request-property",
+            "POST /v1/datasets/{tenant_id}/{project_id}",
+            "added the new required request property `datasetId`",
+        )
+    )
+    assert FILTER.is_allowed_alignment_break(
+        block(
+            "response-required-property-removed",
+            "POST /v1/datasets/{tenant_id}/{project_id}",
+            "removed the required property `dataset_id` from the response with the `200` status",
+        )
+    )
+    assert FILTER.is_allowed_alignment_break(
+        block(
+            "request-property-one-of-removed",
+            "POST /v1/judge/{tenant_id}/{project_id}/evaluate",
+            "removed `subschema #5, subschema #6, subschema #8, subschema #9, subschema #10` "
+            "from the `evaluator/kind` request property `oneOf` list",
+        )
+    )
+    assert not FILTER.is_allowed_alignment_break(
+        block(
+            "new-required-request-property",
+            "POST /v1/datasets/{tenant_id}/{project_id}",
+            "added the new required request property `unrelated`",
+        )
+    )
+    assert not FILTER.is_allowed_alignment_break(
+        block(
+            "response-required-property-removed",
+            "POST /v1/datasets/{tenant_id}/{project_id}",
+            "removed the required property `datasetId` from the response with the `200` status",
+        )
+    )
+    assert not FILTER.is_allowed_alignment_break(
+        block(
+            "request-property-one-of-removed",
+            "POST /v1/datasets/{tenant_id}/{project_id}",
+            "removed `subschema #5, subschema #6, subschema #8, subschema #9, subschema #10` "
+            "from the `kind` request property `oneOf` list",
+        )
+    )
+
+
+def test_aip127_allowance_disables_when_contract_digest_changes() -> None:
+    original = FILTER.AIP127_MIGRATION_SPEC_SHA256
+    try:
+        FILTER.AIP127_MIGRATION_SPEC_SHA256 = "0" * 64
+        FILTER.aip127_migration_active.cache_clear()
+        assert not FILTER.is_allowed_alignment_break(
+            block(
+                "response-required-property-removed",
+                "POST /v1/datasets/{tenant_id}/{project_id}",
+                "removed the required property `dataset_id` from the response with the `200` status",
+            )
+        )
+    finally:
+        FILTER.AIP127_MIGRATION_SPEC_SHA256 = original
+        FILTER.aip127_migration_active.cache_clear()
+
+
+if __name__ == "__main__":
+    test_error_blocks_splits_oasdiff_output()
+    test_allows_only_reviewed_aip193_error_envelope_changes()
+    test_allows_only_reviewed_aip158_wrapper_changes()
+    test_allows_only_digest_pinned_aip127_alignment_shapes()
+    test_aip127_allowance_disables_when_contract_digest_changes()
+    print("filter-oasdiff-breaking tests passed")

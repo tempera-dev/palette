@@ -4,24 +4,24 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**ingestDrainTraceIngested**](IngestApi.md#ingestDrainTraceIngested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |  |
-| [**ingestDrainTraceIngestedWithHttpInfo**](IngestApi.md#ingestDrainTraceIngestedWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |  |
-| [**ingestDrainTraceWrites**](IngestApi.md#ingestDrainTraceWrites) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |  |
-| [**ingestDrainTraceWritesWithHttpInfo**](IngestApi.md#ingestDrainTraceWritesWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |  |
-| [**ingestGetQueueStatus**](IngestApi.md#ingestGetQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
-| [**ingestGetQueueStatusWithHttpInfo**](IngestApi.md#ingestGetQueueStatusWithHttpInfo) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
-| [**ingestImportSource**](IngestApi.md#ingestImportSource) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |  |
-| [**ingestImportSourceWithHttpInfo**](IngestApi.md#ingestImportSourceWithHttpInfo) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |  |
+| [**ingestDrainTraceIngested**](IngestApi.md#ingestDrainTraceIngested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |  |
+| [**ingestDrainTraceIngestedWithHttpInfo**](IngestApi.md#ingestDrainTraceIngestedWithHttpInfo) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |  |
+| [**ingestDrainTraceWrites**](IngestApi.md#ingestDrainTraceWrites) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |  |
+| [**ingestDrainTraceWritesWithHttpInfo**](IngestApi.md#ingestDrainTraceWritesWithHttpInfo) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |  |
+| [**ingestGetQueueStatus**](IngestApi.md#ingestGetQueueStatus) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |  |
+| [**ingestGetQueueStatusWithHttpInfo**](IngestApi.md#ingestGetQueueStatusWithHttpInfo) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |  |
+| [**ingestImportSource**](IngestApi.md#ingestImportSource) | **POST** /v1/import/{tenantId}/{projectId}/{environmentId} |  |
+| [**ingestImportSourceWithHttpInfo**](IngestApi.md#ingestImportSourceWithHttpInfo) | **POST** /v1/import/{tenantId}/{projectId}/{environmentId} |  |
 | [**ingestNative**](IngestApi.md#ingestNative) | **POST** /v1/traces/native |  |
 | [**ingestNativeWithHttpInfo**](IngestApi.md#ingestNativeWithHttpInfo) | **POST** /v1/traces/native |  |
-| [**ingestOtlp**](IngestApi.md#ingestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
-| [**ingestOtlpWithHttpInfo**](IngestApi.md#ingestOtlpWithHttpInfo) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
+| [**ingestOtlp**](IngestApi.md#ingestOtlp) | **POST** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |  |
+| [**ingestOtlpWithHttpInfo**](IngestApi.md#ingestOtlpWithHttpInfo) | **POST** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |  |
 | [**ingestOtlpJsonCollector**](IngestApi.md#ingestOtlpJsonCollector) | **POST** /v1/traces |  |
 | [**ingestOtlpJsonCollectorWithHttpInfo**](IngestApi.md#ingestOtlpJsonCollectorWithHttpInfo) | **POST** /v1/traces |  |
-| [**ingestReconcileTrace**](IngestApi.md#ingestReconcileTrace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |  |
-| [**ingestReconcileTraceWithHttpInfo**](IngestApi.md#ingestReconcileTraceWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |  |
-| [**ingestReplayDeadLetter**](IngestApi.md#ingestReplayDeadLetter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |  |
-| [**ingestReplayDeadLetterWithHttpInfo**](IngestApi.md#ingestReplayDeadLetterWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |  |
+| [**ingestReconcileTrace**](IngestApi.md#ingestReconcileTrace) | **POST** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |  |
+| [**ingestReconcileTraceWithHttpInfo**](IngestApi.md#ingestReconcileTraceWithHttpInfo) | **POST** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |  |
+| [**ingestReplayDeadLetter**](IngestApi.md#ingestReplayDeadLetter) | **POST** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |  |
+| [**ingestReplayDeadLetterWithHttpInfo**](IngestApi.md#ingestReplayDeadLetterWithHttpInfo) | **POST** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |  |
 
 
 
@@ -98,11 +98,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Drain pending trace-ingested events |  -  |
+| **200** | Drain pending trace-ingested events, including retry and dead-letter outcomes |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
-| **422** | Drained with dead-letters |  -  |
 
 ## ingestDrainTraceIngestedWithHttpInfo
 
@@ -180,11 +179,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Drain pending trace-ingested events |  -  |
+| **200** | Drain pending trace-ingested events, including retry and dead-letter outcomes |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
-| **422** | Drained with dead-letters |  -  |
 
 
 ## ingestDrainTraceWrites
@@ -260,11 +258,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Drain pending trace writes |  -  |
+| **200** | Drain pending trace writes, including retry and dead-letter outcomes |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
-| **422** | Drained with dead-letters |  -  |
 
 ## ingestDrainTraceWritesWithHttpInfo
 
@@ -342,11 +339,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Drain pending trace writes |  -  |
+| **200** | Drain pending trace writes, including retry and dead-letter outcomes |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
-| **422** | Drained with dead-letters |  -  |
 
 
 ## ingestGetQueueStatus

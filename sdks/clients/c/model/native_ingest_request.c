@@ -206,7 +206,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
     if(auth_context_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "auth_context", auth_context_local_JSON);
+    cJSON_AddItemToObject(item, "authContext", auth_context_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -228,7 +228,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->end_time
     if(native_ingest_request->end_time) {
-    if(cJSON_AddStringToObject(item, "end_time", native_ingest_request->end_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "endTime", native_ingest_request->end_time) == NULL) {
     goto fail; //Date-Time
     }
     }
@@ -236,7 +236,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->idempotency_key
     if(native_ingest_request->idempotency_key) {
-    if(cJSON_AddStringToObject(item, "idempotency_key", native_ingest_request->idempotency_key) == NULL) {
+    if(cJSON_AddStringToObject(item, "idempotencyKey", native_ingest_request->idempotency_key) == NULL) {
     goto fail; //String
     }
     }
@@ -301,7 +301,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->parent_span_id
     if(native_ingest_request->parent_span_id) {
-    if(cJSON_AddStringToObject(item, "parent_span_id", native_ingest_request->parent_span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "parentSpanId", native_ingest_request->parent_span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -315,7 +315,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
     if(redaction_class_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "redaction_class", redaction_class_local_JSON);
+    cJSON_AddItemToObject(item, "redactionClass", redaction_class_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -348,14 +348,14 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
     if (!native_ingest_request->span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "span_id", native_ingest_request->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", native_ingest_request->span_id) == NULL) {
     goto fail; //String
     }
 
 
     // native_ingest_request->start_time
     if(native_ingest_request->start_time) {
-    if(cJSON_AddStringToObject(item, "start_time", native_ingest_request->start_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "startTime", native_ingest_request->start_time) == NULL) {
     goto fail; //Date-Time
     }
     }
@@ -392,7 +392,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
     if (!native_ingest_request->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", native_ingest_request->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", native_ingest_request->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -465,7 +465,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->auth_context
-    cJSON *auth_context = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "auth_context");
+    cJSON *auth_context = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "authContext");
     if (cJSON_IsNull(auth_context)) {
         auth_context = NULL;
     }
@@ -483,7 +483,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->end_time
-    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "end_time");
+    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "endTime");
     if (cJSON_IsNull(end_time)) {
         end_time = NULL;
     }
@@ -495,7 +495,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->idempotency_key
-    cJSON *idempotency_key = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "idempotency_key");
+    cJSON *idempotency_key = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "idempotencyKey");
     if (cJSON_IsNull(idempotency_key)) {
         idempotency_key = NULL;
     }
@@ -564,7 +564,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->parent_span_id
-    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "parent_span_id");
+    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "parentSpanId");
     if (cJSON_IsNull(parent_span_id)) {
         parent_span_id = NULL;
     }
@@ -576,7 +576,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->redaction_class
-    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "redaction_class");
+    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "redactionClass");
     if (cJSON_IsNull(redaction_class)) {
         redaction_class = NULL;
     }
@@ -615,7 +615,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -630,7 +630,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->start_time
-    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "start_time");
+    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "startTime");
     if (cJSON_IsNull(start_time)) {
         start_time = NULL;
     }
@@ -663,7 +663,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     }
 
     // native_ingest_request->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

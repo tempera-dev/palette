@@ -21,10 +21,10 @@ var _ MappedNullable = &CreateScenarioRequest{}
 
 // CreateScenarioRequest struct for CreateScenarioRequest
 type CreateScenarioRequest struct {
-	ExemplarTraceId NullableString `json:"exemplar_trace_id,omitempty"`
-	ExpectedOutcome NullableString `json:"expected_outcome,omitempty"`
-	FailureMode NullableFailureMode `json:"failure_mode,omitempty"`
-	SourceTraceIds []string `json:"source_trace_ids"`
+	ExemplarTraceId NullableString `json:"exemplarTraceId,omitempty"`
+	ExpectedOutcome NullableString `json:"expectedOutcome,omitempty"`
+	FailureMode NullableFailureMode `json:"failureMode,omitempty"`
+	SourceTraceIds []string `json:"sourceTraceIds"`
 	Title string `json:"title"`
 }
 
@@ -234,15 +234,15 @@ func (o CreateScenarioRequest) MarshalJSON() ([]byte, error) {
 func (o CreateScenarioRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ExemplarTraceId.IsSet() {
-		toSerialize["exemplar_trace_id"] = o.ExemplarTraceId.Get()
+		toSerialize["exemplarTraceId"] = o.ExemplarTraceId.Get()
 	}
 	if o.ExpectedOutcome.IsSet() {
-		toSerialize["expected_outcome"] = o.ExpectedOutcome.Get()
+		toSerialize["expectedOutcome"] = o.ExpectedOutcome.Get()
 	}
 	if o.FailureMode.IsSet() {
-		toSerialize["failure_mode"] = o.FailureMode.Get()
+		toSerialize["failureMode"] = o.FailureMode.Get()
 	}
-	toSerialize["source_trace_ids"] = o.SourceTraceIds
+	toSerialize["sourceTraceIds"] = o.SourceTraceIds
 	toSerialize["title"] = o.Title
 	return toSerialize, nil
 }
@@ -252,7 +252,7 @@ func (o *CreateScenarioRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"source_trace_ids",
+		"sourceTraceIds",
 		"title",
 	}
 

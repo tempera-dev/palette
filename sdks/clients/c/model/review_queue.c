@@ -93,7 +93,7 @@ cJSON *review_queue_convertToJSON(review_queue_t *review_queue) {
     if(annotation_schema_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "annotation_schema", annotation_schema_local_JSON);
+    cJSON_AddItemToObject(item, "annotationSchema", annotation_schema_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -103,7 +103,7 @@ cJSON *review_queue_convertToJSON(review_queue_t *review_queue) {
     if (!review_queue->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", review_queue->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", review_queue->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -121,7 +121,7 @@ cJSON *review_queue_convertToJSON(review_queue_t *review_queue) {
     if (!review_queue->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", review_queue->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", review_queue->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -130,7 +130,7 @@ cJSON *review_queue_convertToJSON(review_queue_t *review_queue) {
     if (!review_queue->queue_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "queue_id", review_queue->queue_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "queueId", review_queue->queue_id) == NULL) {
     goto fail; //String
     }
 
@@ -139,7 +139,7 @@ cJSON *review_queue_convertToJSON(review_queue_t *review_queue) {
     if (!review_queue->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", review_queue->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", review_queue->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -159,7 +159,7 @@ review_queue_t *review_queue_parseFromJSON(cJSON *review_queueJSON){
     _t *annotation_schema_local_nonprim = NULL;
 
     // review_queue->annotation_schema
-    cJSON *annotation_schema = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "annotation_schema");
+    cJSON *annotation_schema = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "annotationSchema");
     if (cJSON_IsNull(annotation_schema)) {
         annotation_schema = NULL;
     }
@@ -171,7 +171,7 @@ review_queue_t *review_queue_parseFromJSON(cJSON *review_queueJSON){
     annotation_schema_local_nonprim = _parseFromJSON(annotation_schema); //custom
 
     // review_queue->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -201,7 +201,7 @@ review_queue_t *review_queue_parseFromJSON(cJSON *review_queueJSON){
     }
 
     // review_queue->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -216,7 +216,7 @@ review_queue_t *review_queue_parseFromJSON(cJSON *review_queueJSON){
     }
 
     // review_queue->queue_id
-    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "queue_id");
+    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "queueId");
     if (cJSON_IsNull(queue_id)) {
         queue_id = NULL;
     }
@@ -231,7 +231,7 @@ review_queue_t *review_queue_parseFromJSON(cJSON *review_queueJSON){
     }
 
     // review_queue->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_queueJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

@@ -40,7 +40,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class TokenCounts {
-  public static final String JSON_PROPERTY_CACHE_READ = "cache_read";
+  public static final String JSON_PROPERTY_CACHE_READ = "cacheRead";
   @javax.annotation.Nonnull
   private Long cacheRead;
 
@@ -237,9 +237,9 @@ public class TokenCounts {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `cache_read` to the URL query string
+    // add `cacheRead` to the URL query string
     if (getCacheRead() != null) {
-      joiner.add(String.format("%scache_read%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCacheRead()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scacheRead%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCacheRead()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `input` to the URL query string

@@ -61,7 +61,7 @@ export function IngestOutcomeFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'ack': WriteAckFromJSON(json['ack']),
-        'downstreamQueued': json['downstream_queued'],
+        'downstreamQueued': json['downstreamQueued'],
     };
 }
 
@@ -77,7 +77,7 @@ export function IngestOutcomeToJSONTyped(value?: IngestOutcome | null, ignoreDis
     return {
         
         'ack': WriteAckToJSON(value['ack']),
-        'downstream_queued': value['downstreamQueued'],
+        'downstreamQueued': value['downstreamQueued'],
     };
 }
 

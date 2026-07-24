@@ -204,7 +204,7 @@ pub enum PromptsPeriodListVersionsError {
 
 pub async fn prompts_period_add_version(configuration: &configuration::Configuration, params: PromptsPeriodAddVersionParams) -> Result<models::PromptVersion, Error<PromptsPeriodAddVersionError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}/{promptId}/versions", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), promptId=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -241,7 +241,7 @@ pub async fn prompts_period_add_version(configuration: &configuration::Configura
 
 pub async fn prompts_period_create(configuration: &configuration::Configuration, params: PromptsPeriodCreateParams) -> Result<models::CreatedPrompt, Error<PromptsPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -278,7 +278,7 @@ pub async fn prompts_period_create(configuration: &configuration::Configuration,
 
 pub async fn prompts_period_diff_versions(configuration: &configuration::Configuration, params: PromptsPeriodDiffVersionsParams) -> Result<models::PromptVersionDiff, Error<PromptsPeriodDiffVersionsError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}/{promptId}/diff", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), promptId=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = req_builder.query(&[("from", &params.from.to_string())]);
@@ -316,7 +316,7 @@ pub async fn prompts_period_diff_versions(configuration: &configuration::Configu
 
 pub async fn prompts_period_get(configuration: &configuration::Configuration, params: PromptsPeriodGetParams) -> Result<models::Prompt, Error<PromptsPeriodGetError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}/{promptId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), promptId=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -352,7 +352,7 @@ pub async fn prompts_period_get(configuration: &configuration::Configuration, pa
 
 pub async fn prompts_period_list(configuration: &configuration::Configuration, params: PromptsPeriodListParams) -> Result<models::PromptListResponse, Error<PromptsPeriodListError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {
@@ -394,7 +394,7 @@ pub async fn prompts_period_list(configuration: &configuration::Configuration, p
 
 pub async fn prompts_period_list_versions(configuration: &configuration::Configuration, params: PromptsPeriodListVersionsParams) -> Result<models::PromptVersionListResponse, Error<PromptsPeriodListVersionsError>> {
 
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
+    let uri_str = format!("{}/v1/prompts/{tenantId}/{projectId}/{promptId}/versions", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), promptId=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {

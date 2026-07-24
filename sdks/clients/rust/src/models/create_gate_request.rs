@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateGateRequest {
-    #[serde(rename = "dataset_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dataset_id: Option<Option<String>>,
-    #[serde(rename = "evaluator_version_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "evaluatorVersionId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub evaluator_version_id: Option<Option<String>>,
-    #[serde(rename = "gate_id")]
+    #[serde(rename = "gateId")]
     pub gate_id: String,
-    #[serde(rename = "inconclusive_policy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inconclusivePolicy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub inconclusive_policy: Option<Option<models::InconclusivePolicy>>,
     #[serde(rename = "name")]
     pub name: String,

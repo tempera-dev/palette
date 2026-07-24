@@ -32,7 +32,7 @@ fn rsi_round_fixture_records_a_queryable_trace() -> anyhow::Result<()> {
     assert_eq!(report["evaluated"][0]["accepted"], true);
 
     // The report carries a real trace id + span count from the read-back.
-    let trace_id_str = report["trace_id"]
+    let trace_id_str = report["traceId"]
         .as_str()
         .ok_or_else(|| anyhow::anyhow!("report must include a string trace_id"))?;
     assert!(

@@ -24,15 +24,15 @@ TraceIngestedDrainReport::TraceIngestedDrainReport()
     m_CompletedIsSet = false;
     m_Consumed = 0;
     m_ConsumedIsSet = false;
-    m_Dead_lettered = 0;
-    m_Dead_letteredIsSet = false;
-    m_Failed_work = 0;
-    m_Failed_workIsSet = false;
-    m_Invalid_messages = 0;
-    m_Invalid_messagesIsSet = false;
+    m_DeadLettered = 0;
+    m_DeadLetteredIsSet = false;
+    m_FailedWork = 0;
+    m_FailedWorkIsSet = false;
+    m_InvalidMessages = 0;
+    m_InvalidMessagesIsSet = false;
     m_Retried = 0;
     m_RetriedIsSet = false;
-    m_Trace_refsIsSet = false;
+    m_TraceRefsIsSet = false;
 }
 
 TraceIngestedDrainReport::~TraceIngestedDrainReport()
@@ -57,30 +57,30 @@ web::json::value TraceIngestedDrainReport::toJson() const
         
         val[utility::conversions::to_string_t(U("consumed"))] = ModelBase::toJson(m_Consumed);
     }
-    if(m_Dead_letteredIsSet)
+    if(m_DeadLetteredIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dead_lettered"))] = ModelBase::toJson(m_Dead_lettered);
+        val[utility::conversions::to_string_t(U("deadLettered"))] = ModelBase::toJson(m_DeadLettered);
     }
-    if(m_Failed_workIsSet)
+    if(m_FailedWorkIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failed_work"))] = ModelBase::toJson(m_Failed_work);
+        val[utility::conversions::to_string_t(U("failedWork"))] = ModelBase::toJson(m_FailedWork);
     }
-    if(m_Invalid_messagesIsSet)
+    if(m_InvalidMessagesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("invalid_messages"))] = ModelBase::toJson(m_Invalid_messages);
+        val[utility::conversions::to_string_t(U("invalidMessages"))] = ModelBase::toJson(m_InvalidMessages);
     }
     if(m_RetriedIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("retried"))] = ModelBase::toJson(m_Retried);
     }
-    if(m_Trace_refsIsSet)
+    if(m_TraceRefsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_refs"))] = ModelBase::toJson(m_Trace_refs);
+        val[utility::conversions::to_string_t(U("traceRefs"))] = ModelBase::toJson(m_TraceRefs);
     }
 
     return val;
@@ -111,9 +111,9 @@ bool TraceIngestedDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dead_lettered"))))
+    if(val.has_field(utility::conversions::to_string_t(U("deadLettered"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dead_lettered")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("deadLettered")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDeadLettered;
@@ -122,9 +122,9 @@ bool TraceIngestedDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("failed_work"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failedWork"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failed_work")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failedWork")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setFailedWork;
@@ -133,9 +133,9 @@ bool TraceIngestedDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("invalid_messages"))))
+    if(val.has_field(utility::conversions::to_string_t(U("invalidMessages"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("invalid_messages")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("invalidMessages")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setInvalidMessages;
@@ -155,9 +155,9 @@ bool TraceIngestedDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_refs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceRefs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_refs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceRefs")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<QueuedTraceWork>> refVal_setTraceRefs;
@@ -184,25 +184,25 @@ void TraceIngestedDrainReport::toMultipart(std::shared_ptr<MultipartFormData> mu
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("consumed")), m_Consumed));
     }
-    if(m_Dead_letteredIsSet)
+    if(m_DeadLetteredIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dead_lettered")), m_Dead_lettered));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("deadLettered")), m_DeadLettered));
     }
-    if(m_Failed_workIsSet)
+    if(m_FailedWorkIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failed_work")), m_Failed_work));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failedWork")), m_FailedWork));
     }
-    if(m_Invalid_messagesIsSet)
+    if(m_InvalidMessagesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("invalid_messages")), m_Invalid_messages));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("invalidMessages")), m_InvalidMessages));
     }
     if(m_RetriedIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("retried")), m_Retried));
     }
-    if(m_Trace_refsIsSet)
+    if(m_TraceRefsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_refs")), m_Trace_refs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceRefs")), m_TraceRefs));
     }
 }
 
@@ -227,22 +227,22 @@ bool TraceIngestedDrainReport::fromMultiPart(std::shared_ptr<MultipartFormData> 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("consumed"))), refVal_setConsumed );
         setConsumed(refVal_setConsumed);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dead_lettered"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("deadLettered"))))
     {
         int32_t refVal_setDeadLettered;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dead_lettered"))), refVal_setDeadLettered );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("deadLettered"))), refVal_setDeadLettered );
         setDeadLettered(refVal_setDeadLettered);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failed_work"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failedWork"))))
     {
         int32_t refVal_setFailedWork;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failed_work"))), refVal_setFailedWork );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failedWork"))), refVal_setFailedWork );
         setFailedWork(refVal_setFailedWork);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("invalid_messages"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("invalidMessages"))))
     {
         int32_t refVal_setInvalidMessages;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("invalid_messages"))), refVal_setInvalidMessages );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("invalidMessages"))), refVal_setInvalidMessages );
         setInvalidMessages(refVal_setInvalidMessages);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("retried"))))
@@ -251,10 +251,10 @@ bool TraceIngestedDrainReport::fromMultiPart(std::shared_ptr<MultipartFormData> 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("retried"))), refVal_setRetried );
         setRetried(refVal_setRetried);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_refs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceRefs"))))
     {
         std::vector<std::shared_ptr<QueuedTraceWork>> refVal_setTraceRefs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_refs"))), refVal_setTraceRefs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceRefs"))), refVal_setTraceRefs );
         setTraceRefs(refVal_setTraceRefs);
     }
     return ok;
@@ -303,63 +303,63 @@ void TraceIngestedDrainReport::unsetConsumed()
 }
 int32_t TraceIngestedDrainReport::getDeadLettered() const
 {
-    return m_Dead_lettered;
+    return m_DeadLettered;
 }
 
 void TraceIngestedDrainReport::setDeadLettered(int32_t value)
 {
-    m_Dead_lettered = value;
-    m_Dead_letteredIsSet = true;
+    m_DeadLettered = value;
+    m_DeadLetteredIsSet = true;
 }
 
 bool TraceIngestedDrainReport::deadLetteredIsSet() const
 {
-    return m_Dead_letteredIsSet;
+    return m_DeadLetteredIsSet;
 }
 
-void TraceIngestedDrainReport::unsetDead_lettered()
+void TraceIngestedDrainReport::unsetDeadLettered()
 {
-    m_Dead_letteredIsSet = false;
+    m_DeadLetteredIsSet = false;
 }
 int32_t TraceIngestedDrainReport::getFailedWork() const
 {
-    return m_Failed_work;
+    return m_FailedWork;
 }
 
 void TraceIngestedDrainReport::setFailedWork(int32_t value)
 {
-    m_Failed_work = value;
-    m_Failed_workIsSet = true;
+    m_FailedWork = value;
+    m_FailedWorkIsSet = true;
 }
 
 bool TraceIngestedDrainReport::failedWorkIsSet() const
 {
-    return m_Failed_workIsSet;
+    return m_FailedWorkIsSet;
 }
 
-void TraceIngestedDrainReport::unsetFailed_work()
+void TraceIngestedDrainReport::unsetFailedWork()
 {
-    m_Failed_workIsSet = false;
+    m_FailedWorkIsSet = false;
 }
 int32_t TraceIngestedDrainReport::getInvalidMessages() const
 {
-    return m_Invalid_messages;
+    return m_InvalidMessages;
 }
 
 void TraceIngestedDrainReport::setInvalidMessages(int32_t value)
 {
-    m_Invalid_messages = value;
-    m_Invalid_messagesIsSet = true;
+    m_InvalidMessages = value;
+    m_InvalidMessagesIsSet = true;
 }
 
 bool TraceIngestedDrainReport::invalidMessagesIsSet() const
 {
-    return m_Invalid_messagesIsSet;
+    return m_InvalidMessagesIsSet;
 }
 
-void TraceIngestedDrainReport::unsetInvalid_messages()
+void TraceIngestedDrainReport::unsetInvalidMessages()
 {
-    m_Invalid_messagesIsSet = false;
+    m_InvalidMessagesIsSet = false;
 }
 int32_t TraceIngestedDrainReport::getRetried() const
 {
@@ -383,24 +383,24 @@ void TraceIngestedDrainReport::unsetRetried()
 }
 std::vector<std::shared_ptr<QueuedTraceWork>> TraceIngestedDrainReport::getTraceRefs() const
 {
-    return m_Trace_refs;
+    return m_TraceRefs;
 }
 
 
 void TraceIngestedDrainReport::setTraceRefs(const std::vector<std::shared_ptr<QueuedTraceWork>>& value)
 {
-    m_Trace_refs = value;
-    m_Trace_refsIsSet = true;
+    m_TraceRefs = value;
+    m_TraceRefsIsSet = true;
 }
 
 bool TraceIngestedDrainReport::traceRefsIsSet() const
 {
-    return m_Trace_refsIsSet;
+    return m_TraceRefsIsSet;
 }
 
-void TraceIngestedDrainReport::unsetTrace_refs()
+void TraceIngestedDrainReport::unsetTraceRefs()
 {
-    m_Trace_refsIsSet = false;
+    m_TraceRefsIsSet = false;
 }
 
 }

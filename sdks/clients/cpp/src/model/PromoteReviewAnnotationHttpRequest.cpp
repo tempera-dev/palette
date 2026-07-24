@@ -20,8 +20,8 @@ namespace model {
 
 PromoteReviewAnnotationHttpRequest::PromoteReviewAnnotationHttpRequest()
 {
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
     m_ReferenceIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void PromoteReviewAnnotationHttpRequest::validate()
 web::json::value PromoteReviewAnnotationHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
     if(m_ReferenceIsSet)
     {   
@@ -54,9 +54,9 @@ web::json::value PromoteReviewAnnotationHttpRequest::toJson() const
 bool PromoteReviewAnnotationHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -86,9 +86,9 @@ void PromoteReviewAnnotationHttpRequest::toMultipart(std::shared_ptr<MultipartFo
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
     if(m_ReferenceIsSet)
     {
@@ -105,10 +105,10 @@ bool PromoteReviewAnnotationHttpRequest::fromMultiPart(std::shared_ptr<Multipart
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("reference"))))
@@ -123,24 +123,24 @@ bool PromoteReviewAnnotationHttpRequest::fromMultiPart(std::shared_ptr<Multipart
 
 utility::string_t PromoteReviewAnnotationHttpRequest::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void PromoteReviewAnnotationHttpRequest::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool PromoteReviewAnnotationHttpRequest::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void PromoteReviewAnnotationHttpRequest::unsetDataset_id()
+void PromoteReviewAnnotationHttpRequest::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 std::shared_ptr<AnyType> PromoteReviewAnnotationHttpRequest::getReference() const
 {

@@ -20,13 +20,13 @@ namespace model {
 
 CreateGateRequest::CreateGateRequest()
 {
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Gate_id = utility::conversions::to_string_t("");
-    m_Gate_idIsSet = false;
-    m_Inconclusive_policyIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_GateId = utility::conversions::to_string_t("");
+    m_GateIdIsSet = false;
+    m_InconclusivePolicyIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
 }
@@ -43,25 +43,25 @@ void CreateGateRequest::validate()
 web::json::value CreateGateRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Gate_idIsSet)
+    if(m_GateIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_id"))] = ModelBase::toJson(m_Gate_id);
+        val[utility::conversions::to_string_t(U("gateId"))] = ModelBase::toJson(m_GateId);
     }
-    if(m_Inconclusive_policyIsSet)
+    if(m_InconclusivePolicyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("inconclusive_policy"))] = ModelBase::toJson(m_Inconclusive_policy);
+        val[utility::conversions::to_string_t(U("inconclusivePolicy"))] = ModelBase::toJson(m_InconclusivePolicy);
     }
     if(m_NameIsSet)
     {   
@@ -75,9 +75,9 @@ web::json::value CreateGateRequest::toJson() const
 bool CreateGateRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -86,9 +86,9 @@ bool CreateGateRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -97,9 +97,9 @@ bool CreateGateRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateId;
@@ -108,9 +108,9 @@ bool CreateGateRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("inconclusive_policy"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inconclusivePolicy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inconclusive_policy")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inconclusivePolicy")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<InconclusivePolicy> refVal_setInconclusivePolicy;
@@ -140,21 +140,21 @@ void CreateGateRequest::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Gate_idIsSet)
+    if(m_GateIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_id")), m_Gate_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateId")), m_GateId));
     }
-    if(m_Inconclusive_policyIsSet)
+    if(m_InconclusivePolicyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inconclusive_policy")), m_Inconclusive_policy));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inconclusivePolicy")), m_InconclusivePolicy));
     }
     if(m_NameIsSet)
     {
@@ -171,28 +171,28 @@ bool CreateGateRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateId"))))
     {
         utility::string_t refVal_setGateId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_id"))), refVal_setGateId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateId"))), refVal_setGateId );
         setGateId(refVal_setGateId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("inconclusive_policy"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inconclusivePolicy"))))
     {
         std::shared_ptr<InconclusivePolicy> refVal_setInconclusivePolicy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inconclusive_policy"))), refVal_setInconclusivePolicy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inconclusivePolicy"))), refVal_setInconclusivePolicy );
         setInconclusivePolicy(refVal_setInconclusivePolicy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
@@ -207,87 +207,87 @@ bool CreateGateRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 utility::string_t CreateGateRequest::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void CreateGateRequest::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool CreateGateRequest::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void CreateGateRequest::unsetDataset_id()
+void CreateGateRequest::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 utility::string_t CreateGateRequest::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void CreateGateRequest::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool CreateGateRequest::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void CreateGateRequest::unsetEvaluator_version_id()
+void CreateGateRequest::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 utility::string_t CreateGateRequest::getGateId() const
 {
-    return m_Gate_id;
+    return m_GateId;
 }
 
 
 void CreateGateRequest::setGateId(const utility::string_t& value)
 {
-    m_Gate_id = value;
-    m_Gate_idIsSet = true;
+    m_GateId = value;
+    m_GateIdIsSet = true;
 }
 
 bool CreateGateRequest::gateIdIsSet() const
 {
-    return m_Gate_idIsSet;
+    return m_GateIdIsSet;
 }
 
-void CreateGateRequest::unsetGate_id()
+void CreateGateRequest::unsetGateId()
 {
-    m_Gate_idIsSet = false;
+    m_GateIdIsSet = false;
 }
 std::shared_ptr<InconclusivePolicy> CreateGateRequest::getInconclusivePolicy() const
 {
-    return m_Inconclusive_policy;
+    return m_InconclusivePolicy;
 }
 
 
 void CreateGateRequest::setInconclusivePolicy(const std::shared_ptr<InconclusivePolicy>& value)
 {
-    m_Inconclusive_policy = value;
-    m_Inconclusive_policyIsSet = true;
+    m_InconclusivePolicy = value;
+    m_InconclusivePolicyIsSet = true;
 }
 
 bool CreateGateRequest::inconclusivePolicyIsSet() const
 {
-    return m_Inconclusive_policyIsSet;
+    return m_InconclusivePolicyIsSet;
 }
 
-void CreateGateRequest::unsetInconclusive_policy()
+void CreateGateRequest::unsetInconclusivePolicy()
 {
-    m_Inconclusive_policyIsSet = false;
+    m_InconclusivePolicyIsSet = false;
 }
 utility::string_t CreateGateRequest::getName() const
 {

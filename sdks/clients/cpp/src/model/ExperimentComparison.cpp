@@ -20,27 +20,27 @@ namespace model {
 
 ExperimentComparison::ExperimentComparison()
 {
-    m_Adjusted_alpha = 0.0;
-    m_Adjusted_alphaIsSet = false;
-    m_Baseline_mean = 0.0;
-    m_Baseline_meanIsSet = false;
-    m_Candidate_mean = 0.0;
-    m_Candidate_meanIsSet = false;
-    m_Ci_high = 0.0;
-    m_Ci_highIsSet = false;
-    m_Ci_low = 0.0;
-    m_Ci_lowIsSet = false;
+    m_AdjustedAlpha = 0.0;
+    m_AdjustedAlphaIsSet = false;
+    m_BaselineMean = 0.0;
+    m_BaselineMeanIsSet = false;
+    m_CandidateMean = 0.0;
+    m_CandidateMeanIsSet = false;
+    m_CiHigh = 0.0;
+    m_CiHighIsSet = false;
+    m_CiLow = 0.0;
+    m_CiLowIsSet = false;
     m_DecisionIsSet = false;
     m_Delta = 0.0;
     m_DeltaIsSet = false;
     m_Mde = 0.0;
     m_MdeIsSet = false;
-    m_P_value = 0.0;
-    m_P_valueIsSet = false;
-    m_Required_n = 0;
-    m_Required_nIsSet = false;
-    m_Sample_size = 0;
-    m_Sample_sizeIsSet = false;
+    m_PValue = 0.0;
+    m_PValueIsSet = false;
+    m_RequiredN = 0;
+    m_RequiredNIsSet = false;
+    m_SampleSize = 0;
+    m_SampleSizeIsSet = false;
     m_TestIsSet = false;
 }
 
@@ -56,30 +56,30 @@ void ExperimentComparison::validate()
 web::json::value ExperimentComparison::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Adjusted_alphaIsSet)
+    if(m_AdjustedAlphaIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("adjusted_alpha"))] = ModelBase::toJson(m_Adjusted_alpha);
+        val[utility::conversions::to_string_t(U("adjustedAlpha"))] = ModelBase::toJson(m_AdjustedAlpha);
     }
-    if(m_Baseline_meanIsSet)
+    if(m_BaselineMeanIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_mean"))] = ModelBase::toJson(m_Baseline_mean);
+        val[utility::conversions::to_string_t(U("baselineMean"))] = ModelBase::toJson(m_BaselineMean);
     }
-    if(m_Candidate_meanIsSet)
+    if(m_CandidateMeanIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_mean"))] = ModelBase::toJson(m_Candidate_mean);
+        val[utility::conversions::to_string_t(U("candidateMean"))] = ModelBase::toJson(m_CandidateMean);
     }
-    if(m_Ci_highIsSet)
+    if(m_CiHighIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("ci_high"))] = ModelBase::toJson(m_Ci_high);
+        val[utility::conversions::to_string_t(U("ciHigh"))] = ModelBase::toJson(m_CiHigh);
     }
-    if(m_Ci_lowIsSet)
+    if(m_CiLowIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("ci_low"))] = ModelBase::toJson(m_Ci_low);
+        val[utility::conversions::to_string_t(U("ciLow"))] = ModelBase::toJson(m_CiLow);
     }
     if(m_DecisionIsSet)
     {   
@@ -96,20 +96,20 @@ web::json::value ExperimentComparison::toJson() const
         
         val[utility::conversions::to_string_t(U("mde"))] = ModelBase::toJson(m_Mde);
     }
-    if(m_P_valueIsSet)
+    if(m_PValueIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("p_value"))] = ModelBase::toJson(m_P_value);
+        val[utility::conversions::to_string_t(U("pValue"))] = ModelBase::toJson(m_PValue);
     }
-    if(m_Required_nIsSet)
+    if(m_RequiredNIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("required_n"))] = ModelBase::toJson(m_Required_n);
+        val[utility::conversions::to_string_t(U("requiredN"))] = ModelBase::toJson(m_RequiredN);
     }
-    if(m_Sample_sizeIsSet)
+    if(m_SampleSizeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("sample_size"))] = ModelBase::toJson(m_Sample_size);
+        val[utility::conversions::to_string_t(U("sampleSize"))] = ModelBase::toJson(m_SampleSize);
     }
     if(m_TestIsSet)
     {   
@@ -123,9 +123,9 @@ web::json::value ExperimentComparison::toJson() const
 bool ExperimentComparison::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("adjusted_alpha"))))
+    if(val.has_field(utility::conversions::to_string_t(U("adjustedAlpha"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("adjusted_alpha")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("adjustedAlpha")));
         if(!fieldValue.is_null())
         {
             double refVal_setAdjustedAlpha;
@@ -134,9 +134,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_mean"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineMean"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_mean")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineMean")));
         if(!fieldValue.is_null())
         {
             double refVal_setBaselineMean;
@@ -145,9 +145,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_mean"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateMean"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_mean")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateMean")));
         if(!fieldValue.is_null())
         {
             double refVal_setCandidateMean;
@@ -156,9 +156,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("ci_high"))))
+    if(val.has_field(utility::conversions::to_string_t(U("ciHigh"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ci_high")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ciHigh")));
         if(!fieldValue.is_null())
         {
             double refVal_setCiHigh;
@@ -167,9 +167,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("ci_low"))))
+    if(val.has_field(utility::conversions::to_string_t(U("ciLow"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ci_low")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ciLow")));
         if(!fieldValue.is_null())
         {
             double refVal_setCiLow;
@@ -211,9 +211,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("p_value"))))
+    if(val.has_field(utility::conversions::to_string_t(U("pValue"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("p_value")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("pValue")));
         if(!fieldValue.is_null())
         {
             double refVal_setPValue;
@@ -222,9 +222,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("required_n"))))
+    if(val.has_field(utility::conversions::to_string_t(U("requiredN"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("required_n")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("requiredN")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setRequiredN;
@@ -233,9 +233,9 @@ bool ExperimentComparison::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("sample_size"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sampleSize"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sample_size")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sampleSize")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSampleSize;
@@ -265,25 +265,25 @@ void ExperimentComparison::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Adjusted_alphaIsSet)
+    if(m_AdjustedAlphaIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("adjusted_alpha")), m_Adjusted_alpha));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("adjustedAlpha")), m_AdjustedAlpha));
     }
-    if(m_Baseline_meanIsSet)
+    if(m_BaselineMeanIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_mean")), m_Baseline_mean));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineMean")), m_BaselineMean));
     }
-    if(m_Candidate_meanIsSet)
+    if(m_CandidateMeanIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_mean")), m_Candidate_mean));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateMean")), m_CandidateMean));
     }
-    if(m_Ci_highIsSet)
+    if(m_CiHighIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ci_high")), m_Ci_high));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ciHigh")), m_CiHigh));
     }
-    if(m_Ci_lowIsSet)
+    if(m_CiLowIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ci_low")), m_Ci_low));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ciLow")), m_CiLow));
     }
     if(m_DecisionIsSet)
     {
@@ -297,17 +297,17 @@ void ExperimentComparison::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("mde")), m_Mde));
     }
-    if(m_P_valueIsSet)
+    if(m_PValueIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("p_value")), m_P_value));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("pValue")), m_PValue));
     }
-    if(m_Required_nIsSet)
+    if(m_RequiredNIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("required_n")), m_Required_n));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("requiredN")), m_RequiredN));
     }
-    if(m_Sample_sizeIsSet)
+    if(m_SampleSizeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sample_size")), m_Sample_size));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sampleSize")), m_SampleSize));
     }
     if(m_TestIsSet)
     {
@@ -324,34 +324,34 @@ bool ExperimentComparison::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("adjusted_alpha"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("adjustedAlpha"))))
     {
         double refVal_setAdjustedAlpha;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("adjusted_alpha"))), refVal_setAdjustedAlpha );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("adjustedAlpha"))), refVal_setAdjustedAlpha );
         setAdjustedAlpha(refVal_setAdjustedAlpha);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_mean"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineMean"))))
     {
         double refVal_setBaselineMean;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_mean"))), refVal_setBaselineMean );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineMean"))), refVal_setBaselineMean );
         setBaselineMean(refVal_setBaselineMean);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_mean"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateMean"))))
     {
         double refVal_setCandidateMean;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_mean"))), refVal_setCandidateMean );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateMean"))), refVal_setCandidateMean );
         setCandidateMean(refVal_setCandidateMean);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("ci_high"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("ciHigh"))))
     {
         double refVal_setCiHigh;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ci_high"))), refVal_setCiHigh );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ciHigh"))), refVal_setCiHigh );
         setCiHigh(refVal_setCiHigh);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("ci_low"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("ciLow"))))
     {
         double refVal_setCiLow;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ci_low"))), refVal_setCiLow );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ciLow"))), refVal_setCiLow );
         setCiLow(refVal_setCiLow);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("decision"))))
@@ -372,22 +372,22 @@ bool ExperimentComparison::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("mde"))), refVal_setMde );
         setMde(refVal_setMde);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("p_value"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("pValue"))))
     {
         double refVal_setPValue;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("p_value"))), refVal_setPValue );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("pValue"))), refVal_setPValue );
         setPValue(refVal_setPValue);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("required_n"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("requiredN"))))
     {
         int32_t refVal_setRequiredN;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("required_n"))), refVal_setRequiredN );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("requiredN"))), refVal_setRequiredN );
         setRequiredN(refVal_setRequiredN);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("sample_size"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sampleSize"))))
     {
         int32_t refVal_setSampleSize;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sample_size"))), refVal_setSampleSize );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sampleSize"))), refVal_setSampleSize );
         setSampleSize(refVal_setSampleSize);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("test"))))
@@ -402,103 +402,103 @@ bool ExperimentComparison::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 
 double ExperimentComparison::getAdjustedAlpha() const
 {
-    return m_Adjusted_alpha;
+    return m_AdjustedAlpha;
 }
 
 void ExperimentComparison::setAdjustedAlpha(double value)
 {
-    m_Adjusted_alpha = value;
-    m_Adjusted_alphaIsSet = true;
+    m_AdjustedAlpha = value;
+    m_AdjustedAlphaIsSet = true;
 }
 
 bool ExperimentComparison::adjustedAlphaIsSet() const
 {
-    return m_Adjusted_alphaIsSet;
+    return m_AdjustedAlphaIsSet;
 }
 
-void ExperimentComparison::unsetAdjusted_alpha()
+void ExperimentComparison::unsetAdjustedAlpha()
 {
-    m_Adjusted_alphaIsSet = false;
+    m_AdjustedAlphaIsSet = false;
 }
 double ExperimentComparison::getBaselineMean() const
 {
-    return m_Baseline_mean;
+    return m_BaselineMean;
 }
 
 void ExperimentComparison::setBaselineMean(double value)
 {
-    m_Baseline_mean = value;
-    m_Baseline_meanIsSet = true;
+    m_BaselineMean = value;
+    m_BaselineMeanIsSet = true;
 }
 
 bool ExperimentComparison::baselineMeanIsSet() const
 {
-    return m_Baseline_meanIsSet;
+    return m_BaselineMeanIsSet;
 }
 
-void ExperimentComparison::unsetBaseline_mean()
+void ExperimentComparison::unsetBaselineMean()
 {
-    m_Baseline_meanIsSet = false;
+    m_BaselineMeanIsSet = false;
 }
 double ExperimentComparison::getCandidateMean() const
 {
-    return m_Candidate_mean;
+    return m_CandidateMean;
 }
 
 void ExperimentComparison::setCandidateMean(double value)
 {
-    m_Candidate_mean = value;
-    m_Candidate_meanIsSet = true;
+    m_CandidateMean = value;
+    m_CandidateMeanIsSet = true;
 }
 
 bool ExperimentComparison::candidateMeanIsSet() const
 {
-    return m_Candidate_meanIsSet;
+    return m_CandidateMeanIsSet;
 }
 
-void ExperimentComparison::unsetCandidate_mean()
+void ExperimentComparison::unsetCandidateMean()
 {
-    m_Candidate_meanIsSet = false;
+    m_CandidateMeanIsSet = false;
 }
 double ExperimentComparison::getCiHigh() const
 {
-    return m_Ci_high;
+    return m_CiHigh;
 }
 
 void ExperimentComparison::setCiHigh(double value)
 {
-    m_Ci_high = value;
-    m_Ci_highIsSet = true;
+    m_CiHigh = value;
+    m_CiHighIsSet = true;
 }
 
 bool ExperimentComparison::ciHighIsSet() const
 {
-    return m_Ci_highIsSet;
+    return m_CiHighIsSet;
 }
 
-void ExperimentComparison::unsetCi_high()
+void ExperimentComparison::unsetCiHigh()
 {
-    m_Ci_highIsSet = false;
+    m_CiHighIsSet = false;
 }
 double ExperimentComparison::getCiLow() const
 {
-    return m_Ci_low;
+    return m_CiLow;
 }
 
 void ExperimentComparison::setCiLow(double value)
 {
-    m_Ci_low = value;
-    m_Ci_lowIsSet = true;
+    m_CiLow = value;
+    m_CiLowIsSet = true;
 }
 
 bool ExperimentComparison::ciLowIsSet() const
 {
-    return m_Ci_lowIsSet;
+    return m_CiLowIsSet;
 }
 
-void ExperimentComparison::unsetCi_low()
+void ExperimentComparison::unsetCiLow()
 {
-    m_Ci_lowIsSet = false;
+    m_CiLowIsSet = false;
 }
 std::shared_ptr<GateDecision> ExperimentComparison::getDecision() const
 {
@@ -563,63 +563,63 @@ void ExperimentComparison::unsetMde()
 }
 double ExperimentComparison::getPValue() const
 {
-    return m_P_value;
+    return m_PValue;
 }
 
 void ExperimentComparison::setPValue(double value)
 {
-    m_P_value = value;
-    m_P_valueIsSet = true;
+    m_PValue = value;
+    m_PValueIsSet = true;
 }
 
 bool ExperimentComparison::pValueIsSet() const
 {
-    return m_P_valueIsSet;
+    return m_PValueIsSet;
 }
 
-void ExperimentComparison::unsetP_value()
+void ExperimentComparison::unsetPValue()
 {
-    m_P_valueIsSet = false;
+    m_PValueIsSet = false;
 }
 int32_t ExperimentComparison::getRequiredN() const
 {
-    return m_Required_n;
+    return m_RequiredN;
 }
 
 void ExperimentComparison::setRequiredN(int32_t value)
 {
-    m_Required_n = value;
-    m_Required_nIsSet = true;
+    m_RequiredN = value;
+    m_RequiredNIsSet = true;
 }
 
 bool ExperimentComparison::requiredNIsSet() const
 {
-    return m_Required_nIsSet;
+    return m_RequiredNIsSet;
 }
 
-void ExperimentComparison::unsetRequired_n()
+void ExperimentComparison::unsetRequiredN()
 {
-    m_Required_nIsSet = false;
+    m_RequiredNIsSet = false;
 }
 int32_t ExperimentComparison::getSampleSize() const
 {
-    return m_Sample_size;
+    return m_SampleSize;
 }
 
 void ExperimentComparison::setSampleSize(int32_t value)
 {
-    m_Sample_size = value;
-    m_Sample_sizeIsSet = true;
+    m_SampleSize = value;
+    m_SampleSizeIsSet = true;
 }
 
 bool ExperimentComparison::sampleSizeIsSet() const
 {
-    return m_Sample_sizeIsSet;
+    return m_SampleSizeIsSet;
 }
 
-void ExperimentComparison::unsetSample_size()
+void ExperimentComparison::unsetSampleSize()
 {
-    m_Sample_sizeIsSet = false;
+    m_SampleSizeIsSet = false;
 }
 std::shared_ptr<StatisticalTest> ExperimentComparison::getTest() const
 {

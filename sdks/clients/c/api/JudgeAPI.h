@@ -12,8 +12,8 @@
 
 
 judge_broker_outcome_t*
-JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenantId, char *projectId, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 judge_ledger_list_response_t*
-JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);

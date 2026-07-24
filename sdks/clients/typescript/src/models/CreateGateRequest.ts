@@ -80,10 +80,10 @@ export function CreateGateRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'datasetId': json['dataset_id'] == null ? undefined : json['dataset_id'],
-        'evaluatorVersionId': json['evaluator_version_id'] == null ? undefined : json['evaluator_version_id'],
-        'gateId': json['gate_id'],
-        'inconclusivePolicy': json['inconclusive_policy'] == null ? undefined : InconclusivePolicyFromJSON(json['inconclusive_policy']),
+        'datasetId': json['datasetId'] == null ? undefined : json['datasetId'],
+        'evaluatorVersionId': json['evaluatorVersionId'] == null ? undefined : json['evaluatorVersionId'],
+        'gateId': json['gateId'],
+        'inconclusivePolicy': json['inconclusivePolicy'] == null ? undefined : InconclusivePolicyFromJSON(json['inconclusivePolicy']),
         'name': json['name'],
     };
 }
@@ -99,10 +99,10 @@ export function CreateGateRequestToJSONTyped(value?: CreateGateRequest | null, i
 
     return {
         
-        'dataset_id': value['datasetId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'gate_id': value['gateId'],
-        'inconclusive_policy': InconclusivePolicyToJSON(value['inconclusivePolicy']),
+        'datasetId': value['datasetId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'gateId': value['gateId'],
+        'inconclusivePolicy': InconclusivePolicyToJSON(value['inconclusivePolicy']),
         'name': value['name'],
     };
 }

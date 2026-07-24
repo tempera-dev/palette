@@ -44,7 +44,7 @@ export function RunGateRequestFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'experimentRunId': json['experiment_run_id'] == null ? undefined : json['experiment_run_id'],
+        'experimentRunId': json['experimentRunId'] == null ? undefined : json['experimentRunId'],
     };
 }
 
@@ -59,7 +59,7 @@ export function RunGateRequestToJSONTyped(value?: RunGateRequest | null, ignoreD
 
     return {
         
-        'experiment_run_id': value['experimentRunId'],
+        'experimentRunId': value['experimentRunId'],
     };
 }
 

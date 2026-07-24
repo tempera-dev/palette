@@ -362,13 +362,13 @@ class EvalResultsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if kind is not None:
             _path_params['kind'] = kind
         if external_id is not None:
-            _path_params['external_id'] = external_id
+            _path_params['externalId'] = external_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -398,7 +398,7 @@ class EvalResultsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}',
+            resource_path='/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -732,9 +732,9 @@ class EvalResultsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -779,7 +779,7 @@ class EvalResultsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles',
+            resource_path='/v1/eval-results/{tenantId}/{projectId}/tempera/bundles',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1113,9 +1113,9 @@ class EvalResultsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1160,7 +1160,7 @@ class EvalResultsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions',
+            resource_path='/v1/eval-results/{tenantId}/{projectId}/tempera/decisions',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

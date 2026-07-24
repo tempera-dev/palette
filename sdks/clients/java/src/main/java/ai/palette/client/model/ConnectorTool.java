@@ -52,14 +52,14 @@ public class ConnectorTool {
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private JsonNullable<String> description = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_INPUT_SCHEMA = "input_schema";
+  public static final String JSON_PROPERTY_INPUT_SCHEMA = "inputSchema";
   private JsonNullable<Object> inputSchema = JsonNullable.<Object>undefined();
 
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_NO_AUTH = "no_auth";
+  public static final String JSON_PROPERTY_NO_AUTH = "noAuth";
   @javax.annotation.Nullable
   private Boolean noAuth;
 
@@ -377,9 +377,9 @@ public class ConnectorTool {
       joiner.add(String.format("%sdescription%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDescription()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `input_schema` to the URL query string
+    // add `inputSchema` to the URL query string
     if (getInputSchema() != null) {
-      joiner.add(String.format("%sinput_schema%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputSchema()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinputSchema%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputSchema()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `name` to the URL query string
@@ -387,9 +387,9 @@ public class ConnectorTool {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `no_auth` to the URL query string
+    // add `noAuth` to the URL query string
     if (getNoAuth() != null) {
-      joiner.add(String.format("%sno_auth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNoAuth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snoAuth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNoAuth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `slug` to the URL query string

@@ -58,34 +58,34 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class Scenario {
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplar_trace_id";
+  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplarTraceId";
   @javax.annotation.Nonnull
   private String exemplarTraceId;
 
-  public static final String JSON_PROPERTY_EXPECTED_OUTCOME = "expected_outcome";
+  public static final String JSON_PROPERTY_EXPECTED_OUTCOME = "expectedOutcome";
   private JsonNullable<String> expectedOutcome = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_FAILURE_MODE = "failure_mode";
+  public static final String JSON_PROPERTY_FAILURE_MODE = "failureMode";
   @javax.annotation.Nonnull
   private FailureMode failureMode;
 
-  public static final String JSON_PROPERTY_PERTURBATION_KNOBS = "perturbation_knobs";
+  public static final String JSON_PROPERTY_PERTURBATION_KNOBS = "perturbationKnobs";
   @javax.annotation.Nonnull
   private PerturbationKnobs perturbationKnobs;
 
-  public static final String JSON_PROPERTY_RECURRENCE_COUNT = "recurrence_count";
+  public static final String JSON_PROPERTY_RECURRENCE_COUNT = "recurrenceCount";
   @javax.annotation.Nonnull
   private Integer recurrenceCount;
 
-  public static final String JSON_PROPERTY_REDACTION_CLASS = "redaction_class";
+  public static final String JSON_PROPERTY_REDACTION_CLASS = "redactionClass";
   @javax.annotation.Nonnull
   private RedactionClass redactionClass;
 
-  public static final String JSON_PROPERTY_SCENARIO_ID = "scenario_id";
+  public static final String JSON_PROPERTY_SCENARIO_ID = "scenarioId";
   @javax.annotation.Nonnull
   private String scenarioId;
 
@@ -93,7 +93,7 @@ public class Scenario {
   @javax.annotation.Nonnull
   private TenantScope scope;
 
-  public static final String JSON_PROPERTY_SOURCE_TRACE_IDS = "source_trace_ids";
+  public static final String JSON_PROPERTY_SOURCE_TRACE_IDS = "sourceTraceIds";
   @javax.annotation.Nonnull
   private List<String> sourceTraceIds = new ArrayList<>();
 
@@ -488,44 +488,44 @@ public class Scenario {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `exemplar_trace_id` to the URL query string
+    // add `exemplarTraceId` to the URL query string
     if (getExemplarTraceId() != null) {
-      joiner.add(String.format("%sexemplar_trace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexemplarTraceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expected_outcome` to the URL query string
+    // add `expectedOutcome` to the URL query string
     if (getExpectedOutcome() != null) {
-      joiner.add(String.format("%sexpected_outcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexpectedOutcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `failure_mode` to the URL query string
+    // add `failureMode` to the URL query string
     if (getFailureMode() != null) {
-      joiner.add(String.format("%sfailure_mode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailureMode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `perturbation_knobs` to the URL query string
+    // add `perturbationKnobs` to the URL query string
     if (getPerturbationKnobs() != null) {
-      joiner.add(getPerturbationKnobs().toUrlQueryString(prefix + "perturbation_knobs" + suffix));
+      joiner.add(getPerturbationKnobs().toUrlQueryString(prefix + "perturbationKnobs" + suffix));
     }
 
-    // add `recurrence_count` to the URL query string
+    // add `recurrenceCount` to the URL query string
     if (getRecurrenceCount() != null) {
-      joiner.add(String.format("%srecurrence_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRecurrenceCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srecurrenceCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRecurrenceCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `redaction_class` to the URL query string
+    // add `redactionClass` to the URL query string
     if (getRedactionClass() != null) {
-      joiner.add(String.format("%sredaction_class%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sredactionClass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `scenario_id` to the URL query string
+    // add `scenarioId` to the URL query string
     if (getScenarioId() != null) {
-      joiner.add(String.format("%sscenario_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScenarioId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sscenarioId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScenarioId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scope` to the URL query string
@@ -533,10 +533,10 @@ public class Scenario {
       joiner.add(getScope().toUrlQueryString(prefix + "scope" + suffix));
     }
 
-    // add `source_trace_ids` to the URL query string
+    // add `sourceTraceIds` to the URL query string
     if (getSourceTraceIds() != null) {
       for (int i = 0; i < getSourceTraceIds().size(); i++) {
-        joiner.add(String.format("%ssource_trace_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%ssourceTraceIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getSourceTraceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }

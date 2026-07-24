@@ -43,14 +43,14 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ConnectionLink {
-  public static final String JSON_PROPERTY_CONNECTED_ACCOUNT_ID = "connected_account_id";
+  public static final String JSON_PROPERTY_CONNECTED_ACCOUNT_ID = "connectedAccountId";
   @javax.annotation.Nonnull
   private String connectedAccountId;
 
-  public static final String JSON_PROPERTY_EXPIRES_AT = "expires_at";
+  public static final String JSON_PROPERTY_EXPIRES_AT = "expiresAt";
   private JsonNullable<String> expiresAt = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_REDIRECT_URL = "redirect_url";
+  public static final String JSON_PROPERTY_REDIRECT_URL = "redirectUrl";
   @javax.annotation.Nonnull
   private String redirectUrl;
 
@@ -224,19 +224,19 @@ public class ConnectionLink {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `connected_account_id` to the URL query string
+    // add `connectedAccountId` to the URL query string
     if (getConnectedAccountId() != null) {
-      joiner.add(String.format("%sconnected_account_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnectedAccountId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sconnectedAccountId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnectedAccountId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expires_at` to the URL query string
+    // add `expiresAt` to the URL query string
     if (getExpiresAt() != null) {
-      joiner.add(String.format("%sexpires_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpiresAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexpiresAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpiresAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `redirect_url` to the URL query string
+    // add `redirectUrl` to the URL query string
     if (getRedirectUrl() != null) {
-      joiner.add(String.format("%sredirect_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedirectUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sredirectUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedirectUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

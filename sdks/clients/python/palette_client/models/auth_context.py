@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class AuthContext(BaseModel):
     """
     AuthContext
     """ # noqa: E501
-    api_key_id: Optional[StrictStr] = None
+    api_key_id: Optional[StrictStr] = Field(default=None, alias="apiKeyId")
     scopes: List[StrictStr]
-    __properties: ClassVar[List[str]] = ["api_key_id", "scopes"]
+    __properties: ClassVar[List[str]] = ["apiKeyId", "scopes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,7 +81,7 @@ class AuthContext(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "api_key_id": obj.get("api_key_id"),
+            "apiKeyId": obj.get("apiKeyId"),
             "scopes": obj.get("scopes")
         })
         return _obj

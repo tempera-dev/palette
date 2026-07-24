@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class RunCalibrationHttpRequest(BaseModel):
     """
     RunCalibrationHttpRequest
     """ # noqa: E501
-    eval_report_id: Optional[StrictStr] = None
-    evaluator_version_id: Optional[StrictStr] = None
-    pass_threshold: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties: ClassVar[List[str]] = ["eval_report_id", "evaluator_version_id", "pass_threshold"]
+    eval_report_id: Optional[StrictStr] = Field(default=None, alias="evalReportId")
+    evaluator_version_id: Optional[StrictStr] = Field(default=None, alias="evaluatorVersionId")
+    pass_threshold: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="passThreshold")
+    __properties: ClassVar[List[str]] = ["evalReportId", "evaluatorVersionId", "passThreshold"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,17 +73,17 @@ class RunCalibrationHttpRequest(BaseModel):
         # set to None if eval_report_id (nullable) is None
         # and model_fields_set contains the field
         if self.eval_report_id is None and "eval_report_id" in self.model_fields_set:
-            _dict['eval_report_id'] = None
+            _dict['evalReportId'] = None
 
         # set to None if evaluator_version_id (nullable) is None
         # and model_fields_set contains the field
         if self.evaluator_version_id is None and "evaluator_version_id" in self.model_fields_set:
-            _dict['evaluator_version_id'] = None
+            _dict['evaluatorVersionId'] = None
 
         # set to None if pass_threshold (nullable) is None
         # and model_fields_set contains the field
         if self.pass_threshold is None and "pass_threshold" in self.model_fields_set:
-            _dict['pass_threshold'] = None
+            _dict['passThreshold'] = None
 
         return _dict
 
@@ -97,9 +97,9 @@ class RunCalibrationHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "eval_report_id": obj.get("eval_report_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "pass_threshold": obj.get("pass_threshold")
+            "evalReportId": obj.get("evalReportId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "passThreshold": obj.get("passThreshold")
         })
         return _obj
 

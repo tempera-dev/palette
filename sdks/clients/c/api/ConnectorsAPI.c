@@ -8,7 +8,7 @@
 
 
 connection_link_t*
-ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenant_id, char *project_id, connect_connector_request_t *connect_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenantId, char *projectId, connect_connector_request_t *connect_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenant_id, char *p
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}/connect");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}/connect");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -165,8 +165,8 @@ ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenant_id, char *p
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -216,7 +216,7 @@ end:
 }
 
 connector_skills_response_t*
-ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -230,33 +230,33 @@ ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenant_id, char 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}/skills");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}/skills");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -374,8 +374,8 @@ ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenant_id, char 
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -432,7 +432,7 @@ end:
 }
 
 tool_execution_t*
-ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenant_id, char *project_id, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenantId, char *projectId, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -446,33 +446,33 @@ ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenant_id, char
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}/invoke");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}/invoke");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -589,8 +589,8 @@ ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenant_id, char
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -640,7 +640,7 @@ end:
 }
 
 connector_list_response_t*
-ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -654,33 +654,33 @@ ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenant_id, char *proj
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -811,8 +811,8 @@ ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenant_id, char *proj
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -881,7 +881,7 @@ end:
 }
 
 connector_tool_list_response_t*
-ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -895,33 +895,33 @@ ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenant_id, char 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}/tools");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}/tools");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -1064,8 +1064,8 @@ ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenant_id, char 
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1146,7 +1146,7 @@ end:
 }
 
 connection_status_t*
-ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1160,33 +1160,33 @@ ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/connectors/{tenant_id}/{project_id}/status");
+    char *localVarPath = strdup("/v1/connectors/{tenantId}/{projectId}/status");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -1304,8 +1304,8 @@ ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

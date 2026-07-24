@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Money {
-    #[serde(rename = "amount_micros")]
+    #[serde(rename = "amountMicros")]
     pub amount_micros: i64,
     #[serde(rename = "currency")]
     pub currency: models::Currency,

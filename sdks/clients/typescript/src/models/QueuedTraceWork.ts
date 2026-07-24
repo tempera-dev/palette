@@ -59,9 +59,9 @@ export function QueuedTraceWorkFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
-        'traceId': json['trace_id'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -76,9 +76,9 @@ export function QueuedTraceWorkToJSONTyped(value?: QueuedTraceWork | null, ignor
 
     return {
         
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
-        'trace_id': value['traceId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
+        'traceId': value['traceId'],
     };
 }
 

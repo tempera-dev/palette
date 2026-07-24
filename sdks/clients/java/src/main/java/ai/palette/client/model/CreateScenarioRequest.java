@@ -48,16 +48,16 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CreateScenarioRequest {
-  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplar_trace_id";
+  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplarTraceId";
   private JsonNullable<String> exemplarTraceId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_EXPECTED_OUTCOME = "expected_outcome";
+  public static final String JSON_PROPERTY_EXPECTED_OUTCOME = "expectedOutcome";
   private JsonNullable<String> expectedOutcome = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_FAILURE_MODE = "failure_mode";
+  public static final String JSON_PROPERTY_FAILURE_MODE = "failureMode";
   private JsonNullable<FailureMode> failureMode = JsonNullable.<FailureMode>undefined();
 
-  public static final String JSON_PROPERTY_SOURCE_TRACE_IDS = "source_trace_ids";
+  public static final String JSON_PROPERTY_SOURCE_TRACE_IDS = "sourceTraceIds";
   @javax.annotation.Nonnull
   private List<String> sourceTraceIds = new ArrayList<>();
 
@@ -311,25 +311,25 @@ public class CreateScenarioRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `exemplar_trace_id` to the URL query string
+    // add `exemplarTraceId` to the URL query string
     if (getExemplarTraceId() != null) {
-      joiner.add(String.format("%sexemplar_trace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexemplarTraceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expected_outcome` to the URL query string
+    // add `expectedOutcome` to the URL query string
     if (getExpectedOutcome() != null) {
-      joiner.add(String.format("%sexpected_outcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexpectedOutcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `failure_mode` to the URL query string
+    // add `failureMode` to the URL query string
     if (getFailureMode() != null) {
-      joiner.add(String.format("%sfailure_mode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailureMode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `source_trace_ids` to the URL query string
+    // add `sourceTraceIds` to the URL query string
     if (getSourceTraceIds() != null) {
       for (int i = 0; i < getSourceTraceIds().size(); i++) {
-        joiner.add(String.format("%ssource_trace_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%ssourceTraceIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getSourceTraceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }

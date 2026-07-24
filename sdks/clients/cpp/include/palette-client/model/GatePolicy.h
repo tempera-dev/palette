@@ -59,17 +59,17 @@ public:
 
     int32_t getComparisonCount() const;
     bool comparisonCountIsSet() const;
-    void unsetComparison_count();
+    void unsetComparisonCount();
     void setComparisonCount(int32_t value);
 
     double getMaxRegression() const;
     bool maxRegressionIsSet() const;
-    void unsetMax_regression();
+    void unsetMaxRegression();
     void setMaxRegression(double value);
 
     int32_t getMinSampleSize() const;
     bool minSampleSizeIsSet() const;
-    void unsetMin_sample_size();
+    void unsetMinSampleSize();
     void setMinSampleSize(int32_t value);
 
 
@@ -77,14 +77,14 @@ protected:
     double m_Alpha;
     bool m_AlphaIsSet;
 
-    int32_t m_Comparison_count;
-    bool m_Comparison_countIsSet;
+    int32_t m_ComparisonCount;
+    bool m_ComparisonCountIsSet;
 
-    double m_Max_regression;
-    bool m_Max_regressionIsSet;
+    double m_MaxRegression;
+    bool m_MaxRegressionIsSet;
 
-    int32_t m_Min_sample_size;
-    bool m_Min_sample_sizeIsSet;
+    int32_t m_MinSampleSize;
+    bool m_MinSampleSizeIsSet;
 
 };
 

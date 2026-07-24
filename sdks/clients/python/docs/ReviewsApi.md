@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**reviews_create_queue**](ReviewsApi.md#reviews_create_queue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
-[**reviews_enqueue_task_from_trace**](ReviewsApi.md#reviews_enqueue_task_from_trace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
-[**reviews_list_tasks**](ReviewsApi.md#reviews_list_tasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
-[**reviews_promote_annotation**](ReviewsApi.md#reviews_promote_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
-[**reviews_submit_annotation**](ReviewsApi.md#reviews_submit_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
+[**reviews_create_queue**](ReviewsApi.md#reviews_create_queue) | **POST** /v1/review-queues/{tenantId}/{projectId} |
+[**reviews_enqueue_task_from_trace**](ReviewsApi.md#reviews_enqueue_task_from_trace) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace |
+[**reviews_list_tasks**](ReviewsApi.md#reviews_list_tasks) | **GET** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks |
+[**reviews_promote_annotation**](ReviewsApi.md#reviews_promote_annotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote |
+[**reviews_submit_annotation**](ReviewsApi.md#reviews_submit_annotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations |
 
 
 # **reviews_create_queue**

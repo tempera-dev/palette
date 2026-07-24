@@ -13,11 +13,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SubmitReviewAnnotationHttpRequest {
-    #[serde(rename = "annotation_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "annotationId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub annotation_id: Option<Option<String>>,
     #[serde(rename = "payload", deserialize_with = "Option::deserialize")]
     pub payload: Option<serde_json::Value>,
-    #[serde(rename = "reviewer_id")]
+    #[serde(rename = "reviewerId")]
     pub reviewer_id: String,
     #[serde(rename = "verdict")]
     pub verdict: models::ReviewVerdict,

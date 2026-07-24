@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ProviderSecretsCreate**](ProviderSecretsAPI.md#ProviderSecretsCreate) | **Post** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsList**](ProviderSecretsAPI.md#ProviderSecretsList) | **Get** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsRevoke**](ProviderSecretsAPI.md#ProviderSecretsRevoke) | **Post** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
+[**ProviderSecretsCreate**](ProviderSecretsAPI.md#ProviderSecretsCreate) | **Post** /v1/provider-secrets/{tenantId}/{projectId} |
+[**ProviderSecretsList**](ProviderSecretsAPI.md#ProviderSecretsList) | **Get** /v1/provider-secrets/{tenantId}/{projectId} |
+[**ProviderSecretsRevoke**](ProviderSecretsAPI.md#ProviderSecretsRevoke) | **Post** /v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke |
 
 
 

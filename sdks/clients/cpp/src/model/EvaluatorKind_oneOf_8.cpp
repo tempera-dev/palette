@@ -20,8 +20,8 @@ namespace model {
 
 EvaluatorKind_oneOf_8::EvaluatorKind_oneOf_8()
 {
-    m_Max_steps = 0L;
-    m_Max_stepsIsSet = false;
+    m_MaxSteps = 0L;
+    m_MaxStepsIsSet = false;
     m_TypeIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void EvaluatorKind_oneOf_8::validate()
 web::json::value EvaluatorKind_oneOf_8::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Max_stepsIsSet)
+    if(m_MaxStepsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("max_steps"))] = ModelBase::toJson(m_Max_steps);
+        val[utility::conversions::to_string_t(U("maxSteps"))] = ModelBase::toJson(m_MaxSteps);
     }
     if(m_TypeIsSet)
     {   
@@ -56,9 +56,9 @@ web::json::value EvaluatorKind_oneOf_8::toJson() const
 bool EvaluatorKind_oneOf_8::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("max_steps"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maxSteps"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("max_steps")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maxSteps")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setMaxSteps;
@@ -89,9 +89,9 @@ void EvaluatorKind_oneOf_8::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Max_stepsIsSet)
+    if(m_MaxStepsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("max_steps")), m_Max_steps));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maxSteps")), m_MaxSteps));
     }
     if(m_TypeIsSet)
     {
@@ -108,10 +108,10 @@ bool EvaluatorKind_oneOf_8::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("max_steps"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maxSteps"))))
     {
         int64_t refVal_setMaxSteps;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("max_steps"))), refVal_setMaxSteps );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maxSteps"))), refVal_setMaxSteps );
         setMaxSteps(refVal_setMaxSteps);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
@@ -147,23 +147,23 @@ const utility::string_t EvaluatorKind_oneOf_8::fromTypeEnum(const TypeEnum value
 
 int64_t EvaluatorKind_oneOf_8::getMaxSteps() const
 {
-    return m_Max_steps;
+    return m_MaxSteps;
 }
 
 void EvaluatorKind_oneOf_8::setMaxSteps(int64_t value)
 {
-    m_Max_steps = value;
-    m_Max_stepsIsSet = true;
+    m_MaxSteps = value;
+    m_MaxStepsIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_8::maxStepsIsSet() const
 {
-    return m_Max_stepsIsSet;
+    return m_MaxStepsIsSet;
 }
 
-void EvaluatorKind_oneOf_8::unsetMax_steps()
+void EvaluatorKind_oneOf_8::unsetMaxSteps()
 {
-    m_Max_stepsIsSet = false;
+    m_MaxStepsIsSet = false;
 }
 EvaluatorKind_oneOf_8::TypeEnum EvaluatorKind_oneOf_8::getType() const
 {

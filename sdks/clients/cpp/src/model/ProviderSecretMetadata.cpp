@@ -22,20 +22,20 @@ ProviderSecretMetadata::ProviderSecretMetadata()
 {
     m_Active = false;
     m_ActiveIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Display_name = utility::conversions::to_string_t("");
-    m_Display_nameIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DisplayName = utility::conversions::to_string_t("");
+    m_DisplayNameIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_Provider = utility::conversions::to_string_t("");
     m_ProviderIsSet = false;
-    m_Provider_secret_id = utility::conversions::to_string_t("");
-    m_Provider_secret_idIsSet = false;
-    m_Rotated_at = utility::datetime();
-    m_Rotated_atIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ProviderSecretId = utility::conversions::to_string_t("");
+    m_ProviderSecretIdIsSet = false;
+    m_RotatedAt = utility::datetime();
+    m_RotatedAtIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 ProviderSecretMetadata::~ProviderSecretMetadata()
@@ -55,40 +55,40 @@ web::json::value ProviderSecretMetadata::toJson() const
         
         val[utility::conversions::to_string_t(U("active"))] = ModelBase::toJson(m_Active);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Display_nameIsSet)
+    if(m_DisplayNameIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("display_name"))] = ModelBase::toJson(m_Display_name);
+        val[utility::conversions::to_string_t(U("displayName"))] = ModelBase::toJson(m_DisplayName);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ProviderIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("provider"))] = ModelBase::toJson(m_Provider);
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("provider_secret_id"))] = ModelBase::toJson(m_Provider_secret_id);
+        val[utility::conversions::to_string_t(U("providerSecretId"))] = ModelBase::toJson(m_ProviderSecretId);
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("rotated_at"))] = ModelBase::toJson(m_Rotated_at);
+        val[utility::conversions::to_string_t(U("rotatedAt"))] = ModelBase::toJson(m_RotatedAt);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -108,9 +108,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -119,9 +119,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("display_name"))))
+    if(val.has_field(utility::conversions::to_string_t(U("displayName"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("display_name")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("displayName")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDisplayName;
@@ -130,9 +130,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -152,9 +152,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("providerSecretId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("provider_secret_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("providerSecretId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProviderSecretId;
@@ -163,9 +163,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("rotated_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("rotatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotated_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setRotatedAt;
@@ -174,9 +174,9 @@ bool ProviderSecretMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -199,33 +199,33 @@ void ProviderSecretMetadata::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("active")), m_Active));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Display_nameIsSet)
+    if(m_DisplayNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("display_name")), m_Display_name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("displayName")), m_DisplayName));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ProviderIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider")), m_Provider));
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider_secret_id")), m_Provider_secret_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("providerSecretId")), m_ProviderSecretId));
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotated_at")), m_Rotated_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotatedAt")), m_RotatedAt));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -244,22 +244,22 @@ bool ProviderSecretMetadata::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("active"))), refVal_setActive );
         setActive(refVal_setActive);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("display_name"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("displayName"))))
     {
         utility::string_t refVal_setDisplayName;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("display_name"))), refVal_setDisplayName );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("displayName"))), refVal_setDisplayName );
         setDisplayName(refVal_setDisplayName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("provider"))))
@@ -268,22 +268,22 @@ bool ProviderSecretMetadata::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider"))), refVal_setProvider );
         setProvider(refVal_setProvider);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("providerSecretId"))))
     {
         utility::string_t refVal_setProviderSecretId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider_secret_id"))), refVal_setProviderSecretId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("providerSecretId"))), refVal_setProviderSecretId );
         setProviderSecretId(refVal_setProviderSecretId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("rotated_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("rotatedAt"))))
     {
         utility::datetime refVal_setRotatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotated_at"))), refVal_setRotatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotatedAt"))), refVal_setRotatedAt );
         setRotatedAt(refVal_setRotatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -312,66 +312,66 @@ void ProviderSecretMetadata::unsetActive()
 }
 utility::datetime ProviderSecretMetadata::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void ProviderSecretMetadata::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool ProviderSecretMetadata::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void ProviderSecretMetadata::unsetCreated_at()
+void ProviderSecretMetadata::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t ProviderSecretMetadata::getDisplayName() const
 {
-    return m_Display_name;
+    return m_DisplayName;
 }
 
 
 void ProviderSecretMetadata::setDisplayName(const utility::string_t& value)
 {
-    m_Display_name = value;
-    m_Display_nameIsSet = true;
+    m_DisplayName = value;
+    m_DisplayNameIsSet = true;
 }
 
 bool ProviderSecretMetadata::displayNameIsSet() const
 {
-    return m_Display_nameIsSet;
+    return m_DisplayNameIsSet;
 }
 
-void ProviderSecretMetadata::unsetDisplay_name()
+void ProviderSecretMetadata::unsetDisplayName()
 {
-    m_Display_nameIsSet = false;
+    m_DisplayNameIsSet = false;
 }
 utility::string_t ProviderSecretMetadata::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ProviderSecretMetadata::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ProviderSecretMetadata::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ProviderSecretMetadata::unsetProject_id()
+void ProviderSecretMetadata::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t ProviderSecretMetadata::getProvider() const
 {
@@ -396,66 +396,66 @@ void ProviderSecretMetadata::unsetProvider()
 }
 utility::string_t ProviderSecretMetadata::getProviderSecretId() const
 {
-    return m_Provider_secret_id;
+    return m_ProviderSecretId;
 }
 
 
 void ProviderSecretMetadata::setProviderSecretId(const utility::string_t& value)
 {
-    m_Provider_secret_id = value;
-    m_Provider_secret_idIsSet = true;
+    m_ProviderSecretId = value;
+    m_ProviderSecretIdIsSet = true;
 }
 
 bool ProviderSecretMetadata::providerSecretIdIsSet() const
 {
-    return m_Provider_secret_idIsSet;
+    return m_ProviderSecretIdIsSet;
 }
 
-void ProviderSecretMetadata::unsetProvider_secret_id()
+void ProviderSecretMetadata::unsetProviderSecretId()
 {
-    m_Provider_secret_idIsSet = false;
+    m_ProviderSecretIdIsSet = false;
 }
 utility::datetime ProviderSecretMetadata::getRotatedAt() const
 {
-    return m_Rotated_at;
+    return m_RotatedAt;
 }
 
 
 void ProviderSecretMetadata::setRotatedAt(const utility::datetime& value)
 {
-    m_Rotated_at = value;
-    m_Rotated_atIsSet = true;
+    m_RotatedAt = value;
+    m_RotatedAtIsSet = true;
 }
 
 bool ProviderSecretMetadata::rotatedAtIsSet() const
 {
-    return m_Rotated_atIsSet;
+    return m_RotatedAtIsSet;
 }
 
-void ProviderSecretMetadata::unsetRotated_at()
+void ProviderSecretMetadata::unsetRotatedAt()
 {
-    m_Rotated_atIsSet = false;
+    m_RotatedAtIsSet = false;
 }
 utility::string_t ProviderSecretMetadata::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ProviderSecretMetadata::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ProviderSecretMetadata::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ProviderSecretMetadata::unsetTenant_id()
+void ProviderSecretMetadata::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

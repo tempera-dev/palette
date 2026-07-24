@@ -71,7 +71,7 @@ public:
     /// </summary>
     std::shared_ptr<Object> getInputSchema() const;
     bool inputSchemaIsSet() const;
-    void unsetInput_schema();
+    void unsetInputSchema();
     void setInputSchema(const std::shared_ptr<Object>& value);
 
     /// <summary>
@@ -87,7 +87,7 @@ public:
     /// </summary>
     bool isNoAuth() const;
     bool noAuthIsSet() const;
-    void unsetNo_auth();
+    void unsetNoAuth();
     void setNoAuth(bool value);
 
     /// <summary>
@@ -119,14 +119,14 @@ protected:
     utility::string_t m_Description;
     bool m_DescriptionIsSet;
 
-    std::shared_ptr<Object> m_Input_schema;
-    bool m_Input_schemaIsSet;
+    std::shared_ptr<Object> m_InputSchema;
+    bool m_InputSchemaIsSet;
 
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    bool m_No_auth;
-    bool m_No_authIsSet;
+    bool m_NoAuth;
+    bool m_NoAuthIsSet;
 
     utility::string_t m_Slug;
     bool m_SlugIsSet;

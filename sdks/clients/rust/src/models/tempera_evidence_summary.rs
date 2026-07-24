@@ -13,15 +13,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TemperaEvidenceSummary {
-    #[serde(rename = "experiment_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "experimentId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub experiment_id: Option<Option<String>>,
-    #[serde(rename = "run_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "runId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub run_id: Option<Option<String>>,
     #[serde(rename = "split", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub split: Option<Option<String>>,
-    #[serde(rename = "suite_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "suiteId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub suite_id: Option<Option<String>>,
-    #[serde(rename = "suite_version", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "suiteVersion", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub suite_version: Option<Option<String>>,
     #[serde(rename = "verdict", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub verdict: Option<Option<String>>,

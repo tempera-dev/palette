@@ -15,19 +15,19 @@ use serde::{Deserialize, Serialize};
 pub struct ApiKeyCreatedResponse {
     #[serde(rename = "active")]
     pub active: bool,
-    #[serde(rename = "api_key_id")]
+    #[serde(rename = "apiKeyId")]
     pub api_key_id: String,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "environment_id")]
+    #[serde(rename = "environmentId")]
     pub environment_id: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "scopes")]
     pub scopes: Vec<models::ApiScope>,
     #[serde(rename = "secret")]
     pub secret: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

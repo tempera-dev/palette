@@ -13,9 +13,9 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct MineScenariosRequest {
-    #[serde(rename = "jaccard_threshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "jaccardThreshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub jaccard_threshold: Option<Option<f64>>,
-    #[serde(rename = "trace_ids")]
+    #[serde(rename = "traceIds")]
     pub trace_ids: Vec<String>,
 }
 

@@ -50,25 +50,25 @@ public class ReliabilityBin {
   public static final String JSON_PROPERTY_ACCURACY = "accuracy";
   private JsonNullable<Double> accuracy = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_BIN_INDEX = "bin_index";
+  public static final String JSON_PROPERTY_BIN_INDEX = "binIndex";
   @javax.annotation.Nonnull
   private Integer binIndex;
 
-  public static final String JSON_PROPERTY_CALIBRATION_GAP = "calibration_gap";
+  public static final String JSON_PROPERTY_CALIBRATION_GAP = "calibrationGap";
   private JsonNullable<Double> calibrationGap = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_LOWER_BOUND = "lower_bound";
+  public static final String JSON_PROPERTY_LOWER_BOUND = "lowerBound";
   @javax.annotation.Nonnull
   private Double lowerBound;
 
-  public static final String JSON_PROPERTY_MEAN_CONFIDENCE = "mean_confidence";
+  public static final String JSON_PROPERTY_MEAN_CONFIDENCE = "meanConfidence";
   private JsonNullable<Double> meanConfidence = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_SAMPLE_COUNT = "sample_count";
+  public static final String JSON_PROPERTY_SAMPLE_COUNT = "sampleCount";
   @javax.annotation.Nonnull
   private Integer sampleCount;
 
-  public static final String JSON_PROPERTY_UPPER_BOUND = "upper_bound";
+  public static final String JSON_PROPERTY_UPPER_BOUND = "upperBound";
   @javax.annotation.Nonnull
   private Double upperBound;
 
@@ -369,34 +369,34 @@ public class ReliabilityBin {
       joiner.add(String.format("%saccuracy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAccuracy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `bin_index` to the URL query string
+    // add `binIndex` to the URL query string
     if (getBinIndex() != null) {
-      joiner.add(String.format("%sbin_index%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBinIndex()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbinIndex%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBinIndex()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `calibration_gap` to the URL query string
+    // add `calibrationGap` to the URL query string
     if (getCalibrationGap() != null) {
-      joiner.add(String.format("%scalibration_gap%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCalibrationGap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scalibrationGap%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCalibrationGap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `lower_bound` to the URL query string
+    // add `lowerBound` to the URL query string
     if (getLowerBound() != null) {
-      joiner.add(String.format("%slower_bound%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLowerBound()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slowerBound%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLowerBound()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `mean_confidence` to the URL query string
+    // add `meanConfidence` to the URL query string
     if (getMeanConfidence() != null) {
-      joiner.add(String.format("%smean_confidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMeanConfidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smeanConfidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMeanConfidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `sample_count` to the URL query string
+    // add `sampleCount` to the URL query string
     if (getSampleCount() != null) {
-      joiner.add(String.format("%ssample_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssampleCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `upper_bound` to the URL query string
+    // add `upperBound` to the URL query string
     if (getUpperBound() != null) {
-      joiner.add(String.format("%supper_bound%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUpperBound()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%supperBound%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUpperBound()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

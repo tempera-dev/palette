@@ -8,7 +8,7 @@
 
 
 prompt_version_t*
-PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,45 +22,45 @@ PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenant_id, char *proj
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}/{promptId}/versions");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!prompt_id)
+    if(!promptId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_prompt_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ prompt_id }") - 1;
-    if(prompt_id == NULL) {
+    long sizeOfPathParams_promptId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ promptId }") - 1;
+    if(promptId == NULL) {
         goto end;
     }
-    char* localVarToReplace_prompt_id = malloc(sizeOfPathParams_prompt_id);
-    sprintf(localVarToReplace_prompt_id, "{%s}", "prompt_id");
+    char* localVarToReplace_promptId = malloc(sizeOfPathParams_promptId);
+    sprintf(localVarToReplace_promptId, "{%s}", "promptId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_prompt_id, prompt_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_promptId, promptId);
 
 
 
@@ -177,9 +177,9 @@ PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenant_id, char *proj
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_prompt_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_promptId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -229,7 +229,7 @@ end:
 }
 
 created_prompt_t*
-PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_prompt_request_t *create_prompt_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenantId, char *projectId, create_prompt_request_t *create_prompt_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -243,33 +243,33 @@ PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenant_id, char *project_
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -382,8 +382,8 @@ PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenant_id, char *project_
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -433,7 +433,7 @@ end:
 }
 
 prompt_version_diff_t*
-PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *from, char *to, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, char *from, char *to, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -447,45 +447,45 @@ PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}/{promptId}/diff");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!prompt_id)
+    if(!promptId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_prompt_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ prompt_id }") - 1;
-    if(prompt_id == NULL) {
+    long sizeOfPathParams_promptId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ promptId }") - 1;
+    if(promptId == NULL) {
         goto end;
     }
-    char* localVarToReplace_prompt_id = malloc(sizeOfPathParams_prompt_id);
-    sprintf(localVarToReplace_prompt_id, "{%s}", "prompt_id");
+    char* localVarToReplace_promptId = malloc(sizeOfPathParams_promptId);
+    sprintf(localVarToReplace_promptId, "{%s}", "promptId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_prompt_id, prompt_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_promptId, promptId);
 
 
 
@@ -615,9 +615,9 @@ PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_prompt_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_promptId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -686,7 +686,7 @@ end:
 }
 
 prompt_t*
-PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -700,45 +700,45 @@ PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id,
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}/{prompt_id}");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}/{promptId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!prompt_id)
+    if(!promptId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_prompt_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ prompt_id }") - 1;
-    if(prompt_id == NULL) {
+    long sizeOfPathParams_promptId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ promptId }") - 1;
+    if(promptId == NULL) {
         goto end;
     }
-    char* localVarToReplace_prompt_id = malloc(sizeOfPathParams_prompt_id);
-    sprintf(localVarToReplace_prompt_id, "{%s}", "prompt_id");
+    char* localVarToReplace_promptId = malloc(sizeOfPathParams_promptId);
+    sprintf(localVarToReplace_promptId, "{%s}", "promptId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_prompt_id, prompt_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_promptId, promptId);
 
 
 
@@ -844,9 +844,9 @@ PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id,
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_prompt_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_promptId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -891,7 +891,7 @@ end:
 }
 
 prompt_list_response_t*
-PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsList(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -905,33 +905,33 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -1058,8 +1058,8 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1128,7 +1128,7 @@ end:
 }
 
 prompt_version_list_response_t*
-PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1142,45 +1142,45 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions");
+    char *localVarPath = strdup("/v1/prompts/{tenantId}/{projectId}/{promptId}/versions");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!prompt_id)
+    if(!promptId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_prompt_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(prompt_id)+3 + sizeof("{ prompt_id }") - 1;
-    if(prompt_id == NULL) {
+    long sizeOfPathParams_promptId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(promptId)+3 + sizeof("{ promptId }") - 1;
+    if(promptId == NULL) {
         goto end;
     }
-    char* localVarToReplace_prompt_id = malloc(sizeOfPathParams_prompt_id);
-    sprintf(localVarToReplace_prompt_id, "{%s}", "prompt_id");
+    char* localVarToReplace_promptId = malloc(sizeOfPathParams_promptId);
+    sprintf(localVarToReplace_promptId, "{%s}", "promptId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_prompt_id, prompt_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_promptId, promptId);
 
 
 
@@ -1311,9 +1311,9 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_prompt_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_promptId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

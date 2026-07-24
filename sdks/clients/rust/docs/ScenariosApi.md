@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**scenarios_period_create**](ScenariosApi.md#scenarios_period_create) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_period_get**](ScenariosApi.md#scenarios_period_get) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**scenarios_period_list**](ScenariosApi.md#scenarios_period_list) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_period_mine**](ScenariosApi.md#scenarios_period_mine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**scenarios_period_create**](ScenariosApi.md#scenarios_period_create) | **POST** /v1/scenarios/{tenantId}/{projectId} |
+[**scenarios_period_get**](ScenariosApi.md#scenarios_period_get) | **GET** /v1/scenarios/{tenantId}/{projectId}/{scenarioId} |
+[**scenarios_period_list**](ScenariosApi.md#scenarios_period_list) | **GET** /v1/scenarios/{tenantId}/{projectId} |
+[**scenarios_period_mine**](ScenariosApi.md#scenarios_period_mine) | **POST** /v1/scenarios/{tenantId}/{projectId}/mine |
 
 
 

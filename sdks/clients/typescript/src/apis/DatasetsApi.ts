@@ -124,7 +124,7 @@ export class DatasetsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/datasets/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/datasets/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -195,7 +195,7 @@ export class DatasetsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"dataset_id"}}`, encodeURIComponent(String(requestParameters['datasetId']))),
+            path: `/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters['datasetId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -266,7 +266,7 @@ export class DatasetsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"dataset_id"}}`, encodeURIComponent(String(requestParameters['datasetId']))),
+            path: `/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters['datasetId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

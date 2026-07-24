@@ -21,12 +21,12 @@ var _ MappedNullable = &IngestQueueStatus{}
 
 // IngestQueueStatus struct for IngestQueueStatus
 type IngestQueueStatus struct {
-	DeadLetters []DeadLetter `json:"dead_letters"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
-	TotalDepth int32 `json:"total_depth"`
-	TraceIngestedDepth int32 `json:"trace_ingested_depth"`
-	TraceWriteDepth int32 `json:"trace_write_depth"`
+	DeadLetters []DeadLetter `json:"deadLetters"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
+	TotalDepth int32 `json:"totalDepth"`
+	TraceIngestedDepth int32 `json:"traceIngestedDepth"`
+	TraceWriteDepth int32 `json:"traceWriteDepth"`
 }
 
 type _IngestQueueStatus IngestQueueStatus
@@ -208,12 +208,12 @@ func (o IngestQueueStatus) MarshalJSON() ([]byte, error) {
 
 func (o IngestQueueStatus) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["dead_letters"] = o.DeadLetters
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["total_depth"] = o.TotalDepth
-	toSerialize["trace_ingested_depth"] = o.TraceIngestedDepth
-	toSerialize["trace_write_depth"] = o.TraceWriteDepth
+	toSerialize["deadLetters"] = o.DeadLetters
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["totalDepth"] = o.TotalDepth
+	toSerialize["traceIngestedDepth"] = o.TraceIngestedDepth
+	toSerialize["traceWriteDepth"] = o.TraceWriteDepth
 	return toSerialize, nil
 }
 
@@ -222,12 +222,12 @@ func (o *IngestQueueStatus) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"dead_letters",
-		"project_id",
-		"tenant_id",
-		"total_depth",
-		"trace_ingested_depth",
-		"trace_write_depth",
+		"deadLetters",
+		"projectId",
+		"tenantId",
+		"totalDepth",
+		"traceIngestedDepth",
+		"traceWriteDepth",
 	}
 
 	allProperties := make(map[string]interface{})

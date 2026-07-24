@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,14 +28,14 @@ class ProviderSecretMetadata(BaseModel):
     ProviderSecretMetadata
     """ # noqa: E501
     active: StrictBool
-    created_at: datetime
-    display_name: StrictStr
-    project_id: StrictStr
+    created_at: datetime = Field(alias="createdAt")
+    display_name: StrictStr = Field(alias="displayName")
+    project_id: StrictStr = Field(alias="projectId")
     provider: StrictStr
-    provider_secret_id: StrictStr
-    rotated_at: Optional[datetime] = None
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["active", "created_at", "display_name", "project_id", "provider", "provider_secret_id", "rotated_at", "tenant_id"]
+    provider_secret_id: StrictStr = Field(alias="providerSecretId")
+    rotated_at: Optional[datetime] = Field(default=None, alias="rotatedAt")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["active", "createdAt", "displayName", "projectId", "provider", "providerSecretId", "rotatedAt", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,7 +79,7 @@ class ProviderSecretMetadata(BaseModel):
         # set to None if rotated_at (nullable) is None
         # and model_fields_set contains the field
         if self.rotated_at is None and "rotated_at" in self.model_fields_set:
-            _dict['rotated_at'] = None
+            _dict['rotatedAt'] = None
 
         return _dict
 
@@ -94,13 +94,13 @@ class ProviderSecretMetadata(BaseModel):
 
         _obj = cls.model_validate({
             "active": obj.get("active"),
-            "created_at": obj.get("created_at"),
-            "display_name": obj.get("display_name"),
-            "project_id": obj.get("project_id"),
+            "createdAt": obj.get("createdAt"),
+            "displayName": obj.get("displayName"),
+            "projectId": obj.get("projectId"),
             "provider": obj.get("provider"),
-            "provider_secret_id": obj.get("provider_secret_id"),
-            "rotated_at": obj.get("rotated_at"),
-            "tenant_id": obj.get("tenant_id")
+            "providerSecretId": obj.get("providerSecretId"),
+            "rotatedAt": obj.get("rotatedAt"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

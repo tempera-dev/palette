@@ -28,22 +28,22 @@ class DatasetCase(BaseModel):
     """
     DatasetCase
     """ # noqa: E501
-    case_id: StrictStr
-    created_at: datetime
-    dataset_id: StrictStr
+    case_id: StrictStr = Field(alias="caseId")
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
     input: Optional[Any]
-    input_artifact_hashes: List[StrictStr]
-    normalizer_version: StrictStr
+    input_artifact_hashes: List[StrictStr] = Field(alias="inputArtifactHashes")
+    normalizer_version: StrictStr = Field(alias="normalizerVersion")
     output: Optional[Any]
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     reference: Optional[Any] = None
-    source_environment_id: StrictStr
-    source_span_id: StrictStr
-    source_trace_id: StrictStr
-    tenant_id: StrictStr
+    source_environment_id: StrictStr = Field(alias="sourceEnvironmentId")
+    source_span_id: StrictStr = Field(alias="sourceSpanId")
+    source_trace_id: StrictStr = Field(alias="sourceTraceId")
+    tenant_id: StrictStr = Field(alias="tenantId")
     trace: Optional[Any]
-    trace_schema_version: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["case_id", "created_at", "dataset_id", "input", "input_artifact_hashes", "normalizer_version", "output", "project_id", "reference", "source_environment_id", "source_span_id", "source_trace_id", "tenant_id", "trace", "trace_schema_version"]
+    trace_schema_version: Annotated[int, Field(strict=True, ge=0)] = Field(alias="traceSchemaVersion")
+    __properties: ClassVar[List[str]] = ["caseId", "createdAt", "datasetId", "input", "inputArtifactHashes", "normalizerVersion", "output", "projectId", "reference", "sourceEnvironmentId", "sourceSpanId", "sourceTraceId", "tenantId", "trace", "traceSchemaVersion"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -116,21 +116,21 @@ class DatasetCase(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "case_id": obj.get("case_id"),
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
+            "caseId": obj.get("caseId"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
             "input": obj.get("input"),
-            "input_artifact_hashes": obj.get("input_artifact_hashes"),
-            "normalizer_version": obj.get("normalizer_version"),
+            "inputArtifactHashes": obj.get("inputArtifactHashes"),
+            "normalizerVersion": obj.get("normalizerVersion"),
             "output": obj.get("output"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "reference": obj.get("reference"),
-            "source_environment_id": obj.get("source_environment_id"),
-            "source_span_id": obj.get("source_span_id"),
-            "source_trace_id": obj.get("source_trace_id"),
-            "tenant_id": obj.get("tenant_id"),
+            "sourceEnvironmentId": obj.get("sourceEnvironmentId"),
+            "sourceSpanId": obj.get("sourceSpanId"),
+            "sourceTraceId": obj.get("sourceTraceId"),
+            "tenantId": obj.get("tenantId"),
             "trace": obj.get("trace"),
-            "trace_schema_version": obj.get("trace_schema_version")
+            "traceSchemaVersion": obj.get("traceSchemaVersion")
         })
         return _obj
 

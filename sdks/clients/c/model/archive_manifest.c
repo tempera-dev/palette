@@ -77,7 +77,7 @@ cJSON *archive_manifest_convertToJSON(archive_manifest_t *archive_manifest) {
     if (!archive_manifest->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", archive_manifest->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", archive_manifest->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -95,7 +95,7 @@ cJSON *archive_manifest_convertToJSON(archive_manifest_t *archive_manifest) {
     if (!archive_manifest->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", archive_manifest->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", archive_manifest->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -104,7 +104,7 @@ cJSON *archive_manifest_convertToJSON(archive_manifest_t *archive_manifest) {
     if (!archive_manifest->span_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "span_count", archive_manifest->span_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "spanCount", archive_manifest->span_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -113,7 +113,7 @@ cJSON *archive_manifest_convertToJSON(archive_manifest_t *archive_manifest) {
     if (!archive_manifest->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", archive_manifest->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", archive_manifest->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -130,7 +130,7 @@ archive_manifest_t *archive_manifest_parseFromJSON(cJSON *archive_manifestJSON){
     archive_manifest_t *archive_manifest_local_var = NULL;
 
     // archive_manifest->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -160,7 +160,7 @@ archive_manifest_t *archive_manifest_parseFromJSON(cJSON *archive_manifestJSON){
     }
 
     // archive_manifest->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -175,7 +175,7 @@ archive_manifest_t *archive_manifest_parseFromJSON(cJSON *archive_manifestJSON){
     }
 
     // archive_manifest->span_count
-    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "span_count");
+    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "spanCount");
     if (cJSON_IsNull(span_count)) {
         span_count = NULL;
     }
@@ -190,7 +190,7 @@ archive_manifest_t *archive_manifest_parseFromJSON(cJSON *archive_manifestJSON){
     }
 
     // archive_manifest->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(archive_manifestJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

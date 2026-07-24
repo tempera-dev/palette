@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**archiveArchiveTrace**](ArchiveApi.md#archiveArchiveTrace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |  |
-| [**archiveArchiveTraceWithHttpInfo**](ArchiveApi.md#archiveArchiveTraceWithHttpInfo) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |  |
-| [**archiveQuerySpans**](ArchiveApi.md#archiveQuerySpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
-| [**archiveQuerySpansWithHttpInfo**](ArchiveApi.md#archiveQuerySpansWithHttpInfo) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
+| [**archiveArchiveTrace**](ArchiveApi.md#archiveArchiveTrace) | **POST** /v1/archive/{tenantId}/{projectId}/{traceId} |  |
+| [**archiveArchiveTraceWithHttpInfo**](ArchiveApi.md#archiveArchiveTraceWithHttpInfo) | **POST** /v1/archive/{tenantId}/{projectId}/{traceId} |  |
+| [**archiveQuerySpans**](ArchiveApi.md#archiveQuerySpans) | **GET** /v1/archive/{tenantId}/{projectId}/spans |  |
+| [**archiveQuerySpansWithHttpInfo**](ArchiveApi.md#archiveQuerySpansWithHttpInfo) | **GET** /v1/archive/{tenantId}/{projectId}/spans |  |
 
 
 

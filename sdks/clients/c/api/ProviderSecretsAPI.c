@@ -8,7 +8,7 @@
 
 
 provider_secret_metadata_t*
-ProviderSecretsAPI_providerSecretsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_provider_secret_http_request_t *create_provider_secret_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ProviderSecretsAPI_providerSecretsCreate(apiClient_t *apiClient, char *tenantId, char *projectId, create_provider_secret_http_request_t *create_provider_secret_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ ProviderSecretsAPI_providerSecretsCreate(apiClient_t *apiClient, char *tenant_id
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/provider-secrets/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/provider-secrets/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -161,8 +161,8 @@ ProviderSecretsAPI_providerSecretsCreate(apiClient_t *apiClient, char *tenant_id
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -212,7 +212,7 @@ end:
 }
 
 provider_secret_list_response_t*
-ProviderSecretsAPI_providerSecretsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ProviderSecretsAPI_providerSecretsList(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -226,33 +226,33 @@ ProviderSecretsAPI_providerSecretsList(apiClient_t *apiClient, char *tenant_id, 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/provider-secrets/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/provider-secrets/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -379,8 +379,8 @@ ProviderSecretsAPI_providerSecretsList(apiClient_t *apiClient, char *tenant_id, 
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -449,7 +449,7 @@ end:
 }
 
 revoked_provider_secret_t*
-ProviderSecretsAPI_providerSecretsRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *provider_secret_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ProviderSecretsAPI_providerSecretsRevoke(apiClient_t *apiClient, char *tenantId, char *projectId, char *providerSecretId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -463,45 +463,45 @@ ProviderSecretsAPI_providerSecretsRevoke(apiClient_t *apiClient, char *tenant_id
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke");
+    char *localVarPath = strdup("/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!provider_secret_id)
+    if(!providerSecretId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(provider_secret_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(providerSecretId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(provider_secret_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(providerSecretId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_provider_secret_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(provider_secret_id)+3 + sizeof("{ provider_secret_id }") - 1;
-    if(provider_secret_id == NULL) {
+    long sizeOfPathParams_providerSecretId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(providerSecretId)+3 + sizeof("{ providerSecretId }") - 1;
+    if(providerSecretId == NULL) {
         goto end;
     }
-    char* localVarToReplace_provider_secret_id = malloc(sizeOfPathParams_provider_secret_id);
-    sprintf(localVarToReplace_provider_secret_id, "{%s}", "provider_secret_id");
+    char* localVarToReplace_providerSecretId = malloc(sizeOfPathParams_providerSecretId);
+    sprintf(localVarToReplace_providerSecretId, "{%s}", "providerSecretId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_provider_secret_id, provider_secret_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_providerSecretId, providerSecretId);
 
 
 
@@ -607,9 +607,9 @@ ProviderSecretsAPI_providerSecretsRevoke(apiClient_t *apiClient, char *tenant_id
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_provider_secret_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_providerSecretId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

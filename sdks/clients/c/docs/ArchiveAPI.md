@@ -4,22 +4,22 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ArchiveAPI_archiveArchiveTrace**](ArchiveAPI.md#ArchiveAPI_archiveArchiveTrace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**ArchiveAPI_archiveQuerySpans**](ArchiveAPI.md#ArchiveAPI_archiveQuerySpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
+[**ArchiveAPI_archiveArchiveTrace**](ArchiveAPI.md#ArchiveAPI_archiveArchiveTrace) | **POST** /v1/archive/{tenantId}/{projectId}/{traceId} |
+[**ArchiveAPI_archiveQuerySpans**](ArchiveAPI.md#ArchiveAPI_archiveQuerySpans) | **GET** /v1/archive/{tenantId}/{projectId}/spans |
 
 
 # **ArchiveAPI_archiveArchiveTrace**
 ```c
-archive_manifest_t* ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+archive_manifest_t* ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**trace_id** | **char \*** | trace_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**traceId** | **char \*** | trace_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -43,18 +43,18 @@ No authorization required
 
 # **ArchiveAPI_archiveQuerySpans**
 ```c
-archive_query_response_t* ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+archive_query_response_t* ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *traceId, char *spanId, char *kind, char *status, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**environment_id** | **char \*** |  | [optional]
-**trace_id** | **char \*** |  | [optional]
-**span_id** | **char \*** |  | [optional]
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**environmentId** | **char \*** |  | [optional]
+**traceId** | **char \*** |  | [optional]
+**spanId** | **char \*** |  | [optional]
 **kind** | **char \*** |  | [optional]
 **status** | **char \*** |  | [optional]
 **pageSize** | **int \*** |  | [optional]

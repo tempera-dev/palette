@@ -362,9 +362,9 @@ class TracesApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         # process the query parameters
         if unmask is not None:
 
@@ -402,7 +402,7 @@ class TracesApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/traces/{tenant_id}/{trace_id}',
+            resource_path='/v1/traces/{tenantId}/{traceId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -893,19 +893,19 @@ class TracesApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         # process the query parameters
         if project_id is not None:
 
-            _query_params.append(('project_id', project_id))
+            _query_params.append(('projectId', project_id))
 
         if environment_id is not None:
 
-            _query_params.append(('environment_id', environment_id))
+            _query_params.append(('environmentId', environment_id))
 
         if trace_id is not None:
 
-            _query_params.append(('trace_id', trace_id))
+            _query_params.append(('traceId', trace_id))
 
         if kind is not None:
 
@@ -917,11 +917,11 @@ class TracesApi:
 
         if started_after is not None:
 
-            _query_params.append(('started_after', started_after))
+            _query_params.append(('startedAfter', started_after))
 
         if started_before is not None:
 
-            _query_params.append(('started_before', started_before))
+            _query_params.append(('startedBefore', started_before))
 
         if model is not None:
 
@@ -933,19 +933,19 @@ class TracesApi:
 
         if min_cost_micros is not None:
 
-            _query_params.append(('min_cost_micros', min_cost_micros))
+            _query_params.append(('minCostMicros', min_cost_micros))
 
         if max_cost_micros is not None:
 
-            _query_params.append(('max_cost_micros', max_cost_micros))
+            _query_params.append(('maxCostMicros', max_cost_micros))
 
         if min_latency_ms is not None:
 
-            _query_params.append(('min_latency_ms', min_latency_ms))
+            _query_params.append(('minLatencyMs', min_latency_ms))
 
         if max_latency_ms is not None:
 
-            _query_params.append(('max_latency_ms', max_latency_ms))
+            _query_params.append(('maxLatencyMs', max_latency_ms))
 
         if page_size is not None:
 
@@ -983,7 +983,7 @@ class TracesApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/traces/{tenant_id}',
+            resource_path='/v1/traces/{tenantId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**calibrationsRun**](CalibrationsApi.md#calibrationsRun) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
-| [**calibrationsRunWithHttpInfo**](CalibrationsApi.md#calibrationsRunWithHttpInfo) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
+| [**calibrationsRun**](CalibrationsApi.md#calibrationsRun) | **POST** /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId} |  |
+| [**calibrationsRunWithHttpInfo**](CalibrationsApi.md#calibrationsRunWithHttpInfo) | **POST** /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId} |  |
 
 
 

@@ -21,7 +21,7 @@ var _ MappedNullable = &TokenCounts{}
 
 // TokenCounts struct for TokenCounts
 type TokenCounts struct {
-	CacheRead int64 `json:"cache_read"`
+	CacheRead int64 `json:"cacheRead"`
 	Input int64 `json:"input"`
 	Output int64 `json:"output"`
 	Reasoning int64 `json:"reasoning"`
@@ -156,7 +156,7 @@ func (o TokenCounts) MarshalJSON() ([]byte, error) {
 
 func (o TokenCounts) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["cache_read"] = o.CacheRead
+	toSerialize["cacheRead"] = o.CacheRead
 	toSerialize["input"] = o.Input
 	toSerialize["output"] = o.Output
 	toSerialize["reasoning"] = o.Reasoning
@@ -168,7 +168,7 @@ func (o *TokenCounts) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"cache_read",
+		"cacheRead",
 		"input",
 		"output",
 		"reasoning",

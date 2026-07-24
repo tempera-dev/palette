@@ -56,15 +56,15 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ExperimentRunReport {
-  public static final String JSON_PROPERTY_BASELINE_RELEASE_ID = "baseline_release_id";
+  public static final String JSON_PROPERTY_BASELINE_RELEASE_ID = "baselineReleaseId";
   @javax.annotation.Nonnull
   private String baselineReleaseId;
 
-  public static final String JSON_PROPERTY_CANDIDATE_RELEASE_ID = "candidate_release_id";
+  public static final String JSON_PROPERTY_CANDIDATE_RELEASE_ID = "candidateReleaseId";
   @javax.annotation.Nonnull
   private String candidateReleaseId;
 
-  public static final String JSON_PROPERTY_CASE_SCORES = "case_scores";
+  public static final String JSON_PROPERTY_CASE_SCORES = "caseScores";
   @javax.annotation.Nonnull
   private List<CaseExperimentScore> caseScores = new ArrayList<>();
 
@@ -72,15 +72,15 @@ public class ExperimentRunReport {
   @javax.annotation.Nonnull
   private ExperimentComparison comparison;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_DATASET_ID = "dataset_id";
+  public static final String JSON_PROPERTY_DATASET_ID = "datasetId";
   @javax.annotation.Nonnull
   private String datasetId;
 
-  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "dataset_version_id";
+  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "datasetVersionId";
   @javax.annotation.Nonnull
   private String datasetVersionId;
 
@@ -88,23 +88,23 @@ public class ExperimentRunReport {
   @javax.annotation.Nonnull
   private GateDecision decision;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
-  public static final String JSON_PROPERTY_EXPERIMENT_RUN_ID = "experiment_run_id";
+  public static final String JSON_PROPERTY_EXPERIMENT_RUN_ID = "experimentRunId";
   @javax.annotation.Nonnull
   private String experimentRunId;
 
-  public static final String JSON_PROPERTY_GATE_POLICY = "gate_policy";
+  public static final String JSON_PROPERTY_GATE_POLICY = "gatePolicy";
   @javax.annotation.Nullable
   private GatePolicy gatePolicy;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -527,21 +527,21 @@ public class ExperimentRunReport {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `baseline_release_id` to the URL query string
+    // add `baselineReleaseId` to the URL query string
     if (getBaselineReleaseId() != null) {
-      joiner.add(String.format("%sbaseline_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_release_id` to the URL query string
+    // add `candidateReleaseId` to the URL query string
     if (getCandidateReleaseId() != null) {
-      joiner.add(String.format("%scandidate_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `case_scores` to the URL query string
+    // add `caseScores` to the URL query string
     if (getCaseScores() != null) {
       for (int i = 0; i < getCaseScores().size(); i++) {
         if (getCaseScores().get(i) != null) {
-          joiner.add(getCaseScores().get(i).toUrlQueryString(String.format("%scase_scores%s%s", prefix, suffix,
+          joiner.add(getCaseScores().get(i).toUrlQueryString(String.format("%scaseScores%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
@@ -552,19 +552,19 @@ public class ExperimentRunReport {
       joiner.add(getComparison().toUrlQueryString(prefix + "comparison" + suffix));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_id` to the URL query string
+    // add `datasetId` to the URL query string
     if (getDatasetId() != null) {
-      joiner.add(String.format("%sdataset_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_version_id` to the URL query string
+    // add `datasetVersionId` to the URL query string
     if (getDatasetVersionId() != null) {
-      joiner.add(String.format("%sdataset_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `decision` to the URL query string
@@ -572,29 +572,29 @@ public class ExperimentRunReport {
       joiner.add(String.format("%sdecision%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDecision()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `experiment_run_id` to the URL query string
+    // add `experimentRunId` to the URL query string
     if (getExperimentRunId() != null) {
-      joiner.add(String.format("%sexperiment_run_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexperimentRunId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `gate_policy` to the URL query string
+    // add `gatePolicy` to the URL query string
     if (getGatePolicy() != null) {
-      joiner.add(getGatePolicy().toUrlQueryString(prefix + "gate_policy" + suffix));
+      joiner.add(getGatePolicy().toUrlQueryString(prefix + "gatePolicy" + suffix));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

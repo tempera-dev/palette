@@ -1717,6 +1717,7 @@ fn default_denied_attributes() -> BTreeSet<String> {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct NativeIngestRequest {
     pub scope: TenantScope,
     pub trace_id: TraceId,
@@ -1781,6 +1782,7 @@ pub struct CanonicalSpanDraft {
 #[derive(
     Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, utoipa::ToSchema,
 )]
+#[serde(rename_all = "camelCase")]
 pub struct QueuedTraceWork {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1793,6 +1795,7 @@ pub struct QueuedTraceWrite {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct IngestOutcome {
     pub ack: WriteAck,
     pub downstream_queued: bool,
@@ -1824,6 +1827,7 @@ impl DrainReport for TraceIngestedDrainReport {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceWriteDrainReport {
     pub consumed: usize,
     pub written_raw: usize,
@@ -1841,6 +1845,7 @@ pub struct TraceWriteDrainReport {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceIngestedDrainReport {
     pub consumed: usize,
     pub completed: usize,
@@ -1852,6 +1857,7 @@ pub struct TraceIngestedDrainReport {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct IngestQueueStatus {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1862,6 +1868,7 @@ pub struct IngestQueueStatus {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DeadLetterReplayReport {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1871,6 +1878,7 @@ pub struct DeadLetterReplayReport {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceIngestedReconcileReport {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,

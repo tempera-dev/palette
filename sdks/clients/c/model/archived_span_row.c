@@ -229,14 +229,14 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->attributes_json) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "attributes_json", archived_span_row->attributes_json) == NULL) {
+    if(cJSON_AddStringToObject(item, "attributesJson", archived_span_row->attributes_json) == NULL) {
     goto fail; //String
     }
 
 
     // archived_span_row->cost_amount_micros
     if(archived_span_row->cost_amount_micros) {
-    if(cJSON_AddStringToObject(item, "cost_amount_micros", archived_span_row->cost_amount_micros) == NULL) {
+    if(cJSON_AddStringToObject(item, "costAmountMicros", archived_span_row->cost_amount_micros) == NULL) {
     goto fail; //String
     }
     }
@@ -244,7 +244,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->cost_currency
     if(archived_span_row->cost_currency) {
-    if(cJSON_AddStringToObject(item, "cost_currency", archived_span_row->cost_currency) == NULL) {
+    if(cJSON_AddStringToObject(item, "costCurrency", archived_span_row->cost_currency) == NULL) {
     goto fail; //String
     }
     }
@@ -252,7 +252,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->end_time
     if(archived_span_row->end_time) {
-    if(cJSON_AddStringToObject(item, "end_time", archived_span_row->end_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "endTime", archived_span_row->end_time) == NULL) {
     goto fail; //String
     }
     }
@@ -262,14 +262,14 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "environment_id", archived_span_row->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", archived_span_row->environment_id) == NULL) {
     goto fail; //String
     }
 
 
     // archived_span_row->input_tokens
     if(archived_span_row->input_tokens) {
-    if(cJSON_AddStringToObject(item, "input_tokens", archived_span_row->input_tokens) == NULL) {
+    if(cJSON_AddStringToObject(item, "inputTokens", archived_span_row->input_tokens) == NULL) {
     goto fail; //String
     }
     }
@@ -277,7 +277,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->input_uri
     if(archived_span_row->input_uri) {
-    if(cJSON_AddStringToObject(item, "input_uri", archived_span_row->input_uri) == NULL) {
+    if(cJSON_AddStringToObject(item, "inputUri", archived_span_row->input_uri) == NULL) {
     goto fail; //String
     }
     }
@@ -294,7 +294,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->model_name
     if(archived_span_row->model_name) {
-    if(cJSON_AddStringToObject(item, "model_name", archived_span_row->model_name) == NULL) {
+    if(cJSON_AddStringToObject(item, "modelName", archived_span_row->model_name) == NULL) {
     goto fail; //String
     }
     }
@@ -302,7 +302,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->model_provider
     if(archived_span_row->model_provider) {
-    if(cJSON_AddStringToObject(item, "model_provider", archived_span_row->model_provider) == NULL) {
+    if(cJSON_AddStringToObject(item, "modelProvider", archived_span_row->model_provider) == NULL) {
     goto fail; //String
     }
     }
@@ -319,7 +319,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->output_tokens
     if(archived_span_row->output_tokens) {
-    if(cJSON_AddStringToObject(item, "output_tokens", archived_span_row->output_tokens) == NULL) {
+    if(cJSON_AddStringToObject(item, "outputTokens", archived_span_row->output_tokens) == NULL) {
     goto fail; //String
     }
     }
@@ -327,7 +327,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->output_uri
     if(archived_span_row->output_uri) {
-    if(cJSON_AddStringToObject(item, "output_uri", archived_span_row->output_uri) == NULL) {
+    if(cJSON_AddStringToObject(item, "outputUri", archived_span_row->output_uri) == NULL) {
     goto fail; //String
     }
     }
@@ -335,7 +335,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
 
     // archived_span_row->parent_span_id
     if(archived_span_row->parent_span_id) {
-    if(cJSON_AddStringToObject(item, "parent_span_id", archived_span_row->parent_span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "parentSpanId", archived_span_row->parent_span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -345,7 +345,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", archived_span_row->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", archived_span_row->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -354,14 +354,14 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->raw_uri) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "raw_uri", archived_span_row->raw_uri) == NULL) {
+    if(cJSON_AddStringToObject(item, "rawUri", archived_span_row->raw_uri) == NULL) {
     goto fail; //String
     }
 
 
     // archived_span_row->reasoning_tokens
     if(archived_span_row->reasoning_tokens) {
-    if(cJSON_AddStringToObject(item, "reasoning_tokens", archived_span_row->reasoning_tokens) == NULL) {
+    if(cJSON_AddStringToObject(item, "reasoningTokens", archived_span_row->reasoning_tokens) == NULL) {
     goto fail; //String
     }
     }
@@ -380,7 +380,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "span_id", archived_span_row->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", archived_span_row->span_id) == NULL) {
     goto fail; //String
     }
 
@@ -389,7 +389,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->start_time) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "start_time", archived_span_row->start_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "startTime", archived_span_row->start_time) == NULL) {
     goto fail; //String
     }
 
@@ -407,7 +407,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", archived_span_row->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", archived_span_row->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -416,7 +416,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", archived_span_row->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", archived_span_row->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -425,7 +425,7 @@ cJSON *archived_span_row_convertToJSON(archived_span_row_t *archived_span_row) {
     if (!archived_span_row->unmapped_json) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "unmapped_json", archived_span_row->unmapped_json) == NULL) {
+    if(cJSON_AddStringToObject(item, "unmappedJson", archived_span_row->unmapped_json) == NULL) {
     goto fail; //String
     }
 
@@ -442,7 +442,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     archived_span_row_t *archived_span_row_local_var = NULL;
 
     // archived_span_row->attributes_json
-    cJSON *attributes_json = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "attributes_json");
+    cJSON *attributes_json = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "attributesJson");
     if (cJSON_IsNull(attributes_json)) {
         attributes_json = NULL;
     }
@@ -457,7 +457,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->cost_amount_micros
-    cJSON *cost_amount_micros = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "cost_amount_micros");
+    cJSON *cost_amount_micros = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "costAmountMicros");
     if (cJSON_IsNull(cost_amount_micros)) {
         cost_amount_micros = NULL;
     }
@@ -469,7 +469,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->cost_currency
-    cJSON *cost_currency = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "cost_currency");
+    cJSON *cost_currency = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "costCurrency");
     if (cJSON_IsNull(cost_currency)) {
         cost_currency = NULL;
     }
@@ -481,7 +481,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->end_time
-    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "end_time");
+    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "endTime");
     if (cJSON_IsNull(end_time)) {
         end_time = NULL;
     }
@@ -493,7 +493,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -508,7 +508,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->input_tokens
-    cJSON *input_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "input_tokens");
+    cJSON *input_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "inputTokens");
     if (cJSON_IsNull(input_tokens)) {
         input_tokens = NULL;
     }
@@ -520,7 +520,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->input_uri
-    cJSON *input_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "input_uri");
+    cJSON *input_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "inputUri");
     if (cJSON_IsNull(input_uri)) {
         input_uri = NULL;
     }
@@ -547,7 +547,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->model_name
-    cJSON *model_name = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "model_name");
+    cJSON *model_name = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "modelName");
     if (cJSON_IsNull(model_name)) {
         model_name = NULL;
     }
@@ -559,7 +559,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->model_provider
-    cJSON *model_provider = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "model_provider");
+    cJSON *model_provider = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "modelProvider");
     if (cJSON_IsNull(model_provider)) {
         model_provider = NULL;
     }
@@ -586,7 +586,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->output_tokens
-    cJSON *output_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "output_tokens");
+    cJSON *output_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "outputTokens");
     if (cJSON_IsNull(output_tokens)) {
         output_tokens = NULL;
     }
@@ -598,7 +598,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->output_uri
-    cJSON *output_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "output_uri");
+    cJSON *output_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "outputUri");
     if (cJSON_IsNull(output_uri)) {
         output_uri = NULL;
     }
@@ -610,7 +610,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->parent_span_id
-    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "parent_span_id");
+    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "parentSpanId");
     if (cJSON_IsNull(parent_span_id)) {
         parent_span_id = NULL;
     }
@@ -622,7 +622,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -637,7 +637,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->raw_uri
-    cJSON *raw_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "raw_uri");
+    cJSON *raw_uri = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "rawUri");
     if (cJSON_IsNull(raw_uri)) {
         raw_uri = NULL;
     }
@@ -652,7 +652,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->reasoning_tokens
-    cJSON *reasoning_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "reasoning_tokens");
+    cJSON *reasoning_tokens = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "reasoningTokens");
     if (cJSON_IsNull(reasoning_tokens)) {
         reasoning_tokens = NULL;
     }
@@ -679,7 +679,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -694,7 +694,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->start_time
-    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "start_time");
+    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "startTime");
     if (cJSON_IsNull(start_time)) {
         start_time = NULL;
     }
@@ -724,7 +724,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -739,7 +739,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }
@@ -754,7 +754,7 @@ archived_span_row_t *archived_span_row_parseFromJSON(cJSON *archived_span_rowJSO
     }
 
     // archived_span_row->unmapped_json
-    cJSON *unmapped_json = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "unmapped_json");
+    cJSON *unmapped_json = cJSON_GetObjectItemCaseSensitive(archived_span_rowJSON, "unmappedJson");
     if (cJSON_IsNull(unmapped_json)) {
         unmapped_json = NULL;
     }

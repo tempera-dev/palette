@@ -23,8 +23,8 @@ SamplingDecision::SamplingDecision()
     m_ReasonIsSet = false;
     m_Selected = false;
     m_SelectedIsSet = false;
-    m_Stable_score_per_mille = 0;
-    m_Stable_score_per_milleIsSet = false;
+    m_StableScorePerMille = 0;
+    m_StableScorePerMilleIsSet = false;
 }
 
 SamplingDecision::~SamplingDecision()
@@ -49,10 +49,10 @@ web::json::value SamplingDecision::toJson() const
         
         val[utility::conversions::to_string_t(U("selected"))] = ModelBase::toJson(m_Selected);
     }
-    if(m_Stable_score_per_milleIsSet)
+    if(m_StableScorePerMilleIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("stable_score_per_mille"))] = ModelBase::toJson(m_Stable_score_per_mille);
+        val[utility::conversions::to_string_t(U("stableScorePerMille"))] = ModelBase::toJson(m_StableScorePerMille);
     }
 
     return val;
@@ -83,9 +83,9 @@ bool SamplingDecision::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("stable_score_per_mille"))))
+    if(val.has_field(utility::conversions::to_string_t(U("stableScorePerMille"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("stable_score_per_mille")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("stableScorePerMille")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setStableScorePerMille;
@@ -112,9 +112,9 @@ void SamplingDecision::toMultipart(std::shared_ptr<MultipartFormData> multipart,
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("selected")), m_Selected));
     }
-    if(m_Stable_score_per_milleIsSet)
+    if(m_StableScorePerMilleIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("stable_score_per_mille")), m_Stable_score_per_mille));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("stableScorePerMille")), m_StableScorePerMille));
     }
 }
 
@@ -139,10 +139,10 @@ bool SamplingDecision::fromMultiPart(std::shared_ptr<MultipartFormData> multipar
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("selected"))), refVal_setSelected );
         setSelected(refVal_setSelected);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("stable_score_per_mille"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("stableScorePerMille"))))
     {
         int32_t refVal_setStableScorePerMille;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("stable_score_per_mille"))), refVal_setStableScorePerMille );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("stableScorePerMille"))), refVal_setStableScorePerMille );
         setStableScorePerMille(refVal_setStableScorePerMille);
     }
     return ok;
@@ -192,23 +192,23 @@ void SamplingDecision::unsetSelected()
 }
 int32_t SamplingDecision::getStableScorePerMille() const
 {
-    return m_Stable_score_per_mille;
+    return m_StableScorePerMille;
 }
 
 void SamplingDecision::setStableScorePerMille(int32_t value)
 {
-    m_Stable_score_per_mille = value;
-    m_Stable_score_per_milleIsSet = true;
+    m_StableScorePerMille = value;
+    m_StableScorePerMilleIsSet = true;
 }
 
 bool SamplingDecision::stableScorePerMilleIsSet() const
 {
-    return m_Stable_score_per_milleIsSet;
+    return m_StableScorePerMilleIsSet;
 }
 
-void SamplingDecision::unsetStable_score_per_mille()
+void SamplingDecision::unsetStableScorePerMille()
 {
-    m_Stable_score_per_milleIsSet = false;
+    m_StableScorePerMilleIsSet = false;
 }
 
 }

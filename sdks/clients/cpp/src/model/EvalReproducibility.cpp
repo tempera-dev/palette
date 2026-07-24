@@ -20,36 +20,36 @@ namespace model {
 
 EvalReproducibility::EvalReproducibility()
 {
-    m_Agent_release_id = utility::conversions::to_string_t("");
-    m_Agent_release_idIsSet = false;
-    m_Code_hash = utility::conversions::to_string_t("");
-    m_Code_hashIsSet = false;
-    m_Dataset_case_id = utility::conversions::to_string_t("");
-    m_Dataset_case_idIsSet = false;
-    m_Dataset_version_id = utility::conversions::to_string_t("");
-    m_Dataset_version_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Input_artifact_hashesIsSet = false;
-    m_Judge_model_id = utility::conversions::to_string_t("");
-    m_Judge_model_idIsSet = false;
-    m_Judge_parametersIsSet = false;
-    m_Judge_provider = utility::conversions::to_string_t("");
-    m_Judge_providerIsSet = false;
-    m_Judge_rubric_version = utility::conversions::to_string_t("");
-    m_Judge_rubric_versionIsSet = false;
-    m_Judge_seed = 0L;
-    m_Judge_seedIsSet = false;
-    m_Normalizer_version = utility::conversions::to_string_t("");
-    m_Normalizer_versionIsSet = false;
-    m_Prompt_version_id = utility::conversions::to_string_t("");
-    m_Prompt_version_idIsSet = false;
-    m_Trace_schema_version = 0;
-    m_Trace_schema_versionIsSet = false;
-    m_Wasi_abi_version = utility::conversions::to_string_t("");
-    m_Wasi_abi_versionIsSet = false;
-    m_Wasm_hash = utility::conversions::to_string_t("");
-    m_Wasm_hashIsSet = false;
+    m_AgentReleaseId = utility::conversions::to_string_t("");
+    m_AgentReleaseIdIsSet = false;
+    m_CodeHash = utility::conversions::to_string_t("");
+    m_CodeHashIsSet = false;
+    m_DatasetCaseId = utility::conversions::to_string_t("");
+    m_DatasetCaseIdIsSet = false;
+    m_DatasetVersionId = utility::conversions::to_string_t("");
+    m_DatasetVersionIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_InputArtifactHashesIsSet = false;
+    m_JudgeModelId = utility::conversions::to_string_t("");
+    m_JudgeModelIdIsSet = false;
+    m_JudgeParametersIsSet = false;
+    m_JudgeProvider = utility::conversions::to_string_t("");
+    m_JudgeProviderIsSet = false;
+    m_JudgeRubricVersion = utility::conversions::to_string_t("");
+    m_JudgeRubricVersionIsSet = false;
+    m_JudgeSeed = 0L;
+    m_JudgeSeedIsSet = false;
+    m_NormalizerVersion = utility::conversions::to_string_t("");
+    m_NormalizerVersionIsSet = false;
+    m_PromptVersionId = utility::conversions::to_string_t("");
+    m_PromptVersionIdIsSet = false;
+    m_TraceSchemaVersion = 0;
+    m_TraceSchemaVersionIsSet = false;
+    m_WasiAbiVersion = utility::conversions::to_string_t("");
+    m_WasiAbiVersionIsSet = false;
+    m_WasmHash = utility::conversions::to_string_t("");
+    m_WasmHashIsSet = false;
 }
 
 EvalReproducibility::~EvalReproducibility()
@@ -64,85 +64,85 @@ void EvalReproducibility::validate()
 web::json::value EvalReproducibility::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("agent_release_id"))] = ModelBase::toJson(m_Agent_release_id);
+        val[utility::conversions::to_string_t(U("agentReleaseId"))] = ModelBase::toJson(m_AgentReleaseId);
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("code_hash"))] = ModelBase::toJson(m_Code_hash);
+        val[utility::conversions::to_string_t(U("codeHash"))] = ModelBase::toJson(m_CodeHash);
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_case_id"))] = ModelBase::toJson(m_Dataset_case_id);
+        val[utility::conversions::to_string_t(U("datasetCaseId"))] = ModelBase::toJson(m_DatasetCaseId);
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_version_id"))] = ModelBase::toJson(m_Dataset_version_id);
+        val[utility::conversions::to_string_t(U("datasetVersionId"))] = ModelBase::toJson(m_DatasetVersionId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Input_artifact_hashesIsSet)
+    if(m_InputArtifactHashesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_artifact_hashes"))] = ModelBase::toJson(m_Input_artifact_hashes);
+        val[utility::conversions::to_string_t(U("inputArtifactHashes"))] = ModelBase::toJson(m_InputArtifactHashes);
     }
-    if(m_Judge_model_idIsSet)
+    if(m_JudgeModelIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_model_id"))] = ModelBase::toJson(m_Judge_model_id);
+        val[utility::conversions::to_string_t(U("judgeModelId"))] = ModelBase::toJson(m_JudgeModelId);
     }
-    if(m_Judge_parametersIsSet)
+    if(m_JudgeParametersIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_parameters"))] = ModelBase::toJson(m_Judge_parameters);
+        val[utility::conversions::to_string_t(U("judgeParameters"))] = ModelBase::toJson(m_JudgeParameters);
     }
-    if(m_Judge_providerIsSet)
+    if(m_JudgeProviderIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_provider"))] = ModelBase::toJson(m_Judge_provider);
+        val[utility::conversions::to_string_t(U("judgeProvider"))] = ModelBase::toJson(m_JudgeProvider);
     }
-    if(m_Judge_rubric_versionIsSet)
+    if(m_JudgeRubricVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_rubric_version"))] = ModelBase::toJson(m_Judge_rubric_version);
+        val[utility::conversions::to_string_t(U("judgeRubricVersion"))] = ModelBase::toJson(m_JudgeRubricVersion);
     }
-    if(m_Judge_seedIsSet)
+    if(m_JudgeSeedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_seed"))] = ModelBase::toJson(m_Judge_seed);
+        val[utility::conversions::to_string_t(U("judgeSeed"))] = ModelBase::toJson(m_JudgeSeed);
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("normalizer_version"))] = ModelBase::toJson(m_Normalizer_version);
+        val[utility::conversions::to_string_t(U("normalizerVersion"))] = ModelBase::toJson(m_NormalizerVersion);
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_version_id"))] = ModelBase::toJson(m_Prompt_version_id);
+        val[utility::conversions::to_string_t(U("promptVersionId"))] = ModelBase::toJson(m_PromptVersionId);
     }
-    if(m_Trace_schema_versionIsSet)
+    if(m_TraceSchemaVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_schema_version"))] = ModelBase::toJson(m_Trace_schema_version);
+        val[utility::conversions::to_string_t(U("traceSchemaVersion"))] = ModelBase::toJson(m_TraceSchemaVersion);
     }
-    if(m_Wasi_abi_versionIsSet)
+    if(m_WasiAbiVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("wasi_abi_version"))] = ModelBase::toJson(m_Wasi_abi_version);
+        val[utility::conversions::to_string_t(U("wasiAbiVersion"))] = ModelBase::toJson(m_WasiAbiVersion);
     }
-    if(m_Wasm_hashIsSet)
+    if(m_WasmHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("wasm_hash"))] = ModelBase::toJson(m_Wasm_hash);
+        val[utility::conversions::to_string_t(U("wasmHash"))] = ModelBase::toJson(m_WasmHash);
     }
 
     return val;
@@ -151,9 +151,9 @@ web::json::value EvalReproducibility::toJson() const
 bool EvalReproducibility::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agent_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agentReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAgentReleaseId;
@@ -162,9 +162,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("code_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("codeHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("code_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("codeHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCodeHash;
@@ -173,9 +173,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetCaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetCaseId;
@@ -184,9 +184,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetVersionId;
@@ -195,9 +195,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -206,9 +206,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_artifact_hashes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputArtifactHashes"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_artifact_hashes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputArtifactHashes")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<utility::string_t>> refVal_setInputArtifactHashes;
@@ -217,9 +217,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_model_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeModelId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_model_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeModelId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setJudgeModelId;
@@ -228,9 +228,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_parameters"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeParameters"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_parameters")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeParameters")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setJudgeParameters;
@@ -239,9 +239,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_provider"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeProvider"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_provider")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeProvider")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setJudgeProvider;
@@ -250,9 +250,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_rubric_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeRubricVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_rubric_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeRubricVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setJudgeRubricVersion;
@@ -261,9 +261,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_seed"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeSeed"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_seed")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeSeed")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setJudgeSeed;
@@ -272,9 +272,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizer_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizerVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setNormalizerVersion;
@@ -283,9 +283,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPromptVersionId;
@@ -294,9 +294,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_schema_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceSchemaVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_schema_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceSchemaVersion")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setTraceSchemaVersion;
@@ -305,9 +305,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("wasi_abi_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("wasiAbiVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasi_abi_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasiAbiVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setWasiAbiVersion;
@@ -316,9 +316,9 @@ bool EvalReproducibility::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("wasm_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("wasmHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasm_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("wasmHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setWasmHash;
@@ -337,69 +337,69 @@ void EvalReproducibility::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agent_release_id")), m_Agent_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agentReleaseId")), m_AgentReleaseId));
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("code_hash")), m_Code_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("codeHash")), m_CodeHash));
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_case_id")), m_Dataset_case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetCaseId")), m_DatasetCaseId));
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_version_id")), m_Dataset_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetVersionId")), m_DatasetVersionId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Input_artifact_hashesIsSet)
+    if(m_InputArtifactHashesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_artifact_hashes")), m_Input_artifact_hashes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputArtifactHashes")), m_InputArtifactHashes));
     }
-    if(m_Judge_model_idIsSet)
+    if(m_JudgeModelIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_model_id")), m_Judge_model_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeModelId")), m_JudgeModelId));
     }
-    if(m_Judge_parametersIsSet)
+    if(m_JudgeParametersIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_parameters")), m_Judge_parameters));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeParameters")), m_JudgeParameters));
     }
-    if(m_Judge_providerIsSet)
+    if(m_JudgeProviderIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_provider")), m_Judge_provider));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeProvider")), m_JudgeProvider));
     }
-    if(m_Judge_rubric_versionIsSet)
+    if(m_JudgeRubricVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_rubric_version")), m_Judge_rubric_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeRubricVersion")), m_JudgeRubricVersion));
     }
-    if(m_Judge_seedIsSet)
+    if(m_JudgeSeedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_seed")), m_Judge_seed));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeSeed")), m_JudgeSeed));
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizer_version")), m_Normalizer_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizerVersion")), m_NormalizerVersion));
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_version_id")), m_Prompt_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptVersionId")), m_PromptVersionId));
     }
-    if(m_Trace_schema_versionIsSet)
+    if(m_TraceSchemaVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_schema_version")), m_Trace_schema_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceSchemaVersion")), m_TraceSchemaVersion));
     }
-    if(m_Wasi_abi_versionIsSet)
+    if(m_WasiAbiVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasi_abi_version")), m_Wasi_abi_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasiAbiVersion")), m_WasiAbiVersion));
     }
-    if(m_Wasm_hashIsSet)
+    if(m_WasmHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasm_hash")), m_Wasm_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("wasmHash")), m_WasmHash));
     }
 }
 
@@ -412,100 +412,100 @@ bool EvalReproducibility::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
         utility::string_t refVal_setAgentReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agent_release_id"))), refVal_setAgentReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agentReleaseId"))), refVal_setAgentReleaseId );
         setAgentReleaseId(refVal_setAgentReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("code_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("codeHash"))))
     {
         utility::string_t refVal_setCodeHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("code_hash"))), refVal_setCodeHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("codeHash"))), refVal_setCodeHash );
         setCodeHash(refVal_setCodeHash);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
         utility::string_t refVal_setDatasetCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_case_id"))), refVal_setDatasetCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetCaseId"))), refVal_setDatasetCaseId );
         setDatasetCaseId(refVal_setDatasetCaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
         utility::string_t refVal_setDatasetVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_version_id"))), refVal_setDatasetVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetVersionId"))), refVal_setDatasetVersionId );
         setDatasetVersionId(refVal_setDatasetVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_artifact_hashes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputArtifactHashes"))))
     {
         std::vector<std::shared_ptr<utility::string_t>> refVal_setInputArtifactHashes;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_artifact_hashes"))), refVal_setInputArtifactHashes );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputArtifactHashes"))), refVal_setInputArtifactHashes );
         setInputArtifactHashes(refVal_setInputArtifactHashes);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_model_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeModelId"))))
     {
         utility::string_t refVal_setJudgeModelId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_model_id"))), refVal_setJudgeModelId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeModelId"))), refVal_setJudgeModelId );
         setJudgeModelId(refVal_setJudgeModelId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_parameters"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeParameters"))))
     {
         std::shared_ptr<AnyType> refVal_setJudgeParameters;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_parameters"))), refVal_setJudgeParameters );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeParameters"))), refVal_setJudgeParameters );
         setJudgeParameters(refVal_setJudgeParameters);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_provider"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeProvider"))))
     {
         utility::string_t refVal_setJudgeProvider;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_provider"))), refVal_setJudgeProvider );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeProvider"))), refVal_setJudgeProvider );
         setJudgeProvider(refVal_setJudgeProvider);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_rubric_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeRubricVersion"))))
     {
         utility::string_t refVal_setJudgeRubricVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_rubric_version"))), refVal_setJudgeRubricVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeRubricVersion"))), refVal_setJudgeRubricVersion );
         setJudgeRubricVersion(refVal_setJudgeRubricVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_seed"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeSeed"))))
     {
         int64_t refVal_setJudgeSeed;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_seed"))), refVal_setJudgeSeed );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeSeed"))), refVal_setJudgeSeed );
         setJudgeSeed(refVal_setJudgeSeed);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
         utility::string_t refVal_setNormalizerVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizer_version"))), refVal_setNormalizerVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizerVersion"))), refVal_setNormalizerVersion );
         setNormalizerVersion(refVal_setNormalizerVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptVersionId"))))
     {
         utility::string_t refVal_setPromptVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_version_id"))), refVal_setPromptVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptVersionId"))), refVal_setPromptVersionId );
         setPromptVersionId(refVal_setPromptVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_schema_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceSchemaVersion"))))
     {
         int32_t refVal_setTraceSchemaVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_schema_version"))), refVal_setTraceSchemaVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceSchemaVersion"))), refVal_setTraceSchemaVersion );
         setTraceSchemaVersion(refVal_setTraceSchemaVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("wasi_abi_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("wasiAbiVersion"))))
     {
         utility::string_t refVal_setWasiAbiVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasi_abi_version"))), refVal_setWasiAbiVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasiAbiVersion"))), refVal_setWasiAbiVersion );
         setWasiAbiVersion(refVal_setWasiAbiVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("wasm_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("wasmHash"))))
     {
         utility::string_t refVal_setWasmHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasm_hash"))), refVal_setWasmHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("wasmHash"))), refVal_setWasmHash );
         setWasmHash(refVal_setWasmHash);
     }
     return ok;
@@ -514,337 +514,337 @@ bool EvalReproducibility::fromMultiPart(std::shared_ptr<MultipartFormData> multi
 
 utility::string_t EvalReproducibility::getAgentReleaseId() const
 {
-    return m_Agent_release_id;
+    return m_AgentReleaseId;
 }
 
 
 void EvalReproducibility::setAgentReleaseId(const utility::string_t& value)
 {
-    m_Agent_release_id = value;
-    m_Agent_release_idIsSet = true;
+    m_AgentReleaseId = value;
+    m_AgentReleaseIdIsSet = true;
 }
 
 bool EvalReproducibility::agentReleaseIdIsSet() const
 {
-    return m_Agent_release_idIsSet;
+    return m_AgentReleaseIdIsSet;
 }
 
-void EvalReproducibility::unsetAgent_release_id()
+void EvalReproducibility::unsetAgentReleaseId()
 {
-    m_Agent_release_idIsSet = false;
+    m_AgentReleaseIdIsSet = false;
 }
 utility::string_t EvalReproducibility::getCodeHash() const
 {
-    return m_Code_hash;
+    return m_CodeHash;
 }
 
 
 void EvalReproducibility::setCodeHash(const utility::string_t& value)
 {
-    m_Code_hash = value;
-    m_Code_hashIsSet = true;
+    m_CodeHash = value;
+    m_CodeHashIsSet = true;
 }
 
 bool EvalReproducibility::codeHashIsSet() const
 {
-    return m_Code_hashIsSet;
+    return m_CodeHashIsSet;
 }
 
-void EvalReproducibility::unsetCode_hash()
+void EvalReproducibility::unsetCodeHash()
 {
-    m_Code_hashIsSet = false;
+    m_CodeHashIsSet = false;
 }
 utility::string_t EvalReproducibility::getDatasetCaseId() const
 {
-    return m_Dataset_case_id;
+    return m_DatasetCaseId;
 }
 
 
 void EvalReproducibility::setDatasetCaseId(const utility::string_t& value)
 {
-    m_Dataset_case_id = value;
-    m_Dataset_case_idIsSet = true;
+    m_DatasetCaseId = value;
+    m_DatasetCaseIdIsSet = true;
 }
 
 bool EvalReproducibility::datasetCaseIdIsSet() const
 {
-    return m_Dataset_case_idIsSet;
+    return m_DatasetCaseIdIsSet;
 }
 
-void EvalReproducibility::unsetDataset_case_id()
+void EvalReproducibility::unsetDatasetCaseId()
 {
-    m_Dataset_case_idIsSet = false;
+    m_DatasetCaseIdIsSet = false;
 }
 utility::string_t EvalReproducibility::getDatasetVersionId() const
 {
-    return m_Dataset_version_id;
+    return m_DatasetVersionId;
 }
 
 
 void EvalReproducibility::setDatasetVersionId(const utility::string_t& value)
 {
-    m_Dataset_version_id = value;
-    m_Dataset_version_idIsSet = true;
+    m_DatasetVersionId = value;
+    m_DatasetVersionIdIsSet = true;
 }
 
 bool EvalReproducibility::datasetVersionIdIsSet() const
 {
-    return m_Dataset_version_idIsSet;
+    return m_DatasetVersionIdIsSet;
 }
 
-void EvalReproducibility::unsetDataset_version_id()
+void EvalReproducibility::unsetDatasetVersionId()
 {
-    m_Dataset_version_idIsSet = false;
+    m_DatasetVersionIdIsSet = false;
 }
 utility::string_t EvalReproducibility::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void EvalReproducibility::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool EvalReproducibility::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void EvalReproducibility::unsetEvaluator_version_id()
+void EvalReproducibility::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 std::vector<std::shared_ptr<utility::string_t>> EvalReproducibility::getInputArtifactHashes() const
 {
-    return m_Input_artifact_hashes;
+    return m_InputArtifactHashes;
 }
 
 
 void EvalReproducibility::setInputArtifactHashes(const std::vector<std::shared_ptr<utility::string_t>>& value)
 {
-    m_Input_artifact_hashes = value;
-    m_Input_artifact_hashesIsSet = true;
+    m_InputArtifactHashes = value;
+    m_InputArtifactHashesIsSet = true;
 }
 
 bool EvalReproducibility::inputArtifactHashesIsSet() const
 {
-    return m_Input_artifact_hashesIsSet;
+    return m_InputArtifactHashesIsSet;
 }
 
-void EvalReproducibility::unsetInput_artifact_hashes()
+void EvalReproducibility::unsetInputArtifactHashes()
 {
-    m_Input_artifact_hashesIsSet = false;
+    m_InputArtifactHashesIsSet = false;
 }
 utility::string_t EvalReproducibility::getJudgeModelId() const
 {
-    return m_Judge_model_id;
+    return m_JudgeModelId;
 }
 
 
 void EvalReproducibility::setJudgeModelId(const utility::string_t& value)
 {
-    m_Judge_model_id = value;
-    m_Judge_model_idIsSet = true;
+    m_JudgeModelId = value;
+    m_JudgeModelIdIsSet = true;
 }
 
 bool EvalReproducibility::judgeModelIdIsSet() const
 {
-    return m_Judge_model_idIsSet;
+    return m_JudgeModelIdIsSet;
 }
 
-void EvalReproducibility::unsetJudge_model_id()
+void EvalReproducibility::unsetJudgeModelId()
 {
-    m_Judge_model_idIsSet = false;
+    m_JudgeModelIdIsSet = false;
 }
 std::shared_ptr<AnyType> EvalReproducibility::getJudgeParameters() const
 {
-    return m_Judge_parameters;
+    return m_JudgeParameters;
 }
 
 
 void EvalReproducibility::setJudgeParameters(const std::shared_ptr<AnyType>& value)
 {
-    m_Judge_parameters = value;
-    m_Judge_parametersIsSet = true;
+    m_JudgeParameters = value;
+    m_JudgeParametersIsSet = true;
 }
 
 bool EvalReproducibility::judgeParametersIsSet() const
 {
-    return m_Judge_parametersIsSet;
+    return m_JudgeParametersIsSet;
 }
 
-void EvalReproducibility::unsetJudge_parameters()
+void EvalReproducibility::unsetJudgeParameters()
 {
-    m_Judge_parametersIsSet = false;
+    m_JudgeParametersIsSet = false;
 }
 utility::string_t EvalReproducibility::getJudgeProvider() const
 {
-    return m_Judge_provider;
+    return m_JudgeProvider;
 }
 
 
 void EvalReproducibility::setJudgeProvider(const utility::string_t& value)
 {
-    m_Judge_provider = value;
-    m_Judge_providerIsSet = true;
+    m_JudgeProvider = value;
+    m_JudgeProviderIsSet = true;
 }
 
 bool EvalReproducibility::judgeProviderIsSet() const
 {
-    return m_Judge_providerIsSet;
+    return m_JudgeProviderIsSet;
 }
 
-void EvalReproducibility::unsetJudge_provider()
+void EvalReproducibility::unsetJudgeProvider()
 {
-    m_Judge_providerIsSet = false;
+    m_JudgeProviderIsSet = false;
 }
 utility::string_t EvalReproducibility::getJudgeRubricVersion() const
 {
-    return m_Judge_rubric_version;
+    return m_JudgeRubricVersion;
 }
 
 
 void EvalReproducibility::setJudgeRubricVersion(const utility::string_t& value)
 {
-    m_Judge_rubric_version = value;
-    m_Judge_rubric_versionIsSet = true;
+    m_JudgeRubricVersion = value;
+    m_JudgeRubricVersionIsSet = true;
 }
 
 bool EvalReproducibility::judgeRubricVersionIsSet() const
 {
-    return m_Judge_rubric_versionIsSet;
+    return m_JudgeRubricVersionIsSet;
 }
 
-void EvalReproducibility::unsetJudge_rubric_version()
+void EvalReproducibility::unsetJudgeRubricVersion()
 {
-    m_Judge_rubric_versionIsSet = false;
+    m_JudgeRubricVersionIsSet = false;
 }
 int64_t EvalReproducibility::getJudgeSeed() const
 {
-    return m_Judge_seed;
+    return m_JudgeSeed;
 }
 
 void EvalReproducibility::setJudgeSeed(int64_t value)
 {
-    m_Judge_seed = value;
-    m_Judge_seedIsSet = true;
+    m_JudgeSeed = value;
+    m_JudgeSeedIsSet = true;
 }
 
 bool EvalReproducibility::judgeSeedIsSet() const
 {
-    return m_Judge_seedIsSet;
+    return m_JudgeSeedIsSet;
 }
 
-void EvalReproducibility::unsetJudge_seed()
+void EvalReproducibility::unsetJudgeSeed()
 {
-    m_Judge_seedIsSet = false;
+    m_JudgeSeedIsSet = false;
 }
 utility::string_t EvalReproducibility::getNormalizerVersion() const
 {
-    return m_Normalizer_version;
+    return m_NormalizerVersion;
 }
 
 
 void EvalReproducibility::setNormalizerVersion(const utility::string_t& value)
 {
-    m_Normalizer_version = value;
-    m_Normalizer_versionIsSet = true;
+    m_NormalizerVersion = value;
+    m_NormalizerVersionIsSet = true;
 }
 
 bool EvalReproducibility::normalizerVersionIsSet() const
 {
-    return m_Normalizer_versionIsSet;
+    return m_NormalizerVersionIsSet;
 }
 
-void EvalReproducibility::unsetNormalizer_version()
+void EvalReproducibility::unsetNormalizerVersion()
 {
-    m_Normalizer_versionIsSet = false;
+    m_NormalizerVersionIsSet = false;
 }
 utility::string_t EvalReproducibility::getPromptVersionId() const
 {
-    return m_Prompt_version_id;
+    return m_PromptVersionId;
 }
 
 
 void EvalReproducibility::setPromptVersionId(const utility::string_t& value)
 {
-    m_Prompt_version_id = value;
-    m_Prompt_version_idIsSet = true;
+    m_PromptVersionId = value;
+    m_PromptVersionIdIsSet = true;
 }
 
 bool EvalReproducibility::promptVersionIdIsSet() const
 {
-    return m_Prompt_version_idIsSet;
+    return m_PromptVersionIdIsSet;
 }
 
-void EvalReproducibility::unsetPrompt_version_id()
+void EvalReproducibility::unsetPromptVersionId()
 {
-    m_Prompt_version_idIsSet = false;
+    m_PromptVersionIdIsSet = false;
 }
 int32_t EvalReproducibility::getTraceSchemaVersion() const
 {
-    return m_Trace_schema_version;
+    return m_TraceSchemaVersion;
 }
 
 void EvalReproducibility::setTraceSchemaVersion(int32_t value)
 {
-    m_Trace_schema_version = value;
-    m_Trace_schema_versionIsSet = true;
+    m_TraceSchemaVersion = value;
+    m_TraceSchemaVersionIsSet = true;
 }
 
 bool EvalReproducibility::traceSchemaVersionIsSet() const
 {
-    return m_Trace_schema_versionIsSet;
+    return m_TraceSchemaVersionIsSet;
 }
 
-void EvalReproducibility::unsetTrace_schema_version()
+void EvalReproducibility::unsetTraceSchemaVersion()
 {
-    m_Trace_schema_versionIsSet = false;
+    m_TraceSchemaVersionIsSet = false;
 }
 utility::string_t EvalReproducibility::getWasiAbiVersion() const
 {
-    return m_Wasi_abi_version;
+    return m_WasiAbiVersion;
 }
 
 
 void EvalReproducibility::setWasiAbiVersion(const utility::string_t& value)
 {
-    m_Wasi_abi_version = value;
-    m_Wasi_abi_versionIsSet = true;
+    m_WasiAbiVersion = value;
+    m_WasiAbiVersionIsSet = true;
 }
 
 bool EvalReproducibility::wasiAbiVersionIsSet() const
 {
-    return m_Wasi_abi_versionIsSet;
+    return m_WasiAbiVersionIsSet;
 }
 
-void EvalReproducibility::unsetWasi_abi_version()
+void EvalReproducibility::unsetWasiAbiVersion()
 {
-    m_Wasi_abi_versionIsSet = false;
+    m_WasiAbiVersionIsSet = false;
 }
 utility::string_t EvalReproducibility::getWasmHash() const
 {
-    return m_Wasm_hash;
+    return m_WasmHash;
 }
 
 
 void EvalReproducibility::setWasmHash(const utility::string_t& value)
 {
-    m_Wasm_hash = value;
-    m_Wasm_hashIsSet = true;
+    m_WasmHash = value;
+    m_WasmHashIsSet = true;
 }
 
 bool EvalReproducibility::wasmHashIsSet() const
 {
-    return m_Wasm_hashIsSet;
+    return m_WasmHashIsSet;
 }
 
-void EvalReproducibility::unsetWasm_hash()
+void EvalReproducibility::unsetWasmHash()
 {
-    m_Wasm_hashIsSet = false;
+    m_WasmHashIsSet = false;
 }
 
 }

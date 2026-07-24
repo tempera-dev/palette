@@ -43,7 +43,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvaluatorKindOneOf7 {
-  public static final String JSON_PROPERTY_DOM_CONTAINS = "dom_contains";
+  public static final String JSON_PROPERTY_DOM_CONTAINS = "domContains";
   private JsonNullable<String> domContains = JsonNullable.<String>undefined();
 
   /**
@@ -83,7 +83,7 @@ public class EvaluatorKindOneOf7 {
   @javax.annotation.Nonnull
   private TypeEnum type;
 
-  public static final String JSON_PROPERTY_URL_CONTAINS = "url_contains";
+  public static final String JSON_PROPERTY_URL_CONTAINS = "urlContains";
   private JsonNullable<String> urlContains = JsonNullable.<String>undefined();
 
   public EvaluatorKindOneOf7() { 
@@ -264,9 +264,9 @@ public class EvaluatorKindOneOf7 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dom_contains` to the URL query string
+    // add `domContains` to the URL query string
     if (getDomContains() != null) {
-      joiner.add(String.format("%sdom_contains%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDomContains()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdomContains%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDomContains()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `type` to the URL query string
@@ -274,9 +274,9 @@ public class EvaluatorKindOneOf7 {
       joiner.add(String.format("%stype%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `url_contains` to the URL query string
+    // add `urlContains` to the URL query string
     if (getUrlContains() != null) {
-      joiner.add(String.format("%surl_contains%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUrlContains()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%surlContains%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUrlContains()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

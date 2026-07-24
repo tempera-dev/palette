@@ -78,7 +78,7 @@ cJSON *create_scenario_request_convertToJSON(create_scenario_request_t *create_s
 
     // create_scenario_request->exemplar_trace_id
     if(create_scenario_request->exemplar_trace_id) {
-    if(cJSON_AddStringToObject(item, "exemplar_trace_id", create_scenario_request->exemplar_trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "exemplarTraceId", create_scenario_request->exemplar_trace_id) == NULL) {
     goto fail; //String
     }
     }
@@ -86,7 +86,7 @@ cJSON *create_scenario_request_convertToJSON(create_scenario_request_t *create_s
 
     // create_scenario_request->expected_outcome
     if(create_scenario_request->expected_outcome) {
-    if(cJSON_AddStringToObject(item, "expected_outcome", create_scenario_request->expected_outcome) == NULL) {
+    if(cJSON_AddStringToObject(item, "expectedOutcome", create_scenario_request->expected_outcome) == NULL) {
     goto fail; //String
     }
     }
@@ -98,7 +98,7 @@ cJSON *create_scenario_request_convertToJSON(create_scenario_request_t *create_s
     if(failure_mode_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "failure_mode", failure_mode_local_JSON);
+    cJSON_AddItemToObject(item, "failureMode", failure_mode_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -109,7 +109,7 @@ cJSON *create_scenario_request_convertToJSON(create_scenario_request_t *create_s
     if (!create_scenario_request->source_trace_ids) {
         goto fail;
     }
-    cJSON *source_trace_ids = cJSON_AddArrayToObject(item, "source_trace_ids");
+    cJSON *source_trace_ids = cJSON_AddArrayToObject(item, "sourceTraceIds");
     if(source_trace_ids == NULL) {
         goto fail; //primitive container
     }
@@ -150,7 +150,7 @@ create_scenario_request_t *create_scenario_request_parseFromJSON(cJSON *create_s
     list_t *source_trace_idsList = NULL;
 
     // create_scenario_request->exemplar_trace_id
-    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "exemplar_trace_id");
+    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "exemplarTraceId");
     if (cJSON_IsNull(exemplar_trace_id)) {
         exemplar_trace_id = NULL;
     }
@@ -162,7 +162,7 @@ create_scenario_request_t *create_scenario_request_parseFromJSON(cJSON *create_s
     }
 
     // create_scenario_request->expected_outcome
-    cJSON *expected_outcome = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "expected_outcome");
+    cJSON *expected_outcome = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "expectedOutcome");
     if (cJSON_IsNull(expected_outcome)) {
         expected_outcome = NULL;
     }
@@ -174,7 +174,7 @@ create_scenario_request_t *create_scenario_request_parseFromJSON(cJSON *create_s
     }
 
     // create_scenario_request->failure_mode
-    cJSON *failure_mode = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "failure_mode");
+    cJSON *failure_mode = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "failureMode");
     if (cJSON_IsNull(failure_mode)) {
         failure_mode = NULL;
     }
@@ -183,7 +183,7 @@ create_scenario_request_t *create_scenario_request_parseFromJSON(cJSON *create_s
     }
 
     // create_scenario_request->source_trace_ids
-    cJSON *source_trace_ids = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "source_trace_ids");
+    cJSON *source_trace_ids = cJSON_GetObjectItemCaseSensitive(create_scenario_requestJSON, "sourceTraceIds");
     if (cJSON_IsNull(source_trace_ids)) {
         source_trace_ids = NULL;
     }

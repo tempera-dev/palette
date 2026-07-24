@@ -48,7 +48,7 @@ pub enum OnlinePeriodDecideSamplingError {
 
 pub async fn online_period_decide_sampling(configuration: &configuration::Configuration, params: OnlinePeriodDecideSamplingParams) -> Result<models::SamplingDecision, Error<OnlinePeriodDecideSamplingError>> {
 
-    let uri_str = format!("{}/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), trace_id=crate::apis::urlencode(params.trace_id));
+    let uri_str = format!("{}/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), traceId=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

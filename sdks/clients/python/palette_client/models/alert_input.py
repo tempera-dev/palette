@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from palette_client.models.alert_links import AlertLinks
 from typing import Optional, Set
@@ -28,16 +28,16 @@ class AlertInput(BaseModel):
     """
     AlertInput
     """ # noqa: E501
-    baseline_score: Optional[Union[StrictFloat, StrictInt]] = None
-    group_key: StrictStr
+    baseline_score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="baselineScore")
+    group_key: StrictStr = Field(alias="groupKey")
     links: AlertLinks
     now: datetime
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     score: Union[StrictFloat, StrictInt]
-    tenant_id: StrictStr
+    tenant_id: StrictStr = Field(alias="tenantId")
     title: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["baseline_score", "group_key", "links", "now", "project_id", "score", "tenant_id", "title", "trace_id"]
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["baselineScore", "groupKey", "links", "now", "projectId", "score", "tenantId", "title", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +84,7 @@ class AlertInput(BaseModel):
         # set to None if baseline_score (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_score is None and "baseline_score" in self.model_fields_set:
-            _dict['baseline_score'] = None
+            _dict['baselineScore'] = None
 
         return _dict
 
@@ -98,15 +98,15 @@ class AlertInput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "baseline_score": obj.get("baseline_score"),
-            "group_key": obj.get("group_key"),
+            "baselineScore": obj.get("baselineScore"),
+            "groupKey": obj.get("groupKey"),
             "links": AlertLinks.from_dict(obj["links"]) if obj.get("links") is not None else None,
             "now": obj.get("now"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "score": obj.get("score"),
-            "tenant_id": obj.get("tenant_id"),
+            "tenantId": obj.get("tenantId"),
             "title": obj.get("title"),
-            "trace_id": obj.get("trace_id")
+            "traceId": obj.get("traceId")
         })
         return _obj
 

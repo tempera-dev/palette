@@ -58,7 +58,7 @@ export function CaseOutputOverrideRequestFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'caseId': json['case_id'],
+        'caseId': json['caseId'],
         'output': json['output'],
         'trace': json['trace'] == null ? undefined : json['trace'],
     };
@@ -75,7 +75,7 @@ export function CaseOutputOverrideRequestToJSONTyped(value?: CaseOutputOverrideR
 
     return {
         
-        'case_id': value['caseId'],
+        'caseId': value['caseId'],
         'output': value['output'],
         'trace': value['trace'],
     };

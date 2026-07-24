@@ -23,25 +23,25 @@ var _ MappedNullable = &NativeIngestRequest{}
 // NativeIngestRequest struct for NativeIngestRequest
 type NativeIngestRequest struct {
 	Attributes map[string]interface{} `json:"attributes"`
-	AuthContext NullableAuthContext `json:"auth_context,omitempty"`
+	AuthContext NullableAuthContext `json:"authContext,omitempty"`
 	Cost NullableMoney `json:"cost,omitempty"`
-	EndTime NullableTime `json:"end_time,omitempty"`
-	IdempotencyKey *string `json:"idempotency_key,omitempty"`
+	EndTime NullableTime `json:"endTime,omitempty"`
+	IdempotencyKey *string `json:"idempotencyKey,omitempty"`
 	Input interface{} `json:"input,omitempty"`
 	// Canonical agent span kind such as agent.run or llm.call
 	Kind string `json:"kind"`
 	Model NullableModelRef `json:"model,omitempty"`
 	Name string `json:"name"`
 	Output interface{} `json:"output,omitempty"`
-	ParentSpanId *string `json:"parent_span_id,omitempty"`
-	RedactionClass RedactionClass `json:"redaction_class"`
+	ParentSpanId *string `json:"parentSpanId,omitempty"`
+	RedactionClass RedactionClass `json:"redactionClass"`
 	Scope TenantScope `json:"scope"`
 	Seq int64 `json:"seq"`
-	SpanId string `json:"span_id"`
-	StartTime NullableTime `json:"start_time,omitempty"`
+	SpanId string `json:"spanId"`
+	StartTime NullableTime `json:"startTime,omitempty"`
 	Status SpanStatus `json:"status"`
 	Tokens NullableTokenCounts `json:"tokens,omitempty"`
-	TraceId string `json:"trace_id"`
+	TraceId string `json:"traceId"`
 }
 
 type _NativeIngestRequest NativeIngestRequest
@@ -682,16 +682,16 @@ func (o NativeIngestRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["attributes"] = o.Attributes
 	if o.AuthContext.IsSet() {
-		toSerialize["auth_context"] = o.AuthContext.Get()
+		toSerialize["authContext"] = o.AuthContext.Get()
 	}
 	if o.Cost.IsSet() {
 		toSerialize["cost"] = o.Cost.Get()
 	}
 	if o.EndTime.IsSet() {
-		toSerialize["end_time"] = o.EndTime.Get()
+		toSerialize["endTime"] = o.EndTime.Get()
 	}
 	if !IsNil(o.IdempotencyKey) {
-		toSerialize["idempotency_key"] = o.IdempotencyKey
+		toSerialize["idempotencyKey"] = o.IdempotencyKey
 	}
 	if o.Input != nil {
 		toSerialize["input"] = o.Input
@@ -705,20 +705,20 @@ func (o NativeIngestRequest) ToMap() (map[string]interface{}, error) {
 		toSerialize["output"] = o.Output
 	}
 	if !IsNil(o.ParentSpanId) {
-		toSerialize["parent_span_id"] = o.ParentSpanId
+		toSerialize["parentSpanId"] = o.ParentSpanId
 	}
-	toSerialize["redaction_class"] = o.RedactionClass
+	toSerialize["redactionClass"] = o.RedactionClass
 	toSerialize["scope"] = o.Scope
 	toSerialize["seq"] = o.Seq
-	toSerialize["span_id"] = o.SpanId
+	toSerialize["spanId"] = o.SpanId
 	if o.StartTime.IsSet() {
-		toSerialize["start_time"] = o.StartTime.Get()
+		toSerialize["startTime"] = o.StartTime.Get()
 	}
 	toSerialize["status"] = o.Status
 	if o.Tokens.IsSet() {
 		toSerialize["tokens"] = o.Tokens.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -730,12 +730,12 @@ func (o *NativeIngestRequest) UnmarshalJSON(data []byte) (err error) {
 		"attributes",
 		"kind",
 		"name",
-		"redaction_class",
+		"redactionClass",
 		"scope",
 		"seq",
-		"span_id",
+		"spanId",
 		"status",
-		"trace_id",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

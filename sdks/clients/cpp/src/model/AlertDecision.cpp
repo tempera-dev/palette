@@ -23,8 +23,8 @@ AlertDecision::AlertDecision()
     m_DeliveryIsSet = false;
     m_Emitted = false;
     m_EmittedIsSet = false;
-    m_Suppressed_reason = utility::conversions::to_string_t("");
-    m_Suppressed_reasonIsSet = false;
+    m_SuppressedReason = utility::conversions::to_string_t("");
+    m_SuppressedReasonIsSet = false;
 }
 
 AlertDecision::~AlertDecision()
@@ -49,10 +49,10 @@ web::json::value AlertDecision::toJson() const
         
         val[utility::conversions::to_string_t(U("emitted"))] = ModelBase::toJson(m_Emitted);
     }
-    if(m_Suppressed_reasonIsSet)
+    if(m_SuppressedReasonIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("suppressed_reason"))] = ModelBase::toJson(m_Suppressed_reason);
+        val[utility::conversions::to_string_t(U("suppressedReason"))] = ModelBase::toJson(m_SuppressedReason);
     }
 
     return val;
@@ -83,9 +83,9 @@ bool AlertDecision::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("suppressed_reason"))))
+    if(val.has_field(utility::conversions::to_string_t(U("suppressedReason"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suppressed_reason")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("suppressedReason")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSuppressedReason;
@@ -112,9 +112,9 @@ void AlertDecision::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("emitted")), m_Emitted));
     }
-    if(m_Suppressed_reasonIsSet)
+    if(m_SuppressedReasonIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suppressed_reason")), m_Suppressed_reason));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("suppressedReason")), m_SuppressedReason));
     }
 }
 
@@ -139,10 +139,10 @@ bool AlertDecision::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("emitted"))), refVal_setEmitted );
         setEmitted(refVal_setEmitted);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("suppressed_reason"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("suppressedReason"))))
     {
         utility::string_t refVal_setSuppressedReason;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suppressed_reason"))), refVal_setSuppressedReason );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("suppressedReason"))), refVal_setSuppressedReason );
         setSuppressedReason(refVal_setSuppressedReason);
     }
     return ok;
@@ -192,24 +192,24 @@ void AlertDecision::unsetEmitted()
 }
 utility::string_t AlertDecision::getSuppressedReason() const
 {
-    return m_Suppressed_reason;
+    return m_SuppressedReason;
 }
 
 
 void AlertDecision::setSuppressedReason(const utility::string_t& value)
 {
-    m_Suppressed_reason = value;
-    m_Suppressed_reasonIsSet = true;
+    m_SuppressedReason = value;
+    m_SuppressedReasonIsSet = true;
 }
 
 bool AlertDecision::suppressedReasonIsSet() const
 {
-    return m_Suppressed_reasonIsSet;
+    return m_SuppressedReasonIsSet;
 }
 
-void AlertDecision::unsetSuppressed_reason()
+void AlertDecision::unsetSuppressedReason()
 {
-    m_Suppressed_reasonIsSet = false;
+    m_SuppressedReasonIsSet = false;
 }
 
 }

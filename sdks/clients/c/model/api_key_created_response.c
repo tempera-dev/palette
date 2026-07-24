@@ -130,7 +130,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     if (!api_key_created_response->api_key_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "api_key_id", api_key_created_response->api_key_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "apiKeyId", api_key_created_response->api_key_id) == NULL) {
     goto fail; //String
     }
 
@@ -139,7 +139,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     if (!api_key_created_response->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", api_key_created_response->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", api_key_created_response->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -148,7 +148,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     if (!api_key_created_response->environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "environment_id", api_key_created_response->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", api_key_created_response->environment_id) == NULL) {
     goto fail; //String
     }
 
@@ -157,7 +157,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     if (!api_key_created_response->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", api_key_created_response->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", api_key_created_response->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -196,7 +196,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     if (!api_key_created_response->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", api_key_created_response->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", api_key_created_response->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -231,7 +231,7 @@ api_key_created_response_t *api_key_created_response_parseFromJSON(cJSON *api_ke
     }
 
     // api_key_created_response->api_key_id
-    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "api_key_id");
+    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "apiKeyId");
     if (cJSON_IsNull(api_key_id)) {
         api_key_id = NULL;
     }
@@ -246,7 +246,7 @@ api_key_created_response_t *api_key_created_response_parseFromJSON(cJSON *api_ke
     }
 
     // api_key_created_response->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -261,7 +261,7 @@ api_key_created_response_t *api_key_created_response_parseFromJSON(cJSON *api_ke
     }
 
     // api_key_created_response->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -276,7 +276,7 @@ api_key_created_response_t *api_key_created_response_parseFromJSON(cJSON *api_ke
     }
 
     // api_key_created_response->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -333,7 +333,7 @@ api_key_created_response_t *api_key_created_response_parseFromJSON(cJSON *api_ke
     }
 
     // api_key_created_response->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(api_key_created_responseJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

@@ -39,7 +39,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class SpanIoValueOneOf1 {
-  public static final String JSON_PROPERTY_ARTIFACT_REF = "artifact_ref";
+  public static final String JSON_PROPERTY_ARTIFACT_REF = "artifactRef";
   @javax.annotation.Nonnull
   private ArtifactRef artifactRef;
 
@@ -205,9 +205,9 @@ public class SpanIoValueOneOf1 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `artifact_ref` to the URL query string
+    // add `artifactRef` to the URL query string
     if (getArtifactRef() != null) {
-      joiner.add(getArtifactRef().toUrlQueryString(prefix + "artifact_ref" + suffix));
+      joiner.add(getArtifactRef().toUrlQueryString(prefix + "artifactRef" + suffix));
     }
 
     // add `kind` to the URL query string

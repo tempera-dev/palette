@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 pub struct WebhookDelivery {
     #[serde(rename = "body", deserialize_with = "Option::deserialize")]
     pub body: Option<serde_json::Value>,
-    #[serde(rename = "endpoint_url")]
+    #[serde(rename = "endpointUrl")]
     pub endpoint_url: String,
     #[serde(rename = "headers")]
     pub headers: std::collections::HashMap<String, String>,

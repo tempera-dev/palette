@@ -103,12 +103,12 @@ export function PromptVersionFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'metadata': PromptVersionMetadataFromJSON(json['metadata']),
-        'projectId': json['project_id'],
-        'promptId': json['prompt_id'],
+        'projectId': json['projectId'],
+        'promptId': json['promptId'],
         'template': PromptTemplateFromJSON(json['template']),
-        'tenantId': json['tenant_id'],
-        'versionId': json['version_id'],
-        'versionNumber': json['version_number'],
+        'tenantId': json['tenantId'],
+        'versionId': json['versionId'],
+        'versionNumber': json['versionNumber'],
     };
 }
 
@@ -124,12 +124,12 @@ export function PromptVersionToJSONTyped(value?: PromptVersion | null, ignoreDis
     return {
         
         'metadata': PromptVersionMetadataToJSON(value['metadata']),
-        'project_id': value['projectId'],
-        'prompt_id': value['promptId'],
+        'projectId': value['projectId'],
+        'promptId': value['promptId'],
         'template': PromptTemplateToJSON(value['template']),
-        'tenant_id': value['tenantId'],
-        'version_id': value['versionId'],
-        'version_number': value['versionNumber'],
+        'tenantId': value['tenantId'],
+        'versionId': value['versionId'],
+        'versionNumber': value['versionNumber'],
     };
 }
 

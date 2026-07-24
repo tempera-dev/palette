@@ -65,22 +65,22 @@ public:
 
     std::shared_ptr<Money> getChargedCost() const;
     bool chargedCostIsSet() const;
-    void unsetCharged_cost();
+    void unsetChargedCost();
     void setChargedCost(const std::shared_ptr<Money>& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getEvaluatorId() const;
     bool evaluatorIdIsSet() const;
-    void unsetEvaluator_id();
+    void unsetEvaluatorId();
     void setEvaluatorId(const utility::string_t& value);
 
     utility::string_t getJudgeCallId() const;
     bool judgeCallIdIsSet() const;
-    void unsetJudge_call_id();
+    void unsetJudgeCallId();
     void setJudgeCallId(const utility::string_t& value);
 
     utility::string_t getModel() const;
@@ -90,17 +90,17 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getRequestHash() const;
     bool requestHashIsSet() const;
-    void unsetRequest_hash();
+    void unsetRequestHash();
     void setRequestHash(const utility::string_t& value);
 
     utility::string_t getResponseHash() const;
     bool responseHashIsSet() const;
-    void unsetResponse_hash();
+    void unsetResponseHash();
     void setResponseHash(const utility::string_t& value);
 
     double getScore() const;
@@ -110,7 +110,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -118,35 +118,35 @@ protected:
     bool m_Cached;
     bool m_CachedIsSet;
 
-    std::shared_ptr<Money> m_Charged_cost;
-    bool m_Charged_costIsSet;
+    std::shared_ptr<Money> m_ChargedCost;
+    bool m_ChargedCostIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Evaluator_id;
-    bool m_Evaluator_idIsSet;
+    utility::string_t m_EvaluatorId;
+    bool m_EvaluatorIdIsSet;
 
-    utility::string_t m_Judge_call_id;
-    bool m_Judge_call_idIsSet;
+    utility::string_t m_JudgeCallId;
+    bool m_JudgeCallIdIsSet;
 
     utility::string_t m_Model;
     bool m_ModelIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Request_hash;
-    bool m_Request_hashIsSet;
+    utility::string_t m_RequestHash;
+    bool m_RequestHashIsSet;
 
-    utility::string_t m_Response_hash;
-    bool m_Response_hashIsSet;
+    utility::string_t m_ResponseHash;
+    bool m_ResponseHashIsSet;
 
     double m_Score;
     bool m_ScoreIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

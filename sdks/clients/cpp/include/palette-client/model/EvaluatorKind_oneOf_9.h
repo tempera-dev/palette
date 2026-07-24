@@ -68,7 +68,7 @@ public:
 
     double getMinRatio() const;
     bool minRatioIsSet() const;
-    void unsetMin_ratio();
+    void unsetMinRatio();
     void setMinRatio(double value);
 
     TypeEnum getType() const;
@@ -78,8 +78,8 @@ public:
 
 
 protected:
-    double m_Min_ratio;
-    bool m_Min_ratioIsSet;
+    double m_MinRatio;
+    bool m_MinRatioIsSet;
 
     TypeEnum m_Type;
     bool m_TypeIsSet;

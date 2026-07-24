@@ -19,11 +19,11 @@ var _ MappedNullable = &TemperaEvidenceSummary{}
 
 // TemperaEvidenceSummary struct for TemperaEvidenceSummary
 type TemperaEvidenceSummary struct {
-	ExperimentId NullableString `json:"experiment_id,omitempty"`
-	RunId NullableString `json:"run_id,omitempty"`
+	ExperimentId NullableString `json:"experimentId,omitempty"`
+	RunId NullableString `json:"runId,omitempty"`
 	Split NullableString `json:"split,omitempty"`
-	SuiteId NullableString `json:"suite_id,omitempty"`
-	SuiteVersion NullableString `json:"suite_version,omitempty"`
+	SuiteId NullableString `json:"suiteId,omitempty"`
+	SuiteVersion NullableString `json:"suiteVersion,omitempty"`
 	Verdict NullableString `json:"verdict,omitempty"`
 }
 
@@ -307,19 +307,19 @@ func (o TemperaEvidenceSummary) MarshalJSON() ([]byte, error) {
 func (o TemperaEvidenceSummary) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ExperimentId.IsSet() {
-		toSerialize["experiment_id"] = o.ExperimentId.Get()
+		toSerialize["experimentId"] = o.ExperimentId.Get()
 	}
 	if o.RunId.IsSet() {
-		toSerialize["run_id"] = o.RunId.Get()
+		toSerialize["runId"] = o.RunId.Get()
 	}
 	if o.Split.IsSet() {
 		toSerialize["split"] = o.Split.Get()
 	}
 	if o.SuiteId.IsSet() {
-		toSerialize["suite_id"] = o.SuiteId.Get()
+		toSerialize["suiteId"] = o.SuiteId.Get()
 	}
 	if o.SuiteVersion.IsSet() {
-		toSerialize["suite_version"] = o.SuiteVersion.Get()
+		toSerialize["suiteVersion"] = o.SuiteVersion.Get()
 	}
 	if o.Verdict.IsSet() {
 		toSerialize["verdict"] = o.Verdict.Get()

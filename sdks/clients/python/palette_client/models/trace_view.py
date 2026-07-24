@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.canonical_span import CanonicalSpan
 from typing import Optional, Set
@@ -28,9 +28,9 @@ class TraceView(BaseModel):
     TraceView
     """ # noqa: E501
     spans: List[CanonicalSpan]
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["spans", "tenant_id", "trace_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["spans", "tenantId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,8 +91,8 @@ class TraceView(BaseModel):
 
         _obj = cls.model_validate({
             "spans": [CanonicalSpan.from_dict(_item) for _item in obj["spans"]] if obj.get("spans") is not None else None,
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id")
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

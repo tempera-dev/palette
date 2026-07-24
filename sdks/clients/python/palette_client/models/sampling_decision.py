@@ -30,8 +30,8 @@ class SamplingDecision(BaseModel):
     """ # noqa: E501
     reason: SamplingReason
     selected: StrictBool
-    stable_score_per_mille: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["reason", "selected", "stable_score_per_mille"]
+    stable_score_per_mille: Annotated[int, Field(strict=True, ge=0)] = Field(alias="stableScorePerMille")
+    __properties: ClassVar[List[str]] = ["reason", "selected", "stableScorePerMille"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +86,7 @@ class SamplingDecision(BaseModel):
         _obj = cls.model_validate({
             "reason": obj.get("reason"),
             "selected": obj.get("selected"),
-            "stable_score_per_mille": obj.get("stable_score_per_mille")
+            "stableScorePerMille": obj.get("stableScorePerMille")
         })
         return _obj
 

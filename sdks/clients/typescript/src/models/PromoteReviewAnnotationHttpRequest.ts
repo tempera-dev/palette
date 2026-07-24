@@ -51,7 +51,7 @@ export function PromoteReviewAnnotationHttpRequestFromJSONTyped(json: any, ignor
     }
     return {
         
-        'datasetId': json['dataset_id'],
+        'datasetId': json['datasetId'],
         'reference': json['reference'] == null ? undefined : json['reference'],
     };
 }
@@ -67,7 +67,7 @@ export function PromoteReviewAnnotationHttpRequestToJSONTyped(value?: PromoteRev
 
     return {
         
-        'dataset_id': value['datasetId'],
+        'datasetId': value['datasetId'],
         'reference': value['reference'],
     };
 }

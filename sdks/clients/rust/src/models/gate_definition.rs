@@ -13,21 +13,21 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GateDefinition {
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetId", skip_serializing_if = "Option::is_none")]
     pub dataset_id: Option<String>,
-    #[serde(rename = "evaluator_version_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "evaluatorVersionId", skip_serializing_if = "Option::is_none")]
     pub evaluator_version_id: Option<String>,
-    #[serde(rename = "gate_id")]
+    #[serde(rename = "gateId")]
     pub gate_id: String,
-    #[serde(rename = "inconclusive_policy", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inconclusivePolicy", skip_serializing_if = "Option::is_none")]
     pub inconclusive_policy: Option<models::InconclusivePolicy>,
     #[serde(rename = "name")]
     pub name: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

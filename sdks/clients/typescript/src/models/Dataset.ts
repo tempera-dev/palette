@@ -73,11 +73,11 @@ export function DatasetFromJSONTyped(json: any, ignoreDiscriminator: boolean): D
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'],
         'name': json['name'],
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -92,11 +92,11 @@ export function DatasetToJSONTyped(value?: Dataset | null, ignoreDiscriminator: 
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
         'name': value['name'],
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
     };
 }
 

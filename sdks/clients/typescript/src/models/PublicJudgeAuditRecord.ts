@@ -128,16 +128,16 @@ export function PublicJudgeAuditRecordFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'cached': json['cached'],
-        'chargedCost': MoneyFromJSON(json['charged_cost']),
-        'createdAt': (new Date(json['created_at'])),
-        'evaluatorId': json['evaluator_id'],
-        'judgeCallId': json['judge_call_id'],
+        'chargedCost': MoneyFromJSON(json['chargedCost']),
+        'createdAt': (new Date(json['createdAt'])),
+        'evaluatorId': json['evaluatorId'],
+        'judgeCallId': json['judgeCallId'],
         'model': json['model'],
-        'projectId': json['project_id'],
-        'requestHash': json['request_hash'],
-        'responseHash': json['response_hash'],
+        'projectId': json['projectId'],
+        'requestHash': json['requestHash'],
+        'responseHash': json['responseHash'],
         'score': json['score'],
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -153,16 +153,16 @@ export function PublicJudgeAuditRecordToJSONTyped(value?: PublicJudgeAuditRecord
     return {
         
         'cached': value['cached'],
-        'charged_cost': MoneyToJSON(value['chargedCost']),
-        'created_at': ((value['createdAt']).toISOString()),
-        'evaluator_id': value['evaluatorId'],
-        'judge_call_id': value['judgeCallId'],
+        'chargedCost': MoneyToJSON(value['chargedCost']),
+        'createdAt': ((value['createdAt']).toISOString()),
+        'evaluatorId': value['evaluatorId'],
+        'judgeCallId': value['judgeCallId'],
         'model': value['model'],
-        'project_id': value['projectId'],
-        'request_hash': value['requestHash'],
-        'response_hash': value['responseHash'],
+        'projectId': value['projectId'],
+        'requestHash': value['requestHash'],
+        'responseHash': value['responseHash'],
         'score': value['score'],
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
     };
 }
 

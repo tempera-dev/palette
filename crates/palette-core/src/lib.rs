@@ -148,6 +148,7 @@ id_type!(IdempotencyKey);
 id_type!(Sha256Hash);
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TenantScope {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -193,6 +194,7 @@ pub enum MoneyError {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct Money {
     pub amount_micros: i64,
     pub currency: Currency,
@@ -241,6 +243,7 @@ impl Money {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TokenCounts {
     pub input: u64,
     pub output: u64,

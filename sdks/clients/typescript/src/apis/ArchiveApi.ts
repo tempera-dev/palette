@@ -104,7 +104,7 @@ export class ArchiveApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/archive/{tenant_id}/{project_id}/{trace_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))),
+            path: `/v1/archive/{tenantId}/{projectId}/{traceId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -140,15 +140,15 @@ export class ArchiveApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters['environmentId'] != null) {
-            queryParameters['environment_id'] = requestParameters['environmentId'];
+            queryParameters['environmentId'] = requestParameters['environmentId'];
         }
 
         if (requestParameters['traceId'] != null) {
-            queryParameters['trace_id'] = requestParameters['traceId'];
+            queryParameters['traceId'] = requestParameters['traceId'];
         }
 
         if (requestParameters['spanId'] != null) {
-            queryParameters['span_id'] = requestParameters['spanId'];
+            queryParameters['spanId'] = requestParameters['spanId'];
         }
 
         if (requestParameters['kind'] != null) {
@@ -186,7 +186,7 @@ export class ArchiveApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/archive/{tenant_id}/{project_id}/spans`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/archive/{tenantId}/{projectId}/spans`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

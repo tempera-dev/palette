@@ -959,8 +959,8 @@ async fn call_tool(
     // When the tool schema already carries project/environment arguments, use
     // those as the scoped auth context unless explicit headers were supplied.
     for (header_name, argument_name) in [
-        ("x-palette-project-id", "project_id"),
-        ("x-palette-environment-id", "environment_id"),
+        ("x-palette-project-id", "projectId"),
+        ("x-palette-environment-id", "environmentId"),
     ] {
         if let Some(value) = headers.get(header_name) {
             builder = builder.header(header_name, value);

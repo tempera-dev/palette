@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connectors_connect**](ConnectorsApi.md#connectors_connect) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |
-[**connectors_get_skills**](ConnectorsApi.md#connectors_get_skills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |
-[**connectors_invoke_tool**](ConnectorsApi.md#connectors_invoke_tool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |
-[**connectors_list**](ConnectorsApi.md#connectors_list) | **GET** /v1/connectors/{tenant_id}/{project_id} |
-[**connectors_list_tools**](ConnectorsApi.md#connectors_list_tools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |
-[**connectors_status**](ConnectorsApi.md#connectors_status) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |
+[**connectors_connect**](ConnectorsApi.md#connectors_connect) | **POST** /v1/connectors/{tenantId}/{projectId}/connect |
+[**connectors_get_skills**](ConnectorsApi.md#connectors_get_skills) | **GET** /v1/connectors/{tenantId}/{projectId}/skills |
+[**connectors_invoke_tool**](ConnectorsApi.md#connectors_invoke_tool) | **POST** /v1/connectors/{tenantId}/{projectId}/invoke |
+[**connectors_list**](ConnectorsApi.md#connectors_list) | **GET** /v1/connectors/{tenantId}/{projectId} |
+[**connectors_list_tools**](ConnectorsApi.md#connectors_list_tools) | **GET** /v1/connectors/{tenantId}/{projectId}/tools |
+[**connectors_status**](ConnectorsApi.md#connectors_status) | **GET** /v1/connectors/{tenantId}/{projectId}/status |
 
 
 # **connectors_connect**

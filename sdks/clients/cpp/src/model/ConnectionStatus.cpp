@@ -22,8 +22,8 @@ ConnectionStatus::ConnectionStatus()
 {
     m_Connected = false;
     m_ConnectedIsSet = false;
-    m_Connected_account_id = utility::conversions::to_string_t("");
-    m_Connected_account_idIsSet = false;
+    m_ConnectedAccountId = utility::conversions::to_string_t("");
+    m_ConnectedAccountIdIsSet = false;
     m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
     m_Toolkit = utility::conversions::to_string_t("");
@@ -47,10 +47,10 @@ web::json::value ConnectionStatus::toJson() const
         
         val[utility::conversions::to_string_t(U("connected"))] = ModelBase::toJson(m_Connected);
     }
-    if(m_Connected_account_idIsSet)
+    if(m_ConnectedAccountIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("connected_account_id"))] = ModelBase::toJson(m_Connected_account_id);
+        val[utility::conversions::to_string_t(U("connectedAccountId"))] = ModelBase::toJson(m_ConnectedAccountId);
     }
     if(m_StatusIsSet)
     {   
@@ -80,9 +80,9 @@ bool ConnectionStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("connected_account_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("connectedAccountId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("connected_account_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("connectedAccountId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setConnectedAccountId;
@@ -127,9 +127,9 @@ void ConnectionStatus::toMultipart(std::shared_ptr<MultipartFormData> multipart,
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("connected")), m_Connected));
     }
-    if(m_Connected_account_idIsSet)
+    if(m_ConnectedAccountIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("connected_account_id")), m_Connected_account_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("connectedAccountId")), m_ConnectedAccountId));
     }
     if(m_StatusIsSet)
     {
@@ -156,10 +156,10 @@ bool ConnectionStatus::fromMultiPart(std::shared_ptr<MultipartFormData> multipar
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("connected"))), refVal_setConnected );
         setConnected(refVal_setConnected);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("connected_account_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("connectedAccountId"))))
     {
         utility::string_t refVal_setConnectedAccountId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("connected_account_id"))), refVal_setConnectedAccountId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("connectedAccountId"))), refVal_setConnectedAccountId );
         setConnectedAccountId(refVal_setConnectedAccountId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -200,24 +200,24 @@ void ConnectionStatus::unsetConnected()
 }
 utility::string_t ConnectionStatus::getConnectedAccountId() const
 {
-    return m_Connected_account_id;
+    return m_ConnectedAccountId;
 }
 
 
 void ConnectionStatus::setConnectedAccountId(const utility::string_t& value)
 {
-    m_Connected_account_id = value;
-    m_Connected_account_idIsSet = true;
+    m_ConnectedAccountId = value;
+    m_ConnectedAccountIdIsSet = true;
 }
 
 bool ConnectionStatus::connectedAccountIdIsSet() const
 {
-    return m_Connected_account_idIsSet;
+    return m_ConnectedAccountIdIsSet;
 }
 
-void ConnectionStatus::unsetConnected_account_id()
+void ConnectionStatus::unsetConnectedAccountId()
 {
-    m_Connected_account_idIsSet = false;
+    m_ConnectedAccountIdIsSet = false;
 }
 utility::string_t ConnectionStatus::getStatus() const
 {

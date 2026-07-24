@@ -120,9 +120,9 @@ async fn exact_tempera_evals_handoff_is_accepted_replay_safe_and_tenant_scoped()
     let first_receipt: Value = serde_json::from_slice(&first_body)
         .unwrap_or_else(|error| panic!("parse import receipt: {error}"));
     assert_eq!(first_receipt["created"], true);
-    assert_eq!(first_receipt["external_id"], external_id);
+    assert_eq!(first_receipt["externalId"], external_id);
     assert_eq!(
-        first_receipt["declared_content_sha256"],
+        first_receipt["declaredContentSha256"],
         evidence["declared_content_sha256"]
     );
 
@@ -145,7 +145,7 @@ async fn exact_tempera_evals_handoff_is_accepted_replay_safe_and_tenant_scoped()
     let replay_receipt: Value = serde_json::from_slice(&replay_body)
         .unwrap_or_else(|error| panic!("parse replay receipt: {error}"));
     assert_eq!(replay_receipt["created"], false);
-    assert_eq!(replay_receipt["stored_at"], first_receipt["stored_at"]);
+    assert_eq!(replay_receipt["storedAt"], first_receipt["storedAt"]);
 
     let receipt_path =
         format!("/v1/eval-results/tenant.alpha/project.coding/tempera/result_bundle/{external_id}");

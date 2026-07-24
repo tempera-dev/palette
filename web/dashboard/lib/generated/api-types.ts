@@ -20,7 +20,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook": {
+    "/v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook": {
         parameters: {
             query?: never;
             header?: never;
@@ -36,7 +36,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}": {
+    "/v1/api-keys/{tenantId}/{projectId}/{environmentId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -52,7 +52,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke": {
+    "/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke": {
         parameters: {
             query?: never;
             header?: never;
@@ -68,7 +68,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/archive/{tenant_id}/{project_id}/spans": {
+    "/v1/archive/{tenantId}/{projectId}/spans": {
         parameters: {
             query?: never;
             header?: never;
@@ -84,7 +84,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/archive/{tenant_id}/{project_id}/{trace_id}": {
+    "/v1/archive/{tenantId}/{projectId}/{traceId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -100,7 +100,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/audit/{tenant_id}/{project_id}": {
+    "/v1/audit/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -116,7 +116,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}": {
+    "/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connect/status/{tenant_id}/{project_id}": {
+    "/v1/connect/status/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -148,7 +148,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}": {
+    "/v1/connectors/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -164,7 +164,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}/connect": {
+    "/v1/connectors/{tenantId}/{projectId}/connect": {
         parameters: {
             query?: never;
             header?: never;
@@ -180,7 +180,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}/invoke": {
+    "/v1/connectors/{tenantId}/{projectId}/invoke": {
         parameters: {
             query?: never;
             header?: never;
@@ -196,7 +196,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}/skills": {
+    "/v1/connectors/{tenantId}/{projectId}/skills": {
         parameters: {
             query?: never;
             header?: never;
@@ -212,7 +212,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}/status": {
+    "/v1/connectors/{tenantId}/{projectId}/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -228,7 +228,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/connectors/{tenant_id}/{project_id}/tools": {
+    "/v1/connectors/{tenantId}/{projectId}/tools": {
         parameters: {
             query?: never;
             header?: never;
@@ -244,7 +244,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/datasets/{tenant_id}/{project_id}": {
+    "/v1/datasets/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -260,7 +260,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace": {
+    "/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace": {
         parameters: {
             query?: never;
             header?: never;
@@ -276,7 +276,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions": {
+    "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions": {
         parameters: {
             query?: never;
             header?: never;
@@ -292,7 +292,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic": {
+    "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic": {
         parameters: {
             query?: never;
             header?: never;
@@ -308,7 +308,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge": {
+    "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge": {
         parameters: {
             query?: never;
             header?: never;
@@ -324,7 +324,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles": {
+    "/v1/eval-results/{tenantId}/{projectId}/tempera/bundles": {
         parameters: {
             query?: never;
             header?: never;
@@ -340,7 +340,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions": {
+    "/v1/eval-results/{tenantId}/{projectId}/tempera/decisions": {
         parameters: {
             query?: never;
             header?: never;
@@ -356,7 +356,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}": {
+    "/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -372,7 +372,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic": {
+    "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic": {
         parameters: {
             query?: never;
             header?: never;
@@ -388,7 +388,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge": {
+    "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge": {
         parameters: {
             query?: never;
             header?: never;
@@ -404,7 +404,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/gates/{tenant_id}/{project_id}": {
+    "/v1/gates/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -420,7 +420,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/gates/{tenant_id}/{project_id}/{gate_id}/run": {
+    "/v1/gates/{tenantId}/{projectId}/{gateId}/run": {
         parameters: {
             query?: never;
             header?: never;
@@ -436,7 +436,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/import/{tenant_id}/{project_id}/{environment_id}": {
+    "/v1/import/{tenantId}/{projectId}/{environmentId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -452,7 +452,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay": {
+    "/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay": {
         parameters: {
             query?: never;
             header?: never;
@@ -468,7 +468,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ingest/{tenant_id}/{project_id}/queue": {
+    "/v1/ingest/{tenantId}/{projectId}/queue": {
         parameters: {
             query?: never;
             header?: never;
@@ -484,7 +484,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain": {
+    "/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain": {
         parameters: {
             query?: never;
             header?: never;
@@ -500,7 +500,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain": {
+    "/v1/ingest/{tenantId}/{projectId}/trace-writes/drain": {
         parameters: {
             query?: never;
             header?: never;
@@ -516,7 +516,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile": {
+    "/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile": {
         parameters: {
             query?: never;
             header?: never;
@@ -532,7 +532,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/judge/{tenant_id}/{project_id}/evaluate": {
+    "/v1/judge/{tenantId}/{projectId}/evaluate": {
         parameters: {
             query?: never;
             header?: never;
@@ -548,7 +548,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/judge/{tenant_id}/{project_id}/ledger": {
+    "/v1/judge/{tenantId}/{projectId}/ledger": {
         parameters: {
             query?: never;
             header?: never;
@@ -564,7 +564,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling": {
+    "/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling": {
         parameters: {
             query?: never;
             header?: never;
@@ -580,7 +580,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces": {
+    "/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces": {
         parameters: {
             query?: never;
             header?: never;
@@ -596,7 +596,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/prompts/{tenant_id}/{project_id}": {
+    "/v1/prompts/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -612,7 +612,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}": {
+    "/v1/prompts/{tenantId}/{projectId}/{promptId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -628,7 +628,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff": {
+    "/v1/prompts/{tenantId}/{projectId}/{promptId}/diff": {
         parameters: {
             query?: never;
             header?: never;
@@ -644,7 +644,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions": {
+    "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions": {
         parameters: {
             query?: never;
             header?: never;
@@ -660,7 +660,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/provider-secrets/{tenant_id}/{project_id}": {
+    "/v1/provider-secrets/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -676,7 +676,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke": {
+    "/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke": {
         parameters: {
             query?: never;
             header?: never;
@@ -692,7 +692,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/review-queues/{tenant_id}/{project_id}": {
+    "/v1/review-queues/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -708,7 +708,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks": {
+    "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks": {
         parameters: {
             query?: never;
             header?: never;
@@ -724,7 +724,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace": {
+    "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace": {
         parameters: {
             query?: never;
             header?: never;
@@ -740,7 +740,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations": {
+    "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations": {
         parameters: {
             query?: never;
             header?: never;
@@ -756,7 +756,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote": {
+    "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote": {
         parameters: {
             query?: never;
             header?: never;
@@ -772,7 +772,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/scenarios/{tenant_id}/{project_id}": {
+    "/v1/scenarios/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -788,7 +788,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/scenarios/{tenant_id}/{project_id}/mine": {
+    "/v1/scenarios/{tenantId}/{projectId}/mine": {
         parameters: {
             query?: never;
             header?: never;
@@ -804,7 +804,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}": {
+    "/v1/scenarios/{tenantId}/{projectId}/{scenarioId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -820,7 +820,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/search/{tenant_id}/spans": {
+    "/v1/search/{tenantId}/spans": {
         parameters: {
             query?: never;
             header?: never;
@@ -836,7 +836,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/spans/{tenant_id}/{trace_id}/{span_id}": {
+    "/v1/spans/{tenantId}/{traceId}/{spanId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -852,7 +852,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io": {
+    "/v1/spans/{tenantId}/{traceId}/{spanId}/io": {
         parameters: {
             query?: never;
             header?: never;
@@ -900,7 +900,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/traces/{tenant_id}": {
+    "/v1/traces/{tenantId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -916,7 +916,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/traces/{tenant_id}/{trace_id}": {
+    "/v1/traces/{tenantId}/{traceId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -932,7 +932,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/usage/{tenant_id}/{project_id}": {
+    "/v1/usage/{tenantId}/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -954,7 +954,7 @@ export interface components {
     schemas: {
         /** @description Request body for `addPromptVersion`: a new immutable template revision. */
         AddPromptVersionRequest: {
-            created_by?: string | null;
+            createdBy?: string | null;
             message?: string | null;
             template: components["schemas"]["PromptTemplate"];
         };
@@ -967,121 +967,121 @@ export interface components {
         AlertDecision: {
             delivery?: null | components["schemas"]["WebhookDelivery"];
             emitted: boolean;
-            suppressed_reason?: string | null;
+            suppressedReason?: string | null;
         };
         AlertInput: {
             /** Format: double */
-            baseline_score?: number | null;
-            group_key: string;
+            baselineScore?: number | null;
+            groupKey: string;
             links: components["schemas"]["AlertLinks"];
             /** Format: date-time */
             now: string;
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             /** Format: double */
             score: number;
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
             title: string;
-            trace_id: components["schemas"]["TraceId"];
+            traceId: components["schemas"]["TraceId"];
         };
         AlertLinks: {
-            cluster_url?: string | null;
-            dataset_url?: string | null;
-            gate_url?: string | null;
-            trace_url: string;
+            clusterUrl?: string | null;
+            datasetUrl?: string | null;
+            gateUrl?: string | null;
+            traceUrl: string;
         };
         AlertPolicy: {
             /** Format: int64 */
-            dedupe_window_seconds: number;
-            endpoint_url: string;
+            dedupeWindowSeconds: number;
+            endpointUrl: string;
             /** Format: double */
-            fire_when_score_at_or_below: number;
-            maintenance_windows: components["schemas"]["MaintenanceWindow"][];
-            policy_id: string;
+            fireWhenScoreAtOrBelow: number;
+            maintenanceWindows: components["schemas"]["MaintenanceWindow"][];
+            policyId: string;
             severity: components["schemas"]["AlertSeverity"];
-            signing_secret: string;
+            signingSecret: string;
         };
         /** @enum {string} */
         AlertSeverity: "info" | "warning" | "critical";
         AnnotationId: string;
         ApiKeyCreatedResponse: {
             active: boolean;
-            api_key_id: components["schemas"]["ApiKeyId"];
+            apiKeyId: components["schemas"]["ApiKeyId"];
             /** Format: date-time */
-            created_at: string;
-            environment_id: components["schemas"]["EnvironmentId"];
-            project_id: components["schemas"]["ProjectId"];
+            createdAt: string;
+            environmentId: components["schemas"]["EnvironmentId"];
+            projectId: components["schemas"]["ProjectId"];
             scopes: components["schemas"]["ApiScope"][];
             secret: string;
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         ApiKeyId: string;
         /** @enum {string} */
         ApiScope: "trace:write" | "trace:read" | "dataset:write" | "dataset:read" | "scenario:write" | "scenario:read" | "eval:run" | "pii:unmask" | "admin";
         ArchiveManifest: {
             /** Format: date-time */
-            created_at: string;
+            createdAt: string;
             path: string;
-            project_id: components["schemas"]["ProjectId"];
-            span_count: number;
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            spanCount: number;
+            tenantId: components["schemas"]["TenantId"];
         };
         ArchiveQueryResponse: {
             nextPageToken?: string | null;
             rows: components["schemas"]["ArchivedSpanRow"][];
         };
         ArchivedSpanRow: {
-            attributes_json: string;
-            cost_amount_micros?: string | null;
-            cost_currency?: string | null;
-            end_time?: string | null;
-            environment_id: string;
-            input_tokens?: string | null;
-            input_uri?: string | null;
+            attributesJson: string;
+            costAmountMicros?: string | null;
+            costCurrency?: string | null;
+            endTime?: string | null;
+            environmentId: string;
+            inputTokens?: string | null;
+            inputUri?: string | null;
             kind: string;
-            model_name?: string | null;
-            model_provider?: string | null;
+            modelName?: string | null;
+            modelProvider?: string | null;
             name: string;
-            output_tokens?: string | null;
-            output_uri?: string | null;
-            parent_span_id?: string | null;
-            project_id: string;
-            raw_uri: string;
-            reasoning_tokens?: string | null;
+            outputTokens?: string | null;
+            outputUri?: string | null;
+            parentSpanId?: string | null;
+            projectId: string;
+            rawUri: string;
+            reasoningTokens?: string | null;
             /** Format: int64 */
             seq: number;
-            span_id: string;
-            start_time: string;
+            spanId: string;
+            startTime: string;
             status: string;
-            tenant_id: string;
-            trace_id: string;
-            unmapped_json: string;
+            tenantId: string;
+            traceId: string;
+            unmappedJson: string;
         };
         ArtifactId: string;
         ArtifactRef: {
-            artifact_id: components["schemas"]["ArtifactId"];
-            mime_type: string;
-            redaction_class: components["schemas"]["RedactionClass"];
+            artifactId: components["schemas"]["ArtifactId"];
+            mimeType: string;
+            redactionClass: components["schemas"]["RedactionClass"];
             sha256: components["schemas"]["Sha256Hash"];
             /** Format: int64 */
-            size_bytes: number;
+            sizeBytes: number;
             uri: string;
         };
         /** @enum {string} */
         AuditAction: "pii_unmask" | "api_key_create" | "api_key_revoke" | "provider_secret_create" | "provider_secret_revoke" | "connector_tool_invoke";
         AuditEvent: {
             action: components["schemas"]["AuditAction"];
-            actor_api_key_id?: null | components["schemas"]["ApiKeyId"];
+            actorApiKeyId?: null | components["schemas"]["ApiKeyId"];
             attributes: unknown;
-            audit_event_id: components["schemas"]["AuditEventId"];
+            auditEventId: components["schemas"]["AuditEventId"];
             /** Format: date-time */
-            created_at: string;
-            environment_id?: null | components["schemas"]["EnvironmentId"];
+            createdAt: string;
+            environmentId?: null | components["schemas"]["EnvironmentId"];
             outcome: components["schemas"]["AuditOutcome"];
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             reason?: string | null;
-            resource_id: string;
-            resource_type: string;
-            tenant_id: components["schemas"]["TenantId"];
+            resourceId: string;
+            resourceType: string;
+            tenantId: components["schemas"]["TenantId"];
         };
         AuditEventId: string;
         AuditEventListResponse: {
@@ -1091,53 +1091,53 @@ export interface components {
         /** @enum {string} */
         AuditOutcome: "allowed" | "denied";
         AuthContext: {
-            api_key_id?: null | components["schemas"]["ApiKeyId"];
+            apiKeyId?: null | components["schemas"]["ApiKeyId"];
             scopes: string[];
         };
         BusMessage: {
             /** Format: int32 */
             attempts: number;
             /** Format: date-time */
-            enqueued_at: string;
-            idempotency_key: components["schemas"]["IdempotencyKey"];
+            enqueuedAt: string;
+            idempotencyKey: components["schemas"]["IdempotencyKey"];
             kind: string;
             /** Format: int32 */
-            max_attempts: number;
-            message_id: string;
+            maxAttempts: number;
+            messageId: string;
             payload: number[];
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         CalibrationConfusion: {
-            human_fail_judge_fail: number;
-            human_fail_judge_pass: number;
-            human_pass_judge_fail: number;
-            human_pass_judge_pass: number;
+            humanFailJudgeFail: number;
+            humanFailJudgePass: number;
+            humanPassJudgeFail: number;
+            humanPassJudgePass: number;
         };
         CalibrationItem: {
             agreed: boolean;
-            dataset_case_id: components["schemas"]["DatasetCaseId"];
+            datasetCaseId: components["schemas"]["DatasetCaseId"];
             evidence: unknown;
-            human_label: components["schemas"]["CalibrationLabel"];
-            judge_label: components["schemas"]["CalibrationLabel"];
-            judge_result_label?: string | null;
+            humanLabel: components["schemas"]["CalibrationLabel"];
+            judgeLabel: components["schemas"]["CalibrationLabel"];
+            judgeResultLabel?: string | null;
             /** Format: double */
-            judge_score: number;
+            judgeScore: number;
         };
         /** @enum {string} */
         CalibrationLabel: "pass" | "fail";
         CalibrationPolicy: {
             /** Format: double */
-            pass_threshold: number;
+            passThreshold: number;
         };
         CalibrationReport: {
             /** Format: double */
-            brier_score: number;
-            calibration_report_id: components["schemas"]["CalibrationReportId"];
+            brierScore: number;
+            calibrationReportId: components["schemas"]["CalibrationReportId"];
             /** Format: double */
-            cohen_kappa: number;
+            cohenKappa: number;
             /** Format: double */
-            cohen_kappa_ci_high?: number | null;
+            cohenKappaCiHigh?: number | null;
             /**
              * Format: double
              * @description Percentile-bootstrap 95% confidence interval for `cohen_kappa`
@@ -1145,35 +1145,35 @@ export interface components {
              *     Kappa over small calibration samples is high-variance; a bare point
              *     estimate invites over-reading. Absent on pre-uncertainty reports.
              */
-            cohen_kappa_ci_low?: number | null;
+            cohenKappaCiLow?: number | null;
             confusion: components["schemas"]["CalibrationConfusion"];
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
-            dataset_version_id: components["schemas"]["DatasetVersionId"];
-            eval_report_id: string;
-            evaluator_version_id: components["schemas"]["EvaluatorVersionId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
+            datasetVersionId: components["schemas"]["DatasetVersionId"];
+            evalReportId: string;
+            evaluatorVersionId: components["schemas"]["EvaluatorVersionId"];
             /** Format: double */
-            expected_agreement: number;
+            expectedAgreement: number;
             /** Format: double */
-            expected_calibration_error: number;
+            expectedCalibrationError: number;
             items: components["schemas"]["CalibrationItem"][];
             /** Format: double */
-            observed_agreement: number;
+            observedAgreement: number;
             /** Format: double */
-            observed_agreement_ci_high?: number | null;
+            observedAgreementCiHigh?: number | null;
             /**
              * Format: double
              * @description Wilson 95% confidence interval for `observed_agreement` — the honest
              *     width of an agreement estimate over a (typically small) human-labelled
              *     sample. Absent on reports persisted before uncertainty was reported.
              */
-            observed_agreement_ci_low?: number | null;
+            observedAgreementCiLow?: number | null;
             policy: components["schemas"]["CalibrationPolicy"];
-            project_id: components["schemas"]["ProjectId"];
-            reliability_bins: components["schemas"]["ReliabilityBin"][];
-            sample_count: number;
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            reliabilityBins: components["schemas"]["ReliabilityBin"][];
+            sampleCount: number;
+            tenantId: components["schemas"]["TenantId"];
         };
         CalibrationReportId: string;
         CanonicalSpan: {
@@ -1182,54 +1182,54 @@ export interface components {
             };
             cost?: null | components["schemas"]["Money"];
             /** Format: date-time */
-            end_time?: string | null;
-            environment_id: components["schemas"]["EnvironmentId"];
-            input_ref?: null | components["schemas"]["ArtifactRef"];
+            endTime?: string | null;
+            environmentId: components["schemas"]["EnvironmentId"];
+            inputRef?: null | components["schemas"]["ArtifactRef"];
             kind: components["schemas"]["AgentSpanKind"];
             model?: null | components["schemas"]["ModelRef"];
             name: string;
-            normalizer_version: string;
-            output_ref?: null | components["schemas"]["ArtifactRef"];
-            parent_span_id?: null | components["schemas"]["SpanId"];
-            project_id: components["schemas"]["ProjectId"];
-            raw_ref: components["schemas"]["ArtifactRef"];
+            normalizerVersion: string;
+            outputRef?: null | components["schemas"]["ArtifactRef"];
+            parentSpanId?: null | components["schemas"]["SpanId"];
+            projectId: components["schemas"]["ProjectId"];
+            rawRef: components["schemas"]["ArtifactRef"];
             /** Format: int32 */
-            schema_version: number;
+            schemaVersion: number;
             /** Format: int64 */
             seq: number;
-            span_id: components["schemas"]["SpanId"];
+            spanId: components["schemas"]["SpanId"];
             /** Format: date-time */
-            start_time: string;
+            startTime: string;
             status: components["schemas"]["SpanStatus"];
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
             tokens?: null | components["schemas"]["TokenCounts"];
-            trace_id: components["schemas"]["TraceId"];
-            unmapped_attrs: unknown;
+            traceId: components["schemas"]["TraceId"];
+            unmappedAttrs: unknown;
         };
         CaseExperimentScore: {
-            baseline_cached?: boolean | null;
-            baseline_cost?: null | components["schemas"]["Money"];
-            baseline_evidence: unknown;
-            baseline_judge_call_id?: null | components["schemas"]["JudgeCallId"];
-            baseline_output: unknown;
+            baselineCached?: boolean | null;
+            baselineCost?: null | components["schemas"]["Money"];
+            baselineEvidence: unknown;
+            baselineJudgeCallId?: null | components["schemas"]["JudgeCallId"];
+            baselineOutput: unknown;
             /** Format: double */
-            baseline_score: number;
-            baseline_trace?: unknown;
-            candidate_cached?: boolean | null;
-            candidate_cost?: null | components["schemas"]["Money"];
-            candidate_evidence: unknown;
-            candidate_judge_call_id?: null | components["schemas"]["JudgeCallId"];
-            candidate_output: unknown;
+            baselineScore: number;
+            baselineTrace?: unknown;
+            candidateCached?: boolean | null;
+            candidateCost?: null | components["schemas"]["Money"];
+            candidateEvidence: unknown;
+            candidateJudgeCallId?: null | components["schemas"]["JudgeCallId"];
+            candidateOutput: unknown;
             /** Format: double */
-            candidate_score: number;
-            candidate_trace?: unknown;
-            case_id: components["schemas"]["DatasetCaseId"];
+            candidateScore: number;
+            candidateTrace?: unknown;
+            caseId: components["schemas"]["DatasetCaseId"];
             /** Format: double */
             delta: number;
             reference?: unknown;
         };
         CaseOutputOverrideRequest: {
-            case_id: string;
+            caseId: string;
             output: unknown;
             trace?: unknown;
         };
@@ -1240,18 +1240,18 @@ export interface components {
         /** @description One-time login link returned when initiating a managed-OAuth connection. */
         ConnectionLink: {
             /** @description Composio connection id (`ca_…`) created for this handshake. */
-            connected_account_id: string;
+            connectedAccountId: string;
             /** @description When the link expires (RFC 3339), if provided. */
-            expires_at?: string | null;
+            expiresAt?: string | null;
             /** @description URL the end user opens once to authorize the app. */
-            redirect_url: string;
+            redirectUrl: string;
         };
         /** @description Connection status of one app for one entity. */
         ConnectionStatus: {
             /** @description `true` only when an account exists and is `ACTIVE`. */
             connected: boolean;
             /** @description The connected-account id, when one exists. */
-            connected_account_id?: string | null;
+            connectedAccountId?: string | null;
             /**
              * @description Raw Composio status (`ACTIVE`, `INITIALIZING`, `FAILED`, …) or
              *     `not_connected` when no account exists yet.
@@ -1286,11 +1286,11 @@ export interface components {
              * @description JSON Schema of the tool's `arguments`, verbatim from Composio. The agent
              *     loop uses this to construct valid calls; [`crate::skill`] renders it.
              */
-            input_schema?: Record<string, never> | null;
+            inputSchema?: Record<string, never> | null;
             /** @description Human display name. */
             name: string;
             /** @description `true` when the tool executes without a connected account. */
-            no_auth?: boolean;
+            noAuth?: boolean;
             /** @description Tool slug passed to [`ComposioClient::execute`] (e.g. `GITHUB_CREATE_AN_ISSUE`). */
             slug: string;
             /** @description Free-form tags Composio assigns (categories, importance, …). */
@@ -1315,13 +1315,13 @@ export interface components {
             name: string;
         };
         CreateDatasetVersionRequest: {
-            case_ids?: string[] | null;
+            caseIds?: string[] | null;
         };
         CreateGateRequest: {
-            dataset_id?: string | null;
-            evaluator_version_id?: string | null;
-            gate_id: string;
-            inconclusive_policy?: null | components["schemas"]["InconclusivePolicy"];
+            datasetId?: string | null;
+            evaluatorVersionId?: string | null;
+            gateId: string;
+            inconclusivePolicy?: null | components["schemas"]["InconclusivePolicy"];
             name: string;
         };
         /**
@@ -1329,27 +1329,27 @@ export interface components {
          *     (version 1) template.
          */
         CreatePromptRequest: {
-            created_by?: string | null;
+            createdBy?: string | null;
             description?: string | null;
             message?: string | null;
             name: string;
             template: components["schemas"]["PromptTemplate"];
         };
         CreateProviderSecretHttpRequest: {
-            display_name: string;
+            displayName: string;
             provider: string;
-            secret_value: string;
+            secretValue: string;
         };
         CreateReviewQueueHttpRequest: {
-            annotation_schema: unknown;
+            annotationSchema: unknown;
             name: string;
-            queue_id?: string | null;
+            queueId?: string | null;
         };
         CreateScenarioRequest: {
-            exemplar_trace_id?: string | null;
-            expected_outcome?: string | null;
-            failure_mode?: null | components["schemas"]["FailureMode"];
-            source_trace_ids: string[];
+            exemplarTraceId?: string | null;
+            expectedOutcome?: string | null;
+            failureMode?: null | components["schemas"]["FailureMode"];
+            sourceTraceIds: string[];
             title: string;
         };
         CreatedPrompt: {
@@ -1360,45 +1360,45 @@ export interface components {
         Currency: "USD";
         Dataset: {
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
             name: string;
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         DatasetCase: {
-            case_id: components["schemas"]["DatasetCaseId"];
+            caseId: components["schemas"]["DatasetCaseId"];
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
             input: unknown;
-            input_artifact_hashes: components["schemas"]["Sha256Hash"][];
-            normalizer_version: string;
+            inputArtifactHashes: components["schemas"]["Sha256Hash"][];
+            normalizerVersion: string;
             output: unknown;
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             reference?: unknown;
-            source_environment_id: components["schemas"]["EnvironmentId"];
-            source_span_id: components["schemas"]["SpanId"];
-            source_trace_id: components["schemas"]["TraceId"];
-            tenant_id: components["schemas"]["TenantId"];
+            sourceEnvironmentId: components["schemas"]["EnvironmentId"];
+            sourceSpanId: components["schemas"]["SpanId"];
+            sourceTraceId: components["schemas"]["TraceId"];
+            tenantId: components["schemas"]["TenantId"];
             trace: unknown;
             /** Format: int32 */
-            trace_schema_version: number;
+            traceSchemaVersion: number;
         };
         DatasetCaseId: string;
         DatasetEvalReport: {
             /** Format: double */
-            aggregate_score: number;
+            aggregateScore: number;
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
-            dataset_version_id: components["schemas"]["DatasetVersionId"];
-            evaluator_version_id: components["schemas"]["EvaluatorVersionId"];
-            project_id: components["schemas"]["ProjectId"];
-            report_id: string;
-            result_count: number;
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
+            datasetVersionId: components["schemas"]["DatasetVersionId"];
+            evaluatorVersionId: components["schemas"]["EvaluatorVersionId"];
+            projectId: components["schemas"]["ProjectId"];
+            reportId: string;
+            resultCount: number;
             results: components["schemas"]["EvalResult"][];
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         DatasetId: string;
         DatasetVersionId: string;
@@ -1411,43 +1411,43 @@ export interface components {
              *     customer-facing report cite the precise corpus it ran against and lets
              *     two parties confirm they hold the same data with one comparison.
              */
-            corpus_root: components["schemas"]["CorpusRoot"];
+            corpusRoot: components["schemas"]["CorpusRoot"];
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
-            version_id: components["schemas"]["DatasetVersionId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
+            versionId: components["schemas"]["DatasetVersionId"];
         };
         DeadLetter: {
             /** Format: date-time */
-            failed_at: string;
+            failedAt: string;
             message: components["schemas"]["BusMessage"];
             reason: string;
         };
         DeadLetterReplayReport: {
             ack: components["schemas"]["PublishAck"];
-            message_id: string;
-            project_id: components["schemas"]["ProjectId"];
-            reset_attempts: boolean;
-            tenant_id: components["schemas"]["TenantId"];
+            messageId: string;
+            projectId: components["schemas"]["ProjectId"];
+            resetAttempts: boolean;
+            tenantId: components["schemas"]["TenantId"];
         };
         DiffLine: {
             kind: components["schemas"]["DiffLineKind"];
-            new_line?: number | null;
-            old_line?: number | null;
+            newLine?: number | null;
+            oldLine?: number | null;
             text: string;
         };
         /** @enum {string} */
         DiffLineKind: "unchanged" | "added" | "removed";
         EnqueueReviewTaskFromTraceHttpRequest: {
-            dataset_case_id?: string | null;
-            dataset_id?: string | null;
+            datasetCaseId?: string | null;
+            datasetId?: string | null;
             /** Format: int64 */
             priority?: number | null;
-            span_id?: string | null;
-            task_id?: string | null;
-            trace_id: string;
+            spanId?: string | null;
+            taskId?: string | null;
+            traceId: string;
         };
         EnvironmentId: string;
         /** @description AIP-193 HTTP/JSON error envelope returned by every fallible endpoint. */
@@ -1468,41 +1468,41 @@ export interface components {
             status: string;
         };
         EvalReproducibility: {
-            agent_release_id: components["schemas"]["AgentReleaseId"];
-            code_hash?: null | components["schemas"]["Sha256Hash"];
-            dataset_case_id: components["schemas"]["DatasetCaseId"];
-            dataset_version_id: components["schemas"]["DatasetVersionId"];
-            evaluator_version_id: components["schemas"]["EvaluatorVersionId"];
-            input_artifact_hashes: components["schemas"]["Sha256Hash"][];
-            judge_model_id?: string | null;
-            judge_parameters: unknown;
-            judge_provider?: string | null;
-            judge_rubric_version?: string | null;
+            agentReleaseId: components["schemas"]["AgentReleaseId"];
+            codeHash?: null | components["schemas"]["Sha256Hash"];
+            datasetCaseId: components["schemas"]["DatasetCaseId"];
+            datasetVersionId: components["schemas"]["DatasetVersionId"];
+            evaluatorVersionId: components["schemas"]["EvaluatorVersionId"];
+            inputArtifactHashes: components["schemas"]["Sha256Hash"][];
+            judgeModelId?: string | null;
+            judgeParameters: unknown;
+            judgeProvider?: string | null;
+            judgeRubricVersion?: string | null;
             /** Format: int64 */
-            judge_seed?: number | null;
-            normalizer_version: string;
-            prompt_version_id?: null | components["schemas"]["PromptVersionId"];
+            judgeSeed?: number | null;
+            normalizerVersion: string;
+            promptVersionId?: null | components["schemas"]["PromptVersionId"];
             /** Format: int32 */
-            trace_schema_version: number;
-            wasi_abi_version?: string | null;
-            wasm_hash?: null | components["schemas"]["Sha256Hash"];
+            traceSchemaVersion: number;
+            wasiAbiVersion?: string | null;
+            wasmHash?: null | components["schemas"]["Sha256Hash"];
         };
         EvalResult: {
             cost?: null | components["schemas"]["Money"];
             /** Format: date-time */
-            created_at: string;
-            eval_result_id: components["schemas"]["EvalResultId"];
+            createdAt: string;
+            evalResultId: components["schemas"]["EvalResultId"];
             evidence: unknown;
             label?: string | null;
-            non_reproducible_reason?: string | null;
-            project_id: components["schemas"]["ProjectId"];
+            nonReproducibleReason?: string | null;
+            projectId: components["schemas"]["ProjectId"];
             reproducibility: components["schemas"]["EvalReproducibility"];
             /** Format: double */
             score: number;
-            span_id?: null | components["schemas"]["SpanId"];
-            tenant_id: components["schemas"]["TenantId"];
+            spanId?: null | components["schemas"]["SpanId"];
+            tenantId: components["schemas"]["TenantId"];
             tokens?: null | components["schemas"]["TokenCounts"];
-            trace_id: components["schemas"]["TraceId"];
+            traceId: components["schemas"]["TraceId"];
         };
         EvalResultId: string;
         EvaluateAlertRequest: {
@@ -1534,12 +1534,12 @@ export interface components {
             type: "json_object";
         } | {
             /** Format: int64 */
-            max_micros: number;
+            maxMicros: number;
             /** @enum {string} */
             type: "cost_budget";
         } | {
             /** Format: int64 */
-            max_ms: number;
+            maxMs: number;
             /** @enum {string} */
             type: "latency_budget_ms";
         } | {
@@ -1548,18 +1548,18 @@ export interface components {
             /** @enum {string} */
             type: "llm_judge";
         } | {
-            dom_contains?: string | null;
+            domContains?: string | null;
             /** @enum {string} */
             type: "browser_task_success";
-            url_contains?: string | null;
+            urlContains?: string | null;
         } | {
             /** Format: int64 */
-            max_steps: number;
+            maxSteps: number;
             /** @enum {string} */
             type: "browser_step_efficiency";
         } | {
             /** Format: double */
-            min_ratio: number;
+            minRatio: number;
             /** @enum {string} */
             type: "browser_grounding";
         } | {
@@ -1576,15 +1576,15 @@ export interface components {
         EvaluatorVersionId: string;
         ExperimentComparison: {
             /** Format: double */
-            adjusted_alpha: number;
+            adjustedAlpha: number;
             /** Format: double */
-            baseline_mean: number;
+            baselineMean: number;
             /** Format: double */
-            candidate_mean: number;
+            candidateMean: number;
             /** Format: double */
-            ci_high: number;
+            ciHigh: number;
             /** Format: double */
-            ci_low: number;
+            ciLow: number;
             decision: components["schemas"]["GateDecision"];
             /** Format: double */
             delta: number;
@@ -1605,7 +1605,7 @@ export interface components {
              * @description Real two-sided p-value from `test`. The previous normal-approximation path
              *     reported no p-value at all.
              */
-            p_value: number;
+            pValue: number;
             /**
              * @description Number of paired observations that would be required to detect the
              *     *observed* effect at the gate's (adjusted) alpha and power 0.8 (§10.3 #5).
@@ -1614,26 +1614,26 @@ export interface components {
              *     otherwise. This answers "how many more cases would have made this
              *     conclusive?".
              */
-            required_n?: number | null;
-            sample_size: number;
+            requiredN?: number | null;
+            sampleSize: number;
             test: components["schemas"]["StatisticalTest"];
         };
         ExperimentRunId: string;
         ExperimentRunReport: {
-            baseline_release_id: components["schemas"]["AgentReleaseId"];
-            candidate_release_id: components["schemas"]["AgentReleaseId"];
-            case_scores: components["schemas"]["CaseExperimentScore"][];
+            baselineReleaseId: components["schemas"]["AgentReleaseId"];
+            candidateReleaseId: components["schemas"]["AgentReleaseId"];
+            caseScores: components["schemas"]["CaseExperimentScore"][];
             comparison: components["schemas"]["ExperimentComparison"];
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
-            dataset_version_id: components["schemas"]["DatasetVersionId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
+            datasetVersionId: components["schemas"]["DatasetVersionId"];
             decision: components["schemas"]["GateDecision"];
-            evaluator_version_id: components["schemas"]["EvaluatorVersionId"];
-            experiment_run_id: components["schemas"]["ExperimentRunId"];
-            gate_policy?: components["schemas"]["GatePolicy"];
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            evaluatorVersionId: components["schemas"]["EvaluatorVersionId"];
+            experimentRunId: components["schemas"]["ExperimentRunId"];
+            gatePolicy?: components["schemas"]["GatePolicy"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         /** @enum {string} */
         ExternalEvalEvidenceKind: "result_bundle" | "ab_decision";
@@ -1646,48 +1646,48 @@ export interface components {
         GateDecision: "pass" | "fail_regression" | "inconclusive";
         GateDefinition: {
             /** Format: date-time */
-            created_at: string;
-            dataset_id?: null | components["schemas"]["DatasetId"];
-            evaluator_version_id?: null | components["schemas"]["EvaluatorVersionId"];
-            gate_id: components["schemas"]["GateId"];
-            inconclusive_policy?: components["schemas"]["InconclusivePolicy"];
+            createdAt: string;
+            datasetId?: null | components["schemas"]["DatasetId"];
+            evaluatorVersionId?: null | components["schemas"]["EvaluatorVersionId"];
+            gateId: components["schemas"]["GateId"];
+            inconclusivePolicy?: components["schemas"]["InconclusivePolicy"];
             name: string;
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         GateId: string;
         GatePolicy: {
             /** Format: double */
             alpha: number;
-            comparison_count: number;
+            comparisonCount: number;
             /** Format: double */
-            max_regression: number;
-            min_sample_size: number;
+            maxRegression: number;
+            minSampleSize: number;
         };
         GateRunId: string;
         GateRunReport: {
-            baseline_release_id: components["schemas"]["AgentReleaseId"];
-            candidate_release_id: components["schemas"]["AgentReleaseId"];
+            baselineReleaseId: components["schemas"]["AgentReleaseId"];
+            candidateReleaseId: components["schemas"]["AgentReleaseId"];
             comparison: components["schemas"]["ExperimentComparison"];
             /** Format: date-time */
-            created_at: string;
-            dataset_id: components["schemas"]["DatasetId"];
-            evaluator_version_id: components["schemas"]["EvaluatorVersionId"];
+            createdAt: string;
+            datasetId: components["schemas"]["DatasetId"];
+            evaluatorVersionId: components["schemas"]["EvaluatorVersionId"];
             /** Format: date-time */
-            experiment_created_at: string;
-            experiment_decision: components["schemas"]["GateDecision"];
-            experiment_gate_policy: components["schemas"]["GatePolicy"];
-            experiment_run_id: components["schemas"]["ExperimentRunId"];
-            gate_dataset_id?: null | components["schemas"]["DatasetId"];
-            gate_evaluator_version_id?: null | components["schemas"]["EvaluatorVersionId"];
-            gate_id: components["schemas"]["GateId"];
-            gate_name: string;
-            gate_run_id: components["schemas"]["GateRunId"];
-            inconclusive_policy: components["schemas"]["InconclusivePolicy"];
+            experimentCreatedAt: string;
+            experimentDecision: components["schemas"]["GateDecision"];
+            experimentGatePolicy: components["schemas"]["GatePolicy"];
+            experimentRunId: components["schemas"]["ExperimentRunId"];
+            gateDatasetId?: null | components["schemas"]["DatasetId"];
+            gateEvaluatorVersionId?: null | components["schemas"]["EvaluatorVersionId"];
+            gateId: components["schemas"]["GateId"];
+            gateName: string;
+            gateRunId: components["schemas"]["GateRunId"];
+            inconclusivePolicy: components["schemas"]["InconclusivePolicy"];
             passed: boolean;
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             reason: string;
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         HealthResponse: {
             ok: boolean;
@@ -1712,28 +1712,28 @@ export interface components {
              *     rejects equivalent but non-canonical JSON so the verified bytes are
              *     unambiguous across SDKs.
              */
-            canonical_json: string;
+            canonicalJson: string;
             /**
              * @description PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is
              *     pinned inside the signed payload.
              */
-            public_key_pem: string;
+            publicKeyPem: string;
             /** @description Standard-base64 detached Ed25519 signature over `canonical_json` bytes. */
-            signature_base64: string;
+            signatureBase64: string;
         };
         /** @enum {string} */
         InconclusivePolicy: "pass" | "fail";
         IngestOutcome: {
             ack: components["schemas"]["WriteAck"];
-            downstream_queued: boolean;
+            downstreamQueued: boolean;
         };
         IngestQueueStatus: {
-            dead_letters: components["schemas"]["DeadLetter"][];
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
-            total_depth: number;
-            trace_ingested_depth: number;
-            trace_write_depth: number;
+            deadLetters: components["schemas"]["DeadLetter"][];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
+            totalDepth: number;
+            traceIngestedDepth: number;
+            traceWriteDepth: number;
         };
         InvokeConnectorRequest: {
             /** @description Arguments object matching the tool's input schema. */
@@ -1743,25 +1743,25 @@ export interface components {
         };
         JudgeAuditRecord: {
             cached: boolean;
-            charged_cost: components["schemas"]["Money"];
+            chargedCost: components["schemas"]["Money"];
             /** Format: date-time */
-            created_at: string;
-            evaluator_id: string;
-            judge_call_id: components["schemas"]["JudgeCallId"];
+            createdAt: string;
+            evaluatorId: string;
+            judgeCallId: components["schemas"]["JudgeCallId"];
             model: string;
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             provider: string;
-            provider_cost: components["schemas"]["Money"];
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
-            request_hash: components["schemas"]["Sha256Hash"];
-            response_hash: components["schemas"]["Sha256Hash"];
+            providerCost: components["schemas"]["Money"];
+            providerSecretId: components["schemas"]["ProviderSecretId"];
+            requestHash: components["schemas"]["Sha256Hash"];
+            responseHash: components["schemas"]["Sha256Hash"];
             /** Format: double */
             score: number;
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         JudgeBrokerOutcome: {
             audit: components["schemas"]["JudgeAuditRecord"];
-            remaining_budget: components["schemas"]["Money"];
+            remainingBudget: components["schemas"]["Money"];
             result: components["schemas"]["ScoreResult"];
         };
         JudgeCallId: string;
@@ -1775,14 +1775,14 @@ export interface components {
         };
         MaintenanceWindow: {
             /** Format: date-time */
-            ends_at: string;
+            endsAt: string;
             /** Format: date-time */
-            starts_at: string;
+            startsAt: string;
         };
         MineScenariosRequest: {
             /** Format: double */
-            jaccard_threshold?: number | null;
-            trace_ids: string[];
+            jaccardThreshold?: number | null;
+            traceIds: string[];
         };
         MineScenariosResponse: {
             clusters: components["schemas"]["ScenarioCluster"][];
@@ -1793,100 +1793,100 @@ export interface components {
         };
         Money: {
             /** Format: int64 */
-            amount_micros: number;
+            amountMicros: number;
             currency: components["schemas"]["Currency"];
         };
         NativeIngestRequest: {
             attributes: {
                 [key: string]: unknown;
             };
-            auth_context?: null | components["schemas"]["AuthContext"];
+            authContext?: null | components["schemas"]["AuthContext"];
             cost?: null | components["schemas"]["Money"];
             /** Format: date-time */
-            end_time?: string | null;
-            idempotency_key?: null | components["schemas"]["IdempotencyKey"];
+            endTime?: string | null;
+            idempotencyKey?: null | components["schemas"]["IdempotencyKey"];
             input?: unknown;
             kind: components["schemas"]["AgentSpanKind"];
             model?: null | components["schemas"]["ModelRef"];
             name: string;
             output?: unknown;
-            parent_span_id?: null | components["schemas"]["SpanId"];
-            redaction_class: components["schemas"]["RedactionClass"];
+            parentSpanId?: null | components["schemas"]["SpanId"];
+            redactionClass: components["schemas"]["RedactionClass"];
             scope: components["schemas"]["TenantScope"];
             /** Format: int64 */
             seq: number;
-            span_id: components["schemas"]["SpanId"];
+            spanId: components["schemas"]["SpanId"];
             /** Format: date-time */
-            start_time?: string | null;
+            startTime?: string | null;
             status: components["schemas"]["SpanStatus"];
             tokens?: null | components["schemas"]["TokenCounts"];
-            trace_id: components["schemas"]["TraceId"];
+            traceId: components["schemas"]["TraceId"];
         };
         OnlineSamplingPolicy: {
             /** Format: int64 */
-            high_cost_micros_threshold?: number | null;
-            keep_errors: boolean;
+            highCostMicrosThreshold?: number | null;
+            keepErrors: boolean;
             /** Format: int32 */
-            sample_rate_per_mille: number;
+            sampleRatePerMille: number;
             /** Format: int64 */
-            slow_ms_threshold?: number | null;
+            slowMsThreshold?: number | null;
         };
         OtlpIngestOutcome: {
-            accepted_raw: number;
-            accepted_spans: number;
-            downstream_queued: boolean;
-            duplicate_raw: number;
-            duplicate_spans: number;
+            acceptedRaw: number;
+            acceptedSpans: number;
+            downstreamQueued: boolean;
+            duplicateRaw: number;
+            duplicateSpans: number;
         };
         /** @enum {string} */
         PaletteConnectStatus: "connected" | "waiting_for_trace" | "waiting_for_eval" | "misconfigured";
         PaletteConnectStatusResponse: {
-            first_eval_run: boolean;
-            first_trace_received: boolean;
+            firstEvalRun: boolean;
+            firstTraceReceived: boolean;
             ok: boolean;
-            project_id: components["schemas"]["ProjectId"];
+            projectId: components["schemas"]["ProjectId"];
             status: components["schemas"]["PaletteConnectStatus"];
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
             totals: {
                 [key: string]: components["schemas"]["UsageTotal"];
             };
-            usage_configured: boolean;
+            usageConfigured: boolean;
         };
         /** @description Tunable knobs describing how a scenario may be perturbed during replay. */
         PerturbationKnobs: {
             /** @description Force an auth failure on a dependency. */
-            auth_failure: boolean;
+            authFailure: boolean;
             /** @description Inject a contradictory context source. */
-            contradictory_source: boolean;
+            contradictorySource: boolean;
             /** @description Attempt a prompt-injection payload. */
-            prompt_injection: boolean;
+            promptInjection: boolean;
             /** @description Serve a stale version of a context source. */
-            stale_source: boolean;
+            staleSource: boolean;
             /** @description Force a timeout on a dependency. */
             timeout: boolean;
             /** @description Present a tool whose schema mismatches expectations. */
-            tool_schema_mismatch: boolean;
+            toolSchemaMismatch: boolean;
         };
         ProjectId: string;
         PromoteReviewAnnotationHttpRequest: {
-            dataset_id: string;
+            datasetId: string;
             reference?: unknown;
         };
         PromoteTraceCaseRequest: {
             reference?: unknown;
-            span_id?: string | null;
-            trace_id: string;
+            spanId?: string | null;
+            traceId: string;
         };
         Prompt: {
             /** Format: date-time */
-            created_at: string;
+            createdAt: string;
             description?: string | null;
             name: string;
-            project_id: components["schemas"]["ProjectId"];
-            prompt_id: components["schemas"]["PromptId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            promptId: components["schemas"]["PromptId"];
+            tenantId: components["schemas"]["TenantId"];
             /** Format: date-time */
-            updated_at: string;
+            updatedAt: string;
         };
         PromptId: string;
         PromptListResponse: {
@@ -1906,18 +1906,18 @@ export interface components {
         };
         PromptVersion: {
             metadata: components["schemas"]["PromptVersionMetadata"];
-            project_id: components["schemas"]["ProjectId"];
-            prompt_id: components["schemas"]["PromptId"];
+            projectId: components["schemas"]["ProjectId"];
+            promptId: components["schemas"]["PromptId"];
             template: components["schemas"]["PromptTemplate"];
-            tenant_id: components["schemas"]["TenantId"];
-            version_id: components["schemas"]["PromptVersionId"];
+            tenantId: components["schemas"]["TenantId"];
+            versionId: components["schemas"]["PromptVersionId"];
             /** Format: int32 */
-            version_number: number;
+            versionNumber: number;
         };
         PromptVersionDiff: {
-            from_version_id: components["schemas"]["PromptVersionId"];
+            fromVersionId: components["schemas"]["PromptVersionId"];
             lines: components["schemas"]["DiffLine"][];
-            to_version_id: components["schemas"]["PromptVersionId"];
+            toVersionId: components["schemas"]["PromptVersionId"];
         };
         PromptVersionId: string;
         PromptVersionListResponse: {
@@ -1926,8 +1926,8 @@ export interface components {
         };
         PromptVersionMetadata: {
             /** Format: date-time */
-            created_at: string;
-            created_by?: string | null;
+            createdAt: string;
+            createdBy?: string | null;
             message?: string | null;
         };
         ProviderSecretId: string;
@@ -1938,14 +1938,14 @@ export interface components {
         ProviderSecretMetadata: {
             active: boolean;
             /** Format: date-time */
-            created_at: string;
-            display_name: string;
-            project_id: components["schemas"]["ProjectId"];
+            createdAt: string;
+            displayName: string;
+            projectId: components["schemas"]["ProjectId"];
             provider: string;
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
+            providerSecretId: components["schemas"]["ProviderSecretId"];
             /** Format: date-time */
-            rotated_at?: string | null;
-            tenant_id: components["schemas"]["TenantId"];
+            rotatedAt?: string | null;
+            tenantId: components["schemas"]["TenantId"];
         };
         /**
          * @description Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`,
@@ -1956,82 +1956,82 @@ export interface components {
          */
         PublicJudgeAuditRecord: {
             cached: boolean;
-            charged_cost: components["schemas"]["Money"];
+            chargedCost: components["schemas"]["Money"];
             /** Format: date-time */
-            created_at: string;
-            evaluator_id: string;
-            judge_call_id: components["schemas"]["JudgeCallId"];
+            createdAt: string;
+            evaluatorId: string;
+            judgeCallId: components["schemas"]["JudgeCallId"];
             model: string;
-            project_id: components["schemas"]["ProjectId"];
-            request_hash: components["schemas"]["Sha256Hash"];
-            response_hash: components["schemas"]["Sha256Hash"];
+            projectId: components["schemas"]["ProjectId"];
+            requestHash: components["schemas"]["Sha256Hash"];
+            responseHash: components["schemas"]["Sha256Hash"];
             /** Format: double */
             score: number;
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         PublishAck: {
             accepted: boolean;
             duplicate: boolean;
         };
         QueuedTraceWork: {
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
-            trace_id: components["schemas"]["TraceId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
+            traceId: components["schemas"]["TraceId"];
         };
         /** @enum {string} */
         RedactionClass: "public" | "internal" | "sensitive" | "secret";
         ReliabilityBin: {
             /** Format: double */
             accuracy?: number | null;
-            bin_index: number;
+            binIndex: number;
             /** Format: double */
-            calibration_gap?: number | null;
+            calibrationGap?: number | null;
             /** Format: double */
-            lower_bound: number;
+            lowerBound: number;
             /** Format: double */
-            mean_confidence?: number | null;
-            sample_count: number;
+            meanConfidence?: number | null;
+            sampleCount: number;
             /** Format: double */
-            upper_bound: number;
+            upperBound: number;
         };
         ReviewAnnotation: {
-            annotation_id: components["schemas"]["AnnotationId"];
+            annotationId: components["schemas"]["AnnotationId"];
             /** Format: date-time */
-            created_at: string;
+            createdAt: string;
             payload: unknown;
-            project_id: components["schemas"]["ProjectId"];
-            queue_id: components["schemas"]["ReviewQueueId"];
-            reviewer_id: string;
-            task_id: components["schemas"]["ReviewTaskId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            queueId: components["schemas"]["ReviewQueueId"];
+            reviewerId: string;
+            taskId: components["schemas"]["ReviewTaskId"];
+            tenantId: components["schemas"]["TenantId"];
             verdict: components["schemas"]["ReviewVerdict"];
         };
         ReviewQueue: {
-            annotation_schema: unknown;
+            annotationSchema: unknown;
             /** Format: date-time */
-            created_at: string;
+            createdAt: string;
             name: string;
-            project_id: components["schemas"]["ProjectId"];
-            queue_id: components["schemas"]["ReviewQueueId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            queueId: components["schemas"]["ReviewQueueId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         ReviewQueueId: string;
         ReviewTask: {
             /** Format: date-time */
-            created_at: string;
-            dataset_case_id?: null | components["schemas"]["DatasetCaseId"];
-            dataset_id?: null | components["schemas"]["DatasetId"];
+            createdAt: string;
+            datasetCaseId?: null | components["schemas"]["DatasetCaseId"];
+            datasetId?: null | components["schemas"]["DatasetId"];
             /** Format: int64 */
             priority: number;
-            project_id: components["schemas"]["ProjectId"];
-            queue_id: components["schemas"]["ReviewQueueId"];
-            span_id?: null | components["schemas"]["SpanId"];
+            projectId: components["schemas"]["ProjectId"];
+            queueId: components["schemas"]["ReviewQueueId"];
+            spanId?: null | components["schemas"]["SpanId"];
             state: components["schemas"]["ReviewTaskState"];
-            task_id: components["schemas"]["ReviewTaskId"];
-            tenant_id: components["schemas"]["TenantId"];
-            trace_id: components["schemas"]["TraceId"];
+            taskId: components["schemas"]["ReviewTaskId"];
+            tenantId: components["schemas"]["TenantId"];
+            traceId: components["schemas"]["TraceId"];
             /** Format: date-time */
-            updated_at: string;
+            updatedAt: string;
         };
         ReviewTaskId: string;
         ReviewTaskListResponse: {
@@ -2044,96 +2044,96 @@ export interface components {
         ReviewVerdict: "pass" | "fail" | "needs_fix" | "unsure";
         RevokedApiKey: {
             active: boolean;
-            api_key_id: components["schemas"]["ApiKeyId"];
+            apiKeyId: components["schemas"]["ApiKeyId"];
             /** Format: date-time */
-            rotated_at: string;
+            rotatedAt: string;
         };
         RevokedProviderSecret: {
             active: boolean;
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
+            providerSecretId: components["schemas"]["ProviderSecretId"];
             /** Format: date-time */
-            rotated_at: string;
+            rotatedAt: string;
         };
         RunCalibrationHttpRequest: {
-            eval_report_id?: string | null;
-            evaluator_version_id?: string | null;
+            evalReportId?: string | null;
+            evaluatorVersionId?: string | null;
             /** Format: double */
-            pass_threshold?: number | null;
+            passThreshold?: number | null;
         };
         RunDeterministicEvalRequest: {
-            agent_release_id: string;
-            code_hash?: string | null;
-            evaluator_id: string;
-            evaluator_version_id: string;
+            agentReleaseId: string;
+            codeHash?: string | null;
+            evaluatorId: string;
+            evaluatorVersionId: string;
             kind: components["schemas"]["EvaluatorKind"];
-            prompt_version_id?: string | null;
-            wasm_hash?: string | null;
+            promptVersionId?: string | null;
+            wasmHash?: string | null;
         };
         RunExperimentRequest: {
-            baseline_outputs: components["schemas"]["CaseOutputOverrideRequest"][];
-            baseline_release_id: string;
-            candidate_outputs: components["schemas"]["CaseOutputOverrideRequest"][];
-            candidate_release_id: string;
-            evaluator_id: string;
-            evaluator_version_id: string;
-            gate_policy?: null | components["schemas"]["GatePolicy"];
+            baselineOutputs: components["schemas"]["CaseOutputOverrideRequest"][];
+            baselineReleaseId: string;
+            candidateOutputs: components["schemas"]["CaseOutputOverrideRequest"][];
+            candidateReleaseId: string;
+            evaluatorId: string;
+            evaluatorVersionId: string;
+            gatePolicy?: null | components["schemas"]["GatePolicy"];
             kind: components["schemas"]["EvaluatorKind"];
         };
         RunGateRequest: {
-            experiment_run_id?: string | null;
+            experimentRunId?: string | null;
         };
         RunJudgeDatasetEvalRequest: {
-            agent_release_id: string;
-            code_hash?: string | null;
-            evaluator_id: string;
-            evaluator_version_id: string;
+            agentReleaseId: string;
+            codeHash?: string | null;
+            evaluatorId: string;
+            evaluatorVersionId: string;
             kind: components["schemas"]["EvaluatorKind"];
-            prompt_version_id?: string | null;
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
+            promptVersionId?: string | null;
+            providerSecretId: components["schemas"]["ProviderSecretId"];
         };
         RunJudgeEvalHttpRequest: {
             /**
              * @description Calibration-map / judge-instrument version folded into the judge cache
              *     key; bumping it on recalibration invalidates stale cached scores.
              */
-            cache_namespace?: string | null;
+            cacheNamespace?: string | null;
             case: components["schemas"]["EvaluationCase"];
             evaluator: components["schemas"]["EvaluatorSpec"];
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
+            providerSecretId: components["schemas"]["ProviderSecretId"];
         };
         RunJudgeExperimentRequest: {
-            baseline_outputs: components["schemas"]["CaseOutputOverrideRequest"][];
-            baseline_release_id: string;
-            candidate_outputs: components["schemas"]["CaseOutputOverrideRequest"][];
-            candidate_release_id: string;
-            evaluator_id: string;
-            evaluator_version_id: string;
-            gate_policy?: null | components["schemas"]["GatePolicy"];
+            baselineOutputs: components["schemas"]["CaseOutputOverrideRequest"][];
+            baselineReleaseId: string;
+            candidateOutputs: components["schemas"]["CaseOutputOverrideRequest"][];
+            candidateReleaseId: string;
+            evaluatorId: string;
+            evaluatorVersionId: string;
+            gatePolicy?: null | components["schemas"]["GatePolicy"];
             kind: components["schemas"]["EvaluatorKind"];
-            provider_secret_id: components["schemas"]["ProviderSecretId"];
+            providerSecretId: components["schemas"]["ProviderSecretId"];
         };
         RunSummary: {
             /** Format: int64 */
-            duration_ms?: number | null;
+            durationMs?: number | null;
             /** Format: date-time */
-            ended_at?: string | null;
-            first_span_name: string;
+            endedAt?: string | null;
+            firstSpanName: string;
             models: components["schemas"]["ModelRef"][];
-            project_id: components["schemas"]["ProjectId"];
-            release_ids: string[];
-            span_count: number;
+            projectId: components["schemas"]["ProjectId"];
+            releaseIds: string[];
+            spanCount: number;
             /** Format: date-time */
-            started_at: string;
+            startedAt: string;
             status: components["schemas"]["SpanStatus"];
-            tenant_id: components["schemas"]["TenantId"];
-            total_cost?: null | components["schemas"]["Money"];
-            trace_id: components["schemas"]["TraceId"];
+            tenantId: components["schemas"]["TenantId"];
+            totalCost?: null | components["schemas"]["Money"];
+            traceId: components["schemas"]["TraceId"];
         };
         SamplingDecision: {
             reason: components["schemas"]["SamplingReason"];
             selected: boolean;
             /** Format: int32 */
-            stable_score_per_mille: number;
+            stableScorePerMille: number;
         };
         /** @enum {string} */
         SamplingReason: "error_trace" | "slow_trace" | "high_cost_trace" | "routine_sampled" | "routine_dropped";
@@ -2143,36 +2143,36 @@ export interface components {
              * Format: date-time
              * @description When the scenario was created.
              */
-            created_at: string;
+            createdAt: string;
             /** @description The representative trace. */
-            exemplar_trace_id: components["schemas"]["TraceId"];
+            exemplarTraceId: components["schemas"]["TraceId"];
             /** @description Expected outcome for replay assertions, if known. */
-            expected_outcome?: string | null;
+            expectedOutcome?: string | null;
             /** @description The dominant failure mode this scenario reproduces. */
-            failure_mode: components["schemas"]["FailureMode"];
+            failureMode: components["schemas"]["FailureMode"];
             /** @description Suggested perturbation knobs for replay. */
-            perturbation_knobs: components["schemas"]["PerturbationKnobs"];
+            perturbationKnobs: components["schemas"]["PerturbationKnobs"];
             /** @description How many traces exhibited this scenario. */
-            recurrence_count: number;
+            recurrenceCount: number;
             /** @description Redaction classification of the scenario payload. */
-            redaction_class: components["schemas"]["RedactionClass"];
+            redactionClass: components["schemas"]["RedactionClass"];
             /** @description Stable, deterministic identifier for the scenario. */
-            scenario_id: string;
+            scenarioId: string;
             /** @description Tenant/project/environment scope this scenario belongs to. */
             scope: components["schemas"]["TenantScope"];
             /** @description Trace ids the scenario was mined from, sorted ascending. */
-            source_trace_ids: components["schemas"]["TraceId"][];
+            sourceTraceIds: components["schemas"]["TraceId"][];
             /** @description Human-readable title. */
             title: string;
         };
         /** @description A cluster of failing traces that share a similar failure signature. */
         ScenarioCluster: {
             /** @description The most common failure mode across members. */
-            dominant_failure_mode: components["schemas"]["FailureMode"];
+            dominantFailureMode: components["schemas"]["FailureMode"];
             /** @description The representative trace for the cluster. */
-            exemplar_trace_id: components["schemas"]["TraceId"];
+            exemplarTraceId: components["schemas"]["TraceId"];
             /** @description All member trace ids, sorted ascending. */
-            member_trace_ids: components["schemas"]["TraceId"][];
+            memberTraceIds: components["schemas"]["TraceId"][];
             /** @description The signature of the cluster's exemplar. */
             signature: components["schemas"]["Signature"];
             /** @description Number of member traces. */
@@ -2185,18 +2185,18 @@ export interface components {
             score: number;
         };
         SearchHit: {
-            environment_id: string;
+            environmentId: string;
             kind: string;
             model: string;
             name: string;
-            project_id: string;
+            projectId: string;
             /** Format: float */
             score: number;
-            span_id: string;
+            spanId: string;
             status: string;
-            tenant_id: string;
+            tenantId: string;
             tool: string;
-            trace_id: string;
+            traceId: string;
         };
         SearchSpanListResponse: {
             hits: components["schemas"]["SearchHit"][];
@@ -2220,16 +2220,16 @@ export interface components {
         SpanIoResponse: {
             input: components["schemas"]["SpanIoValue"];
             output: components["schemas"]["SpanIoValue"];
-            span_id: components["schemas"]["SpanId"];
-            tenant_id: components["schemas"]["TenantId"];
-            trace_id: components["schemas"]["TraceId"];
+            spanId: components["schemas"]["SpanId"];
+            tenantId: components["schemas"]["TenantId"];
+            traceId: components["schemas"]["TraceId"];
         };
         SpanIoValue: {
             /** @enum {string} */
             kind: "inline";
             value: unknown;
         } | {
-            artifact_ref: components["schemas"]["ArtifactRef"];
+            artifactRef: components["schemas"]["ArtifactRef"];
             /** @enum {string} */
             kind: "artifact";
         } | {
@@ -2253,44 +2253,44 @@ export interface components {
          */
         StatisticalTest: "paired_t" | "mcnemar_exact" | "wilcoxon_signed_rank" | "paired_bootstrap" | "clustered_paired_t" | "sequential_e_value";
         SubmitReviewAnnotationHttpRequest: {
-            annotation_id?: string | null;
+            annotationId?: string | null;
             payload: unknown;
-            reviewer_id: string;
+            reviewerId: string;
             verdict: components["schemas"]["ReviewVerdict"];
         };
         TemperaEvidenceReceipt: {
             created: boolean;
-            declared_content_sha256: string;
-            external_id: string;
+            declaredContentSha256: string;
+            externalId: string;
             kind: components["schemas"]["ExternalEvalEvidenceKind"];
-            project_id: components["schemas"]["ProjectId"];
-            public_key_sha256: string;
-            schema_version: string;
-            signature_sha256: string;
-            signed_payload_sha256: string;
-            source_schema_version: string;
+            projectId: components["schemas"]["ProjectId"];
+            publicKeySha256: string;
+            schemaVersion: string;
+            signatureSha256: string;
+            signedPayloadSha256: string;
+            sourceSchemaVersion: string;
             /** Format: date-time */
-            stored_at: string;
+            storedAt: string;
             summary: components["schemas"]["TemperaEvidenceSummary"];
-            tenant_id: components["schemas"]["TenantId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         TemperaEvidenceSummary: {
-            experiment_id?: string | null;
-            run_id?: string | null;
+            experimentId?: string | null;
+            runId?: string | null;
             split?: string | null;
-            suite_id?: string | null;
-            suite_version?: string | null;
+            suiteId?: string | null;
+            suiteVersion?: string | null;
             verdict?: string | null;
         };
         TenantId: string;
         TenantScope: {
-            environment_id: components["schemas"]["EnvironmentId"];
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            environmentId: components["schemas"]["EnvironmentId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
         };
         TokenCounts: {
             /** Format: int64 */
-            cache_read: number;
+            cacheRead: number;
             /** Format: int64 */
             input: number;
             /** Format: int64 */
@@ -2305,7 +2305,7 @@ export interface components {
             /** @description Error message when `successful` is false. */
             error?: string | null;
             /** @description Composio execution log id, for tracing. */
-            log_id?: string | null;
+            logId?: string | null;
             /** @description Whether the tool reported success. */
             successful: boolean;
         };
@@ -2315,39 +2315,39 @@ export interface components {
          */
         Toolkit: {
             /** @description Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`). */
-            auth_schemes?: string[];
+            authSchemes?: string[];
             /** @description Short description, if the catalog provides one. */
             description?: string | null;
             /** @description Human display name. */
             name: string;
             /** @description `true` when the toolkit needs no OAuth/connection to execute. */
-            no_auth?: boolean;
+            noAuth?: boolean;
             /** @description Stable slug used everywhere else (e.g. `github`, `gmail`). */
             slug: string;
             /**
              * Format: int32
              * @description Number of tools the toolkit exposes, if known.
              */
-            tools_count?: number | null;
+            toolsCount?: number | null;
         };
         TraceId: string;
         TraceIngestedDrainReport: {
             completed: number;
             consumed: number;
-            dead_lettered: number;
-            failed_work: number;
-            invalid_messages: number;
+            deadLettered: number;
+            failedWork: number;
+            invalidMessages: number;
             retried: number;
-            trace_refs: components["schemas"]["QueuedTraceWork"][];
+            traceRefs: components["schemas"]["QueuedTraceWork"][];
         };
         TraceIngestedReconcileReport: {
-            downstream_accepted: number;
-            downstream_duplicate: number;
-            downstream_queued: boolean;
-            project_id: components["schemas"]["ProjectId"];
-            span_count: number;
-            tenant_id: components["schemas"]["TenantId"];
-            trace_id: components["schemas"]["TraceId"];
+            downstreamAccepted: number;
+            downstreamDuplicate: number;
+            downstreamQueued: boolean;
+            projectId: components["schemas"]["ProjectId"];
+            spanCount: number;
+            tenantId: components["schemas"]["TenantId"];
+            traceId: components["schemas"]["TraceId"];
         };
         TraceListResponse: {
             nextPageToken?: string | null;
@@ -2355,27 +2355,27 @@ export interface components {
         };
         TraceView: {
             spans: components["schemas"]["CanonicalSpan"][];
-            tenant_id: components["schemas"]["TenantId"];
-            trace_id: components["schemas"]["TraceId"];
+            tenantId: components["schemas"]["TenantId"];
+            traceId: components["schemas"]["TraceId"];
         };
         TraceWriteDrainReport: {
             consumed: number;
-            dead_lettered: number;
-            downstream_published: number;
-            duplicate_raw: number;
-            duplicate_spans: number;
-            failed_downstream_publishes: number;
-            failed_writes: number;
-            invalid_messages: number;
+            deadLettered: number;
+            downstreamPublished: number;
+            duplicateRaw: number;
+            duplicateSpans: number;
+            failedDownstreamPublishes: number;
+            failedWrites: number;
+            invalidMessages: number;
             retried: number;
-            trace_ids: components["schemas"]["TraceId"][];
-            trace_refs: components["schemas"]["QueuedTraceWork"][];
-            written_raw: number;
-            written_spans: number;
+            traceIds: components["schemas"]["TraceId"][];
+            traceRefs: components["schemas"]["QueuedTraceWork"][];
+            writtenRaw: number;
+            writtenSpans: number;
         };
         UsageSummary: {
-            project_id: components["schemas"]["ProjectId"];
-            tenant_id: components["schemas"]["TenantId"];
+            projectId: components["schemas"]["ProjectId"];
+            tenantId: components["schemas"]["TenantId"];
             totals: {
                 [key: string]: components["schemas"]["UsageTotal"];
             };
@@ -2387,16 +2387,16 @@ export interface components {
         };
         WebhookDelivery: {
             body: unknown;
-            endpoint_url: string;
+            endpointUrl: string;
             headers: {
                 [key: string]: string;
             };
         };
         WriteAck: {
-            accepted_raw: number;
-            accepted_spans: number;
-            duplicate_raw: number;
-            duplicate_spans: number;
+            acceptedRaw: number;
+            acceptedSpans: number;
+            duplicateRaw: number;
+            duplicateSpans: number;
         };
     };
     responses: never;
@@ -2442,11 +2442,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
             };
             cookie?: never;
         };
@@ -2509,11 +2509,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description environment_id */
-                environment_id: string;
+                environmentId: string;
             };
             cookie?: never;
         };
@@ -2576,13 +2576,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description environment_id */
-                environment_id: string;
+                environmentId: string;
                 /** @description api_key_id */
-                api_key_id: string;
+                apiKeyId: string;
             };
             cookie?: never;
         };
@@ -2638,9 +2638,9 @@ export interface operations {
     "archive.querySpans": {
         parameters: {
             query?: {
-                environment_id?: string;
-                trace_id?: string;
-                span_id?: string;
+                environmentId?: string;
+                traceId?: string;
+                spanId?: string;
                 kind?: string;
                 status?: string;
                 pageSize?: number;
@@ -2658,9 +2658,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -2719,11 +2719,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
             };
             cookie?: never;
         };
@@ -2799,9 +2799,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -2860,13 +2860,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
                 /** @description version_id */
-                version_id: string;
+                versionId: string;
             };
             cookie?: never;
         };
@@ -2938,9 +2938,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3004,9 +3004,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3074,9 +3074,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3148,9 +3148,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3225,9 +3225,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3298,9 +3298,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3375,9 +3375,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3445,9 +3445,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3510,11 +3510,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
             };
             cookie?: never;
         };
@@ -3586,11 +3586,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
             };
             cookie?: never;
         };
@@ -3662,13 +3662,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
                 /** @description version_id */
-                version_id: string;
+                versionId: string;
             };
             cookie?: never;
         };
@@ -3740,13 +3740,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
                 /** @description version_id */
-                version_id: string;
+                versionId: string;
             };
             cookie?: never;
         };
@@ -3818,9 +3818,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -3919,9 +3919,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -4020,13 +4020,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description result_bundle or ab_decision */
                 kind: string;
                 /** @description Bundle or experiment id */
-                external_id: string;
+                externalId: string;
             };
             cookie?: never;
         };
@@ -4094,13 +4094,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
                 /** @description version_id */
-                version_id: string;
+                versionId: string;
             };
             cookie?: never;
         };
@@ -4172,13 +4172,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description dataset_id */
-                dataset_id: string;
+                datasetId: string;
                 /** @description version_id */
-                version_id: string;
+                versionId: string;
             };
             cookie?: never;
         };
@@ -4250,9 +4250,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -4315,11 +4315,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description gate_id */
-                gate_id: string;
+                gateId: string;
             };
             cookie?: never;
         };
@@ -4389,11 +4389,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description environment_id */
-                environment_id: string;
+                environmentId: string;
             };
             cookie?: never;
         };
@@ -4462,7 +4462,7 @@ export interface operations {
     "ingest.replayDeadLetter": {
         parameters: {
             query?: {
-                reset_attempts?: boolean;
+                resetAttempts?: boolean;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -4476,11 +4476,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description message_id */
-                message_id: string;
+                messageId: string;
             };
             cookie?: never;
         };
@@ -4548,9 +4548,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -4611,15 +4611,15 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Drain pending trace-ingested events */
+            /** @description Drain pending trace-ingested events, including retry and dead-letter outcomes */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -4653,15 +4653,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Drained with dead-letters */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIngestedDrainReport"];
                 };
             };
         };
@@ -4683,15 +4674,15 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Drain pending trace writes */
+            /** @description Drain pending trace writes, including retry and dead-letter outcomes */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -4727,15 +4718,6 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Drained with dead-letters */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceWriteDrainReport"];
-                };
-            };
         };
     };
     "ingest.reconcileTrace": {
@@ -4753,11 +4735,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
             };
             cookie?: never;
         };
@@ -4825,9 +4807,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -4898,9 +4880,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -4959,11 +4941,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
             };
             cookie?: never;
         };
@@ -5028,11 +5010,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description environment_id */
-                environment_id: string;
+                environmentId: string;
             };
             cookie?: never;
         };
@@ -5117,9 +5099,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -5178,9 +5160,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -5243,11 +5225,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description prompt_id */
-                prompt_id: string;
+                promptId: string;
             };
             cookie?: never;
         };
@@ -5318,11 +5300,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description prompt_id */
-                prompt_id: string;
+                promptId: string;
             };
             cookie?: never;
         };
@@ -5398,11 +5380,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description prompt_id */
-                prompt_id: string;
+                promptId: string;
             };
             cookie?: never;
         };
@@ -5470,11 +5452,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description prompt_id */
-                prompt_id: string;
+                promptId: string;
             };
             cookie?: never;
         };
@@ -5554,9 +5536,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -5615,9 +5597,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -5680,11 +5662,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description provider_secret_id */
-                provider_secret_id: string;
+                providerSecretId: string;
             };
             cookie?: never;
         };
@@ -5752,9 +5734,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -5826,11 +5808,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description queue_id */
-                queue_id: string;
+                queueId: string;
             };
             cookie?: never;
         };
@@ -5898,11 +5880,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description queue_id */
-                queue_id: string;
+                queueId: string;
             };
             cookie?: never;
         };
@@ -5974,13 +5956,13 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description queue_id */
-                queue_id: string;
+                queueId: string;
                 /** @description task_id */
-                task_id: string;
+                taskId: string;
             };
             cookie?: never;
         };
@@ -6052,15 +6034,15 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description queue_id */
-                queue_id: string;
+                queueId: string;
                 /** @description task_id */
-                task_id: string;
+                taskId: string;
                 /** @description annotation_id */
-                annotation_id: string;
+                annotationId: string;
             };
             cookie?: never;
         };
@@ -6140,9 +6122,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -6201,9 +6183,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -6266,9 +6248,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };
@@ -6340,11 +6322,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
                 /** @description scenario_id */
-                scenario_id: string;
+                scenarioId: string;
             };
             cookie?: never;
         };
@@ -6401,10 +6383,10 @@ export interface operations {
         parameters: {
             query?: {
                 q?: string;
-                project_id?: string;
-                environment_id?: string;
-                trace_id?: string;
-                span_id?: string;
+                projectId?: string;
+                environmentId?: string;
+                traceId?: string;
+                spanId?: string;
                 kind?: string;
                 status?: string;
                 model?: string;
@@ -6424,7 +6406,7 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
             };
             cookie?: never;
         };
@@ -6486,11 +6468,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
                 /** @description span_id */
-                span_id: string;
+                spanId: string;
             };
             cookie?: never;
         };
@@ -6561,11 +6543,11 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
                 /** @description span_id */
-                span_id: string;
+                spanId: string;
             };
             cookie?: never;
         };
@@ -6779,19 +6761,19 @@ export interface operations {
     "traces.list": {
         parameters: {
             query?: {
-                project_id?: string;
-                environment_id?: string;
-                trace_id?: string;
+                projectId?: string;
+                environmentId?: string;
+                traceId?: string;
                 kind?: string;
                 status?: string;
-                started_after?: string;
-                started_before?: string;
+                startedAfter?: string;
+                startedBefore?: string;
                 model?: string;
                 release?: string;
-                min_cost_micros?: number;
-                max_cost_micros?: number;
-                min_latency_ms?: number;
-                max_latency_ms?: number;
+                minCostMicros?: number;
+                maxCostMicros?: number;
+                minLatencyMs?: number;
+                maxLatencyMs?: number;
                 pageSize?: number;
                 pageToken?: string;
             };
@@ -6807,7 +6789,7 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
             };
             cookie?: never;
         };
@@ -6869,9 +6851,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description trace_id */
-                trace_id: string;
+                traceId: string;
             };
             cookie?: never;
         };
@@ -6939,9 +6921,9 @@ export interface operations {
             };
             path: {
                 /** @description tenant_id */
-                tenant_id: string;
+                tenantId: string;
                 /** @description project_id */
-                project_id: string;
+                projectId: string;
             };
             cookie?: never;
         };

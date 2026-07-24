@@ -82,10 +82,10 @@ export function DeadLetterReplayReportFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'ack': PublishAckFromJSON(json['ack']),
-        'messageId': json['message_id'],
-        'projectId': json['project_id'],
-        'resetAttempts': json['reset_attempts'],
-        'tenantId': json['tenant_id'],
+        'messageId': json['messageId'],
+        'projectId': json['projectId'],
+        'resetAttempts': json['resetAttempts'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -101,10 +101,10 @@ export function DeadLetterReplayReportToJSONTyped(value?: DeadLetterReplayReport
     return {
         
         'ack': PublishAckToJSON(value['ack']),
-        'message_id': value['messageId'],
-        'project_id': value['projectId'],
-        'reset_attempts': value['resetAttempts'],
-        'tenant_id': value['tenantId'],
+        'messageId': value['messageId'],
+        'projectId': value['projectId'],
+        'resetAttempts': value['resetAttempts'],
+        'tenantId': value['tenantId'],
     };
 }
 

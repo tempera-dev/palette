@@ -46,10 +46,10 @@ public class PromoteTraceCaseRequest {
   public static final String JSON_PROPERTY_REFERENCE = "reference";
   private JsonNullable<Object> reference = JsonNullable.<Object>of(null);
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   private JsonNullable<String> spanId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -236,14 +236,14 @@ public class PromoteTraceCaseRequest {
       joiner.add(String.format("%sreference%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReference()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

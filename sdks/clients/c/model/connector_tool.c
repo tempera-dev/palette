@@ -106,7 +106,7 @@ cJSON *connector_tool_convertToJSON(connector_tool_t *connector_tool) {
     if(input_schema_object == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "input_schema", input_schema_object);
+    cJSON_AddItemToObject(item, "inputSchema", input_schema_object);
     if(item->child == NULL) {
     goto fail;
     }
@@ -124,7 +124,7 @@ cJSON *connector_tool_convertToJSON(connector_tool_t *connector_tool) {
 
     // connector_tool->no_auth
     if(connector_tool->no_auth) {
-    if(cJSON_AddBoolToObject(item, "no_auth", connector_tool->no_auth) == NULL) {
+    if(cJSON_AddBoolToObject(item, "noAuth", connector_tool->no_auth) == NULL) {
     goto fail; //Bool
     }
     }
@@ -191,7 +191,7 @@ connector_tool_t *connector_tool_parseFromJSON(cJSON *connector_toolJSON){
     }
 
     // connector_tool->input_schema
-    cJSON *input_schema = cJSON_GetObjectItemCaseSensitive(connector_toolJSON, "input_schema");
+    cJSON *input_schema = cJSON_GetObjectItemCaseSensitive(connector_toolJSON, "inputSchema");
     if (cJSON_IsNull(input_schema)) {
         input_schema = NULL;
     }
@@ -216,7 +216,7 @@ connector_tool_t *connector_tool_parseFromJSON(cJSON *connector_toolJSON){
     }
 
     // connector_tool->no_auth
-    cJSON *no_auth = cJSON_GetObjectItemCaseSensitive(connector_toolJSON, "no_auth");
+    cJSON *no_auth = cJSON_GetObjectItemCaseSensitive(connector_toolJSON, "noAuth");
     if (cJSON_IsNull(no_auth)) {
         no_auth = NULL;
     }

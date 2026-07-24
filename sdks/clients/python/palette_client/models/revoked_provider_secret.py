@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,9 +28,9 @@ class RevokedProviderSecret(BaseModel):
     RevokedProviderSecret
     """ # noqa: E501
     active: StrictBool
-    provider_secret_id: StrictStr
-    rotated_at: datetime
-    __properties: ClassVar[List[str]] = ["active", "provider_secret_id", "rotated_at"]
+    provider_secret_id: StrictStr = Field(alias="providerSecretId")
+    rotated_at: datetime = Field(alias="rotatedAt")
+    __properties: ClassVar[List[str]] = ["active", "providerSecretId", "rotatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,8 +84,8 @@ class RevokedProviderSecret(BaseModel):
 
         _obj = cls.model_validate({
             "active": obj.get("active"),
-            "provider_secret_id": obj.get("provider_secret_id"),
-            "rotated_at": obj.get("rotated_at")
+            "providerSecretId": obj.get("providerSecretId"),
+            "rotatedAt": obj.get("rotatedAt")
         })
         return _obj
 

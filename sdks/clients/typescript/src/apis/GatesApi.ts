@@ -107,7 +107,7 @@ export class GatesApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/gates/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/gates/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -178,7 +178,7 @@ export class GatesApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/gates/{tenant_id}/{project_id}/{gate_id}/run`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"gate_id"}}`, encodeURIComponent(String(requestParameters['gateId']))),
+            path: `/v1/gates/{tenantId}/{projectId}/{gateId}/run`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"gateId"}}`, encodeURIComponent(String(requestParameters['gateId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

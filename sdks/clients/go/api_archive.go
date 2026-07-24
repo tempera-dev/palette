@@ -97,10 +97,10 @@ func (a *ArchiveAPIService) ArchiveArchiveTraceExecute(r ApiArchiveArchiveTraceR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/archive/{tenant_id}/{project_id}/{trace_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trace_id"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
+	localVarPath := localBasePath + "/v1/archive/{tenantId}/{projectId}/{traceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"traceId"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -328,22 +328,22 @@ func (a *ArchiveAPIService) ArchiveQuerySpansExecute(r ApiArchiveQuerySpansReque
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/archive/{tenant_id}/{project_id}/spans"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+	localVarPath := localBasePath + "/v1/archive/{tenantId}/{projectId}/spans"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
 	if r.environmentId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "environment_id", r.environmentId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "environmentId", r.environmentId, "form", "")
 	}
 	if r.traceId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "trace_id", r.traceId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "traceId", r.traceId, "form", "")
 	}
 	if r.spanId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "span_id", r.spanId, "form", "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "spanId", r.spanId, "form", "")
 	}
 	if r.kind != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")

@@ -20,9 +20,9 @@ namespace model {
 
 MineScenariosRequest::MineScenariosRequest()
 {
-    m_Jaccard_threshold = 0.0;
-    m_Jaccard_thresholdIsSet = false;
-    m_Trace_idsIsSet = false;
+    m_JaccardThreshold = 0.0;
+    m_JaccardThresholdIsSet = false;
+    m_TraceIdsIsSet = false;
 }
 
 MineScenariosRequest::~MineScenariosRequest()
@@ -37,15 +37,15 @@ void MineScenariosRequest::validate()
 web::json::value MineScenariosRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Jaccard_thresholdIsSet)
+    if(m_JaccardThresholdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("jaccard_threshold"))] = ModelBase::toJson(m_Jaccard_threshold);
+        val[utility::conversions::to_string_t(U("jaccardThreshold"))] = ModelBase::toJson(m_JaccardThreshold);
     }
-    if(m_Trace_idsIsSet)
+    if(m_TraceIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_ids"))] = ModelBase::toJson(m_Trace_ids);
+        val[utility::conversions::to_string_t(U("traceIds"))] = ModelBase::toJson(m_TraceIds);
     }
 
     return val;
@@ -54,9 +54,9 @@ web::json::value MineScenariosRequest::toJson() const
 bool MineScenariosRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("jaccard_threshold"))))
+    if(val.has_field(utility::conversions::to_string_t(U("jaccardThreshold"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("jaccard_threshold")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("jaccardThreshold")));
         if(!fieldValue.is_null())
         {
             double refVal_setJaccardThreshold;
@@ -65,9 +65,9 @@ bool MineScenariosRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceIds")));
         if(!fieldValue.is_null())
         {
             std::vector<utility::string_t> refVal_setTraceIds;
@@ -86,13 +86,13 @@ void MineScenariosRequest::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Jaccard_thresholdIsSet)
+    if(m_JaccardThresholdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("jaccard_threshold")), m_Jaccard_threshold));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("jaccardThreshold")), m_JaccardThreshold));
     }
-    if(m_Trace_idsIsSet)
+    if(m_TraceIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_ids")), m_Trace_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceIds")), m_TraceIds));
     }
 }
 
@@ -105,16 +105,16 @@ bool MineScenariosRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("jaccard_threshold"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("jaccardThreshold"))))
     {
         double refVal_setJaccardThreshold;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("jaccard_threshold"))), refVal_setJaccardThreshold );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("jaccardThreshold"))), refVal_setJaccardThreshold );
         setJaccardThreshold(refVal_setJaccardThreshold);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceIds"))))
     {
         std::vector<utility::string_t> refVal_setTraceIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_ids"))), refVal_setTraceIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceIds"))), refVal_setTraceIds );
         setTraceIds(refVal_setTraceIds);
     }
     return ok;
@@ -123,44 +123,44 @@ bool MineScenariosRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 
 double MineScenariosRequest::getJaccardThreshold() const
 {
-    return m_Jaccard_threshold;
+    return m_JaccardThreshold;
 }
 
 void MineScenariosRequest::setJaccardThreshold(double value)
 {
-    m_Jaccard_threshold = value;
-    m_Jaccard_thresholdIsSet = true;
+    m_JaccardThreshold = value;
+    m_JaccardThresholdIsSet = true;
 }
 
 bool MineScenariosRequest::jaccardThresholdIsSet() const
 {
-    return m_Jaccard_thresholdIsSet;
+    return m_JaccardThresholdIsSet;
 }
 
-void MineScenariosRequest::unsetJaccard_threshold()
+void MineScenariosRequest::unsetJaccardThreshold()
 {
-    m_Jaccard_thresholdIsSet = false;
+    m_JaccardThresholdIsSet = false;
 }
 std::vector<utility::string_t> MineScenariosRequest::getTraceIds() const
 {
-    return m_Trace_ids;
+    return m_TraceIds;
 }
 
 
 void MineScenariosRequest::setTraceIds(const std::vector<utility::string_t>& value)
 {
-    m_Trace_ids = value;
-    m_Trace_idsIsSet = true;
+    m_TraceIds = value;
+    m_TraceIdsIsSet = true;
 }
 
 bool MineScenariosRequest::traceIdsIsSet() const
 {
-    return m_Trace_idsIsSet;
+    return m_TraceIdsIsSet;
 }
 
-void MineScenariosRequest::unsetTrace_ids()
+void MineScenariosRequest::unsetTraceIds()
 {
-    m_Trace_idsIsSet = false;
+    m_TraceIdsIsSet = false;
 }
 
 }

@@ -19,9 +19,9 @@ var _ MappedNullable = &RunCalibrationHttpRequest{}
 
 // RunCalibrationHttpRequest struct for RunCalibrationHttpRequest
 type RunCalibrationHttpRequest struct {
-	EvalReportId NullableString `json:"eval_report_id,omitempty"`
-	EvaluatorVersionId NullableString `json:"evaluator_version_id,omitempty"`
-	PassThreshold NullableFloat64 `json:"pass_threshold,omitempty"`
+	EvalReportId NullableString `json:"evalReportId,omitempty"`
+	EvaluatorVersionId NullableString `json:"evaluatorVersionId,omitempty"`
+	PassThreshold NullableFloat64 `json:"passThreshold,omitempty"`
 }
 
 // NewRunCalibrationHttpRequest instantiates a new RunCalibrationHttpRequest object
@@ -178,13 +178,13 @@ func (o RunCalibrationHttpRequest) MarshalJSON() ([]byte, error) {
 func (o RunCalibrationHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EvalReportId.IsSet() {
-		toSerialize["eval_report_id"] = o.EvalReportId.Get()
+		toSerialize["evalReportId"] = o.EvalReportId.Get()
 	}
 	if o.EvaluatorVersionId.IsSet() {
-		toSerialize["evaluator_version_id"] = o.EvaluatorVersionId.Get()
+		toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId.Get()
 	}
 	if o.PassThreshold.IsSet() {
-		toSerialize["pass_threshold"] = o.PassThreshold.Get()
+		toSerialize["passThreshold"] = o.PassThreshold.Get()
 	}
 	return toSerialize, nil
 }

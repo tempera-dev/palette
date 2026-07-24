@@ -46,22 +46,22 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EnqueueReviewTaskFromTraceHttpRequest {
-  public static final String JSON_PROPERTY_DATASET_CASE_ID = "dataset_case_id";
+  public static final String JSON_PROPERTY_DATASET_CASE_ID = "datasetCaseId";
   private JsonNullable<String> datasetCaseId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_DATASET_ID = "dataset_id";
+  public static final String JSON_PROPERTY_DATASET_ID = "datasetId";
   private JsonNullable<String> datasetId = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_PRIORITY = "priority";
   private JsonNullable<Long> priority = JsonNullable.<Long>undefined();
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   private JsonNullable<String> spanId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_TASK_ID = "task_id";
+  public static final String JSON_PROPERTY_TASK_ID = "taskId";
   private JsonNullable<String> taskId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -345,14 +345,14 @@ public class EnqueueReviewTaskFromTraceHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dataset_case_id` to the URL query string
+    // add `datasetCaseId` to the URL query string
     if (getDatasetCaseId() != null) {
-      joiner.add(String.format("%sdataset_case_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetCaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_id` to the URL query string
+    // add `datasetId` to the URL query string
     if (getDatasetId() != null) {
-      joiner.add(String.format("%sdataset_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `priority` to the URL query string
@@ -360,19 +360,19 @@ public class EnqueueReviewTaskFromTraceHttpRequest {
       joiner.add(String.format("%spriority%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPriority()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `task_id` to the URL query string
+    // add `taskId` to the URL query string
     if (getTaskId() != null) {
-      joiner.add(String.format("%stask_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTaskId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%staskId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTaskId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

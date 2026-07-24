@@ -69,12 +69,12 @@ public:
     /// </summary>
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getExemplarTraceId() const;
     bool exemplarTraceIdIsSet() const;
-    void unsetExemplar_trace_id();
+    void unsetExemplarTraceId();
     void setExemplarTraceId(const utility::string_t& value);
 
     /// <summary>
@@ -82,7 +82,7 @@ public:
     /// </summary>
     utility::string_t getExpectedOutcome() const;
     bool expectedOutcomeIsSet() const;
-    void unsetExpected_outcome();
+    void unsetExpectedOutcome();
     void setExpectedOutcome(const utility::string_t& value);
 
     /// <summary>
@@ -90,7 +90,7 @@ public:
     /// </summary>
     std::shared_ptr<FailureMode> getFailureMode() const;
     bool failureModeIsSet() const;
-    void unsetFailure_mode();
+    void unsetFailureMode();
     void setFailureMode(const std::shared_ptr<FailureMode>& value);
 
     /// <summary>
@@ -98,7 +98,7 @@ public:
     /// </summary>
     std::shared_ptr<PerturbationKnobs> getPerturbationKnobs() const;
     bool perturbationKnobsIsSet() const;
-    void unsetPerturbation_knobs();
+    void unsetPerturbationKnobs();
     void setPerturbationKnobs(const std::shared_ptr<PerturbationKnobs>& value);
 
     /// <summary>
@@ -106,7 +106,7 @@ public:
     /// </summary>
     int32_t getRecurrenceCount() const;
     bool recurrenceCountIsSet() const;
-    void unsetRecurrence_count();
+    void unsetRecurrenceCount();
     void setRecurrenceCount(int32_t value);
 
     /// <summary>
@@ -114,7 +114,7 @@ public:
     /// </summary>
     std::shared_ptr<RedactionClass> getRedactionClass() const;
     bool redactionClassIsSet() const;
-    void unsetRedaction_class();
+    void unsetRedactionClass();
     void setRedactionClass(const std::shared_ptr<RedactionClass>& value);
 
     /// <summary>
@@ -122,7 +122,7 @@ public:
     /// </summary>
     utility::string_t getScenarioId() const;
     bool scenarioIdIsSet() const;
-    void unsetScenario_id();
+    void unsetScenarioId();
     void setScenarioId(const utility::string_t& value);
 
     /// <summary>
@@ -138,7 +138,7 @@ public:
     /// </summary>
     std::vector<std::shared_ptr<utility::string_t>> getSourceTraceIds() const;
     bool sourceTraceIdsIsSet() const;
-    void unsetSource_trace_ids();
+    void unsetSourceTraceIds();
     void setSourceTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
     /// <summary>
@@ -151,35 +151,35 @@ public:
 
 
 protected:
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Exemplar_trace_id;
-    bool m_Exemplar_trace_idIsSet;
+    utility::string_t m_ExemplarTraceId;
+    bool m_ExemplarTraceIdIsSet;
 
-    utility::string_t m_Expected_outcome;
-    bool m_Expected_outcomeIsSet;
+    utility::string_t m_ExpectedOutcome;
+    bool m_ExpectedOutcomeIsSet;
 
-    std::shared_ptr<FailureMode> m_Failure_mode;
-    bool m_Failure_modeIsSet;
+    std::shared_ptr<FailureMode> m_FailureMode;
+    bool m_FailureModeIsSet;
 
-    std::shared_ptr<PerturbationKnobs> m_Perturbation_knobs;
-    bool m_Perturbation_knobsIsSet;
+    std::shared_ptr<PerturbationKnobs> m_PerturbationKnobs;
+    bool m_PerturbationKnobsIsSet;
 
-    int32_t m_Recurrence_count;
-    bool m_Recurrence_countIsSet;
+    int32_t m_RecurrenceCount;
+    bool m_RecurrenceCountIsSet;
 
-    std::shared_ptr<RedactionClass> m_Redaction_class;
-    bool m_Redaction_classIsSet;
+    std::shared_ptr<RedactionClass> m_RedactionClass;
+    bool m_RedactionClassIsSet;
 
-    utility::string_t m_Scenario_id;
-    bool m_Scenario_idIsSet;
+    utility::string_t m_ScenarioId;
+    bool m_ScenarioIdIsSet;
 
     std::shared_ptr<TenantScope> m_Scope;
     bool m_ScopeIsSet;
 
-    std::vector<std::shared_ptr<utility::string_t>> m_Source_trace_ids;
-    bool m_Source_trace_idsIsSet;
+    std::vector<std::shared_ptr<utility::string_t>> m_SourceTraceIds;
+    bool m_SourceTraceIdsIsSet;
 
     utility::string_t m_Title;
     bool m_TitleIsSet;

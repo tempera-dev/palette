@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.artifact_ref import ArtifactRef
 from typing import Optional, Set
@@ -27,9 +27,9 @@ class SpanIoValueOneOf1(BaseModel):
     """
     SpanIoValueOneOf1
     """ # noqa: E501
-    artifact_ref: ArtifactRef
+    artifact_ref: ArtifactRef = Field(alias="artifactRef")
     kind: StrictStr
-    __properties: ClassVar[List[str]] = ["artifact_ref", "kind"]
+    __properties: ClassVar[List[str]] = ["artifactRef", "kind"]
 
     @field_validator('kind')
     def kind_validate_enum(cls, value):
@@ -79,7 +79,7 @@ class SpanIoValueOneOf1(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of artifact_ref
         if self.artifact_ref:
-            _dict['artifact_ref'] = self.artifact_ref.to_dict()
+            _dict['artifactRef'] = self.artifact_ref.to_dict()
         return _dict
 
     @classmethod
@@ -92,7 +92,7 @@ class SpanIoValueOneOf1(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "artifact_ref": ArtifactRef.from_dict(obj["artifact_ref"]) if obj.get("artifact_ref") is not None else None,
+            "artifactRef": ArtifactRef.from_dict(obj["artifactRef"]) if obj.get("artifactRef") is not None else None,
             "kind": obj.get("kind")
         })
         return _obj

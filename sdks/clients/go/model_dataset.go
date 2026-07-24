@@ -22,11 +22,11 @@ var _ MappedNullable = &Dataset{}
 
 // Dataset struct for Dataset
 type Dataset struct {
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
 	Name string `json:"name"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
 }
 
 type _Dataset Dataset
@@ -183,11 +183,11 @@ func (o Dataset) MarshalJSON() ([]byte, error) {
 
 func (o Dataset) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
 	toSerialize["name"] = o.Name
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -196,11 +196,11 @@ func (o *Dataset) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
-		"dataset_id",
+		"createdAt",
+		"datasetId",
 		"name",
-		"project_id",
-		"tenant_id",
+		"projectId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

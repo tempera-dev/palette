@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class TenantScope(BaseModel):
     """
     TenantScope
     """ # noqa: E501
-    environment_id: StrictStr
-    project_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["environment_id", "project_id", "tenant_id"]
+    environment_id: StrictStr = Field(alias="environmentId")
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["environmentId", "projectId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,9 +82,9 @@ class TenantScope(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "environment_id": obj.get("environment_id"),
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id")
+            "environmentId": obj.get("environmentId"),
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

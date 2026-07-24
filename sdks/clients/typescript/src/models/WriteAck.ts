@@ -66,10 +66,10 @@ export function WriteAckFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'acceptedRaw': json['accepted_raw'],
-        'acceptedSpans': json['accepted_spans'],
-        'duplicateRaw': json['duplicate_raw'],
-        'duplicateSpans': json['duplicate_spans'],
+        'acceptedRaw': json['acceptedRaw'],
+        'acceptedSpans': json['acceptedSpans'],
+        'duplicateRaw': json['duplicateRaw'],
+        'duplicateSpans': json['duplicateSpans'],
     };
 }
 
@@ -84,10 +84,10 @@ export function WriteAckToJSONTyped(value?: WriteAck | null, ignoreDiscriminator
 
     return {
         
-        'accepted_raw': value['acceptedRaw'],
-        'accepted_spans': value['acceptedSpans'],
-        'duplicate_raw': value['duplicateRaw'],
-        'duplicate_spans': value['duplicateSpans'],
+        'acceptedRaw': value['acceptedRaw'],
+        'acceptedSpans': value['acceptedSpans'],
+        'duplicateRaw': value['duplicateRaw'],
+        'duplicateSpans': value['duplicateSpans'],
     };
 }
 

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from palette_client.models.money import Money
 from typing import Optional, Set
@@ -29,20 +29,20 @@ class JudgeAuditRecord(BaseModel):
     JudgeAuditRecord
     """ # noqa: E501
     cached: StrictBool
-    charged_cost: Money
-    created_at: datetime
-    evaluator_id: StrictStr
-    judge_call_id: StrictStr
+    charged_cost: Money = Field(alias="chargedCost")
+    created_at: datetime = Field(alias="createdAt")
+    evaluator_id: StrictStr = Field(alias="evaluatorId")
+    judge_call_id: StrictStr = Field(alias="judgeCallId")
     model: StrictStr
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     provider: StrictStr
-    provider_cost: Money
-    provider_secret_id: StrictStr
-    request_hash: StrictStr
-    response_hash: StrictStr
+    provider_cost: Money = Field(alias="providerCost")
+    provider_secret_id: StrictStr = Field(alias="providerSecretId")
+    request_hash: StrictStr = Field(alias="requestHash")
+    response_hash: StrictStr = Field(alias="responseHash")
     score: Union[StrictFloat, StrictInt]
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["cached", "charged_cost", "created_at", "evaluator_id", "judge_call_id", "model", "project_id", "provider", "provider_cost", "provider_secret_id", "request_hash", "response_hash", "score", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["cached", "chargedCost", "createdAt", "evaluatorId", "judgeCallId", "model", "projectId", "provider", "providerCost", "providerSecretId", "requestHash", "responseHash", "score", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,10 +85,10 @@ class JudgeAuditRecord(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of charged_cost
         if self.charged_cost:
-            _dict['charged_cost'] = self.charged_cost.to_dict()
+            _dict['chargedCost'] = self.charged_cost.to_dict()
         # override the default output from pydantic by calling `to_dict()` of provider_cost
         if self.provider_cost:
-            _dict['provider_cost'] = self.provider_cost.to_dict()
+            _dict['providerCost'] = self.provider_cost.to_dict()
         return _dict
 
     @classmethod
@@ -102,19 +102,19 @@ class JudgeAuditRecord(BaseModel):
 
         _obj = cls.model_validate({
             "cached": obj.get("cached"),
-            "charged_cost": Money.from_dict(obj["charged_cost"]) if obj.get("charged_cost") is not None else None,
-            "created_at": obj.get("created_at"),
-            "evaluator_id": obj.get("evaluator_id"),
-            "judge_call_id": obj.get("judge_call_id"),
+            "chargedCost": Money.from_dict(obj["chargedCost"]) if obj.get("chargedCost") is not None else None,
+            "createdAt": obj.get("createdAt"),
+            "evaluatorId": obj.get("evaluatorId"),
+            "judgeCallId": obj.get("judgeCallId"),
             "model": obj.get("model"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "provider": obj.get("provider"),
-            "provider_cost": Money.from_dict(obj["provider_cost"]) if obj.get("provider_cost") is not None else None,
-            "provider_secret_id": obj.get("provider_secret_id"),
-            "request_hash": obj.get("request_hash"),
-            "response_hash": obj.get("response_hash"),
+            "providerCost": Money.from_dict(obj["providerCost"]) if obj.get("providerCost") is not None else None,
+            "providerSecretId": obj.get("providerSecretId"),
+            "requestHash": obj.get("requestHash"),
+            "responseHash": obj.get("responseHash"),
             "score": obj.get("score"),
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

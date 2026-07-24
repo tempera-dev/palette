@@ -39,15 +39,15 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ImportTemperaEvidenceRequest {
-  public static final String JSON_PROPERTY_CANONICAL_JSON = "canonical_json";
+  public static final String JSON_PROPERTY_CANONICAL_JSON = "canonicalJson";
   @javax.annotation.Nonnull
   private String canonicalJson;
 
-  public static final String JSON_PROPERTY_PUBLIC_KEY_PEM = "public_key_pem";
+  public static final String JSON_PROPERTY_PUBLIC_KEY_PEM = "publicKeyPem";
   @javax.annotation.Nonnull
   private String publicKeyPem;
 
-  public static final String JSON_PROPERTY_SIGNATURE_BASE64 = "signature_base64";
+  public static final String JSON_PROPERTY_SIGNATURE_BASE64 = "signatureBase64";
   @javax.annotation.Nonnull
   private String signatureBase64;
 
@@ -202,19 +202,19 @@ public class ImportTemperaEvidenceRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `canonical_json` to the URL query string
+    // add `canonicalJson` to the URL query string
     if (getCanonicalJson() != null) {
-      joiner.add(String.format("%scanonical_json%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCanonicalJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scanonicalJson%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCanonicalJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `public_key_pem` to the URL query string
+    // add `publicKeyPem` to the URL query string
     if (getPublicKeyPem() != null) {
-      joiner.add(String.format("%spublic_key_pem%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPublicKeyPem()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spublicKeyPem%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPublicKeyPem()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `signature_base64` to the URL query string
+    // add `signatureBase64` to the URL query string
     if (getSignatureBase64() != null) {
-      joiner.add(String.format("%ssignature_base64%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignatureBase64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssignatureBase64%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignatureBase64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

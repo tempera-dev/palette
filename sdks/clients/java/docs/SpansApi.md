@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**spansGet**](SpansApi.md#spansGet) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
-| [**spansGetWithHttpInfo**](SpansApi.md#spansGetWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
-| [**spansGetIo**](SpansApi.md#spansGetIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
-| [**spansGetIoWithHttpInfo**](SpansApi.md#spansGetIoWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
+| [**spansGet**](SpansApi.md#spansGet) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId} |  |
+| [**spansGetWithHttpInfo**](SpansApi.md#spansGetWithHttpInfo) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId} |  |
+| [**spansGetIo**](SpansApi.md#spansGetIo) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId}/io |  |
+| [**spansGetIoWithHttpInfo**](SpansApi.md#spansGetIoWithHttpInfo) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId}/io |  |
 
 
 

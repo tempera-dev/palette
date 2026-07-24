@@ -21,11 +21,11 @@ var _ MappedNullable = &ArtifactRef{}
 
 // ArtifactRef struct for ArtifactRef
 type ArtifactRef struct {
-	ArtifactId string `json:"artifact_id"`
-	MimeType string `json:"mime_type"`
-	RedactionClass RedactionClass `json:"redaction_class"`
+	ArtifactId string `json:"artifactId"`
+	MimeType string `json:"mimeType"`
+	RedactionClass RedactionClass `json:"redactionClass"`
 	Sha256 string `json:"sha256"`
-	SizeBytes int64 `json:"size_bytes"`
+	SizeBytes int64 `json:"sizeBytes"`
 	Uri string `json:"uri"`
 }
 
@@ -208,11 +208,11 @@ func (o ArtifactRef) MarshalJSON() ([]byte, error) {
 
 func (o ArtifactRef) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["artifact_id"] = o.ArtifactId
-	toSerialize["mime_type"] = o.MimeType
-	toSerialize["redaction_class"] = o.RedactionClass
+	toSerialize["artifactId"] = o.ArtifactId
+	toSerialize["mimeType"] = o.MimeType
+	toSerialize["redactionClass"] = o.RedactionClass
 	toSerialize["sha256"] = o.Sha256
-	toSerialize["size_bytes"] = o.SizeBytes
+	toSerialize["sizeBytes"] = o.SizeBytes
 	toSerialize["uri"] = o.Uri
 	return toSerialize, nil
 }
@@ -222,11 +222,11 @@ func (o *ArtifactRef) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"artifact_id",
-		"mime_type",
-		"redaction_class",
+		"artifactId",
+		"mimeType",
+		"redactionClass",
 		"sha256",
-		"size_bytes",
+		"sizeBytes",
 		"uri",
 	}
 

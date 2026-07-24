@@ -21,7 +21,7 @@ var _ MappedNullable = &EvaluatorKindOneOf8{}
 
 // EvaluatorKindOneOf8 Browser step efficiency: passes when the run used at most `max_steps` browser steps (catches looping/backtracking). Reads `trace.browser_steps`.
 type EvaluatorKindOneOf8 struct {
-	MaxSteps int64 `json:"max_steps"`
+	MaxSteps int64 `json:"maxSteps"`
 	Type string `json:"type"`
 }
 
@@ -104,7 +104,7 @@ func (o EvaluatorKindOneOf8) MarshalJSON() ([]byte, error) {
 
 func (o EvaluatorKindOneOf8) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["max_steps"] = o.MaxSteps
+	toSerialize["maxSteps"] = o.MaxSteps
 	toSerialize["type"] = o.Type
 	return toSerialize, nil
 }
@@ -114,7 +114,7 @@ func (o *EvaluatorKindOneOf8) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"max_steps",
+		"maxSteps",
 		"type",
 	}
 

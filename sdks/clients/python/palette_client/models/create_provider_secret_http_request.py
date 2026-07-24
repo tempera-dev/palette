@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class CreateProviderSecretHttpRequest(BaseModel):
     """
     CreateProviderSecretHttpRequest
     """ # noqa: E501
-    display_name: StrictStr
+    display_name: StrictStr = Field(alias="displayName")
     provider: StrictStr
-    secret_value: StrictStr
-    __properties: ClassVar[List[str]] = ["display_name", "provider", "secret_value"]
+    secret_value: StrictStr = Field(alias="secretValue")
+    __properties: ClassVar[List[str]] = ["displayName", "provider", "secretValue"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,9 +82,9 @@ class CreateProviderSecretHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "display_name": obj.get("display_name"),
+            "displayName": obj.get("displayName"),
             "provider": obj.get("provider"),
-            "secret_value": obj.get("secret_value")
+            "secretValue": obj.get("secretValue")
         })
         return _obj
 

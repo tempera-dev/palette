@@ -66,7 +66,7 @@ cJSON *evaluator_kind_one_of_8_convertToJSON(evaluator_kind_one_of_8_t *evaluato
     if (!evaluator_kind_one_of_8->max_steps) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_steps", evaluator_kind_one_of_8->max_steps) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxSteps", evaluator_kind_one_of_8->max_steps) == NULL) {
     goto fail; //Numeric
     }
 
@@ -93,7 +93,7 @@ evaluator_kind_one_of_8_t *evaluator_kind_one_of_8_parseFromJSON(cJSON *evaluato
     evaluator_kind_one_of_8_t *evaluator_kind_one_of_8_local_var = NULL;
 
     // evaluator_kind_one_of_8->max_steps
-    cJSON *max_steps = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_8JSON, "max_steps");
+    cJSON *max_steps = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_8JSON, "maxSteps");
     if (cJSON_IsNull(max_steps)) {
         max_steps = NULL;
     }

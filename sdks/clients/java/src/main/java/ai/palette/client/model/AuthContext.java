@@ -41,7 +41,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class AuthContext {
-  public static final String JSON_PROPERTY_API_KEY_ID = "api_key_id";
+  public static final String JSON_PROPERTY_API_KEY_ID = "apiKeyId";
   @javax.annotation.Nullable
   private String apiKeyId;
 
@@ -183,9 +183,9 @@ public class AuthContext {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `api_key_id` to the URL query string
+    // add `apiKeyId` to the URL query string
     if (getApiKeyId() != null) {
-      joiner.add(String.format("%sapi_key_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sapiKeyId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scopes` to the URL query string

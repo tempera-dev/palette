@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Toolkit {
     /// Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`).
-    #[serde(rename = "auth_schemes", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "authSchemes", skip_serializing_if = "Option::is_none")]
     pub auth_schemes: Option<Vec<String>>,
     /// Short description, if the catalog provides one.
     #[serde(rename = "description", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
@@ -24,13 +24,13 @@ pub struct Toolkit {
     #[serde(rename = "name")]
     pub name: String,
     /// `true` when the toolkit needs no OAuth/connection to execute.
-    #[serde(rename = "no_auth", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "noAuth", skip_serializing_if = "Option::is_none")]
     pub no_auth: Option<bool>,
     /// Stable slug used everywhere else (e.g. `github`, `gmail`).
     #[serde(rename = "slug")]
     pub slug: String,
     /// Number of tools the toolkit exposes, if known.
-    #[serde(rename = "tools_count", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "toolsCount", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub tools_count: Option<Option<i32>>,
 }
 

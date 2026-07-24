@@ -129,14 +129,14 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", review_task->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", review_task->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
 
     // review_task->dataset_case_id
     if(review_task->dataset_case_id) {
-    if(cJSON_AddStringToObject(item, "dataset_case_id", review_task->dataset_case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetCaseId", review_task->dataset_case_id) == NULL) {
     goto fail; //String
     }
     }
@@ -144,7 +144,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
 
     // review_task->dataset_id
     if(review_task->dataset_id) {
-    if(cJSON_AddStringToObject(item, "dataset_id", review_task->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", review_task->dataset_id) == NULL) {
     goto fail; //String
     }
     }
@@ -163,7 +163,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", review_task->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", review_task->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -172,14 +172,14 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->queue_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "queue_id", review_task->queue_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "queueId", review_task->queue_id) == NULL) {
     goto fail; //String
     }
 
 
     // review_task->span_id
     if(review_task->span_id) {
-    if(cJSON_AddStringToObject(item, "span_id", review_task->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", review_task->span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -203,7 +203,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->task_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "task_id", review_task->task_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "taskId", review_task->task_id) == NULL) {
     goto fail; //String
     }
 
@@ -212,7 +212,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", review_task->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", review_task->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -221,7 +221,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", review_task->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", review_task->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -230,7 +230,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
     if (!review_task->updated_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "updated_at", review_task->updated_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "updatedAt", review_task->updated_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -250,7 +250,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     palette_api_review_task_state__e state_local_nonprim = 0;
 
     // review_task->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -265,7 +265,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->dataset_case_id
-    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "dataset_case_id");
+    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "datasetCaseId");
     if (cJSON_IsNull(dataset_case_id)) {
         dataset_case_id = NULL;
     }
@@ -277,7 +277,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -304,7 +304,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -319,7 +319,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->queue_id
-    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "queue_id");
+    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "queueId");
     if (cJSON_IsNull(queue_id)) {
         queue_id = NULL;
     }
@@ -334,7 +334,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -358,7 +358,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     state_local_nonprim = review_task_state_parseFromJSON(state); //custom
 
     // review_task->task_id
-    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "task_id");
+    cJSON *task_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "taskId");
     if (cJSON_IsNull(task_id)) {
         task_id = NULL;
     }
@@ -373,7 +373,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -388,7 +388,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }
@@ -403,7 +403,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     }
 
     // review_task->updated_at
-    cJSON *updated_at = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "updated_at");
+    cJSON *updated_at = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "updatedAt");
     if (cJSON_IsNull(updated_at)) {
         updated_at = NULL;
     }

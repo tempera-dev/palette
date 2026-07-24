@@ -76,7 +76,7 @@ cJSON *evaluator_kind_one_of_7_convertToJSON(evaluator_kind_one_of_7_t *evaluato
 
     // evaluator_kind_one_of_7->dom_contains
     if(evaluator_kind_one_of_7->dom_contains) {
-    if(cJSON_AddStringToObject(item, "dom_contains", evaluator_kind_one_of_7->dom_contains) == NULL) {
+    if(cJSON_AddStringToObject(item, "domContains", evaluator_kind_one_of_7->dom_contains) == NULL) {
     goto fail; //String
     }
     }
@@ -94,7 +94,7 @@ cJSON *evaluator_kind_one_of_7_convertToJSON(evaluator_kind_one_of_7_t *evaluato
 
     // evaluator_kind_one_of_7->url_contains
     if(evaluator_kind_one_of_7->url_contains) {
-    if(cJSON_AddStringToObject(item, "url_contains", evaluator_kind_one_of_7->url_contains) == NULL) {
+    if(cJSON_AddStringToObject(item, "urlContains", evaluator_kind_one_of_7->url_contains) == NULL) {
     goto fail; //String
     }
     }
@@ -112,7 +112,7 @@ evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_parseFromJSON(cJSON *evaluato
     evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_local_var = NULL;
 
     // evaluator_kind_one_of_7->dom_contains
-    cJSON *dom_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_7JSON, "dom_contains");
+    cJSON *dom_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_7JSON, "domContains");
     if (cJSON_IsNull(dom_contains)) {
         dom_contains = NULL;
     }
@@ -141,7 +141,7 @@ evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_parseFromJSON(cJSON *evaluato
     typeVariable = evaluator_kind_one_of_7_type_FromString(type->valuestring);
 
     // evaluator_kind_one_of_7->url_contains
-    cJSON *url_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_7JSON, "url_contains");
+    cJSON *url_contains = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_7JSON, "urlContains");
     if (cJSON_IsNull(url_contains)) {
         url_contains = NULL;
     }

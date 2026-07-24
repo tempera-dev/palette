@@ -15,13 +15,13 @@ use serde::{Deserialize, Serialize};
 pub struct NativeIngestRequest {
     #[serde(rename = "attributes")]
     pub attributes: std::collections::HashMap<String, serde_json::Value>,
-    #[serde(rename = "auth_context", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "authContext", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub auth_context: Option<Option<Box<models::AuthContext>>>,
     #[serde(rename = "cost", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cost: Option<Option<Box<models::Money>>>,
-    #[serde(rename = "end_time", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "endTime", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub end_time: Option<Option<String>>,
-    #[serde(rename = "idempotency_key", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "idempotencyKey", skip_serializing_if = "Option::is_none")]
     pub idempotency_key: Option<String>,
     #[serde(rename = "input", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub input: Option<Option<serde_json::Value>>,
@@ -34,23 +34,23 @@ pub struct NativeIngestRequest {
     pub name: String,
     #[serde(rename = "output", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub output: Option<Option<serde_json::Value>>,
-    #[serde(rename = "parent_span_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "parentSpanId", skip_serializing_if = "Option::is_none")]
     pub parent_span_id: Option<String>,
-    #[serde(rename = "redaction_class")]
+    #[serde(rename = "redactionClass")]
     pub redaction_class: models::RedactionClass,
     #[serde(rename = "scope")]
     pub scope: Box<models::TenantScope>,
     #[serde(rename = "seq")]
     pub seq: i64,
-    #[serde(rename = "span_id")]
+    #[serde(rename = "spanId")]
     pub span_id: String,
-    #[serde(rename = "start_time", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "startTime", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub start_time: Option<Option<String>>,
     #[serde(rename = "status")]
     pub status: models::SpanStatus,
     #[serde(rename = "tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub tokens: Option<Option<Box<models::TokenCounts>>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

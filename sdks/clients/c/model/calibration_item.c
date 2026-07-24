@@ -90,7 +90,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
     if (!calibration_item->dataset_case_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_case_id", calibration_item->dataset_case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetCaseId", calibration_item->dataset_case_id) == NULL) {
     goto fail; //String
     }
 
@@ -117,7 +117,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
     if(human_label_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "human_label", human_label_local_JSON);
+    cJSON_AddItemToObject(item, "humanLabel", human_label_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -131,7 +131,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
     if(judge_label_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "judge_label", judge_label_local_JSON);
+    cJSON_AddItemToObject(item, "judgeLabel", judge_label_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -139,7 +139,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
 
     // calibration_item->judge_result_label
     if(calibration_item->judge_result_label) {
-    if(cJSON_AddStringToObject(item, "judge_result_label", calibration_item->judge_result_label) == NULL) {
+    if(cJSON_AddStringToObject(item, "judgeResultLabel", calibration_item->judge_result_label) == NULL) {
     goto fail; //String
     }
     }
@@ -149,7 +149,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
     if (!calibration_item->judge_score) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "judge_score", calibration_item->judge_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "judgeScore", calibration_item->judge_score) == NULL) {
     goto fail; //Numeric
     }
 
@@ -190,7 +190,7 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     }
 
     // calibration_item->dataset_case_id
-    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "dataset_case_id");
+    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "datasetCaseId");
     if (cJSON_IsNull(dataset_case_id)) {
         dataset_case_id = NULL;
     }
@@ -217,7 +217,7 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     evidence_local_nonprim = _parseFromJSON(evidence); //custom
 
     // calibration_item->human_label
-    cJSON *human_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "human_label");
+    cJSON *human_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "humanLabel");
     if (cJSON_IsNull(human_label)) {
         human_label = NULL;
     }
@@ -229,7 +229,7 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     human_label_local_nonprim = calibration_label_parseFromJSON(human_label); //custom
 
     // calibration_item->judge_label
-    cJSON *judge_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judge_label");
+    cJSON *judge_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judgeLabel");
     if (cJSON_IsNull(judge_label)) {
         judge_label = NULL;
     }
@@ -241,7 +241,7 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     judge_label_local_nonprim = calibration_label_parseFromJSON(judge_label); //custom
 
     // calibration_item->judge_result_label
-    cJSON *judge_result_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judge_result_label");
+    cJSON *judge_result_label = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judgeResultLabel");
     if (cJSON_IsNull(judge_result_label)) {
         judge_result_label = NULL;
     }
@@ -253,7 +253,7 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     }
 
     // calibration_item->judge_score
-    cJSON *judge_score = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judge_score");
+    cJSON *judge_score = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "judgeScore");
     if (cJSON_IsNull(judge_score)) {
         judge_score = NULL;
     }

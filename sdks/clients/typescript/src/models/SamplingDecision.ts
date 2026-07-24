@@ -71,7 +71,7 @@ export function SamplingDecisionFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'reason': SamplingReasonFromJSON(json['reason']),
         'selected': json['selected'],
-        'stableScorePerMille': json['stable_score_per_mille'],
+        'stableScorePerMille': json['stableScorePerMille'],
     };
 }
 
@@ -88,7 +88,7 @@ export function SamplingDecisionToJSONTyped(value?: SamplingDecision | null, ign
         
         'reason': SamplingReasonToJSON(value['reason']),
         'selected': value['selected'],
-        'stable_score_per_mille': value['stableScorePerMille'],
+        'stableScorePerMille': value['stableScorePerMille'],
     };
 }
 

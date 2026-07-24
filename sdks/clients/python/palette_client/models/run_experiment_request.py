@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.case_output_override_request import CaseOutputOverrideRequest
 from palette_client.models.evaluator_kind import EvaluatorKind
@@ -29,15 +29,15 @@ class RunExperimentRequest(BaseModel):
     """
     RunExperimentRequest
     """ # noqa: E501
-    baseline_outputs: List[CaseOutputOverrideRequest]
-    baseline_release_id: StrictStr
-    candidate_outputs: List[CaseOutputOverrideRequest]
-    candidate_release_id: StrictStr
-    evaluator_id: StrictStr
-    evaluator_version_id: StrictStr
-    gate_policy: Optional[GatePolicy] = None
+    baseline_outputs: List[CaseOutputOverrideRequest] = Field(alias="baselineOutputs")
+    baseline_release_id: StrictStr = Field(alias="baselineReleaseId")
+    candidate_outputs: List[CaseOutputOverrideRequest] = Field(alias="candidateOutputs")
+    candidate_release_id: StrictStr = Field(alias="candidateReleaseId")
+    evaluator_id: StrictStr = Field(alias="evaluatorId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    gate_policy: Optional[GatePolicy] = Field(default=None, alias="gatePolicy")
     kind: EvaluatorKind
-    __properties: ClassVar[List[str]] = ["baseline_outputs", "baseline_release_id", "candidate_outputs", "candidate_release_id", "evaluator_id", "evaluator_version_id", "gate_policy", "kind"]
+    __properties: ClassVar[List[str]] = ["baselineOutputs", "baselineReleaseId", "candidateOutputs", "candidateReleaseId", "evaluatorId", "evaluatorVersionId", "gatePolicy", "kind"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,24 +84,24 @@ class RunExperimentRequest(BaseModel):
             for _item_baseline_outputs in self.baseline_outputs:
                 if _item_baseline_outputs:
                     _items.append(_item_baseline_outputs.to_dict())
-            _dict['baseline_outputs'] = _items
+            _dict['baselineOutputs'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in candidate_outputs (list)
         _items = []
         if self.candidate_outputs:
             for _item_candidate_outputs in self.candidate_outputs:
                 if _item_candidate_outputs:
                     _items.append(_item_candidate_outputs.to_dict())
-            _dict['candidate_outputs'] = _items
+            _dict['candidateOutputs'] = _items
         # override the default output from pydantic by calling `to_dict()` of gate_policy
         if self.gate_policy:
-            _dict['gate_policy'] = self.gate_policy.to_dict()
+            _dict['gatePolicy'] = self.gate_policy.to_dict()
         # override the default output from pydantic by calling `to_dict()` of kind
         if self.kind:
             _dict['kind'] = self.kind.to_dict()
         # set to None if gate_policy (nullable) is None
         # and model_fields_set contains the field
         if self.gate_policy is None and "gate_policy" in self.model_fields_set:
-            _dict['gate_policy'] = None
+            _dict['gatePolicy'] = None
 
         return _dict
 
@@ -115,13 +115,13 @@ class RunExperimentRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "baseline_outputs": [CaseOutputOverrideRequest.from_dict(_item) for _item in obj["baseline_outputs"]] if obj.get("baseline_outputs") is not None else None,
-            "baseline_release_id": obj.get("baseline_release_id"),
-            "candidate_outputs": [CaseOutputOverrideRequest.from_dict(_item) for _item in obj["candidate_outputs"]] if obj.get("candidate_outputs") is not None else None,
-            "candidate_release_id": obj.get("candidate_release_id"),
-            "evaluator_id": obj.get("evaluator_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "gate_policy": GatePolicy.from_dict(obj["gate_policy"]) if obj.get("gate_policy") is not None else None,
+            "baselineOutputs": [CaseOutputOverrideRequest.from_dict(_item) for _item in obj["baselineOutputs"]] if obj.get("baselineOutputs") is not None else None,
+            "baselineReleaseId": obj.get("baselineReleaseId"),
+            "candidateOutputs": [CaseOutputOverrideRequest.from_dict(_item) for _item in obj["candidateOutputs"]] if obj.get("candidateOutputs") is not None else None,
+            "candidateReleaseId": obj.get("candidateReleaseId"),
+            "evaluatorId": obj.get("evaluatorId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "gatePolicy": GatePolicy.from_dict(obj["gatePolicy"]) if obj.get("gatePolicy") is not None else None,
             "kind": EvaluatorKind.from_dict(obj["kind"]) if obj.get("kind") is not None else None
         })
         return _obj

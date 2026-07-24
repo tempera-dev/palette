@@ -43,7 +43,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CreateReviewQueueHttpRequest {
-  public static final String JSON_PROPERTY_ANNOTATION_SCHEMA = "annotation_schema";
+  public static final String JSON_PROPERTY_ANNOTATION_SCHEMA = "annotationSchema";
   @javax.annotation.Nullable
   private Object annotationSchema = null;
 
@@ -51,7 +51,7 @@ public class CreateReviewQueueHttpRequest {
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_QUEUE_ID = "queue_id";
+  public static final String JSON_PROPERTY_QUEUE_ID = "queueId";
   private JsonNullable<String> queueId = JsonNullable.<String>undefined();
 
   public CreateReviewQueueHttpRequest() { 
@@ -224,9 +224,9 @@ public class CreateReviewQueueHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `annotation_schema` to the URL query string
+    // add `annotationSchema` to the URL query string
     if (getAnnotationSchema() != null) {
-      joiner.add(String.format("%sannotation_schema%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationSchema()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sannotationSchema%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationSchema()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `name` to the URL query string
@@ -234,9 +234,9 @@ public class CreateReviewQueueHttpRequest {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `queue_id` to the URL query string
+    // add `queueId` to the URL query string
     if (getQueueId() != null) {
-      joiner.add(String.format("%squeue_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQueueId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squeueId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQueueId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

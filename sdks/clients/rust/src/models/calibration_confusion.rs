@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CalibrationConfusion {
-    #[serde(rename = "human_fail_judge_fail")]
+    #[serde(rename = "humanFailJudgeFail")]
     pub human_fail_judge_fail: i32,
-    #[serde(rename = "human_fail_judge_pass")]
+    #[serde(rename = "humanFailJudgePass")]
     pub human_fail_judge_pass: i32,
-    #[serde(rename = "human_pass_judge_fail")]
+    #[serde(rename = "humanPassJudgeFail")]
     pub human_pass_judge_fail: i32,
-    #[serde(rename = "human_pass_judge_pass")]
+    #[serde(rename = "humanPassJudgePass")]
     pub human_pass_judge_pass: i32,
 }
 

@@ -22,11 +22,11 @@ var _ MappedNullable = &ImportTemperaEvidenceRequest{}
 // ImportTemperaEvidenceRequest struct for ImportTemperaEvidenceRequest
 type ImportTemperaEvidenceRequest struct {
 	// Canonical compact JSON signed by the release/decision key. The endpoint rejects equivalent but non-canonical JSON so the verified bytes are unambiguous across SDKs.
-	CanonicalJson string `json:"canonical_json"`
+	CanonicalJson string `json:"canonicalJson"`
 	// PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is pinned inside the signed payload.
-	PublicKeyPem string `json:"public_key_pem"`
+	PublicKeyPem string `json:"publicKeyPem"`
 	// Standard-base64 detached Ed25519 signature over `canonical_json` bytes.
-	SignatureBase64 string `json:"signature_base64"`
+	SignatureBase64 string `json:"signatureBase64"`
 }
 
 type _ImportTemperaEvidenceRequest ImportTemperaEvidenceRequest
@@ -133,9 +133,9 @@ func (o ImportTemperaEvidenceRequest) MarshalJSON() ([]byte, error) {
 
 func (o ImportTemperaEvidenceRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["canonical_json"] = o.CanonicalJson
-	toSerialize["public_key_pem"] = o.PublicKeyPem
-	toSerialize["signature_base64"] = o.SignatureBase64
+	toSerialize["canonicalJson"] = o.CanonicalJson
+	toSerialize["publicKeyPem"] = o.PublicKeyPem
+	toSerialize["signatureBase64"] = o.SignatureBase64
 	return toSerialize, nil
 }
 
@@ -144,9 +144,9 @@ func (o *ImportTemperaEvidenceRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"canonical_json",
-		"public_key_pem",
-		"signature_base64",
+		"canonicalJson",
+		"publicKeyPem",
+		"signatureBase64",
 	}
 
 	allProperties := make(map[string]interface{})

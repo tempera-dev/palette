@@ -44,10 +44,10 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class MineScenariosRequest {
-  public static final String JSON_PROPERTY_JACCARD_THRESHOLD = "jaccard_threshold";
+  public static final String JSON_PROPERTY_JACCARD_THRESHOLD = "jaccardThreshold";
   private JsonNullable<Double> jaccardThreshold = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_IDS = "trace_ids";
+  public static final String JSON_PROPERTY_TRACE_IDS = "traceIds";
   @javax.annotation.Nonnull
   private List<String> traceIds = new ArrayList<>();
 
@@ -203,15 +203,15 @@ public class MineScenariosRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `jaccard_threshold` to the URL query string
+    // add `jaccardThreshold` to the URL query string
     if (getJaccardThreshold() != null) {
-      joiner.add(String.format("%sjaccard_threshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJaccardThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjaccardThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJaccardThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_ids` to the URL query string
+    // add `traceIds` to the URL query string
     if (getTraceIds() != null) {
       for (int i = 0; i < getTraceIds().size(); i++) {
-        joiner.add(String.format("%strace_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%straceIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getTraceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }

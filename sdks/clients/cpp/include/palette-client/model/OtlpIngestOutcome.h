@@ -54,45 +54,45 @@ public:
 
     int32_t getAcceptedRaw() const;
     bool acceptedRawIsSet() const;
-    void unsetAccepted_raw();
+    void unsetAcceptedRaw();
     void setAcceptedRaw(int32_t value);
 
     int32_t getAcceptedSpans() const;
     bool acceptedSpansIsSet() const;
-    void unsetAccepted_spans();
+    void unsetAcceptedSpans();
     void setAcceptedSpans(int32_t value);
 
     bool isDownstreamQueued() const;
     bool downstreamQueuedIsSet() const;
-    void unsetDownstream_queued();
+    void unsetDownstreamQueued();
     void setDownstreamQueued(bool value);
 
     int32_t getDuplicateRaw() const;
     bool duplicateRawIsSet() const;
-    void unsetDuplicate_raw();
+    void unsetDuplicateRaw();
     void setDuplicateRaw(int32_t value);
 
     int32_t getDuplicateSpans() const;
     bool duplicateSpansIsSet() const;
-    void unsetDuplicate_spans();
+    void unsetDuplicateSpans();
     void setDuplicateSpans(int32_t value);
 
 
 protected:
-    int32_t m_Accepted_raw;
-    bool m_Accepted_rawIsSet;
+    int32_t m_AcceptedRaw;
+    bool m_AcceptedRawIsSet;
 
-    int32_t m_Accepted_spans;
-    bool m_Accepted_spansIsSet;
+    int32_t m_AcceptedSpans;
+    bool m_AcceptedSpansIsSet;
 
-    bool m_Downstream_queued;
-    bool m_Downstream_queuedIsSet;
+    bool m_DownstreamQueued;
+    bool m_DownstreamQueuedIsSet;
 
-    int32_t m_Duplicate_raw;
-    bool m_Duplicate_rawIsSet;
+    int32_t m_DuplicateRaw;
+    bool m_DuplicateRawIsSet;
 
-    int32_t m_Duplicate_spans;
-    bool m_Duplicate_spansIsSet;
+    int32_t m_DuplicateSpans;
+    bool m_DuplicateSpansIsSet;
 
 };
 

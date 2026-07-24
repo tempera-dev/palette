@@ -22,15 +22,15 @@ var _ MappedNullable = &AlertInput{}
 
 // AlertInput struct for AlertInput
 type AlertInput struct {
-	BaselineScore NullableFloat64 `json:"baseline_score,omitempty"`
-	GroupKey string `json:"group_key"`
+	BaselineScore NullableFloat64 `json:"baselineScore,omitempty"`
+	GroupKey string `json:"groupKey"`
 	Links AlertLinks `json:"links"`
 	Now time.Time `json:"now"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Score float64 `json:"score"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 	Title string `json:"title"`
-	TraceId string `json:"trace_id"`
+	TraceId string `json:"traceId"`
 }
 
 type _AlertInput AlertInput
@@ -305,16 +305,16 @@ func (o AlertInput) MarshalJSON() ([]byte, error) {
 func (o AlertInput) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.BaselineScore.IsSet() {
-		toSerialize["baseline_score"] = o.BaselineScore.Get()
+		toSerialize["baselineScore"] = o.BaselineScore.Get()
 	}
-	toSerialize["group_key"] = o.GroupKey
+	toSerialize["groupKey"] = o.GroupKey
 	toSerialize["links"] = o.Links
 	toSerialize["now"] = o.Now
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["score"] = o.Score
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	toSerialize["title"] = o.Title
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -323,14 +323,14 @@ func (o *AlertInput) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"group_key",
+		"groupKey",
 		"links",
 		"now",
-		"project_id",
+		"projectId",
 		"score",
-		"tenant_id",
+		"tenantId",
 		"title",
-		"trace_id",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

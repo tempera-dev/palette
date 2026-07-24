@@ -21,10 +21,10 @@ var _ MappedNullable = &CalibrationConfusion{}
 
 // CalibrationConfusion struct for CalibrationConfusion
 type CalibrationConfusion struct {
-	HumanFailJudgeFail int32 `json:"human_fail_judge_fail"`
-	HumanFailJudgePass int32 `json:"human_fail_judge_pass"`
-	HumanPassJudgeFail int32 `json:"human_pass_judge_fail"`
-	HumanPassJudgePass int32 `json:"human_pass_judge_pass"`
+	HumanFailJudgeFail int32 `json:"humanFailJudgeFail"`
+	HumanFailJudgePass int32 `json:"humanFailJudgePass"`
+	HumanPassJudgeFail int32 `json:"humanPassJudgeFail"`
+	HumanPassJudgePass int32 `json:"humanPassJudgePass"`
 }
 
 type _CalibrationConfusion CalibrationConfusion
@@ -156,10 +156,10 @@ func (o CalibrationConfusion) MarshalJSON() ([]byte, error) {
 
 func (o CalibrationConfusion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["human_fail_judge_fail"] = o.HumanFailJudgeFail
-	toSerialize["human_fail_judge_pass"] = o.HumanFailJudgePass
-	toSerialize["human_pass_judge_fail"] = o.HumanPassJudgeFail
-	toSerialize["human_pass_judge_pass"] = o.HumanPassJudgePass
+	toSerialize["humanFailJudgeFail"] = o.HumanFailJudgeFail
+	toSerialize["humanFailJudgePass"] = o.HumanFailJudgePass
+	toSerialize["humanPassJudgeFail"] = o.HumanPassJudgeFail
+	toSerialize["humanPassJudgePass"] = o.HumanPassJudgePass
 	return toSerialize, nil
 }
 
@@ -168,10 +168,10 @@ func (o *CalibrationConfusion) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"human_fail_judge_fail",
-		"human_fail_judge_pass",
-		"human_pass_judge_fail",
-		"human_pass_judge_pass",
+		"humanFailJudgeFail",
+		"humanFailJudgePass",
+		"humanPassJudgeFail",
+		"humanPassJudgePass",
 	}
 
 	allProperties := make(map[string]interface{})

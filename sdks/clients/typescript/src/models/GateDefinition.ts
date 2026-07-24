@@ -101,14 +101,14 @@ export function GateDefinitionFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'] == null ? undefined : json['dataset_id'],
-        'evaluatorVersionId': json['evaluator_version_id'] == null ? undefined : json['evaluator_version_id'],
-        'gateId': json['gate_id'],
-        'inconclusivePolicy': json['inconclusive_policy'] == null ? undefined : InconclusivePolicyFromJSON(json['inconclusive_policy']),
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'] == null ? undefined : json['datasetId'],
+        'evaluatorVersionId': json['evaluatorVersionId'] == null ? undefined : json['evaluatorVersionId'],
+        'gateId': json['gateId'],
+        'inconclusivePolicy': json['inconclusivePolicy'] == null ? undefined : InconclusivePolicyFromJSON(json['inconclusivePolicy']),
         'name': json['name'],
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -123,14 +123,14 @@ export function GateDefinitionToJSONTyped(value?: GateDefinition | null, ignoreD
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'gate_id': value['gateId'],
-        'inconclusive_policy': InconclusivePolicyToJSON(value['inconclusivePolicy']),
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'gateId': value['gateId'],
+        'inconclusivePolicy': InconclusivePolicyToJSON(value['inconclusivePolicy']),
         'name': value['name'],
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
     };
 }
 

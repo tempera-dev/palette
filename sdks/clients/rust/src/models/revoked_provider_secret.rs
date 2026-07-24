@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct RevokedProviderSecret {
     #[serde(rename = "active")]
     pub active: bool,
-    #[serde(rename = "provider_secret_id")]
+    #[serde(rename = "providerSecretId")]
     pub provider_secret_id: String,
-    #[serde(rename = "rotated_at")]
+    #[serde(rename = "rotatedAt")]
     pub rotated_at: String,
 }
 

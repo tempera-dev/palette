@@ -48,7 +48,7 @@ pub enum AlertsPeriodEvaluateError {
 
 pub async fn alerts_period_evaluate(configuration: &configuration::Configuration, params: AlertsPeriodEvaluateParams) -> Result<models::AlertDecision, Error<AlertsPeriodEvaluateError>> {
 
-    let uri_str = format!("{}/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), trace_id=crate::apis::urlencode(params.trace_id));
+    let uri_str = format!("{}/v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), traceId=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**prompts_period_add_version**](PromptsApi.md#prompts_period_add_version) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**prompts_period_create**](PromptsApi.md#prompts_period_create) | **POST** /v1/prompts/{tenant_id}/{project_id} |
-[**prompts_period_diff_versions**](PromptsApi.md#prompts_period_diff_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
-[**prompts_period_get**](PromptsApi.md#prompts_period_get) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
-[**prompts_period_list**](PromptsApi.md#prompts_period_list) | **GET** /v1/prompts/{tenant_id}/{project_id} |
-[**prompts_period_list_versions**](PromptsApi.md#prompts_period_list_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
+[**prompts_period_add_version**](PromptsApi.md#prompts_period_add_version) | **POST** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
+[**prompts_period_create**](PromptsApi.md#prompts_period_create) | **POST** /v1/prompts/{tenantId}/{projectId} |
+[**prompts_period_diff_versions**](PromptsApi.md#prompts_period_diff_versions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/diff |
+[**prompts_period_get**](PromptsApi.md#prompts_period_get) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId} |
+[**prompts_period_list**](PromptsApi.md#prompts_period_list) | **GET** /v1/prompts/{tenantId}/{projectId} |
+[**prompts_period_list_versions**](PromptsApi.md#prompts_period_list_versions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
 
 
 

@@ -62,9 +62,9 @@ export function ImportTemperaEvidenceRequestFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'canonicalJson': json['canonical_json'],
-        'publicKeyPem': json['public_key_pem'],
-        'signatureBase64': json['signature_base64'],
+        'canonicalJson': json['canonicalJson'],
+        'publicKeyPem': json['publicKeyPem'],
+        'signatureBase64': json['signatureBase64'],
     };
 }
 
@@ -79,9 +79,9 @@ export function ImportTemperaEvidenceRequestToJSONTyped(value?: ImportTemperaEvi
 
     return {
         
-        'canonical_json': value['canonicalJson'],
-        'public_key_pem': value['publicKeyPem'],
-        'signature_base64': value['signatureBase64'],
+        'canonicalJson': value['canonicalJson'],
+        'publicKeyPem': value['publicKeyPem'],
+        'signatureBase64': value['signatureBase64'],
     };
 }
 

@@ -107,7 +107,7 @@ pub enum ProviderSecretsPeriodRevokeError {
 
 pub async fn provider_secrets_period_create(configuration: &configuration::Configuration, params: ProviderSecretsPeriodCreateParams) -> Result<models::ProviderSecretMetadata, Error<ProviderSecretsPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/provider-secrets/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/provider-secrets/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -144,7 +144,7 @@ pub async fn provider_secrets_period_create(configuration: &configuration::Confi
 
 pub async fn provider_secrets_period_list(configuration: &configuration::Configuration, params: ProviderSecretsPeriodListParams) -> Result<models::ProviderSecretListResponse, Error<ProviderSecretsPeriodListError>> {
 
-    let uri_str = format!("{}/v1/provider-secrets/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/provider-secrets/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {
@@ -186,7 +186,7 @@ pub async fn provider_secrets_period_list(configuration: &configuration::Configu
 
 pub async fn provider_secrets_period_revoke(configuration: &configuration::Configuration, params: ProviderSecretsPeriodRevokeParams) -> Result<models::RevokedProviderSecret, Error<ProviderSecretsPeriodRevokeError>> {
 
-    let uri_str = format!("{}/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), provider_secret_id=crate::apis::urlencode(params.provider_secret_id));
+    let uri_str = format!("{}/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), providerSecretId=crate::apis::urlencode(params.provider_secret_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

@@ -24,12 +24,12 @@ var _ MappedNullable = &DatasetVersionSnapshot{}
 type DatasetVersionSnapshot struct {
 	Cases []DatasetCase `json:"cases"`
 	// A content-addressed Merkle root naming the exact contents of a corpus.  Serialized as its lowercase-hex SHA-256 string.
-	CorpusRoot string `json:"corpus_root"`
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
-	VersionId string `json:"version_id"`
+	CorpusRoot string `json:"corpusRoot"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
+	VersionId string `json:"versionId"`
 }
 
 type _DatasetVersionSnapshot DatasetVersionSnapshot
@@ -237,12 +237,12 @@ func (o DatasetVersionSnapshot) MarshalJSON() ([]byte, error) {
 func (o DatasetVersionSnapshot) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["cases"] = o.Cases
-	toSerialize["corpus_root"] = o.CorpusRoot
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["version_id"] = o.VersionId
+	toSerialize["corpusRoot"] = o.CorpusRoot
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["versionId"] = o.VersionId
 	return toSerialize, nil
 }
 
@@ -252,12 +252,12 @@ func (o *DatasetVersionSnapshot) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"cases",
-		"corpus_root",
-		"created_at",
-		"dataset_id",
-		"project_id",
-		"tenant_id",
-		"version_id",
+		"corpusRoot",
+		"createdAt",
+		"datasetId",
+		"projectId",
+		"tenantId",
+		"versionId",
 	}
 
 	allProperties := make(map[string]interface{})

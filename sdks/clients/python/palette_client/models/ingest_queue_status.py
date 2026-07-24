@@ -28,13 +28,13 @@ class IngestQueueStatus(BaseModel):
     """
     IngestQueueStatus
     """ # noqa: E501
-    dead_letters: List[DeadLetter]
-    project_id: StrictStr
-    tenant_id: StrictStr
-    total_depth: Annotated[int, Field(strict=True, ge=0)]
-    trace_ingested_depth: Annotated[int, Field(strict=True, ge=0)]
-    trace_write_depth: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["dead_letters", "project_id", "tenant_id", "total_depth", "trace_ingested_depth", "trace_write_depth"]
+    dead_letters: List[DeadLetter] = Field(alias="deadLetters")
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    total_depth: Annotated[int, Field(strict=True, ge=0)] = Field(alias="totalDepth")
+    trace_ingested_depth: Annotated[int, Field(strict=True, ge=0)] = Field(alias="traceIngestedDepth")
+    trace_write_depth: Annotated[int, Field(strict=True, ge=0)] = Field(alias="traceWriteDepth")
+    __properties: ClassVar[List[str]] = ["deadLetters", "projectId", "tenantId", "totalDepth", "traceIngestedDepth", "traceWriteDepth"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,7 +81,7 @@ class IngestQueueStatus(BaseModel):
             for _item_dead_letters in self.dead_letters:
                 if _item_dead_letters:
                     _items.append(_item_dead_letters.to_dict())
-            _dict['dead_letters'] = _items
+            _dict['deadLetters'] = _items
         return _dict
 
     @classmethod
@@ -94,12 +94,12 @@ class IngestQueueStatus(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dead_letters": [DeadLetter.from_dict(_item) for _item in obj["dead_letters"]] if obj.get("dead_letters") is not None else None,
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "total_depth": obj.get("total_depth"),
-            "trace_ingested_depth": obj.get("trace_ingested_depth"),
-            "trace_write_depth": obj.get("trace_write_depth")
+            "deadLetters": [DeadLetter.from_dict(_item) for _item in obj["deadLetters"]] if obj.get("deadLetters") is not None else None,
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId"),
+            "totalDepth": obj.get("totalDepth"),
+            "traceIngestedDepth": obj.get("traceIngestedDepth"),
+            "traceWriteDepth": obj.get("traceWriteDepth")
         })
         return _obj
 

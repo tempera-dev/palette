@@ -20,14 +20,14 @@ namespace model {
 
 CalibrationConfusion::CalibrationConfusion()
 {
-    m_Human_fail_judge_fail = 0;
-    m_Human_fail_judge_failIsSet = false;
-    m_Human_fail_judge_pass = 0;
-    m_Human_fail_judge_passIsSet = false;
-    m_Human_pass_judge_fail = 0;
-    m_Human_pass_judge_failIsSet = false;
-    m_Human_pass_judge_pass = 0;
-    m_Human_pass_judge_passIsSet = false;
+    m_HumanFailJudgeFail = 0;
+    m_HumanFailJudgeFailIsSet = false;
+    m_HumanFailJudgePass = 0;
+    m_HumanFailJudgePassIsSet = false;
+    m_HumanPassJudgeFail = 0;
+    m_HumanPassJudgeFailIsSet = false;
+    m_HumanPassJudgePass = 0;
+    m_HumanPassJudgePassIsSet = false;
 }
 
 CalibrationConfusion::~CalibrationConfusion()
@@ -42,25 +42,25 @@ void CalibrationConfusion::validate()
 web::json::value CalibrationConfusion::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Human_fail_judge_failIsSet)
+    if(m_HumanFailJudgeFailIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("human_fail_judge_fail"))] = ModelBase::toJson(m_Human_fail_judge_fail);
+        val[utility::conversions::to_string_t(U("humanFailJudgeFail"))] = ModelBase::toJson(m_HumanFailJudgeFail);
     }
-    if(m_Human_fail_judge_passIsSet)
+    if(m_HumanFailJudgePassIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("human_fail_judge_pass"))] = ModelBase::toJson(m_Human_fail_judge_pass);
+        val[utility::conversions::to_string_t(U("humanFailJudgePass"))] = ModelBase::toJson(m_HumanFailJudgePass);
     }
-    if(m_Human_pass_judge_failIsSet)
+    if(m_HumanPassJudgeFailIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("human_pass_judge_fail"))] = ModelBase::toJson(m_Human_pass_judge_fail);
+        val[utility::conversions::to_string_t(U("humanPassJudgeFail"))] = ModelBase::toJson(m_HumanPassJudgeFail);
     }
-    if(m_Human_pass_judge_passIsSet)
+    if(m_HumanPassJudgePassIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("human_pass_judge_pass"))] = ModelBase::toJson(m_Human_pass_judge_pass);
+        val[utility::conversions::to_string_t(U("humanPassJudgePass"))] = ModelBase::toJson(m_HumanPassJudgePass);
     }
 
     return val;
@@ -69,9 +69,9 @@ web::json::value CalibrationConfusion::toJson() const
 bool CalibrationConfusion::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("human_fail_judge_fail"))))
+    if(val.has_field(utility::conversions::to_string_t(U("humanFailJudgeFail"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("human_fail_judge_fail")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("humanFailJudgeFail")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setHumanFailJudgeFail;
@@ -80,9 +80,9 @@ bool CalibrationConfusion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("human_fail_judge_pass"))))
+    if(val.has_field(utility::conversions::to_string_t(U("humanFailJudgePass"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("human_fail_judge_pass")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("humanFailJudgePass")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setHumanFailJudgePass;
@@ -91,9 +91,9 @@ bool CalibrationConfusion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("human_pass_judge_fail"))))
+    if(val.has_field(utility::conversions::to_string_t(U("humanPassJudgeFail"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("human_pass_judge_fail")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("humanPassJudgeFail")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setHumanPassJudgeFail;
@@ -102,9 +102,9 @@ bool CalibrationConfusion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("human_pass_judge_pass"))))
+    if(val.has_field(utility::conversions::to_string_t(U("humanPassJudgePass"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("human_pass_judge_pass")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("humanPassJudgePass")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setHumanPassJudgePass;
@@ -123,21 +123,21 @@ void CalibrationConfusion::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Human_fail_judge_failIsSet)
+    if(m_HumanFailJudgeFailIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("human_fail_judge_fail")), m_Human_fail_judge_fail));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("humanFailJudgeFail")), m_HumanFailJudgeFail));
     }
-    if(m_Human_fail_judge_passIsSet)
+    if(m_HumanFailJudgePassIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("human_fail_judge_pass")), m_Human_fail_judge_pass));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("humanFailJudgePass")), m_HumanFailJudgePass));
     }
-    if(m_Human_pass_judge_failIsSet)
+    if(m_HumanPassJudgeFailIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("human_pass_judge_fail")), m_Human_pass_judge_fail));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("humanPassJudgeFail")), m_HumanPassJudgeFail));
     }
-    if(m_Human_pass_judge_passIsSet)
+    if(m_HumanPassJudgePassIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("human_pass_judge_pass")), m_Human_pass_judge_pass));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("humanPassJudgePass")), m_HumanPassJudgePass));
     }
 }
 
@@ -150,28 +150,28 @@ bool CalibrationConfusion::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("human_fail_judge_fail"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("humanFailJudgeFail"))))
     {
         int32_t refVal_setHumanFailJudgeFail;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("human_fail_judge_fail"))), refVal_setHumanFailJudgeFail );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("humanFailJudgeFail"))), refVal_setHumanFailJudgeFail );
         setHumanFailJudgeFail(refVal_setHumanFailJudgeFail);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("human_fail_judge_pass"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("humanFailJudgePass"))))
     {
         int32_t refVal_setHumanFailJudgePass;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("human_fail_judge_pass"))), refVal_setHumanFailJudgePass );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("humanFailJudgePass"))), refVal_setHumanFailJudgePass );
         setHumanFailJudgePass(refVal_setHumanFailJudgePass);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("human_pass_judge_fail"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("humanPassJudgeFail"))))
     {
         int32_t refVal_setHumanPassJudgeFail;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("human_pass_judge_fail"))), refVal_setHumanPassJudgeFail );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("humanPassJudgeFail"))), refVal_setHumanPassJudgeFail );
         setHumanPassJudgeFail(refVal_setHumanPassJudgeFail);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("human_pass_judge_pass"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("humanPassJudgePass"))))
     {
         int32_t refVal_setHumanPassJudgePass;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("human_pass_judge_pass"))), refVal_setHumanPassJudgePass );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("humanPassJudgePass"))), refVal_setHumanPassJudgePass );
         setHumanPassJudgePass(refVal_setHumanPassJudgePass);
     }
     return ok;
@@ -180,83 +180,83 @@ bool CalibrationConfusion::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 
 int32_t CalibrationConfusion::getHumanFailJudgeFail() const
 {
-    return m_Human_fail_judge_fail;
+    return m_HumanFailJudgeFail;
 }
 
 void CalibrationConfusion::setHumanFailJudgeFail(int32_t value)
 {
-    m_Human_fail_judge_fail = value;
-    m_Human_fail_judge_failIsSet = true;
+    m_HumanFailJudgeFail = value;
+    m_HumanFailJudgeFailIsSet = true;
 }
 
 bool CalibrationConfusion::humanFailJudgeFailIsSet() const
 {
-    return m_Human_fail_judge_failIsSet;
+    return m_HumanFailJudgeFailIsSet;
 }
 
-void CalibrationConfusion::unsetHuman_fail_judge_fail()
+void CalibrationConfusion::unsetHumanFailJudgeFail()
 {
-    m_Human_fail_judge_failIsSet = false;
+    m_HumanFailJudgeFailIsSet = false;
 }
 int32_t CalibrationConfusion::getHumanFailJudgePass() const
 {
-    return m_Human_fail_judge_pass;
+    return m_HumanFailJudgePass;
 }
 
 void CalibrationConfusion::setHumanFailJudgePass(int32_t value)
 {
-    m_Human_fail_judge_pass = value;
-    m_Human_fail_judge_passIsSet = true;
+    m_HumanFailJudgePass = value;
+    m_HumanFailJudgePassIsSet = true;
 }
 
 bool CalibrationConfusion::humanFailJudgePassIsSet() const
 {
-    return m_Human_fail_judge_passIsSet;
+    return m_HumanFailJudgePassIsSet;
 }
 
-void CalibrationConfusion::unsetHuman_fail_judge_pass()
+void CalibrationConfusion::unsetHumanFailJudgePass()
 {
-    m_Human_fail_judge_passIsSet = false;
+    m_HumanFailJudgePassIsSet = false;
 }
 int32_t CalibrationConfusion::getHumanPassJudgeFail() const
 {
-    return m_Human_pass_judge_fail;
+    return m_HumanPassJudgeFail;
 }
 
 void CalibrationConfusion::setHumanPassJudgeFail(int32_t value)
 {
-    m_Human_pass_judge_fail = value;
-    m_Human_pass_judge_failIsSet = true;
+    m_HumanPassJudgeFail = value;
+    m_HumanPassJudgeFailIsSet = true;
 }
 
 bool CalibrationConfusion::humanPassJudgeFailIsSet() const
 {
-    return m_Human_pass_judge_failIsSet;
+    return m_HumanPassJudgeFailIsSet;
 }
 
-void CalibrationConfusion::unsetHuman_pass_judge_fail()
+void CalibrationConfusion::unsetHumanPassJudgeFail()
 {
-    m_Human_pass_judge_failIsSet = false;
+    m_HumanPassJudgeFailIsSet = false;
 }
 int32_t CalibrationConfusion::getHumanPassJudgePass() const
 {
-    return m_Human_pass_judge_pass;
+    return m_HumanPassJudgePass;
 }
 
 void CalibrationConfusion::setHumanPassJudgePass(int32_t value)
 {
-    m_Human_pass_judge_pass = value;
-    m_Human_pass_judge_passIsSet = true;
+    m_HumanPassJudgePass = value;
+    m_HumanPassJudgePassIsSet = true;
 }
 
 bool CalibrationConfusion::humanPassJudgePassIsSet() const
 {
-    return m_Human_pass_judge_passIsSet;
+    return m_HumanPassJudgePassIsSet;
 }
 
-void CalibrationConfusion::unsetHuman_pass_judge_pass()
+void CalibrationConfusion::unsetHumanPassJudgePass()
 {
-    m_Human_pass_judge_passIsSet = false;
+    m_HumanPassJudgePassIsSet = false;
 }
 
 }

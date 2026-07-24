@@ -21,10 +21,10 @@ var _ MappedNullable = &AlertLinks{}
 
 // AlertLinks struct for AlertLinks
 type AlertLinks struct {
-	ClusterUrl NullableString `json:"cluster_url,omitempty"`
-	DatasetUrl NullableString `json:"dataset_url,omitempty"`
-	GateUrl NullableString `json:"gate_url,omitempty"`
-	TraceUrl string `json:"trace_url"`
+	ClusterUrl NullableString `json:"clusterUrl,omitempty"`
+	DatasetUrl NullableString `json:"datasetUrl,omitempty"`
+	GateUrl NullableString `json:"gateUrl,omitempty"`
+	TraceUrl string `json:"traceUrl"`
 }
 
 type _AlertLinks AlertLinks
@@ -208,15 +208,15 @@ func (o AlertLinks) MarshalJSON() ([]byte, error) {
 func (o AlertLinks) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ClusterUrl.IsSet() {
-		toSerialize["cluster_url"] = o.ClusterUrl.Get()
+		toSerialize["clusterUrl"] = o.ClusterUrl.Get()
 	}
 	if o.DatasetUrl.IsSet() {
-		toSerialize["dataset_url"] = o.DatasetUrl.Get()
+		toSerialize["datasetUrl"] = o.DatasetUrl.Get()
 	}
 	if o.GateUrl.IsSet() {
-		toSerialize["gate_url"] = o.GateUrl.Get()
+		toSerialize["gateUrl"] = o.GateUrl.Get()
 	}
-	toSerialize["trace_url"] = o.TraceUrl
+	toSerialize["traceUrl"] = o.TraceUrl
 	return toSerialize, nil
 }
 
@@ -225,7 +225,7 @@ func (o *AlertLinks) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"trace_url",
+		"traceUrl",
 	}
 
 	allProperties := make(map[string]interface{})

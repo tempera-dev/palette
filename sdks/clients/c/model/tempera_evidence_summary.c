@@ -87,7 +87,7 @@ cJSON *tempera_evidence_summary_convertToJSON(tempera_evidence_summary_t *temper
 
     // tempera_evidence_summary->experiment_id
     if(tempera_evidence_summary->experiment_id) {
-    if(cJSON_AddStringToObject(item, "experiment_id", tempera_evidence_summary->experiment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "experimentId", tempera_evidence_summary->experiment_id) == NULL) {
     goto fail; //String
     }
     }
@@ -95,7 +95,7 @@ cJSON *tempera_evidence_summary_convertToJSON(tempera_evidence_summary_t *temper
 
     // tempera_evidence_summary->run_id
     if(tempera_evidence_summary->run_id) {
-    if(cJSON_AddStringToObject(item, "run_id", tempera_evidence_summary->run_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "runId", tempera_evidence_summary->run_id) == NULL) {
     goto fail; //String
     }
     }
@@ -111,7 +111,7 @@ cJSON *tempera_evidence_summary_convertToJSON(tempera_evidence_summary_t *temper
 
     // tempera_evidence_summary->suite_id
     if(tempera_evidence_summary->suite_id) {
-    if(cJSON_AddStringToObject(item, "suite_id", tempera_evidence_summary->suite_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "suiteId", tempera_evidence_summary->suite_id) == NULL) {
     goto fail; //String
     }
     }
@@ -119,7 +119,7 @@ cJSON *tempera_evidence_summary_convertToJSON(tempera_evidence_summary_t *temper
 
     // tempera_evidence_summary->suite_version
     if(tempera_evidence_summary->suite_version) {
-    if(cJSON_AddStringToObject(item, "suite_version", tempera_evidence_summary->suite_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "suiteVersion", tempera_evidence_summary->suite_version) == NULL) {
     goto fail; //String
     }
     }
@@ -145,7 +145,7 @@ tempera_evidence_summary_t *tempera_evidence_summary_parseFromJSON(cJSON *temper
     tempera_evidence_summary_t *tempera_evidence_summary_local_var = NULL;
 
     // tempera_evidence_summary->experiment_id
-    cJSON *experiment_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "experiment_id");
+    cJSON *experiment_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "experimentId");
     if (cJSON_IsNull(experiment_id)) {
         experiment_id = NULL;
     }
@@ -157,7 +157,7 @@ tempera_evidence_summary_t *tempera_evidence_summary_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_summary->run_id
-    cJSON *run_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "run_id");
+    cJSON *run_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "runId");
     if (cJSON_IsNull(run_id)) {
         run_id = NULL;
     }
@@ -181,7 +181,7 @@ tempera_evidence_summary_t *tempera_evidence_summary_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_summary->suite_id
-    cJSON *suite_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "suite_id");
+    cJSON *suite_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "suiteId");
     if (cJSON_IsNull(suite_id)) {
         suite_id = NULL;
     }
@@ -193,7 +193,7 @@ tempera_evidence_summary_t *tempera_evidence_summary_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_summary->suite_version
-    cJSON *suite_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "suite_version");
+    cJSON *suite_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_summaryJSON, "suiteVersion");
     if (cJSON_IsNull(suite_version)) {
         suite_version = NULL;
     }

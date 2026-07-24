@@ -21,8 +21,8 @@ var _ MappedNullable = &UsageSummary{}
 
 // UsageSummary struct for UsageSummary
 type UsageSummary struct {
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
 	Totals map[string]UsageTotal `json:"totals"`
 }
 
@@ -130,8 +130,8 @@ func (o UsageSummary) MarshalJSON() ([]byte, error) {
 
 func (o UsageSummary) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
 	toSerialize["totals"] = o.Totals
 	return toSerialize, nil
 }
@@ -141,8 +141,8 @@ func (o *UsageSummary) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"project_id",
-		"tenant_id",
+		"projectId",
+		"tenantId",
 		"totals",
 	}
 

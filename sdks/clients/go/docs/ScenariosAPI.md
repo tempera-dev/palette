@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ScenariosCreate**](ScenariosAPI.md#ScenariosCreate) | **Post** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosGet**](ScenariosAPI.md#ScenariosGet) | **Get** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**ScenariosList**](ScenariosAPI.md#ScenariosList) | **Get** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosMine**](ScenariosAPI.md#ScenariosMine) | **Post** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**ScenariosCreate**](ScenariosAPI.md#ScenariosCreate) | **Post** /v1/scenarios/{tenantId}/{projectId} |
+[**ScenariosGet**](ScenariosAPI.md#ScenariosGet) | **Get** /v1/scenarios/{tenantId}/{projectId}/{scenarioId} |
+[**ScenariosList**](ScenariosAPI.md#ScenariosList) | **Get** /v1/scenarios/{tenantId}/{projectId} |
+[**ScenariosMine**](ScenariosAPI.md#ScenariosMine) | **Post** /v1/scenarios/{tenantId}/{projectId}/mine |
 
 
 

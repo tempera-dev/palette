@@ -41,7 +41,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunGateRequest {
-  public static final String JSON_PROPERTY_EXPERIMENT_RUN_ID = "experiment_run_id";
+  public static final String JSON_PROPERTY_EXPERIMENT_RUN_ID = "experimentRunId";
   private JsonNullable<String> experimentRunId = JsonNullable.<String>undefined();
 
   public RunGateRequest() { 
@@ -162,9 +162,9 @@ public class RunGateRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `experiment_run_id` to the URL query string
+    // add `experimentRunId` to the URL query string
     if (getExperimentRunId() != null) {
-      joiner.add(String.format("%sexperiment_run_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexperimentRunId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

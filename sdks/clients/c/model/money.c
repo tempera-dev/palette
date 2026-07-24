@@ -49,7 +49,7 @@ cJSON *money_convertToJSON(money_t *money) {
     if (!money->amount_micros) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "amount_micros", money->amount_micros) == NULL) {
+    if(cJSON_AddNumberToObject(item, "amountMicros", money->amount_micros) == NULL) {
     goto fail; //Numeric
     }
 
@@ -83,7 +83,7 @@ money_t *money_parseFromJSON(cJSON *moneyJSON){
     palette_api_currency__e currency_local_nonprim = 0;
 
     // money->amount_micros
-    cJSON *amount_micros = cJSON_GetObjectItemCaseSensitive(moneyJSON, "amount_micros");
+    cJSON *amount_micros = cJSON_GetObjectItemCaseSensitive(moneyJSON, "amountMicros");
     if (cJSON_IsNull(amount_micros)) {
         amount_micros = NULL;
     }

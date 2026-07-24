@@ -82,7 +82,7 @@ export function JudgeBrokerOutcomeFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'audit': JudgeAuditRecordFromJSON(json['audit']),
-        'remainingBudget': MoneyFromJSON(json['remaining_budget']),
+        'remainingBudget': MoneyFromJSON(json['remainingBudget']),
         'result': ScoreResultFromJSON(json['result']),
     };
 }
@@ -99,7 +99,7 @@ export function JudgeBrokerOutcomeToJSONTyped(value?: JudgeBrokerOutcome | null,
     return {
         
         'audit': JudgeAuditRecordToJSON(value['audit']),
-        'remaining_budget': MoneyToJSON(value['remainingBudget']),
+        'remainingBudget': MoneyToJSON(value['remainingBudget']),
         'result': ScoreResultToJSON(value['result']),
     };
 }

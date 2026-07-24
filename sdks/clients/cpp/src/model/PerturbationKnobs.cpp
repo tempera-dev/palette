@@ -20,18 +20,18 @@ namespace model {
 
 PerturbationKnobs::PerturbationKnobs()
 {
-    m_Auth_failure = false;
-    m_Auth_failureIsSet = false;
-    m_Contradictory_source = false;
-    m_Contradictory_sourceIsSet = false;
-    m_Prompt_injection = false;
-    m_Prompt_injectionIsSet = false;
-    m_Stale_source = false;
-    m_Stale_sourceIsSet = false;
+    m_AuthFailure = false;
+    m_AuthFailureIsSet = false;
+    m_ContradictorySource = false;
+    m_ContradictorySourceIsSet = false;
+    m_PromptInjection = false;
+    m_PromptInjectionIsSet = false;
+    m_StaleSource = false;
+    m_StaleSourceIsSet = false;
     m_Timeout = false;
     m_TimeoutIsSet = false;
-    m_Tool_schema_mismatch = false;
-    m_Tool_schema_mismatchIsSet = false;
+    m_ToolSchemaMismatch = false;
+    m_ToolSchemaMismatchIsSet = false;
 }
 
 PerturbationKnobs::~PerturbationKnobs()
@@ -46,35 +46,35 @@ void PerturbationKnobs::validate()
 web::json::value PerturbationKnobs::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Auth_failureIsSet)
+    if(m_AuthFailureIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("auth_failure"))] = ModelBase::toJson(m_Auth_failure);
+        val[utility::conversions::to_string_t(U("authFailure"))] = ModelBase::toJson(m_AuthFailure);
     }
-    if(m_Contradictory_sourceIsSet)
+    if(m_ContradictorySourceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("contradictory_source"))] = ModelBase::toJson(m_Contradictory_source);
+        val[utility::conversions::to_string_t(U("contradictorySource"))] = ModelBase::toJson(m_ContradictorySource);
     }
-    if(m_Prompt_injectionIsSet)
+    if(m_PromptInjectionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_injection"))] = ModelBase::toJson(m_Prompt_injection);
+        val[utility::conversions::to_string_t(U("promptInjection"))] = ModelBase::toJson(m_PromptInjection);
     }
-    if(m_Stale_sourceIsSet)
+    if(m_StaleSourceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("stale_source"))] = ModelBase::toJson(m_Stale_source);
+        val[utility::conversions::to_string_t(U("staleSource"))] = ModelBase::toJson(m_StaleSource);
     }
     if(m_TimeoutIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("timeout"))] = ModelBase::toJson(m_Timeout);
     }
-    if(m_Tool_schema_mismatchIsSet)
+    if(m_ToolSchemaMismatchIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tool_schema_mismatch"))] = ModelBase::toJson(m_Tool_schema_mismatch);
+        val[utility::conversions::to_string_t(U("toolSchemaMismatch"))] = ModelBase::toJson(m_ToolSchemaMismatch);
     }
 
     return val;
@@ -83,9 +83,9 @@ web::json::value PerturbationKnobs::toJson() const
 bool PerturbationKnobs::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("auth_failure"))))
+    if(val.has_field(utility::conversions::to_string_t(U("authFailure"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("auth_failure")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("authFailure")));
         if(!fieldValue.is_null())
         {
             bool refVal_setAuthFailure;
@@ -94,9 +94,9 @@ bool PerturbationKnobs::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("contradictory_source"))))
+    if(val.has_field(utility::conversions::to_string_t(U("contradictorySource"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("contradictory_source")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("contradictorySource")));
         if(!fieldValue.is_null())
         {
             bool refVal_setContradictorySource;
@@ -105,9 +105,9 @@ bool PerturbationKnobs::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_injection"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptInjection"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_injection")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptInjection")));
         if(!fieldValue.is_null())
         {
             bool refVal_setPromptInjection;
@@ -116,9 +116,9 @@ bool PerturbationKnobs::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("stale_source"))))
+    if(val.has_field(utility::conversions::to_string_t(U("staleSource"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("stale_source")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("staleSource")));
         if(!fieldValue.is_null())
         {
             bool refVal_setStaleSource;
@@ -138,9 +138,9 @@ bool PerturbationKnobs::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tool_schema_mismatch"))))
+    if(val.has_field(utility::conversions::to_string_t(U("toolSchemaMismatch"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tool_schema_mismatch")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("toolSchemaMismatch")));
         if(!fieldValue.is_null())
         {
             bool refVal_setToolSchemaMismatch;
@@ -159,29 +159,29 @@ void PerturbationKnobs::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Auth_failureIsSet)
+    if(m_AuthFailureIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("auth_failure")), m_Auth_failure));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("authFailure")), m_AuthFailure));
     }
-    if(m_Contradictory_sourceIsSet)
+    if(m_ContradictorySourceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("contradictory_source")), m_Contradictory_source));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("contradictorySource")), m_ContradictorySource));
     }
-    if(m_Prompt_injectionIsSet)
+    if(m_PromptInjectionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_injection")), m_Prompt_injection));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptInjection")), m_PromptInjection));
     }
-    if(m_Stale_sourceIsSet)
+    if(m_StaleSourceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("stale_source")), m_Stale_source));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("staleSource")), m_StaleSource));
     }
     if(m_TimeoutIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("timeout")), m_Timeout));
     }
-    if(m_Tool_schema_mismatchIsSet)
+    if(m_ToolSchemaMismatchIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tool_schema_mismatch")), m_Tool_schema_mismatch));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("toolSchemaMismatch")), m_ToolSchemaMismatch));
     }
 }
 
@@ -194,28 +194,28 @@ bool PerturbationKnobs::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("auth_failure"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("authFailure"))))
     {
         bool refVal_setAuthFailure;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("auth_failure"))), refVal_setAuthFailure );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("authFailure"))), refVal_setAuthFailure );
         setAuthFailure(refVal_setAuthFailure);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("contradictory_source"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("contradictorySource"))))
     {
         bool refVal_setContradictorySource;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("contradictory_source"))), refVal_setContradictorySource );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("contradictorySource"))), refVal_setContradictorySource );
         setContradictorySource(refVal_setContradictorySource);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_injection"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptInjection"))))
     {
         bool refVal_setPromptInjection;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_injection"))), refVal_setPromptInjection );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptInjection"))), refVal_setPromptInjection );
         setPromptInjection(refVal_setPromptInjection);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("stale_source"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("staleSource"))))
     {
         bool refVal_setStaleSource;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("stale_source"))), refVal_setStaleSource );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("staleSource"))), refVal_setStaleSource );
         setStaleSource(refVal_setStaleSource);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("timeout"))))
@@ -224,10 +224,10 @@ bool PerturbationKnobs::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("timeout"))), refVal_setTimeout );
         setTimeout(refVal_setTimeout);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tool_schema_mismatch"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("toolSchemaMismatch"))))
     {
         bool refVal_setToolSchemaMismatch;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tool_schema_mismatch"))), refVal_setToolSchemaMismatch );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("toolSchemaMismatch"))), refVal_setToolSchemaMismatch );
         setToolSchemaMismatch(refVal_setToolSchemaMismatch);
     }
     return ok;
@@ -236,83 +236,83 @@ bool PerturbationKnobs::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 bool PerturbationKnobs::isAuthFailure() const
 {
-    return m_Auth_failure;
+    return m_AuthFailure;
 }
 
 void PerturbationKnobs::setAuthFailure(bool value)
 {
-    m_Auth_failure = value;
-    m_Auth_failureIsSet = true;
+    m_AuthFailure = value;
+    m_AuthFailureIsSet = true;
 }
 
 bool PerturbationKnobs::authFailureIsSet() const
 {
-    return m_Auth_failureIsSet;
+    return m_AuthFailureIsSet;
 }
 
-void PerturbationKnobs::unsetAuth_failure()
+void PerturbationKnobs::unsetAuthFailure()
 {
-    m_Auth_failureIsSet = false;
+    m_AuthFailureIsSet = false;
 }
 bool PerturbationKnobs::isContradictorySource() const
 {
-    return m_Contradictory_source;
+    return m_ContradictorySource;
 }
 
 void PerturbationKnobs::setContradictorySource(bool value)
 {
-    m_Contradictory_source = value;
-    m_Contradictory_sourceIsSet = true;
+    m_ContradictorySource = value;
+    m_ContradictorySourceIsSet = true;
 }
 
 bool PerturbationKnobs::contradictorySourceIsSet() const
 {
-    return m_Contradictory_sourceIsSet;
+    return m_ContradictorySourceIsSet;
 }
 
-void PerturbationKnobs::unsetContradictory_source()
+void PerturbationKnobs::unsetContradictorySource()
 {
-    m_Contradictory_sourceIsSet = false;
+    m_ContradictorySourceIsSet = false;
 }
 bool PerturbationKnobs::isPromptInjection() const
 {
-    return m_Prompt_injection;
+    return m_PromptInjection;
 }
 
 void PerturbationKnobs::setPromptInjection(bool value)
 {
-    m_Prompt_injection = value;
-    m_Prompt_injectionIsSet = true;
+    m_PromptInjection = value;
+    m_PromptInjectionIsSet = true;
 }
 
 bool PerturbationKnobs::promptInjectionIsSet() const
 {
-    return m_Prompt_injectionIsSet;
+    return m_PromptInjectionIsSet;
 }
 
-void PerturbationKnobs::unsetPrompt_injection()
+void PerturbationKnobs::unsetPromptInjection()
 {
-    m_Prompt_injectionIsSet = false;
+    m_PromptInjectionIsSet = false;
 }
 bool PerturbationKnobs::isStaleSource() const
 {
-    return m_Stale_source;
+    return m_StaleSource;
 }
 
 void PerturbationKnobs::setStaleSource(bool value)
 {
-    m_Stale_source = value;
-    m_Stale_sourceIsSet = true;
+    m_StaleSource = value;
+    m_StaleSourceIsSet = true;
 }
 
 bool PerturbationKnobs::staleSourceIsSet() const
 {
-    return m_Stale_sourceIsSet;
+    return m_StaleSourceIsSet;
 }
 
-void PerturbationKnobs::unsetStale_source()
+void PerturbationKnobs::unsetStaleSource()
 {
-    m_Stale_sourceIsSet = false;
+    m_StaleSourceIsSet = false;
 }
 bool PerturbationKnobs::isTimeout() const
 {
@@ -336,23 +336,23 @@ void PerturbationKnobs::unsetTimeout()
 }
 bool PerturbationKnobs::isToolSchemaMismatch() const
 {
-    return m_Tool_schema_mismatch;
+    return m_ToolSchemaMismatch;
 }
 
 void PerturbationKnobs::setToolSchemaMismatch(bool value)
 {
-    m_Tool_schema_mismatch = value;
-    m_Tool_schema_mismatchIsSet = true;
+    m_ToolSchemaMismatch = value;
+    m_ToolSchemaMismatchIsSet = true;
 }
 
 bool PerturbationKnobs::toolSchemaMismatchIsSet() const
 {
-    return m_Tool_schema_mismatchIsSet;
+    return m_ToolSchemaMismatchIsSet;
 }
 
-void PerturbationKnobs::unsetTool_schema_mismatch()
+void PerturbationKnobs::unsetToolSchemaMismatch()
 {
-    m_Tool_schema_mismatchIsSet = false;
+    m_ToolSchemaMismatchIsSet = false;
 }
 
 }

@@ -21,7 +21,7 @@ var _ MappedNullable = &CreatePromptRequest{}
 
 // CreatePromptRequest Request body for `createPrompt`: the new prompt's metadata plus its initial (version 1) template.
 type CreatePromptRequest struct {
-	CreatedBy NullableString `json:"created_by,omitempty"`
+	CreatedBy NullableString `json:"createdBy,omitempty"`
 	Description NullableString `json:"description,omitempty"`
 	Message NullableString `json:"message,omitempty"`
 	Name string `json:"name"`
@@ -234,7 +234,7 @@ func (o CreatePromptRequest) MarshalJSON() ([]byte, error) {
 func (o CreatePromptRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.CreatedBy.IsSet() {
-		toSerialize["created_by"] = o.CreatedBy.Get()
+		toSerialize["createdBy"] = o.CreatedBy.Get()
 	}
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()

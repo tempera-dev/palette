@@ -73,16 +73,16 @@ public class NativeIngestRequest {
   @javax.annotation.Nonnull
   private Map<String, Object> attributes = new HashMap<>();
 
-  public static final String JSON_PROPERTY_AUTH_CONTEXT = "auth_context";
+  public static final String JSON_PROPERTY_AUTH_CONTEXT = "authContext";
   private JsonNullable<AuthContext> authContext = JsonNullable.<AuthContext>undefined();
 
   public static final String JSON_PROPERTY_COST = "cost";
   private JsonNullable<Money> cost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_END_TIME = "end_time";
+  public static final String JSON_PROPERTY_END_TIME = "endTime";
   private JsonNullable<OffsetDateTime> endTime = JsonNullable.<OffsetDateTime>undefined();
 
-  public static final String JSON_PROPERTY_IDEMPOTENCY_KEY = "idempotency_key";
+  public static final String JSON_PROPERTY_IDEMPOTENCY_KEY = "idempotencyKey";
   @javax.annotation.Nullable
   private String idempotencyKey;
 
@@ -103,11 +103,11 @@ public class NativeIngestRequest {
   public static final String JSON_PROPERTY_OUTPUT = "output";
   private JsonNullable<Object> output = JsonNullable.<Object>of(null);
 
-  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parent_span_id";
+  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parentSpanId";
   @javax.annotation.Nullable
   private String parentSpanId;
 
-  public static final String JSON_PROPERTY_REDACTION_CLASS = "redaction_class";
+  public static final String JSON_PROPERTY_REDACTION_CLASS = "redactionClass";
   @javax.annotation.Nonnull
   private RedactionClass redactionClass;
 
@@ -119,11 +119,11 @@ public class NativeIngestRequest {
   @javax.annotation.Nonnull
   private Long seq;
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   @javax.annotation.Nonnull
   private String spanId;
 
-  public static final String JSON_PROPERTY_START_TIME = "start_time";
+  public static final String JSON_PROPERTY_START_TIME = "startTime";
   private JsonNullable<OffsetDateTime> startTime = JsonNullable.<OffsetDateTime>undefined();
 
   public static final String JSON_PROPERTY_STATUS = "status";
@@ -133,7 +133,7 @@ public class NativeIngestRequest {
   public static final String JSON_PROPERTY_TOKENS = "tokens";
   private JsonNullable<TokenCounts> tokens = JsonNullable.<TokenCounts>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -797,9 +797,9 @@ public class NativeIngestRequest {
       }
     }
 
-    // add `auth_context` to the URL query string
+    // add `authContext` to the URL query string
     if (getAuthContext() != null) {
-      joiner.add(getAuthContext().toUrlQueryString(prefix + "auth_context" + suffix));
+      joiner.add(getAuthContext().toUrlQueryString(prefix + "authContext" + suffix));
     }
 
     // add `cost` to the URL query string
@@ -807,14 +807,14 @@ public class NativeIngestRequest {
       joiner.add(getCost().toUrlQueryString(prefix + "cost" + suffix));
     }
 
-    // add `end_time` to the URL query string
+    // add `endTime` to the URL query string
     if (getEndTime() != null) {
-      joiner.add(String.format("%send_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `idempotency_key` to the URL query string
+    // add `idempotencyKey` to the URL query string
     if (getIdempotencyKey() != null) {
-      joiner.add(String.format("%sidempotency_key%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIdempotencyKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sidempotencyKey%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIdempotencyKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `input` to the URL query string
@@ -842,14 +842,14 @@ public class NativeIngestRequest {
       joiner.add(String.format("%soutput%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutput()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `parent_span_id` to the URL query string
+    // add `parentSpanId` to the URL query string
     if (getParentSpanId() != null) {
-      joiner.add(String.format("%sparent_span_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sparentSpanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `redaction_class` to the URL query string
+    // add `redactionClass` to the URL query string
     if (getRedactionClass() != null) {
-      joiner.add(String.format("%sredaction_class%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sredactionClass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scope` to the URL query string
@@ -862,14 +862,14 @@ public class NativeIngestRequest {
       joiner.add(String.format("%sseq%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSeq()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `start_time` to the URL query string
+    // add `startTime` to the URL query string
     if (getStartTime() != null) {
-      joiner.add(String.format("%sstart_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstartTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -882,9 +882,9 @@ public class NativeIngestRequest {
       joiner.add(getTokens().toUrlQueryString(prefix + "tokens" + suffix));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

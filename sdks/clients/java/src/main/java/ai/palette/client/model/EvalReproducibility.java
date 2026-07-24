@@ -58,62 +58,62 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvalReproducibility {
-  public static final String JSON_PROPERTY_AGENT_RELEASE_ID = "agent_release_id";
+  public static final String JSON_PROPERTY_AGENT_RELEASE_ID = "agentReleaseId";
   @javax.annotation.Nonnull
   private String agentReleaseId;
 
-  public static final String JSON_PROPERTY_CODE_HASH = "code_hash";
+  public static final String JSON_PROPERTY_CODE_HASH = "codeHash";
   @javax.annotation.Nullable
   private String codeHash;
 
-  public static final String JSON_PROPERTY_DATASET_CASE_ID = "dataset_case_id";
+  public static final String JSON_PROPERTY_DATASET_CASE_ID = "datasetCaseId";
   @javax.annotation.Nonnull
   private String datasetCaseId;
 
-  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "dataset_version_id";
+  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "datasetVersionId";
   @javax.annotation.Nonnull
   private String datasetVersionId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
-  public static final String JSON_PROPERTY_INPUT_ARTIFACT_HASHES = "input_artifact_hashes";
+  public static final String JSON_PROPERTY_INPUT_ARTIFACT_HASHES = "inputArtifactHashes";
   @javax.annotation.Nonnull
   private List<String> inputArtifactHashes = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_JUDGE_MODEL_ID = "judge_model_id";
+  public static final String JSON_PROPERTY_JUDGE_MODEL_ID = "judgeModelId";
   private JsonNullable<String> judgeModelId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_JUDGE_PARAMETERS = "judge_parameters";
+  public static final String JSON_PROPERTY_JUDGE_PARAMETERS = "judgeParameters";
   @javax.annotation.Nullable
   private Object judgeParameters = null;
 
-  public static final String JSON_PROPERTY_JUDGE_PROVIDER = "judge_provider";
+  public static final String JSON_PROPERTY_JUDGE_PROVIDER = "judgeProvider";
   private JsonNullable<String> judgeProvider = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_JUDGE_RUBRIC_VERSION = "judge_rubric_version";
+  public static final String JSON_PROPERTY_JUDGE_RUBRIC_VERSION = "judgeRubricVersion";
   private JsonNullable<String> judgeRubricVersion = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_JUDGE_SEED = "judge_seed";
+  public static final String JSON_PROPERTY_JUDGE_SEED = "judgeSeed";
   private JsonNullable<Long> judgeSeed = JsonNullable.<Long>undefined();
 
-  public static final String JSON_PROPERTY_NORMALIZER_VERSION = "normalizer_version";
+  public static final String JSON_PROPERTY_NORMALIZER_VERSION = "normalizerVersion";
   @javax.annotation.Nonnull
   private String normalizerVersion;
 
-  public static final String JSON_PROPERTY_PROMPT_VERSION_ID = "prompt_version_id";
+  public static final String JSON_PROPERTY_PROMPT_VERSION_ID = "promptVersionId";
   @javax.annotation.Nullable
   private String promptVersionId;
 
-  public static final String JSON_PROPERTY_TRACE_SCHEMA_VERSION = "trace_schema_version";
+  public static final String JSON_PROPERTY_TRACE_SCHEMA_VERSION = "traceSchemaVersion";
   @javax.annotation.Nonnull
   private Integer traceSchemaVersion;
 
-  public static final String JSON_PROPERTY_WASI_ABI_VERSION = "wasi_abi_version";
+  public static final String JSON_PROPERTY_WASI_ABI_VERSION = "wasiAbiVersion";
   private JsonNullable<String> wasiAbiVersion = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_WASM_HASH = "wasm_hash";
+  public static final String JSON_PROPERTY_WASM_HASH = "wasmHash";
   @javax.annotation.Nullable
   private String wasmHash;
 
@@ -667,88 +667,88 @@ public class EvalReproducibility {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `agent_release_id` to the URL query string
+    // add `agentReleaseId` to the URL query string
     if (getAgentReleaseId() != null) {
-      joiner.add(String.format("%sagent_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAgentReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sagentReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAgentReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `code_hash` to the URL query string
+    // add `codeHash` to the URL query string
     if (getCodeHash() != null) {
-      joiner.add(String.format("%scode_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCodeHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scodeHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCodeHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_case_id` to the URL query string
+    // add `datasetCaseId` to the URL query string
     if (getDatasetCaseId() != null) {
-      joiner.add(String.format("%sdataset_case_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetCaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_version_id` to the URL query string
+    // add `datasetVersionId` to the URL query string
     if (getDatasetVersionId() != null) {
-      joiner.add(String.format("%sdataset_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `input_artifact_hashes` to the URL query string
+    // add `inputArtifactHashes` to the URL query string
     if (getInputArtifactHashes() != null) {
       for (int i = 0; i < getInputArtifactHashes().size(); i++) {
-        joiner.add(String.format("%sinput_artifact_hashes%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%sinputArtifactHashes%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getInputArtifactHashes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
-    // add `judge_model_id` to the URL query string
+    // add `judgeModelId` to the URL query string
     if (getJudgeModelId() != null) {
-      joiner.add(String.format("%sjudge_model_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeModelId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeModelId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeModelId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_parameters` to the URL query string
+    // add `judgeParameters` to the URL query string
     if (getJudgeParameters() != null) {
-      joiner.add(String.format("%sjudge_parameters%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeParameters()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeParameters%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeParameters()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_provider` to the URL query string
+    // add `judgeProvider` to the URL query string
     if (getJudgeProvider() != null) {
-      joiner.add(String.format("%sjudge_provider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeProvider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_rubric_version` to the URL query string
+    // add `judgeRubricVersion` to the URL query string
     if (getJudgeRubricVersion() != null) {
-      joiner.add(String.format("%sjudge_rubric_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeRubricVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeRubricVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeRubricVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_seed` to the URL query string
+    // add `judgeSeed` to the URL query string
     if (getJudgeSeed() != null) {
-      joiner.add(String.format("%sjudge_seed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeSeed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeSeed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeSeed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `normalizer_version` to the URL query string
+    // add `normalizerVersion` to the URL query string
     if (getNormalizerVersion() != null) {
-      joiner.add(String.format("%snormalizer_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNormalizerVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snormalizerVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNormalizerVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `prompt_version_id` to the URL query string
+    // add `promptVersionId` to the URL query string
     if (getPromptVersionId() != null) {
-      joiner.add(String.format("%sprompt_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spromptVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_schema_version` to the URL query string
+    // add `traceSchemaVersion` to the URL query string
     if (getTraceSchemaVersion() != null) {
-      joiner.add(String.format("%strace_schema_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceSchemaVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `wasi_abi_version` to the URL query string
+    // add `wasiAbiVersion` to the URL query string
     if (getWasiAbiVersion() != null) {
-      joiner.add(String.format("%swasi_abi_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasiAbiVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%swasiAbiVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasiAbiVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `wasm_hash` to the URL query string
+    // add `wasmHash` to the URL query string
     if (getWasmHash() != null) {
-      joiner.add(String.format("%swasm_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasmHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%swasmHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasmHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

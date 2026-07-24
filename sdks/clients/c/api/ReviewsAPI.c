@@ -51,7 +51,7 @@ end:
 
 
 review_queue_t*
-ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenantId, char *projectId, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -65,33 +65,33 @@ ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *pro
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/review-queues/{tenant_id}/{project_id}");
+    char *localVarPath = strdup("/v1/review-queues/{tenantId}/{projectId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -204,8 +204,8 @@ ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *pro
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -255,7 +255,7 @@ end:
 }
 
 review_task_t*
-ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -269,45 +269,45 @@ ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace");
+    char *localVarPath = strdup("/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!queue_id)
+    if(!queueId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_queue_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ queue_id }") - 1;
-    if(queue_id == NULL) {
+    long sizeOfPathParams_queueId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ queueId }") - 1;
+    if(queueId == NULL) {
         goto end;
     }
-    char* localVarToReplace_queue_id = malloc(sizeOfPathParams_queue_id);
-    sprintf(localVarToReplace_queue_id, "{%s}", "queue_id");
+    char* localVarToReplace_queueId = malloc(sizeOfPathParams_queueId);
+    sprintf(localVarToReplace_queueId, "{%s}", "queueId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_queue_id, queue_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_queueId, queueId);
 
 
 
@@ -424,9 +424,9 @@ ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, 
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_queue_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_queueId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -476,7 +476,7 @@ end:
 }
 
 review_task_list_response_t*
-ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -490,45 +490,45 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks");
+    char *localVarPath = strdup("/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!queue_id)
+    if(!queueId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_queue_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + sizeof("{ queue_id }") - 1;
-    if(queue_id == NULL) {
+    long sizeOfPathParams_queueId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + sizeof("{ queueId }") - 1;
+    if(queueId == NULL) {
         goto end;
     }
-    char* localVarToReplace_queue_id = malloc(sizeOfPathParams_queue_id);
-    sprintf(localVarToReplace_queue_id, "{%s}", "queue_id");
+    char* localVarToReplace_queueId = malloc(sizeOfPathParams_queueId);
+    sprintf(localVarToReplace_queueId, "{%s}", "queueId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_queue_id, queue_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_queueId, queueId);
 
 
 
@@ -672,9 +672,9 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_queue_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_queueId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -751,7 +751,7 @@ end:
 }
 
 dataset_case_t*
-ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, char *taskId, char *annotationId, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -765,69 +765,69 @@ ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, cha
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote");
+    char *localVarPath = strdup("/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!queue_id)
+    if(!queueId)
         goto end;
-    if(!task_id)
+    if(!taskId)
         goto end;
-    if(!annotation_id)
+    if(!annotationId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + strlen(annotation_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + strlen(annotationId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + strlen(annotation_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + strlen(annotationId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_queue_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + strlen(annotation_id)+3 + sizeof("{ queue_id }") - 1;
-    if(queue_id == NULL) {
+    long sizeOfPathParams_queueId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + strlen(annotationId)+3 + sizeof("{ queueId }") - 1;
+    if(queueId == NULL) {
         goto end;
     }
-    char* localVarToReplace_queue_id = malloc(sizeOfPathParams_queue_id);
-    sprintf(localVarToReplace_queue_id, "{%s}", "queue_id");
+    char* localVarToReplace_queueId = malloc(sizeOfPathParams_queueId);
+    sprintf(localVarToReplace_queueId, "{%s}", "queueId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_queue_id, queue_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_queueId, queueId);
 
     // Path Params
-    long sizeOfPathParams_task_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + strlen(annotation_id)+3 + sizeof("{ task_id }") - 1;
-    if(task_id == NULL) {
+    long sizeOfPathParams_taskId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + strlen(annotationId)+3 + sizeof("{ taskId }") - 1;
+    if(taskId == NULL) {
         goto end;
     }
-    char* localVarToReplace_task_id = malloc(sizeOfPathParams_task_id);
-    sprintf(localVarToReplace_task_id, "{%s}", "task_id");
+    char* localVarToReplace_taskId = malloc(sizeOfPathParams_taskId);
+    sprintf(localVarToReplace_taskId, "{%s}", "taskId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_task_id, task_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_taskId, taskId);
 
     // Path Params
-    long sizeOfPathParams_annotation_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + strlen(annotation_id)+3 + sizeof("{ annotation_id }") - 1;
-    if(annotation_id == NULL) {
+    long sizeOfPathParams_annotationId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + strlen(annotationId)+3 + sizeof("{ annotationId }") - 1;
+    if(annotationId == NULL) {
         goto end;
     }
-    char* localVarToReplace_annotation_id = malloc(sizeOfPathParams_annotation_id);
-    sprintf(localVarToReplace_annotation_id, "{%s}", "annotation_id");
+    char* localVarToReplace_annotationId = malloc(sizeOfPathParams_annotationId);
+    sprintf(localVarToReplace_annotationId, "{%s}", "annotationId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_annotation_id, annotation_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_annotationId, annotationId);
 
 
 
@@ -944,11 +944,11 @@ ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, cha
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_queue_id);
-    free(localVarToReplace_task_id);
-    free(localVarToReplace_annotation_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_queueId);
+    free(localVarToReplace_taskId);
+    free(localVarToReplace_annotationId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -998,7 +998,7 @@ end:
 }
 
 review_annotation_t*
-ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenantId, char *projectId, char *queueId, char *taskId, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -1012,57 +1012,57 @@ ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations");
+    char *localVarPath = strdup("/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!queue_id)
+    if(!queueId)
         goto end;
-    if(!task_id)
+    if(!taskId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_queue_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + sizeof("{ queue_id }") - 1;
-    if(queue_id == NULL) {
+    long sizeOfPathParams_queueId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + sizeof("{ queueId }") - 1;
+    if(queueId == NULL) {
         goto end;
     }
-    char* localVarToReplace_queue_id = malloc(sizeOfPathParams_queue_id);
-    sprintf(localVarToReplace_queue_id, "{%s}", "queue_id");
+    char* localVarToReplace_queueId = malloc(sizeOfPathParams_queueId);
+    sprintf(localVarToReplace_queueId, "{%s}", "queueId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_queue_id, queue_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_queueId, queueId);
 
     // Path Params
-    long sizeOfPathParams_task_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(queue_id)+3 + strlen(task_id)+3 + sizeof("{ task_id }") - 1;
-    if(task_id == NULL) {
+    long sizeOfPathParams_taskId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(queueId)+3 + strlen(taskId)+3 + sizeof("{ taskId }") - 1;
+    if(taskId == NULL) {
         goto end;
     }
-    char* localVarToReplace_task_id = malloc(sizeOfPathParams_task_id);
-    sprintf(localVarToReplace_task_id, "{%s}", "task_id");
+    char* localVarToReplace_taskId = malloc(sizeOfPathParams_taskId);
+    sprintf(localVarToReplace_taskId, "{%s}", "taskId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_task_id, task_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_taskId, taskId);
 
 
 
@@ -1179,10 +1179,10 @@ ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_queue_id);
-    free(localVarToReplace_task_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_queueId);
+    free(localVarToReplace_taskId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

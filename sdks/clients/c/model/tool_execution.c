@@ -88,7 +88,7 @@ cJSON *tool_execution_convertToJSON(tool_execution_t *tool_execution) {
 
     // tool_execution->log_id
     if(tool_execution->log_id) {
-    if(cJSON_AddStringToObject(item, "log_id", tool_execution->log_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "logId", tool_execution->log_id) == NULL) {
     goto fail; //String
     }
     }
@@ -137,7 +137,7 @@ tool_execution_t *tool_execution_parseFromJSON(cJSON *tool_executionJSON){
     }
 
     // tool_execution->log_id
-    cJSON *log_id = cJSON_GetObjectItemCaseSensitive(tool_executionJSON, "log_id");
+    cJSON *log_id = cJSON_GetObjectItemCaseSensitive(tool_executionJSON, "logId");
     if (cJSON_IsNull(log_id)) {
         log_id = NULL;
     }

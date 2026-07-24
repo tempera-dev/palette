@@ -20,8 +20,8 @@ namespace model {
 
 Money::Money()
 {
-    m_Amount_micros = 0L;
-    m_Amount_microsIsSet = false;
+    m_AmountMicros = 0L;
+    m_AmountMicrosIsSet = false;
     m_CurrencyIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void Money::validate()
 web::json::value Money::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Amount_microsIsSet)
+    if(m_AmountMicrosIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("amount_micros"))] = ModelBase::toJson(m_Amount_micros);
+        val[utility::conversions::to_string_t(U("amountMicros"))] = ModelBase::toJson(m_AmountMicros);
     }
     if(m_CurrencyIsSet)
     {   
@@ -54,9 +54,9 @@ web::json::value Money::toJson() const
 bool Money::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("amount_micros"))))
+    if(val.has_field(utility::conversions::to_string_t(U("amountMicros"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("amount_micros")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("amountMicros")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setAmountMicros;
@@ -86,9 +86,9 @@ void Money::toMultipart(std::shared_ptr<MultipartFormData> multipart, const util
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Amount_microsIsSet)
+    if(m_AmountMicrosIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("amount_micros")), m_Amount_micros));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("amountMicros")), m_AmountMicros));
     }
     if(m_CurrencyIsSet)
     {
@@ -105,10 +105,10 @@ bool Money::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("amount_micros"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("amountMicros"))))
     {
         int64_t refVal_setAmountMicros;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("amount_micros"))), refVal_setAmountMicros );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("amountMicros"))), refVal_setAmountMicros );
         setAmountMicros(refVal_setAmountMicros);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("currency"))))
@@ -123,23 +123,23 @@ bool Money::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
 
 int64_t Money::getAmountMicros() const
 {
-    return m_Amount_micros;
+    return m_AmountMicros;
 }
 
 void Money::setAmountMicros(int64_t value)
 {
-    m_Amount_micros = value;
-    m_Amount_microsIsSet = true;
+    m_AmountMicros = value;
+    m_AmountMicrosIsSet = true;
 }
 
 bool Money::amountMicrosIsSet() const
 {
-    return m_Amount_microsIsSet;
+    return m_AmountMicrosIsSet;
 }
 
-void Money::unsetAmount_micros()
+void Money::unsetAmountMicros()
 {
-    m_Amount_microsIsSet = false;
+    m_AmountMicrosIsSet = false;
 }
 std::shared_ptr<Currency> Money::getCurrency() const
 {

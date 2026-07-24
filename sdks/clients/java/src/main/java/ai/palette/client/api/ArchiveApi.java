@@ -170,10 +170,10 @@ public class ArchiveApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/archive/{tenant_id}/{project_id}/{trace_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{trace_id}", ApiClient.urlEncode(traceId.toString()));
+    String localVarPath = "/v1/archive/{tenantId}/{projectId}/{traceId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{traceId}", ApiClient.urlEncode(traceId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -296,19 +296,19 @@ public class ArchiveApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/archive/{tenant_id}/{project_id}/spans"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/archive/{tenantId}/{projectId}/spans"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "environment_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("environment_id", environmentId));
-    localVarQueryParameterBaseName = "trace_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("trace_id", traceId));
-    localVarQueryParameterBaseName = "span_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("span_id", spanId));
+    localVarQueryParameterBaseName = "environmentId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("environmentId", environmentId));
+    localVarQueryParameterBaseName = "traceId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("traceId", traceId));
+    localVarQueryParameterBaseName = "spanId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("spanId", spanId));
     localVarQueryParameterBaseName = "kind";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("kind", kind));
     localVarQueryParameterBaseName = "status";

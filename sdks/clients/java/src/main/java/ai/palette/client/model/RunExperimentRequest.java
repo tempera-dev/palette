@@ -53,31 +53,31 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunExperimentRequest {
-  public static final String JSON_PROPERTY_BASELINE_OUTPUTS = "baseline_outputs";
+  public static final String JSON_PROPERTY_BASELINE_OUTPUTS = "baselineOutputs";
   @javax.annotation.Nonnull
   private List<CaseOutputOverrideRequest> baselineOutputs = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_BASELINE_RELEASE_ID = "baseline_release_id";
+  public static final String JSON_PROPERTY_BASELINE_RELEASE_ID = "baselineReleaseId";
   @javax.annotation.Nonnull
   private String baselineReleaseId;
 
-  public static final String JSON_PROPERTY_CANDIDATE_OUTPUTS = "candidate_outputs";
+  public static final String JSON_PROPERTY_CANDIDATE_OUTPUTS = "candidateOutputs";
   @javax.annotation.Nonnull
   private List<CaseOutputOverrideRequest> candidateOutputs = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_CANDIDATE_RELEASE_ID = "candidate_release_id";
+  public static final String JSON_PROPERTY_CANDIDATE_RELEASE_ID = "candidateReleaseId";
   @javax.annotation.Nonnull
   private String candidateReleaseId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluator_id";
+  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluatorId";
   @javax.annotation.Nonnull
   private String evaluatorId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
-  public static final String JSON_PROPERTY_GATE_POLICY = "gate_policy";
+  public static final String JSON_PROPERTY_GATE_POLICY = "gatePolicy";
   private JsonNullable<GatePolicy> gatePolicy = JsonNullable.<GatePolicy>undefined();
 
   public static final String JSON_PROPERTY_KIND = "kind";
@@ -400,49 +400,49 @@ public class RunExperimentRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `baseline_outputs` to the URL query string
+    // add `baselineOutputs` to the URL query string
     if (getBaselineOutputs() != null) {
       for (int i = 0; i < getBaselineOutputs().size(); i++) {
         if (getBaselineOutputs().get(i) != null) {
-          joiner.add(getBaselineOutputs().get(i).toUrlQueryString(String.format("%sbaseline_outputs%s%s", prefix, suffix,
+          joiner.add(getBaselineOutputs().get(i).toUrlQueryString(String.format("%sbaselineOutputs%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `baseline_release_id` to the URL query string
+    // add `baselineReleaseId` to the URL query string
     if (getBaselineReleaseId() != null) {
-      joiner.add(String.format("%sbaseline_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_outputs` to the URL query string
+    // add `candidateOutputs` to the URL query string
     if (getCandidateOutputs() != null) {
       for (int i = 0; i < getCandidateOutputs().size(); i++) {
         if (getCandidateOutputs().get(i) != null) {
-          joiner.add(getCandidateOutputs().get(i).toUrlQueryString(String.format("%scandidate_outputs%s%s", prefix, suffix,
+          joiner.add(getCandidateOutputs().get(i).toUrlQueryString(String.format("%scandidateOutputs%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `candidate_release_id` to the URL query string
+    // add `candidateReleaseId` to the URL query string
     if (getCandidateReleaseId() != null) {
-      joiner.add(String.format("%scandidate_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_id` to the URL query string
+    // add `evaluatorId` to the URL query string
     if (getEvaluatorId() != null) {
-      joiner.add(String.format("%sevaluator_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `gate_policy` to the URL query string
+    // add `gatePolicy` to the URL query string
     if (getGatePolicy() != null) {
-      joiner.add(getGatePolicy().toUrlQueryString(prefix + "gate_policy" + suffix));
+      joiner.add(getGatePolicy().toUrlQueryString(prefix + "gatePolicy" + suffix));
     }
 
     // add `kind` to the URL query string

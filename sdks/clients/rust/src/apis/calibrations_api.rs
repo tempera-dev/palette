@@ -51,7 +51,7 @@ pub enum CalibrationsPeriodRunError {
 
 pub async fn calibrations_period_run(configuration: &configuration::Configuration, params: CalibrationsPeriodRunParams) -> Result<models::CalibrationReport, Error<CalibrationsPeriodRunError>> {
 
-    let uri_str = format!("{}/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
+    let uri_str = format!("{}/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), datasetId=crate::apis::urlencode(params.dataset_id), versionId=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

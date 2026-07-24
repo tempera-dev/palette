@@ -23,24 +23,24 @@ var _ MappedNullable = &Scenario{}
 // Scenario A reusable failure scenario mined from production traces.
 type Scenario struct {
 	// When the scenario was created.
-	CreatedAt time.Time `json:"created_at"`
-	ExemplarTraceId string `json:"exemplar_trace_id"`
+	CreatedAt time.Time `json:"createdAt"`
+	ExemplarTraceId string `json:"exemplarTraceId"`
 	// Expected outcome for replay assertions, if known.
-	ExpectedOutcome NullableString `json:"expected_outcome,omitempty"`
+	ExpectedOutcome NullableString `json:"expectedOutcome,omitempty"`
 	// The dominant failure mode this scenario reproduces.
-	FailureMode FailureMode `json:"failure_mode"`
+	FailureMode FailureMode `json:"failureMode"`
 	// Suggested perturbation knobs for replay.
-	PerturbationKnobs PerturbationKnobs `json:"perturbation_knobs"`
+	PerturbationKnobs PerturbationKnobs `json:"perturbationKnobs"`
 	// How many traces exhibited this scenario.
-	RecurrenceCount int32 `json:"recurrence_count"`
+	RecurrenceCount int32 `json:"recurrenceCount"`
 	// Redaction classification of the scenario payload.
-	RedactionClass RedactionClass `json:"redaction_class"`
+	RedactionClass RedactionClass `json:"redactionClass"`
 	// Stable, deterministic identifier for the scenario.
-	ScenarioId string `json:"scenario_id"`
+	ScenarioId string `json:"scenarioId"`
 	// Tenant/project/environment scope this scenario belongs to.
 	Scope TenantScope `json:"scope"`
 	// Trace ids the scenario was mined from, sorted ascending.
-	SourceTraceIds []string `json:"source_trace_ids"`
+	SourceTraceIds []string `json:"sourceTraceIds"`
 	// Human-readable title.
 	Title string `json:"title"`
 }
@@ -366,18 +366,18 @@ func (o Scenario) MarshalJSON() ([]byte, error) {
 
 func (o Scenario) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["exemplar_trace_id"] = o.ExemplarTraceId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["exemplarTraceId"] = o.ExemplarTraceId
 	if o.ExpectedOutcome.IsSet() {
-		toSerialize["expected_outcome"] = o.ExpectedOutcome.Get()
+		toSerialize["expectedOutcome"] = o.ExpectedOutcome.Get()
 	}
-	toSerialize["failure_mode"] = o.FailureMode
-	toSerialize["perturbation_knobs"] = o.PerturbationKnobs
-	toSerialize["recurrence_count"] = o.RecurrenceCount
-	toSerialize["redaction_class"] = o.RedactionClass
-	toSerialize["scenario_id"] = o.ScenarioId
+	toSerialize["failureMode"] = o.FailureMode
+	toSerialize["perturbationKnobs"] = o.PerturbationKnobs
+	toSerialize["recurrenceCount"] = o.RecurrenceCount
+	toSerialize["redactionClass"] = o.RedactionClass
+	toSerialize["scenarioId"] = o.ScenarioId
 	toSerialize["scope"] = o.Scope
-	toSerialize["source_trace_ids"] = o.SourceTraceIds
+	toSerialize["sourceTraceIds"] = o.SourceTraceIds
 	toSerialize["title"] = o.Title
 	return toSerialize, nil
 }
@@ -387,15 +387,15 @@ func (o *Scenario) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
-		"exemplar_trace_id",
-		"failure_mode",
-		"perturbation_knobs",
-		"recurrence_count",
-		"redaction_class",
-		"scenario_id",
+		"createdAt",
+		"exemplarTraceId",
+		"failureMode",
+		"perturbationKnobs",
+		"recurrenceCount",
+		"redactionClass",
+		"scenarioId",
 		"scope",
-		"source_trace_ids",
+		"sourceTraceIds",
 		"title",
 	}
 

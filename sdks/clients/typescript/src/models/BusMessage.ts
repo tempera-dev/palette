@@ -102,14 +102,14 @@ export function BusMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'attempts': json['attempts'],
-        'enqueuedAt': (new Date(json['enqueued_at'])),
-        'idempotencyKey': json['idempotency_key'],
+        'enqueuedAt': (new Date(json['enqueuedAt'])),
+        'idempotencyKey': json['idempotencyKey'],
         'kind': json['kind'],
-        'maxAttempts': json['max_attempts'],
-        'messageId': json['message_id'],
+        'maxAttempts': json['maxAttempts'],
+        'messageId': json['messageId'],
         'payload': json['payload'],
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -125,14 +125,14 @@ export function BusMessageToJSONTyped(value?: BusMessage | null, ignoreDiscrimin
     return {
         
         'attempts': value['attempts'],
-        'enqueued_at': ((value['enqueuedAt']).toISOString()),
-        'idempotency_key': value['idempotencyKey'],
+        'enqueuedAt': ((value['enqueuedAt']).toISOString()),
+        'idempotencyKey': value['idempotencyKey'],
         'kind': value['kind'],
-        'max_attempts': value['maxAttempts'],
-        'message_id': value['messageId'],
+        'maxAttempts': value['maxAttempts'],
+        'messageId': value['messageId'],
         'payload': value['payload'],
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
     };
 }
 

@@ -21,17 +21,17 @@ var _ MappedNullable = &SearchHit{}
 
 // SearchHit struct for SearchHit
 type SearchHit struct {
-	EnvironmentId string `json:"environment_id"`
+	EnvironmentId string `json:"environmentId"`
 	Kind string `json:"kind"`
 	Model string `json:"model"`
 	Name string `json:"name"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Score float32 `json:"score"`
-	SpanId string `json:"span_id"`
+	SpanId string `json:"spanId"`
 	Status string `json:"status"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 	Tool string `json:"tool"`
-	TraceId string `json:"trace_id"`
+	TraceId string `json:"traceId"`
 }
 
 type _SearchHit SearchHit
@@ -338,17 +338,17 @@ func (o SearchHit) MarshalJSON() ([]byte, error) {
 
 func (o SearchHit) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["environment_id"] = o.EnvironmentId
+	toSerialize["environmentId"] = o.EnvironmentId
 	toSerialize["kind"] = o.Kind
 	toSerialize["model"] = o.Model
 	toSerialize["name"] = o.Name
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["score"] = o.Score
-	toSerialize["span_id"] = o.SpanId
+	toSerialize["spanId"] = o.SpanId
 	toSerialize["status"] = o.Status
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	toSerialize["tool"] = o.Tool
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -357,17 +357,17 @@ func (o *SearchHit) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"environment_id",
+		"environmentId",
 		"kind",
 		"model",
 		"name",
-		"project_id",
+		"projectId",
 		"score",
-		"span_id",
+		"spanId",
 		"status",
-		"tenant_id",
+		"tenantId",
 		"tool",
-		"trace_id",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

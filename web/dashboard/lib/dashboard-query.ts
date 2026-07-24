@@ -122,32 +122,32 @@ export const FILTER_FIELDS: readonly AnyDescriptor[] = [
     chipLabel: "Release", chipDisplay: undefined, advanced: true,
   }),
   field({
-    field: "startedAfter", urlParam: "started_after",
+    field: "startedAfter", urlParam: "startedAfter",
     parse: parseString, serialize: String,
     chipLabel: "After", chipDisplay: undefined, advanced: true,
   }),
   field({
-    field: "startedBefore", urlParam: "started_before",
+    field: "startedBefore", urlParam: "startedBefore",
     parse: parseString, serialize: String,
     chipLabel: "Before", chipDisplay: undefined, advanced: true,
   }),
   field({
-    field: "minCostMicros", urlParam: "min_cost_micros",
+    field: "minCostMicros", urlParam: "minCostMicros",
     parse: parseNumber, serialize: String,
     chipLabel: "Min cost", chipDisplay: undefined, advanced: true,
   }),
   field({
-    field: "maxCostMicros", urlParam: "max_cost_micros",
+    field: "maxCostMicros", urlParam: "maxCostMicros",
     parse: parseNumber, serialize: String,
     chipLabel: "Max cost", chipDisplay: undefined, advanced: true,
   }),
   field({
-    field: "minLatencyMs", urlParam: "min_latency_ms",
+    field: "minLatencyMs", urlParam: "minLatencyMs",
     parse: parseNumber, serialize: String,
     chipLabel: "Min latency", chipDisplay: (v) => `${v} ms`, advanced: true,
   }),
   field({
-    field: "maxLatencyMs", urlParam: "max_latency_ms",
+    field: "maxLatencyMs", urlParam: "maxLatencyMs",
     parse: parseNumber, serialize: String,
     chipLabel: "Max latency", chipDisplay: (v) => `${v} ms`, advanced: true,
   }),

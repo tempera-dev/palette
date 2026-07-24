@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from palette_client.models.money import Money
 from typing import Optional, Set
@@ -29,17 +29,17 @@ class PublicJudgeAuditRecord(BaseModel):
     Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`, and our raw `provider_cost` are INTERNAL (staff-only) and must never reach a customer — exposing `provider_cost` alongside `charged_cost` would also leak our margin (billing-credits-contract §11). Only customer-facing fields appear here, including `charged_cost` (the amount the customer actually pays).
     """ # noqa: E501
     cached: StrictBool
-    charged_cost: Money
-    created_at: datetime
-    evaluator_id: StrictStr
-    judge_call_id: StrictStr
+    charged_cost: Money = Field(alias="chargedCost")
+    created_at: datetime = Field(alias="createdAt")
+    evaluator_id: StrictStr = Field(alias="evaluatorId")
+    judge_call_id: StrictStr = Field(alias="judgeCallId")
     model: StrictStr
-    project_id: StrictStr
-    request_hash: StrictStr
-    response_hash: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
+    request_hash: StrictStr = Field(alias="requestHash")
+    response_hash: StrictStr = Field(alias="responseHash")
     score: Union[StrictFloat, StrictInt]
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["cached", "charged_cost", "created_at", "evaluator_id", "judge_call_id", "model", "project_id", "request_hash", "response_hash", "score", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["cached", "chargedCost", "createdAt", "evaluatorId", "judgeCallId", "model", "projectId", "requestHash", "responseHash", "score", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class PublicJudgeAuditRecord(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of charged_cost
         if self.charged_cost:
-            _dict['charged_cost'] = self.charged_cost.to_dict()
+            _dict['chargedCost'] = self.charged_cost.to_dict()
         return _dict
 
     @classmethod
@@ -96,16 +96,16 @@ class PublicJudgeAuditRecord(BaseModel):
 
         _obj = cls.model_validate({
             "cached": obj.get("cached"),
-            "charged_cost": Money.from_dict(obj["charged_cost"]) if obj.get("charged_cost") is not None else None,
-            "created_at": obj.get("created_at"),
-            "evaluator_id": obj.get("evaluator_id"),
-            "judge_call_id": obj.get("judge_call_id"),
+            "chargedCost": Money.from_dict(obj["chargedCost"]) if obj.get("chargedCost") is not None else None,
+            "createdAt": obj.get("createdAt"),
+            "evaluatorId": obj.get("evaluatorId"),
+            "judgeCallId": obj.get("judgeCallId"),
             "model": obj.get("model"),
-            "project_id": obj.get("project_id"),
-            "request_hash": obj.get("request_hash"),
-            "response_hash": obj.get("response_hash"),
+            "projectId": obj.get("projectId"),
+            "requestHash": obj.get("requestHash"),
+            "responseHash": obj.get("responseHash"),
             "score": obj.get("score"),
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

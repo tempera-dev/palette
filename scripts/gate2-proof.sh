@@ -81,7 +81,7 @@ json_field() {
 }
 
 first_trace_id() {
-  python3 -c 'import json,sys; print(json.load(sys.stdin)["runs"][0]["trace_id"])'
+  python3 -c 'import json,sys; print(json.load(sys.stdin)["runs"][0]["traceId"])'
 }
 
 trap cleanup EXIT
@@ -121,7 +121,7 @@ grpc_smoke="$("$root/target/debug/palettectl" smoke \
   --environment-id local \
   --timeout-ms 10000)"
 
-trace_id="$(printf '%s' "$grpc_smoke" | json_field trace_id)"
+trace_id="$(printf '%s' "$grpc_smoke" | json_field traceId)"
 
 python3 -m venv "$venv_dir"
 "$venv_dir/bin/pip" install --quiet --upgrade pip
@@ -132,21 +132,21 @@ PALETTE_PROJECT_ID=demo \
 PALETTE_ENVIRONMENT_ID=local \
   "$venv_dir/bin/python" "$root/examples/python/otel_smoke.py"
 
-python_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-demo&release=compose-demo"
+python_trace_query="$api_url/v1/traces/demo?projectId=demo&environmentId=local&kind=llm.call&model=gpt-demo&release=compose-demo"
 wait_text "$python_trace_query" "gpt-demo" "stock Python OTLP trace"
 python_trace_id="$(curl -fsS "$python_trace_query" | first_trace_id)"
 
 OTEL_EXPORTER_OTLP_ENDPOINT="$grpc_url" \
   "$venv_dir/bin/python" "$root/examples/python/five_line_otel.py"
 
-quickstart_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-quickstart"
+quickstart_trace_query="$api_url/v1/traces/demo?projectId=demo&environmentId=local&kind=llm.call&model=gpt-quickstart"
 wait_text "$quickstart_trace_query" "gpt-quickstart" "five-line stock Python OTLP trace"
 quickstart_trace_id="$(curl -fsS "$quickstart_trace_query" | first_trace_id)"
 redaction_seed="$(python3 "$root/scripts/seed-gate2-redaction-trace.py" \
   --api-url "$api_url" \
   --release-id "$redaction_release_id")"
-redaction_trace_id="$(printf '%s' "$redaction_seed" | json_field trace_id)"
-redaction_span_id="$(printf '%s' "$redaction_seed" | json_field span_id)"
+redaction_trace_id="$(printf '%s' "$redaction_seed" | json_field traceId)"
+redaction_span_id="$(printf '%s' "$redaction_seed" | json_field spanId)"
 
 (
   cd "$root/web/dashboard"
@@ -169,7 +169,7 @@ dashboard_pid="$!"
 wait_url "$dashboard_url/?tenant=demo&project=demo&environment=local" "dashboard"
 
 require_text "$api_url/v1/traces/demo/$trace_id" "palettectl otlp smoke"
-require_text "$api_url/openapi.json" "min_cost_micros"
+require_text "$api_url/openapi.json" "minCostMicros"
 python_trace_api="$api_url/v1/traces/demo/$python_trace_id"
 python_trace_dashboard="$dashboard_url/?tenant=demo&project=demo&environment=local&trace=$python_trace_id"
 redaction_trace_dashboard="$dashboard_url/?tenant=demo&project=demo&environment=local&trace=$redaction_trace_id&span=$redaction_span_id"

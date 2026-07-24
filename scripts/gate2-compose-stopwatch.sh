@@ -330,12 +330,12 @@ EOF
 }
 
 first_trace_id() {
-  sed -n 's/.*"trace_id"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{32\}\)".*/\1/p' | head -n 1
+  sed -n 's/.*"traceId"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{32\}\)".*/\1/p' | head -n 1
 }
 
 first_llm_span_id() {
   tr '{' '\n' \
-    | sed -n '/"kind"[[:space:]]*:[[:space:]]*"llm.call"/s/.*"span_id"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{16\}\)".*/\1/p' \
+    | sed -n '/"kind"[[:space:]]*:[[:space:]]*"llm.call"/s/.*"spanId"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{16\}\)".*/\1/p' \
     | head -n 1
 }
 
@@ -614,7 +614,7 @@ run_before_deadline "five-line OTEL snippet" compose_run_tool \
   -e PALETTE_GATE2_RUN_ID="$gate2_run_id" \
   otel-python-quickstart
 
-quickstart_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"
+quickstart_query="$api_url/v1/traces/demo?projectId=demo&environmentId=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"
 wait_text "$quickstart_query" "$gate2_run_id" "fresh five-line OTEL trace"
 trace_id="$(curl -fsS "$quickstart_query" | first_trace_id)"
 if [[ -z "$trace_id" ]]; then
@@ -690,8 +690,8 @@ if [[ "$browser_proof" == "1" ]]; then
   redaction_seed="$(python3 scripts/seed-gate2-redaction-trace.py \
     --api-url "$api_url" \
     --release-id "$gate2_run_id")"
-  redaction_trace_id="$(printf '%s' "$redaction_seed" | json_field trace_id)"
-  redaction_span_id="$(printf '%s' "$redaction_seed" | json_field span_id)"
+  redaction_trace_id="$(printf '%s' "$redaction_seed" | json_field traceId)"
+  redaction_span_id="$(printf '%s' "$redaction_seed" | json_field spanId)"
   redaction_unmask_reason="$(printf '%s' "$redaction_seed" | json_field unmask_reason)"
   redaction_dashboard_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&trace=$redaction_trace_id&span=$redaction_span_id"
   run_with_step_timeout "wait for dashboard redacted I/O trace" wait_text "$redaction_dashboard_url" "sensitive-redaction-review" "dashboard redacted I/O trace"
@@ -707,7 +707,7 @@ if [[ "$browser_proof" == "1" ]]; then
 
   run_with_step_timeout "stock Python all-kind OTEL fixture" compose_run_tool otel-python-smoke
 
-  all_kind_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-demo&release=compose-demo"
+  all_kind_query="$api_url/v1/traces/demo?projectId=demo&environmentId=local&kind=llm.call&model=gpt-demo&release=compose-demo"
   run_with_step_timeout "wait for stock Python all-kind OTEL trace" wait_text "$all_kind_query" "gpt-demo" "stock Python all-kind OTEL trace"
   all_kind_trace_id="$(curl -fsS "$all_kind_query" | first_trace_id)"
   if [[ -z "$all_kind_trace_id" ]]; then

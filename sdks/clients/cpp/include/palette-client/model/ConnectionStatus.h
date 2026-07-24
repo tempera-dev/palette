@@ -69,7 +69,7 @@ public:
     /// </summary>
     utility::string_t getConnectedAccountId() const;
     bool connectedAccountIdIsSet() const;
-    void unsetConnected_account_id();
+    void unsetConnectedAccountId();
     void setConnectedAccountId(const utility::string_t& value);
 
     /// <summary>
@@ -93,8 +93,8 @@ protected:
     bool m_Connected;
     bool m_ConnectedIsSet;
 
-    utility::string_t m_Connected_account_id;
-    bool m_Connected_account_idIsSet;
+    utility::string_t m_ConnectedAccountId;
+    bool m_ConnectedAccountIdIsSet;
 
     utility::string_t m_Status;
     bool m_StatusIsSet;

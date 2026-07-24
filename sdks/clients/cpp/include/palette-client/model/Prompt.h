@@ -55,7 +55,7 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDescription() const;
@@ -70,28 +70,28 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getPromptId() const;
     bool promptIdIsSet() const;
-    void unsetPrompt_id();
+    void unsetPromptId();
     void setPromptId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::datetime getUpdatedAt() const;
     bool updatedAtIsSet() const;
-    void unsetUpdated_at();
+    void unsetUpdatedAt();
     void setUpdatedAt(const utility::datetime& value);
 
 
 protected:
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
     utility::string_t m_Description;
     bool m_DescriptionIsSet;
@@ -99,17 +99,17 @@ protected:
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Prompt_id;
-    bool m_Prompt_idIsSet;
+    utility::string_t m_PromptId;
+    bool m_PromptIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::datetime m_Updated_at;
-    bool m_Updated_atIsSet;
+    utility::datetime m_UpdatedAt;
+    bool m_UpdatedAtIsSet;
 
 };
 

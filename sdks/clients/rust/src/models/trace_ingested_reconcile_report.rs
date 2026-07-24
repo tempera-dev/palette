@@ -13,19 +13,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TraceIngestedReconcileReport {
-    #[serde(rename = "downstream_accepted")]
+    #[serde(rename = "downstreamAccepted")]
     pub downstream_accepted: i32,
-    #[serde(rename = "downstream_duplicate")]
+    #[serde(rename = "downstreamDuplicate")]
     pub downstream_duplicate: i32,
-    #[serde(rename = "downstream_queued")]
+    #[serde(rename = "downstreamQueued")]
     pub downstream_queued: bool,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "span_count")]
+    #[serde(rename = "spanCount")]
     pub span_count: i32,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

@@ -67,7 +67,7 @@ export function DeadLetterFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'failedAt': (new Date(json['failed_at'])),
+        'failedAt': (new Date(json['failedAt'])),
         'message': BusMessageFromJSON(json['message']),
         'reason': json['reason'],
     };
@@ -84,7 +84,7 @@ export function DeadLetterToJSONTyped(value?: DeadLetter | null, ignoreDiscrimin
 
     return {
         
-        'failed_at': ((value['failedAt']).toISOString()),
+        'failedAt': ((value['failedAt']).toISOString()),
         'message': BusMessageToJSON(value['message']),
         'reason': value['reason'],
     };

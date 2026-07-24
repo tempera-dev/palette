@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunGateRequest {
-    #[serde(rename = "experiment_run_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "experimentRunId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub experiment_run_id: Option<Option<String>>,
 }
 

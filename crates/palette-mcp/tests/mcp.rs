@@ -382,13 +382,13 @@ async fn initialize_and_tools_list_over_mcp_route() {
         .find(|t| t["name"] == "traces.list")
         .expect("traces.list tool present");
     let props = &traces_list["inputSchema"]["properties"];
-    assert!(props["tenant_id"].is_object(), "path param exposed");
-    assert!(props["project_id"].is_object(), "query param exposed");
+    assert!(props["tenantId"].is_object(), "path param exposed");
+    assert!(props["projectId"].is_object(), "query param exposed");
     let required = traces_list["inputSchema"]["required"]
         .as_array()
         .expect("required array");
     assert!(
-        required.iter().any(|v| v == "tenant_id"),
+        required.iter().any(|v| v == "tenantId"),
         "path param is required"
     );
 }
@@ -537,9 +537,9 @@ async fn tools_call_over_stdio_transport() {
             "params": {
                 "name": "traces.list",
                 "arguments": {
-                    "tenant_id": "tenant-1",
-                    "project_id": "proj-1",
-                    "environment_id": "env-1"
+                    "tenantId": "tenant-1",
+                    "projectId": "proj-1",
+                    "environmentId": "env-1"
                 }
             }
         })
@@ -575,7 +575,7 @@ async fn tools_call_matches_direct_http_for_traces_list() {
     let http_request = unwrap(
         Request::builder()
             .method("GET")
-            .uri("/v1/traces/tenant-1?project_id=proj-1&environment_id=env-1")
+            .uri("/v1/traces/tenant-1?projectId=proj-1&environmentId=env-1")
             .body(Body::empty()),
     );
     let http_response = unwrap(http_app.oneshot(http_request).await);
@@ -593,9 +593,9 @@ async fn tools_call_matches_direct_http_for_traces_list() {
             "params": {
                 "name": "traces.list",
                 "arguments": {
-                    "tenant_id": "tenant-1",
-                    "project_id": "proj-1",
-                    "environment_id": "env-1"
+                    "tenantId": "tenant-1",
+                    "projectId": "proj-1",
+                    "environmentId": "env-1"
                 }
             }
         }),
@@ -643,9 +643,9 @@ async fn tools_call_forwards_strict_auth_and_scope_headers() {
         "params": {
             "name": "spans.get",
             "arguments": {
-                "tenant_id": "tenant-1",
-                "trace_id": "missing-trace",
-                "span_id": "missing-span"
+                "tenantId": "tenant-1",
+                "traceId": "missing-trace",
+                "spanId": "missing-span"
             }
         }
     });
@@ -687,11 +687,11 @@ async fn tools_call_forwards_strict_auth_and_scope_headers() {
         "params": {
             "name": "spans.get",
             "arguments": {
-                "tenant_id": "tenant-1",
-                "trace_id": "missing-trace",
-                "span_id": "missing-span",
-                "project_id": "proj-1",
-                "environment_id": "env-1"
+                "tenantId": "tenant-1",
+                "traceId": "missing-trace",
+                "spanId": "missing-span",
+                "projectId": "proj-1",
+                "environmentId": "env-1"
             }
         }
     });
@@ -760,9 +760,9 @@ async fn oauth_tools_call_uses_token_scope_without_hidden_headers() {
             "params": {
                 "name": "spans.get",
                 "arguments": {
-                    "tenant_id": "tenant-1",
-                    "trace_id": "missing-trace",
-                    "span_id": "missing-span"
+                    "tenantId": "tenant-1",
+                    "traceId": "missing-trace",
+                    "spanId": "missing-span"
                 }
             }
         }),
@@ -817,9 +817,9 @@ async fn tools_call_accepts_oauth_workspace_claims_without_strict_headers() {
             "params": {
                 "name": "spans.get",
                 "arguments": {
-                    "tenant_id": "tenant-1",
-                    "trace_id": "missing-trace",
-                    "span_id": "missing-span"
+                    "tenantId": "tenant-1",
+                    "traceId": "missing-trace",
+                    "spanId": "missing-span"
                 }
             }
         }),
@@ -853,9 +853,9 @@ async fn tools_call_accepts_central_token_introspection_claims_without_strict_he
             "params": {
                 "name": "spans.get",
                 "arguments": {
-                    "tenant_id": tenant_id,
-                    "trace_id": "missing-trace",
-                    "span_id": "missing-span"
+                    "tenantId": tenant_id,
+                    "traceId": "missing-trace",
+                    "spanId": "missing-span"
                 }
             }
         })
@@ -947,9 +947,9 @@ async fn oauth_mcp_auth_failure_returns_discovery_challenge() {
             "params": {
                 "name": "spans.get",
                 "arguments": {
-                    "tenant_id": "tenant-1",
-                    "trace_id": "missing-trace",
-                    "span_id": "missing-span"
+                    "tenantId": "tenant-1",
+                    "traceId": "missing-trace",
+                    "spanId": "missing-span"
                 }
             }
         }),
@@ -1118,7 +1118,7 @@ async fn tools_call_rejects_non_scalar_query_param() {
             "params": {
                 "name": "traces.list",
                 "arguments": {
-                    "tenant_id": "tenant-1",
+                    "tenantId": "tenant-1",
                     "pageSize": { "bad": true }
                 }
             }
@@ -1423,7 +1423,7 @@ async fn list_wrapper_includes_structured_content() {
             "method": "tools/call",
             "params": {
                 "name": "providerSecrets.list",
-                "arguments": { "tenant_id": "tenant-1", "project_id": "proj-1" }
+                "arguments": { "tenantId": "tenant-1", "projectId": "proj-1" }
             }
         }),
         None,
@@ -1571,7 +1571,7 @@ async fn help_describes_one_tool_and_rejects_unknown() {
     let tool = &rpc["result"]["structuredContent"]["tool"];
     assert_eq!(tool["name"], "traces.list");
     assert_eq!(tool["method"], "GET");
-    assert_eq!(tool["path"], "/v1/traces/{tenant_id}");
+    assert_eq!(tool["path"], "/v1/traces/{tenantId}");
     assert_eq!(tool["inputSchema"]["type"], "object");
     assert!(
         tool["outputSchema"].is_object(),

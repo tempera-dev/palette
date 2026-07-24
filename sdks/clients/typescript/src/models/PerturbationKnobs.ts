@@ -80,12 +80,12 @@ export function PerturbationKnobsFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'authFailure': json['auth_failure'],
-        'contradictorySource': json['contradictory_source'],
-        'promptInjection': json['prompt_injection'],
-        'staleSource': json['stale_source'],
+        'authFailure': json['authFailure'],
+        'contradictorySource': json['contradictorySource'],
+        'promptInjection': json['promptInjection'],
+        'staleSource': json['staleSource'],
         'timeout': json['timeout'],
-        'toolSchemaMismatch': json['tool_schema_mismatch'],
+        'toolSchemaMismatch': json['toolSchemaMismatch'],
     };
 }
 
@@ -100,12 +100,12 @@ export function PerturbationKnobsToJSONTyped(value?: PerturbationKnobs | null, i
 
     return {
         
-        'auth_failure': value['authFailure'],
-        'contradictory_source': value['contradictorySource'],
-        'prompt_injection': value['promptInjection'],
-        'stale_source': value['staleSource'],
+        'authFailure': value['authFailure'],
+        'contradictorySource': value['contradictorySource'],
+        'promptInjection': value['promptInjection'],
+        'staleSource': value['staleSource'],
         'timeout': value['timeout'],
-        'tool_schema_mismatch': value['toolSchemaMismatch'],
+        'toolSchemaMismatch': value['toolSchemaMismatch'],
     };
 }
 

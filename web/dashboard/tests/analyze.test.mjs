@@ -21,7 +21,7 @@ function loadAnalyze() {
 }
 
 function span(id, parent, start, end, name) {
-  return { span_id: id, parent_span_id: parent, start_time: start, end_time: end, name: name ?? id };
+  return { spanId: id, parentSpanId: parent, startTime: start, endTime: end, name: name ?? id };
 }
 
 test("toMicros keeps sub-millisecond precision", () => {

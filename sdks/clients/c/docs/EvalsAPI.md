@@ -4,23 +4,23 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**EvalsAPI_evalsRunDeterministic**](EvalsAPI.md#EvalsAPI_evalsRunDeterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
-[**EvalsAPI_evalsRunJudge**](EvalsAPI.md#EvalsAPI_evalsRunJudge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
+[**EvalsAPI_evalsRunDeterministic**](EvalsAPI.md#EvalsAPI_evalsRunDeterministic) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic |
+[**EvalsAPI_evalsRunJudge**](EvalsAPI.md#EvalsAPI_evalsRunJudge) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge |
 
 
 # **EvalsAPI_evalsRunDeterministic**
 ```c
-dataset_eval_report_t* EvalsAPI_evalsRunDeterministic(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_deterministic_eval_request_t *run_deterministic_eval_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_eval_report_t* EvalsAPI_evalsRunDeterministic(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, char *versionId, run_deterministic_eval_request_t *run_deterministic_eval_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**dataset_id** | **char \*** | dataset_id |
-**version_id** | **char \*** | version_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**datasetId** | **char \*** | dataset_id |
+**versionId** | **char \*** | version_id |
 **run_deterministic_eval_request** | **[run_deterministic_eval_request_t](run_deterministic_eval_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -45,17 +45,17 @@ No authorization required
 
 # **EvalsAPI_evalsRunJudge**
 ```c
-dataset_eval_report_t* EvalsAPI_evalsRunJudge(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_judge_dataset_eval_request_t *run_judge_dataset_eval_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_eval_report_t* EvalsAPI_evalsRunJudge(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, char *versionId, run_judge_dataset_eval_request_t *run_judge_dataset_eval_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**dataset_id** | **char \*** | dataset_id |
-**version_id** | **char \*** | version_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**datasetId** | **char \*** | dataset_id |
+**versionId** | **char \*** | version_id |
 **run_judge_dataset_eval_request** | **[run_judge_dataset_eval_request_t](run_judge_dataset_eval_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]

@@ -19,13 +19,13 @@ fn ingest_outage_fixture_buffers_retries_and_recovers() -> anyhow::Result<()> {
     assert!(stdout.contains(r#""submitted_events": 3"#));
     assert!(stdout.contains(r#""accepted_buffered": 2"#));
     assert!(stdout.contains(r#""explicit_errors": 1"#));
-    assert!(stdout.contains(r#""dead_lettered": 1"#));
+    assert!(stdout.contains(r#""deadLettered": 1"#));
     assert!(stdout.contains(r#""recovered": 1"#));
     assert!(stdout.contains(r#""lost": 0"#));
     assert!(stdout.contains("trace store unavailable"));
     assert!(stdout.contains(r#""retried": 1"#));
-    assert!(stdout.contains(r#""written_spans": 1"#));
+    assert!(stdout.contains(r#""writtenSpans": 1"#));
     assert!(stdout.contains(r#""trace_span_count": 1"#));
-    assert!(stdout.contains(r#""trace_ingested_depth": 1"#));
+    assert!(stdout.contains(r#""traceIngestedDepth": 1"#));
     Ok(())
 }

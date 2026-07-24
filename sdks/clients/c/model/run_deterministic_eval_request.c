@@ -97,14 +97,14 @@ cJSON *run_deterministic_eval_request_convertToJSON(run_deterministic_eval_reque
     if (!run_deterministic_eval_request->agent_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "agent_release_id", run_deterministic_eval_request->agent_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "agentReleaseId", run_deterministic_eval_request->agent_release_id) == NULL) {
     goto fail; //String
     }
 
 
     // run_deterministic_eval_request->code_hash
     if(run_deterministic_eval_request->code_hash) {
-    if(cJSON_AddStringToObject(item, "code_hash", run_deterministic_eval_request->code_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "codeHash", run_deterministic_eval_request->code_hash) == NULL) {
     goto fail; //String
     }
     }
@@ -114,7 +114,7 @@ cJSON *run_deterministic_eval_request_convertToJSON(run_deterministic_eval_reque
     if (!run_deterministic_eval_request->evaluator_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_id", run_deterministic_eval_request->evaluator_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorId", run_deterministic_eval_request->evaluator_id) == NULL) {
     goto fail; //String
     }
 
@@ -123,7 +123,7 @@ cJSON *run_deterministic_eval_request_convertToJSON(run_deterministic_eval_reque
     if (!run_deterministic_eval_request->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", run_deterministic_eval_request->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", run_deterministic_eval_request->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -144,7 +144,7 @@ cJSON *run_deterministic_eval_request_convertToJSON(run_deterministic_eval_reque
 
     // run_deterministic_eval_request->prompt_version_id
     if(run_deterministic_eval_request->prompt_version_id) {
-    if(cJSON_AddStringToObject(item, "prompt_version_id", run_deterministic_eval_request->prompt_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "promptVersionId", run_deterministic_eval_request->prompt_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -152,7 +152,7 @@ cJSON *run_deterministic_eval_request_convertToJSON(run_deterministic_eval_reque
 
     // run_deterministic_eval_request->wasm_hash
     if(run_deterministic_eval_request->wasm_hash) {
-    if(cJSON_AddStringToObject(item, "wasm_hash", run_deterministic_eval_request->wasm_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "wasmHash", run_deterministic_eval_request->wasm_hash) == NULL) {
     goto fail; //String
     }
     }
@@ -173,7 +173,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     evaluator_kind_t *kind_local_nonprim = NULL;
 
     // run_deterministic_eval_request->agent_release_id
-    cJSON *agent_release_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "agent_release_id");
+    cJSON *agent_release_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "agentReleaseId");
     if (cJSON_IsNull(agent_release_id)) {
         agent_release_id = NULL;
     }
@@ -188,7 +188,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     }
 
     // run_deterministic_eval_request->code_hash
-    cJSON *code_hash = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "code_hash");
+    cJSON *code_hash = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "codeHash");
     if (cJSON_IsNull(code_hash)) {
         code_hash = NULL;
     }
@@ -200,7 +200,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     }
 
     // run_deterministic_eval_request->evaluator_id
-    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "evaluator_id");
+    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "evaluatorId");
     if (cJSON_IsNull(evaluator_id)) {
         evaluator_id = NULL;
     }
@@ -215,7 +215,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     }
 
     // run_deterministic_eval_request->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -242,7 +242,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     kind_local_nonprim = evaluator_kind_parseFromJSON(kind); //nonprimitive
 
     // run_deterministic_eval_request->prompt_version_id
-    cJSON *prompt_version_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "prompt_version_id");
+    cJSON *prompt_version_id = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "promptVersionId");
     if (cJSON_IsNull(prompt_version_id)) {
         prompt_version_id = NULL;
     }
@@ -254,7 +254,7 @@ run_deterministic_eval_request_t *run_deterministic_eval_request_parseFromJSON(c
     }
 
     // run_deterministic_eval_request->wasm_hash
-    cJSON *wasm_hash = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "wasm_hash");
+    cJSON *wasm_hash = cJSON_GetObjectItemCaseSensitive(run_deterministic_eval_requestJSON, "wasmHash");
     if (cJSON_IsNull(wasm_hash)) {
         wasm_hash = NULL;
     }

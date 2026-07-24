@@ -22,12 +22,12 @@ var _ MappedNullable = &CalibrationItem{}
 // CalibrationItem struct for CalibrationItem
 type CalibrationItem struct {
 	Agreed bool `json:"agreed"`
-	DatasetCaseId string `json:"dataset_case_id"`
+	DatasetCaseId string `json:"datasetCaseId"`
 	Evidence interface{} `json:"evidence"`
-	HumanLabel CalibrationLabel `json:"human_label"`
-	JudgeLabel CalibrationLabel `json:"judge_label"`
-	JudgeResultLabel NullableString `json:"judge_result_label,omitempty"`
-	JudgeScore float64 `json:"judge_score"`
+	HumanLabel CalibrationLabel `json:"humanLabel"`
+	JudgeLabel CalibrationLabel `json:"judgeLabel"`
+	JudgeResultLabel NullableString `json:"judgeResultLabel,omitempty"`
+	JudgeScore float64 `json:"judgeScore"`
 }
 
 type _CalibrationItem CalibrationItem
@@ -254,16 +254,16 @@ func (o CalibrationItem) MarshalJSON() ([]byte, error) {
 func (o CalibrationItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["agreed"] = o.Agreed
-	toSerialize["dataset_case_id"] = o.DatasetCaseId
+	toSerialize["datasetCaseId"] = o.DatasetCaseId
 	if o.Evidence != nil {
 		toSerialize["evidence"] = o.Evidence
 	}
-	toSerialize["human_label"] = o.HumanLabel
-	toSerialize["judge_label"] = o.JudgeLabel
+	toSerialize["humanLabel"] = o.HumanLabel
+	toSerialize["judgeLabel"] = o.JudgeLabel
 	if o.JudgeResultLabel.IsSet() {
-		toSerialize["judge_result_label"] = o.JudgeResultLabel.Get()
+		toSerialize["judgeResultLabel"] = o.JudgeResultLabel.Get()
 	}
-	toSerialize["judge_score"] = o.JudgeScore
+	toSerialize["judgeScore"] = o.JudgeScore
 	return toSerialize, nil
 }
 
@@ -273,11 +273,11 @@ func (o *CalibrationItem) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"agreed",
-		"dataset_case_id",
+		"datasetCaseId",
 		"evidence",
-		"human_label",
-		"judge_label",
-		"judge_score",
+		"humanLabel",
+		"judgeLabel",
+		"judgeScore",
 	}
 
 	allProperties := make(map[string]interface{})

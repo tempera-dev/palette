@@ -21,10 +21,10 @@ namespace model {
 DiffLine::DiffLine()
 {
     m_KindIsSet = false;
-    m_New_line = 0;
-    m_New_lineIsSet = false;
-    m_Old_line = 0;
-    m_Old_lineIsSet = false;
+    m_NewLine = 0;
+    m_NewLineIsSet = false;
+    m_OldLine = 0;
+    m_OldLineIsSet = false;
     m_Text = utility::conversions::to_string_t("");
     m_TextIsSet = false;
 }
@@ -46,15 +46,15 @@ web::json::value DiffLine::toJson() const
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_New_lineIsSet)
+    if(m_NewLineIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("new_line"))] = ModelBase::toJson(m_New_line);
+        val[utility::conversions::to_string_t(U("newLine"))] = ModelBase::toJson(m_NewLine);
     }
-    if(m_Old_lineIsSet)
+    if(m_OldLineIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("old_line"))] = ModelBase::toJson(m_Old_line);
+        val[utility::conversions::to_string_t(U("oldLine"))] = ModelBase::toJson(m_OldLine);
     }
     if(m_TextIsSet)
     {   
@@ -79,9 +79,9 @@ bool DiffLine::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("new_line"))))
+    if(val.has_field(utility::conversions::to_string_t(U("newLine"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("new_line")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("newLine")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setNewLine;
@@ -90,9 +90,9 @@ bool DiffLine::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("old_line"))))
+    if(val.has_field(utility::conversions::to_string_t(U("oldLine"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("old_line")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("oldLine")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setOldLine;
@@ -126,13 +126,13 @@ void DiffLine::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_New_lineIsSet)
+    if(m_NewLineIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("new_line")), m_New_line));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("newLine")), m_NewLine));
     }
-    if(m_Old_lineIsSet)
+    if(m_OldLineIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("old_line")), m_Old_line));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("oldLine")), m_OldLine));
     }
     if(m_TextIsSet)
     {
@@ -155,16 +155,16 @@ bool DiffLine::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("new_line"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("newLine"))))
     {
         int32_t refVal_setNewLine;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("new_line"))), refVal_setNewLine );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("newLine"))), refVal_setNewLine );
         setNewLine(refVal_setNewLine);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("old_line"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("oldLine"))))
     {
         int32_t refVal_setOldLine;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("old_line"))), refVal_setOldLine );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("oldLine"))), refVal_setOldLine );
         setOldLine(refVal_setOldLine);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("text"))))
@@ -200,43 +200,43 @@ void DiffLine::unsetKind()
 }
 int32_t DiffLine::getNewLine() const
 {
-    return m_New_line;
+    return m_NewLine;
 }
 
 void DiffLine::setNewLine(int32_t value)
 {
-    m_New_line = value;
-    m_New_lineIsSet = true;
+    m_NewLine = value;
+    m_NewLineIsSet = true;
 }
 
 bool DiffLine::newLineIsSet() const
 {
-    return m_New_lineIsSet;
+    return m_NewLineIsSet;
 }
 
-void DiffLine::unsetNew_line()
+void DiffLine::unsetNewLine()
 {
-    m_New_lineIsSet = false;
+    m_NewLineIsSet = false;
 }
 int32_t DiffLine::getOldLine() const
 {
-    return m_Old_line;
+    return m_OldLine;
 }
 
 void DiffLine::setOldLine(int32_t value)
 {
-    m_Old_line = value;
-    m_Old_lineIsSet = true;
+    m_OldLine = value;
+    m_OldLineIsSet = true;
 }
 
 bool DiffLine::oldLineIsSet() const
 {
-    return m_Old_lineIsSet;
+    return m_OldLineIsSet;
 }
 
-void DiffLine::unsetOld_line()
+void DiffLine::unsetOldLine()
 {
-    m_Old_lineIsSet = false;
+    m_OldLineIsSet = false;
 }
 utility::string_t DiffLine::getText() const
 {

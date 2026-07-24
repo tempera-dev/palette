@@ -20,16 +20,16 @@ namespace model {
 
 ArchiveManifest::ArchiveManifest()
 {
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
     m_Path = utility::conversions::to_string_t("");
     m_PathIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Span_count = 0;
-    m_Span_countIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_SpanCount = 0;
+    m_SpanCountIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 ArchiveManifest::~ArchiveManifest()
@@ -44,30 +44,30 @@ void ArchiveManifest::validate()
 web::json::value ArchiveManifest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
     if(m_PathIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("path"))] = ModelBase::toJson(m_Path);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_count"))] = ModelBase::toJson(m_Span_count);
+        val[utility::conversions::to_string_t(U("spanCount"))] = ModelBase::toJson(m_SpanCount);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -76,9 +76,9 @@ web::json::value ArchiveManifest::toJson() const
 bool ArchiveManifest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -98,9 +98,9 @@ bool ArchiveManifest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -109,9 +109,9 @@ bool ArchiveManifest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSpanCount;
@@ -120,9 +120,9 @@ bool ArchiveManifest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -141,25 +141,25 @@ void ArchiveManifest::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
     if(m_PathIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("path")), m_Path));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Span_countIsSet)
+    if(m_SpanCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_count")), m_Span_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanCount")), m_SpanCount));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -172,10 +172,10 @@ bool ArchiveManifest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("path"))))
@@ -184,22 +184,22 @@ bool ArchiveManifest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("path"))), refVal_setPath );
         setPath(refVal_setPath);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanCount"))))
     {
         int32_t refVal_setSpanCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_count"))), refVal_setSpanCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanCount"))), refVal_setSpanCount );
         setSpanCount(refVal_setSpanCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -208,24 +208,24 @@ bool ArchiveManifest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
 
 utility::datetime ArchiveManifest::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void ArchiveManifest::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool ArchiveManifest::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void ArchiveManifest::unsetCreated_at()
+void ArchiveManifest::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t ArchiveManifest::getPath() const
 {
@@ -250,65 +250,65 @@ void ArchiveManifest::unsetPath()
 }
 utility::string_t ArchiveManifest::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ArchiveManifest::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ArchiveManifest::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ArchiveManifest::unsetProject_id()
+void ArchiveManifest::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 int32_t ArchiveManifest::getSpanCount() const
 {
-    return m_Span_count;
+    return m_SpanCount;
 }
 
 void ArchiveManifest::setSpanCount(int32_t value)
 {
-    m_Span_count = value;
-    m_Span_countIsSet = true;
+    m_SpanCount = value;
+    m_SpanCountIsSet = true;
 }
 
 bool ArchiveManifest::spanCountIsSet() const
 {
-    return m_Span_countIsSet;
+    return m_SpanCountIsSet;
 }
 
-void ArchiveManifest::unsetSpan_count()
+void ArchiveManifest::unsetSpanCount()
 {
-    m_Span_countIsSet = false;
+    m_SpanCountIsSet = false;
 }
 utility::string_t ArchiveManifest::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ArchiveManifest::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ArchiveManifest::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ArchiveManifest::unsetTenant_id()
+void ArchiveManifest::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

@@ -67,17 +67,17 @@ public:
 
     int32_t getDeadLettered() const;
     bool deadLetteredIsSet() const;
-    void unsetDead_lettered();
+    void unsetDeadLettered();
     void setDeadLettered(int32_t value);
 
     int32_t getFailedWork() const;
     bool failedWorkIsSet() const;
-    void unsetFailed_work();
+    void unsetFailedWork();
     void setFailedWork(int32_t value);
 
     int32_t getInvalidMessages() const;
     bool invalidMessagesIsSet() const;
-    void unsetInvalid_messages();
+    void unsetInvalidMessages();
     void setInvalidMessages(int32_t value);
 
     int32_t getRetried() const;
@@ -87,7 +87,7 @@ public:
 
     std::vector<std::shared_ptr<QueuedTraceWork>> getTraceRefs() const;
     bool traceRefsIsSet() const;
-    void unsetTrace_refs();
+    void unsetTraceRefs();
     void setTraceRefs(const std::vector<std::shared_ptr<QueuedTraceWork>>& value);
 
 
@@ -98,20 +98,20 @@ protected:
     int32_t m_Consumed;
     bool m_ConsumedIsSet;
 
-    int32_t m_Dead_lettered;
-    bool m_Dead_letteredIsSet;
+    int32_t m_DeadLettered;
+    bool m_DeadLetteredIsSet;
 
-    int32_t m_Failed_work;
-    bool m_Failed_workIsSet;
+    int32_t m_FailedWork;
+    bool m_FailedWorkIsSet;
 
-    int32_t m_Invalid_messages;
-    bool m_Invalid_messagesIsSet;
+    int32_t m_InvalidMessages;
+    bool m_InvalidMessagesIsSet;
 
     int32_t m_Retried;
     bool m_RetriedIsSet;
 
-    std::vector<std::shared_ptr<QueuedTraceWork>> m_Trace_refs;
-    bool m_Trace_refsIsSet;
+    std::vector<std::shared_ptr<QueuedTraceWork>> m_TraceRefs;
+    bool m_TraceRefsIsSet;
 
 };
 

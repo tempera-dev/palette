@@ -22,11 +22,11 @@ var _ MappedNullable = &ArchiveManifest{}
 
 // ArchiveManifest struct for ArchiveManifest
 type ArchiveManifest struct {
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"createdAt"`
 	Path string `json:"path"`
-	ProjectId string `json:"project_id"`
-	SpanCount int32 `json:"span_count"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	SpanCount int32 `json:"spanCount"`
+	TenantId string `json:"tenantId"`
 }
 
 type _ArchiveManifest ArchiveManifest
@@ -183,11 +183,11 @@ func (o ArchiveManifest) MarshalJSON() ([]byte, error) {
 
 func (o ArchiveManifest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["path"] = o.Path
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["span_count"] = o.SpanCount
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["spanCount"] = o.SpanCount
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -196,11 +196,11 @@ func (o *ArchiveManifest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
+		"createdAt",
 		"path",
-		"project_id",
-		"span_count",
-		"tenant_id",
+		"projectId",
+		"spanCount",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -64,22 +64,22 @@ public:
 
     double getBrierScore() const;
     bool brierScoreIsSet() const;
-    void unsetBrier_score();
+    void unsetBrierScore();
     void setBrierScore(double value);
 
     utility::string_t getCalibrationReportId() const;
     bool calibrationReportIdIsSet() const;
-    void unsetCalibration_report_id();
+    void unsetCalibrationReportId();
     void setCalibrationReportId(const utility::string_t& value);
 
     double getCohenKappa() const;
     bool cohenKappaIsSet() const;
-    void unsetCohen_kappa();
+    void unsetCohenKappa();
     void setCohenKappa(double value);
 
     double getCohenKappaCiHigh() const;
     bool cohenKappaCiHighIsSet() const;
-    void unsetCohen_kappa_ci_high();
+    void unsetCohenKappaCiHigh();
     void setCohenKappaCiHigh(double value);
 
     /// <summary>
@@ -87,7 +87,7 @@ public:
     /// </summary>
     double getCohenKappaCiLow() const;
     bool cohenKappaCiLowIsSet() const;
-    void unsetCohen_kappa_ci_low();
+    void unsetCohenKappaCiLow();
     void setCohenKappaCiLow(double value);
 
     std::shared_ptr<CalibrationConfusion> getConfusion() const;
@@ -97,37 +97,37 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     utility::string_t getDatasetVersionId() const;
     bool datasetVersionIdIsSet() const;
-    void unsetDataset_version_id();
+    void unsetDatasetVersionId();
     void setDatasetVersionId(const utility::string_t& value);
 
     utility::string_t getEvalReportId() const;
     bool evalReportIdIsSet() const;
-    void unsetEval_report_id();
+    void unsetEvalReportId();
     void setEvalReportId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     double getExpectedAgreement() const;
     bool expectedAgreementIsSet() const;
-    void unsetExpected_agreement();
+    void unsetExpectedAgreement();
     void setExpectedAgreement(double value);
 
     double getExpectedCalibrationError() const;
     bool expectedCalibrationErrorIsSet() const;
-    void unsetExpected_calibration_error();
+    void unsetExpectedCalibrationError();
     void setExpectedCalibrationError(double value);
 
     std::vector<std::shared_ptr<CalibrationItem>> getItems() const;
@@ -137,12 +137,12 @@ public:
 
     double getObservedAgreement() const;
     bool observedAgreementIsSet() const;
-    void unsetObserved_agreement();
+    void unsetObservedAgreement();
     void setObservedAgreement(double value);
 
     double getObservedAgreementCiHigh() const;
     bool observedAgreementCiHighIsSet() const;
-    void unsetObserved_agreement_ci_high();
+    void unsetObservedAgreementCiHigh();
     void setObservedAgreementCiHigh(double value);
 
     /// <summary>
@@ -150,7 +150,7 @@ public:
     /// </summary>
     double getObservedAgreementCiLow() const;
     bool observedAgreementCiLowIsSet() const;
-    void unsetObserved_agreement_ci_low();
+    void unsetObservedAgreementCiLow();
     void setObservedAgreementCiLow(double value);
 
     std::shared_ptr<CalibrationPolicy> getPolicy() const;
@@ -160,91 +160,91 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::vector<std::shared_ptr<ReliabilityBin>> getReliabilityBins() const;
     bool reliabilityBinsIsSet() const;
-    void unsetReliability_bins();
+    void unsetReliabilityBins();
     void setReliabilityBins(const std::vector<std::shared_ptr<ReliabilityBin>>& value);
 
     int32_t getSampleCount() const;
     bool sampleCountIsSet() const;
-    void unsetSample_count();
+    void unsetSampleCount();
     void setSampleCount(int32_t value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
 protected:
-    double m_Brier_score;
-    bool m_Brier_scoreIsSet;
+    double m_BrierScore;
+    bool m_BrierScoreIsSet;
 
-    utility::string_t m_Calibration_report_id;
-    bool m_Calibration_report_idIsSet;
+    utility::string_t m_CalibrationReportId;
+    bool m_CalibrationReportIdIsSet;
 
-    double m_Cohen_kappa;
-    bool m_Cohen_kappaIsSet;
+    double m_CohenKappa;
+    bool m_CohenKappaIsSet;
 
-    double m_Cohen_kappa_ci_high;
-    bool m_Cohen_kappa_ci_highIsSet;
+    double m_CohenKappaCiHigh;
+    bool m_CohenKappaCiHighIsSet;
 
-    double m_Cohen_kappa_ci_low;
-    bool m_Cohen_kappa_ci_lowIsSet;
+    double m_CohenKappaCiLow;
+    bool m_CohenKappaCiLowIsSet;
 
     std::shared_ptr<CalibrationConfusion> m_Confusion;
     bool m_ConfusionIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
-    utility::string_t m_Dataset_version_id;
-    bool m_Dataset_version_idIsSet;
+    utility::string_t m_DatasetVersionId;
+    bool m_DatasetVersionIdIsSet;
 
-    utility::string_t m_Eval_report_id;
-    bool m_Eval_report_idIsSet;
+    utility::string_t m_EvalReportId;
+    bool m_EvalReportIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    double m_Expected_agreement;
-    bool m_Expected_agreementIsSet;
+    double m_ExpectedAgreement;
+    bool m_ExpectedAgreementIsSet;
 
-    double m_Expected_calibration_error;
-    bool m_Expected_calibration_errorIsSet;
+    double m_ExpectedCalibrationError;
+    bool m_ExpectedCalibrationErrorIsSet;
 
     std::vector<std::shared_ptr<CalibrationItem>> m_Items;
     bool m_ItemsIsSet;
 
-    double m_Observed_agreement;
-    bool m_Observed_agreementIsSet;
+    double m_ObservedAgreement;
+    bool m_ObservedAgreementIsSet;
 
-    double m_Observed_agreement_ci_high;
-    bool m_Observed_agreement_ci_highIsSet;
+    double m_ObservedAgreementCiHigh;
+    bool m_ObservedAgreementCiHighIsSet;
 
-    double m_Observed_agreement_ci_low;
-    bool m_Observed_agreement_ci_lowIsSet;
+    double m_ObservedAgreementCiLow;
+    bool m_ObservedAgreementCiLowIsSet;
 
     std::shared_ptr<CalibrationPolicy> m_Policy;
     bool m_PolicyIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    std::vector<std::shared_ptr<ReliabilityBin>> m_Reliability_bins;
-    bool m_Reliability_binsIsSet;
+    std::vector<std::shared_ptr<ReliabilityBin>> m_ReliabilityBins;
+    bool m_ReliabilityBinsIsSet;
 
-    int32_t m_Sample_count;
-    bool m_Sample_countIsSet;
+    int32_t m_SampleCount;
+    bool m_SampleCountIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

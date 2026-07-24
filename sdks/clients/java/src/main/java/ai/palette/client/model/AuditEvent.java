@@ -59,7 +59,7 @@ public class AuditEvent {
   @javax.annotation.Nonnull
   private AuditAction action;
 
-  public static final String JSON_PROPERTY_ACTOR_API_KEY_ID = "actor_api_key_id";
+  public static final String JSON_PROPERTY_ACTOR_API_KEY_ID = "actorApiKeyId";
   @javax.annotation.Nullable
   private String actorApiKeyId;
 
@@ -67,15 +67,15 @@ public class AuditEvent {
   @javax.annotation.Nullable
   private Object attributes = null;
 
-  public static final String JSON_PROPERTY_AUDIT_EVENT_ID = "audit_event_id";
+  public static final String JSON_PROPERTY_AUDIT_EVENT_ID = "auditEventId";
   @javax.annotation.Nonnull
   private String auditEventId;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environment_id";
+  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environmentId";
   @javax.annotation.Nullable
   private String environmentId;
 
@@ -83,22 +83,22 @@ public class AuditEvent {
   @javax.annotation.Nonnull
   private AuditOutcome outcome;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
   public static final String JSON_PROPERTY_REASON = "reason";
   private JsonNullable<String> reason = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_RESOURCE_ID = "resource_id";
+  public static final String JSON_PROPERTY_RESOURCE_ID = "resourceId";
   @javax.annotation.Nonnull
   private String resourceId;
 
-  public static final String JSON_PROPERTY_RESOURCE_TYPE = "resource_type";
+  public static final String JSON_PROPERTY_RESOURCE_TYPE = "resourceType";
   @javax.annotation.Nonnull
   private String resourceType;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -511,9 +511,9 @@ public class AuditEvent {
       joiner.add(String.format("%saction%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAction()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `actor_api_key_id` to the URL query string
+    // add `actorApiKeyId` to the URL query string
     if (getActorApiKeyId() != null) {
-      joiner.add(String.format("%sactor_api_key_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActorApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sactorApiKeyId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActorApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `attributes` to the URL query string
@@ -521,19 +521,19 @@ public class AuditEvent {
       joiner.add(String.format("%sattributes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAttributes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `audit_event_id` to the URL query string
+    // add `auditEventId` to the URL query string
     if (getAuditEventId() != null) {
-      joiner.add(String.format("%saudit_event_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAuditEventId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sauditEventId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAuditEventId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `environment_id` to the URL query string
+    // add `environmentId` to the URL query string
     if (getEnvironmentId() != null) {
-      joiner.add(String.format("%senvironment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senvironmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outcome` to the URL query string
@@ -541,9 +541,9 @@ public class AuditEvent {
       joiner.add(String.format("%soutcome%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutcome()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `reason` to the URL query string
@@ -551,19 +551,19 @@ public class AuditEvent {
       joiner.add(String.format("%sreason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `resource_id` to the URL query string
+    // add `resourceId` to the URL query string
     if (getResourceId() != null) {
-      joiner.add(String.format("%sresource_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResourceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sresourceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResourceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `resource_type` to the URL query string
+    // add `resourceType` to the URL query string
     if (getResourceType() != null) {
-      joiner.add(String.format("%sresource_type%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResourceType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sresourceType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResourceType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

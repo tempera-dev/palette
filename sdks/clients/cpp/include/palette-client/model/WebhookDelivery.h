@@ -62,7 +62,7 @@ public:
 
     utility::string_t getEndpointUrl() const;
     bool endpointUrlIsSet() const;
-    void unsetEndpoint_url();
+    void unsetEndpointUrl();
     void setEndpointUrl(const utility::string_t& value);
 
     std::map<utility::string_t, utility::string_t> getHeaders() const;
@@ -75,8 +75,8 @@ protected:
     std::shared_ptr<AnyType> m_Body;
     bool m_BodyIsSet;
 
-    utility::string_t m_Endpoint_url;
-    bool m_Endpoint_urlIsSet;
+    utility::string_t m_EndpointUrl;
+    bool m_EndpointUrlIsSet;
 
     std::map<utility::string_t, utility::string_t> m_Headers;
     bool m_HeadersIsSet;

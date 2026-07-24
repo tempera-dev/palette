@@ -52,11 +52,11 @@ public class BusMessage {
   @javax.annotation.Nonnull
   private Integer attempts;
 
-  public static final String JSON_PROPERTY_ENQUEUED_AT = "enqueued_at";
+  public static final String JSON_PROPERTY_ENQUEUED_AT = "enqueuedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime enqueuedAt;
 
-  public static final String JSON_PROPERTY_IDEMPOTENCY_KEY = "idempotency_key";
+  public static final String JSON_PROPERTY_IDEMPOTENCY_KEY = "idempotencyKey";
   @javax.annotation.Nonnull
   private String idempotencyKey;
 
@@ -64,11 +64,11 @@ public class BusMessage {
   @javax.annotation.Nonnull
   private String kind;
 
-  public static final String JSON_PROPERTY_MAX_ATTEMPTS = "max_attempts";
+  public static final String JSON_PROPERTY_MAX_ATTEMPTS = "maxAttempts";
   @javax.annotation.Nonnull
   private Integer maxAttempts;
 
-  public static final String JSON_PROPERTY_MESSAGE_ID = "message_id";
+  public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
   @javax.annotation.Nonnull
   private String messageId;
 
@@ -76,11 +76,11 @@ public class BusMessage {
   @javax.annotation.Nonnull
   private List<Integer> payload = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -406,14 +406,14 @@ public class BusMessage {
       joiner.add(String.format("%sattempts%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAttempts()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `enqueued_at` to the URL query string
+    // add `enqueuedAt` to the URL query string
     if (getEnqueuedAt() != null) {
-      joiner.add(String.format("%senqueued_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnqueuedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senqueuedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnqueuedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `idempotency_key` to the URL query string
+    // add `idempotencyKey` to the URL query string
     if (getIdempotencyKey() != null) {
-      joiner.add(String.format("%sidempotency_key%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIdempotencyKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sidempotencyKey%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIdempotencyKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `kind` to the URL query string
@@ -421,14 +421,14 @@ public class BusMessage {
       joiner.add(String.format("%skind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `max_attempts` to the URL query string
+    // add `maxAttempts` to the URL query string
     if (getMaxAttempts() != null) {
-      joiner.add(String.format("%smax_attempts%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxAttempts()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smaxAttempts%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxAttempts()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `message_id` to the URL query string
+    // add `messageId` to the URL query string
     if (getMessageId() != null) {
-      joiner.add(String.format("%smessage_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smessageId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMessageId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `payload` to the URL query string
@@ -440,14 +440,14 @@ public class BusMessage {
       }
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -138,9 +138,8 @@ fn api_key_routes_do_not_expose_read_surfaces() {
         .cloned()
         .collect::<BTreeSet<_>>();
     let expected = BTreeSet::from([
-        "POST /v1/api-keys/{tenant_id}/{project_id}/{environment_id}".to_string(),
-        "POST /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke"
-            .to_string(),
+        "POST /v1/api-keys/{tenantId}/{projectId}/{environmentId}".to_string(),
+        "POST /v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke".to_string(),
     ]);
 
     assert_eq!(

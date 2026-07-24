@@ -78,7 +78,7 @@ public:
     /// </summary>
     utility::string_t getLogId() const;
     bool logIdIsSet() const;
-    void unsetLog_id();
+    void unsetLogId();
     void setLogId(const utility::string_t& value);
 
     /// <summary>
@@ -97,8 +97,8 @@ protected:
     utility::string_t m_Error;
     bool m_ErrorIsSet;
 
-    utility::string_t m_Log_id;
-    bool m_Log_idIsSet;
+    utility::string_t m_LogId;
+    bool m_LogIdIsSet;
 
     bool m_Successful;
     bool m_SuccessfulIsSet;

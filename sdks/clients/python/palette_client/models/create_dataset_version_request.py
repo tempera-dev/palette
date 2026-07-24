@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class CreateDatasetVersionRequest(BaseModel):
     """
     CreateDatasetVersionRequest
     """ # noqa: E501
-    case_ids: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["case_ids"]
+    case_ids: Optional[List[StrictStr]] = Field(default=None, alias="caseIds")
+    __properties: ClassVar[List[str]] = ["caseIds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,7 +71,7 @@ class CreateDatasetVersionRequest(BaseModel):
         # set to None if case_ids (nullable) is None
         # and model_fields_set contains the field
         if self.case_ids is None and "case_ids" in self.model_fields_set:
-            _dict['case_ids'] = None
+            _dict['caseIds'] = None
 
         return _dict
 
@@ -85,7 +85,7 @@ class CreateDatasetVersionRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "case_ids": obj.get("case_ids")
+            "caseIds": obj.get("caseIds")
         })
         return _obj
 

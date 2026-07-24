@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.inconclusive_policy import InconclusivePolicy
 from typing import Optional, Set
@@ -28,15 +28,15 @@ class GateDefinition(BaseModel):
     """
     GateDefinition
     """ # noqa: E501
-    created_at: datetime
-    dataset_id: Optional[StrictStr] = None
-    evaluator_version_id: Optional[StrictStr] = None
-    gate_id: StrictStr
-    inconclusive_policy: Optional[InconclusivePolicy] = None
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: Optional[StrictStr] = Field(default=None, alias="datasetId")
+    evaluator_version_id: Optional[StrictStr] = Field(default=None, alias="evaluatorVersionId")
+    gate_id: StrictStr = Field(alias="gateId")
+    inconclusive_policy: Optional[InconclusivePolicy] = Field(default=None, alias="inconclusivePolicy")
     name: StrictStr
-    project_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["created_at", "dataset_id", "evaluator_version_id", "gate_id", "inconclusive_policy", "name", "project_id", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["createdAt", "datasetId", "evaluatorVersionId", "gateId", "inconclusivePolicy", "name", "projectId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,14 +89,14 @@ class GateDefinition(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "gate_id": obj.get("gate_id"),
-            "inconclusive_policy": obj.get("inconclusive_policy"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "gateId": obj.get("gateId"),
+            "inconclusivePolicy": obj.get("inconclusivePolicy"),
             "name": obj.get("name"),
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

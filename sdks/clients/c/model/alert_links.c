@@ -71,7 +71,7 @@ cJSON *alert_links_convertToJSON(alert_links_t *alert_links) {
 
     // alert_links->cluster_url
     if(alert_links->cluster_url) {
-    if(cJSON_AddStringToObject(item, "cluster_url", alert_links->cluster_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "clusterUrl", alert_links->cluster_url) == NULL) {
     goto fail; //String
     }
     }
@@ -79,7 +79,7 @@ cJSON *alert_links_convertToJSON(alert_links_t *alert_links) {
 
     // alert_links->dataset_url
     if(alert_links->dataset_url) {
-    if(cJSON_AddStringToObject(item, "dataset_url", alert_links->dataset_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetUrl", alert_links->dataset_url) == NULL) {
     goto fail; //String
     }
     }
@@ -87,7 +87,7 @@ cJSON *alert_links_convertToJSON(alert_links_t *alert_links) {
 
     // alert_links->gate_url
     if(alert_links->gate_url) {
-    if(cJSON_AddStringToObject(item, "gate_url", alert_links->gate_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateUrl", alert_links->gate_url) == NULL) {
     goto fail; //String
     }
     }
@@ -97,7 +97,7 @@ cJSON *alert_links_convertToJSON(alert_links_t *alert_links) {
     if (!alert_links->trace_url) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_url", alert_links->trace_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceUrl", alert_links->trace_url) == NULL) {
     goto fail; //String
     }
 
@@ -114,7 +114,7 @@ alert_links_t *alert_links_parseFromJSON(cJSON *alert_linksJSON){
     alert_links_t *alert_links_local_var = NULL;
 
     // alert_links->cluster_url
-    cJSON *cluster_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "cluster_url");
+    cJSON *cluster_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "clusterUrl");
     if (cJSON_IsNull(cluster_url)) {
         cluster_url = NULL;
     }
@@ -126,7 +126,7 @@ alert_links_t *alert_links_parseFromJSON(cJSON *alert_linksJSON){
     }
 
     // alert_links->dataset_url
-    cJSON *dataset_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "dataset_url");
+    cJSON *dataset_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "datasetUrl");
     if (cJSON_IsNull(dataset_url)) {
         dataset_url = NULL;
     }
@@ -138,7 +138,7 @@ alert_links_t *alert_links_parseFromJSON(cJSON *alert_linksJSON){
     }
 
     // alert_links->gate_url
-    cJSON *gate_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "gate_url");
+    cJSON *gate_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "gateUrl");
     if (cJSON_IsNull(gate_url)) {
         gate_url = NULL;
     }
@@ -150,7 +150,7 @@ alert_links_t *alert_links_parseFromJSON(cJSON *alert_linksJSON){
     }
 
     // alert_links->trace_url
-    cJSON *trace_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "trace_url");
+    cJSON *trace_url = cJSON_GetObjectItemCaseSensitive(alert_linksJSON, "traceUrl");
     if (cJSON_IsNull(trace_url)) {
         trace_url = NULL;
     }

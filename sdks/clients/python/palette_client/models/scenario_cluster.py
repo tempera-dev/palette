@@ -29,12 +29,12 @@ class ScenarioCluster(BaseModel):
     """
     A cluster of failing traces that share a similar failure signature.
     """ # noqa: E501
-    dominant_failure_mode: FailureMode = Field(description="The most common failure mode across members.")
-    exemplar_trace_id: StrictStr
-    member_trace_ids: List[StrictStr] = Field(description="All member trace ids, sorted ascending.")
+    dominant_failure_mode: FailureMode = Field(description="The most common failure mode across members.", alias="dominantFailureMode")
+    exemplar_trace_id: StrictStr = Field(alias="exemplarTraceId")
+    member_trace_ids: List[StrictStr] = Field(description="All member trace ids, sorted ascending.", alias="memberTraceIds")
     signature: Signature = Field(description="The signature of the cluster's exemplar.")
     size: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of member traces.")
-    __properties: ClassVar[List[str]] = ["dominant_failure_mode", "exemplar_trace_id", "member_trace_ids", "signature", "size"]
+    __properties: ClassVar[List[str]] = ["dominantFailureMode", "exemplarTraceId", "memberTraceIds", "signature", "size"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,9 +90,9 @@ class ScenarioCluster(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dominant_failure_mode": obj.get("dominant_failure_mode"),
-            "exemplar_trace_id": obj.get("exemplar_trace_id"),
-            "member_trace_ids": obj.get("member_trace_ids"),
+            "dominantFailureMode": obj.get("dominantFailureMode"),
+            "exemplarTraceId": obj.get("exemplarTraceId"),
+            "memberTraceIds": obj.get("memberTraceIds"),
             "signature": Signature.from_dict(obj["signature"]) if obj.get("signature") is not None else None,
             "size": obj.get("size")
         })

@@ -29,15 +29,15 @@ class BusMessage(BaseModel):
     BusMessage
     """ # noqa: E501
     attempts: Annotated[int, Field(strict=True, ge=0)]
-    enqueued_at: datetime
-    idempotency_key: StrictStr
+    enqueued_at: datetime = Field(alias="enqueuedAt")
+    idempotency_key: StrictStr = Field(alias="idempotencyKey")
     kind: StrictStr
-    max_attempts: Annotated[int, Field(strict=True, ge=0)]
-    message_id: StrictStr
+    max_attempts: Annotated[int, Field(strict=True, ge=0)] = Field(alias="maxAttempts")
+    message_id: StrictStr = Field(alias="messageId")
     payload: List[Annotated[int, Field(strict=True, ge=0)]]
-    project_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["attempts", "enqueued_at", "idempotency_key", "kind", "max_attempts", "message_id", "payload", "project_id", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["attempts", "enqueuedAt", "idempotencyKey", "kind", "maxAttempts", "messageId", "payload", "projectId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,14 +91,14 @@ class BusMessage(BaseModel):
 
         _obj = cls.model_validate({
             "attempts": obj.get("attempts"),
-            "enqueued_at": obj.get("enqueued_at"),
-            "idempotency_key": obj.get("idempotency_key"),
+            "enqueuedAt": obj.get("enqueuedAt"),
+            "idempotencyKey": obj.get("idempotencyKey"),
             "kind": obj.get("kind"),
-            "max_attempts": obj.get("max_attempts"),
-            "message_id": obj.get("message_id"),
+            "maxAttempts": obj.get("maxAttempts"),
+            "messageId": obj.get("messageId"),
             "payload": obj.get("payload"),
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

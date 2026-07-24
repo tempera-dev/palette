@@ -145,16 +145,16 @@ export function ScenarioFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
-        'exemplarTraceId': json['exemplar_trace_id'],
-        'expectedOutcome': json['expected_outcome'] == null ? undefined : json['expected_outcome'],
-        'failureMode': FailureModeFromJSON(json['failure_mode']),
-        'perturbationKnobs': PerturbationKnobsFromJSON(json['perturbation_knobs']),
-        'recurrenceCount': json['recurrence_count'],
-        'redactionClass': RedactionClassFromJSON(json['redaction_class']),
-        'scenarioId': json['scenario_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'exemplarTraceId': json['exemplarTraceId'],
+        'expectedOutcome': json['expectedOutcome'] == null ? undefined : json['expectedOutcome'],
+        'failureMode': FailureModeFromJSON(json['failureMode']),
+        'perturbationKnobs': PerturbationKnobsFromJSON(json['perturbationKnobs']),
+        'recurrenceCount': json['recurrenceCount'],
+        'redactionClass': RedactionClassFromJSON(json['redactionClass']),
+        'scenarioId': json['scenarioId'],
         'scope': TenantScopeFromJSON(json['scope']),
-        'sourceTraceIds': json['source_trace_ids'],
+        'sourceTraceIds': json['sourceTraceIds'],
         'title': json['title'],
     };
 }
@@ -170,16 +170,16 @@ export function ScenarioToJSONTyped(value?: Scenario | null, ignoreDiscriminator
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
-        'exemplar_trace_id': value['exemplarTraceId'],
-        'expected_outcome': value['expectedOutcome'],
-        'failure_mode': FailureModeToJSON(value['failureMode']),
-        'perturbation_knobs': PerturbationKnobsToJSON(value['perturbationKnobs']),
-        'recurrence_count': value['recurrenceCount'],
-        'redaction_class': RedactionClassToJSON(value['redactionClass']),
-        'scenario_id': value['scenarioId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'exemplarTraceId': value['exemplarTraceId'],
+        'expectedOutcome': value['expectedOutcome'],
+        'failureMode': FailureModeToJSON(value['failureMode']),
+        'perturbationKnobs': PerturbationKnobsToJSON(value['perturbationKnobs']),
+        'recurrenceCount': value['recurrenceCount'],
+        'redactionClass': RedactionClassToJSON(value['redactionClass']),
+        'scenarioId': value['scenarioId'],
         'scope': TenantScopeToJSON(value['scope']),
-        'source_trace_ids': value['sourceTraceIds'],
+        'sourceTraceIds': value['sourceTraceIds'],
         'title': value['title'],
     };
 }

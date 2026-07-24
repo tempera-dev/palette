@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**connectGetStatus**](ConnectApi.md#connectGetStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
-| [**connectGetStatusWithHttpInfo**](ConnectApi.md#connectGetStatusWithHttpInfo) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
+| [**connectGetStatus**](ConnectApi.md#connectGetStatus) | **GET** /v1/connect/status/{tenantId}/{projectId} |  |
+| [**connectGetStatusWithHttpInfo**](ConnectApi.md#connectGetStatusWithHttpInfo) | **GET** /v1/connect/status/{tenantId}/{projectId} |  |
 
 
 

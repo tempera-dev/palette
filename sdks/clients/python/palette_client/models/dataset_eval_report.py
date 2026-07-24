@@ -29,17 +29,17 @@ class DatasetEvalReport(BaseModel):
     """
     DatasetEvalReport
     """ # noqa: E501
-    aggregate_score: Union[StrictFloat, StrictInt]
-    created_at: datetime
-    dataset_id: StrictStr
-    dataset_version_id: StrictStr
-    evaluator_version_id: StrictStr
-    project_id: StrictStr
-    report_id: StrictStr
-    result_count: Annotated[int, Field(strict=True, ge=0)]
+    aggregate_score: Union[StrictFloat, StrictInt] = Field(alias="aggregateScore")
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
+    dataset_version_id: StrictStr = Field(alias="datasetVersionId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    project_id: StrictStr = Field(alias="projectId")
+    report_id: StrictStr = Field(alias="reportId")
+    result_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="resultCount")
     results: List[EvalResult]
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["aggregate_score", "created_at", "dataset_id", "dataset_version_id", "evaluator_version_id", "project_id", "report_id", "result_count", "results", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["aggregateScore", "createdAt", "datasetId", "datasetVersionId", "evaluatorVersionId", "projectId", "reportId", "resultCount", "results", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,16 +99,16 @@ class DatasetEvalReport(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "aggregate_score": obj.get("aggregate_score"),
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "dataset_version_id": obj.get("dataset_version_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "project_id": obj.get("project_id"),
-            "report_id": obj.get("report_id"),
-            "result_count": obj.get("result_count"),
+            "aggregateScore": obj.get("aggregateScore"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "datasetVersionId": obj.get("datasetVersionId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "projectId": obj.get("projectId"),
+            "reportId": obj.get("reportId"),
+            "resultCount": obj.get("resultCount"),
             "results": [EvalResult.from_dict(_item) for _item in obj["results"]] if obj.get("results") is not None else None,
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

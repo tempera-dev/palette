@@ -67,9 +67,9 @@ export function GatePolicyFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'alpha': json['alpha'],
-        'comparisonCount': json['comparison_count'],
-        'maxRegression': json['max_regression'],
-        'minSampleSize': json['min_sample_size'],
+        'comparisonCount': json['comparisonCount'],
+        'maxRegression': json['maxRegression'],
+        'minSampleSize': json['minSampleSize'],
     };
 }
 
@@ -85,9 +85,9 @@ export function GatePolicyToJSONTyped(value?: GatePolicy | null, ignoreDiscrimin
     return {
         
         'alpha': value['alpha'],
-        'comparison_count': value['comparisonCount'],
-        'max_regression': value['maxRegression'],
-        'min_sample_size': value['minSampleSize'],
+        'comparisonCount': value['comparisonCount'],
+        'maxRegression': value['maxRegression'],
+        'minSampleSize': value['minSampleSize'],
     };
 }
 

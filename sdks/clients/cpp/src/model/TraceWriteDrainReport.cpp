@@ -22,28 +22,28 @@ TraceWriteDrainReport::TraceWriteDrainReport()
 {
     m_Consumed = 0;
     m_ConsumedIsSet = false;
-    m_Dead_lettered = 0;
-    m_Dead_letteredIsSet = false;
-    m_Downstream_published = 0;
-    m_Downstream_publishedIsSet = false;
-    m_Duplicate_raw = 0;
-    m_Duplicate_rawIsSet = false;
-    m_Duplicate_spans = 0;
-    m_Duplicate_spansIsSet = false;
-    m_Failed_downstream_publishes = 0;
-    m_Failed_downstream_publishesIsSet = false;
-    m_Failed_writes = 0;
-    m_Failed_writesIsSet = false;
-    m_Invalid_messages = 0;
-    m_Invalid_messagesIsSet = false;
+    m_DeadLettered = 0;
+    m_DeadLetteredIsSet = false;
+    m_DownstreamPublished = 0;
+    m_DownstreamPublishedIsSet = false;
+    m_DuplicateRaw = 0;
+    m_DuplicateRawIsSet = false;
+    m_DuplicateSpans = 0;
+    m_DuplicateSpansIsSet = false;
+    m_FailedDownstreamPublishes = 0;
+    m_FailedDownstreamPublishesIsSet = false;
+    m_FailedWrites = 0;
+    m_FailedWritesIsSet = false;
+    m_InvalidMessages = 0;
+    m_InvalidMessagesIsSet = false;
     m_Retried = 0;
     m_RetriedIsSet = false;
-    m_Trace_idsIsSet = false;
-    m_Trace_refsIsSet = false;
-    m_Written_raw = 0;
-    m_Written_rawIsSet = false;
-    m_Written_spans = 0;
-    m_Written_spansIsSet = false;
+    m_TraceIdsIsSet = false;
+    m_TraceRefsIsSet = false;
+    m_WrittenRaw = 0;
+    m_WrittenRawIsSet = false;
+    m_WrittenSpans = 0;
+    m_WrittenSpansIsSet = false;
 }
 
 TraceWriteDrainReport::~TraceWriteDrainReport()
@@ -63,65 +63,65 @@ web::json::value TraceWriteDrainReport::toJson() const
         
         val[utility::conversions::to_string_t(U("consumed"))] = ModelBase::toJson(m_Consumed);
     }
-    if(m_Dead_letteredIsSet)
+    if(m_DeadLetteredIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dead_lettered"))] = ModelBase::toJson(m_Dead_lettered);
+        val[utility::conversions::to_string_t(U("deadLettered"))] = ModelBase::toJson(m_DeadLettered);
     }
-    if(m_Downstream_publishedIsSet)
+    if(m_DownstreamPublishedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_published"))] = ModelBase::toJson(m_Downstream_published);
+        val[utility::conversions::to_string_t(U("downstreamPublished"))] = ModelBase::toJson(m_DownstreamPublished);
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_raw"))] = ModelBase::toJson(m_Duplicate_raw);
+        val[utility::conversions::to_string_t(U("duplicateRaw"))] = ModelBase::toJson(m_DuplicateRaw);
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_spans"))] = ModelBase::toJson(m_Duplicate_spans);
+        val[utility::conversions::to_string_t(U("duplicateSpans"))] = ModelBase::toJson(m_DuplicateSpans);
     }
-    if(m_Failed_downstream_publishesIsSet)
+    if(m_FailedDownstreamPublishesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failed_downstream_publishes"))] = ModelBase::toJson(m_Failed_downstream_publishes);
+        val[utility::conversions::to_string_t(U("failedDownstreamPublishes"))] = ModelBase::toJson(m_FailedDownstreamPublishes);
     }
-    if(m_Failed_writesIsSet)
+    if(m_FailedWritesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("failed_writes"))] = ModelBase::toJson(m_Failed_writes);
+        val[utility::conversions::to_string_t(U("failedWrites"))] = ModelBase::toJson(m_FailedWrites);
     }
-    if(m_Invalid_messagesIsSet)
+    if(m_InvalidMessagesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("invalid_messages"))] = ModelBase::toJson(m_Invalid_messages);
+        val[utility::conversions::to_string_t(U("invalidMessages"))] = ModelBase::toJson(m_InvalidMessages);
     }
     if(m_RetriedIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("retried"))] = ModelBase::toJson(m_Retried);
     }
-    if(m_Trace_idsIsSet)
+    if(m_TraceIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_ids"))] = ModelBase::toJson(m_Trace_ids);
+        val[utility::conversions::to_string_t(U("traceIds"))] = ModelBase::toJson(m_TraceIds);
     }
-    if(m_Trace_refsIsSet)
+    if(m_TraceRefsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_refs"))] = ModelBase::toJson(m_Trace_refs);
+        val[utility::conversions::to_string_t(U("traceRefs"))] = ModelBase::toJson(m_TraceRefs);
     }
-    if(m_Written_rawIsSet)
+    if(m_WrittenRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("written_raw"))] = ModelBase::toJson(m_Written_raw);
+        val[utility::conversions::to_string_t(U("writtenRaw"))] = ModelBase::toJson(m_WrittenRaw);
     }
-    if(m_Written_spansIsSet)
+    if(m_WrittenSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("written_spans"))] = ModelBase::toJson(m_Written_spans);
+        val[utility::conversions::to_string_t(U("writtenSpans"))] = ModelBase::toJson(m_WrittenSpans);
     }
 
     return val;
@@ -141,9 +141,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dead_lettered"))))
+    if(val.has_field(utility::conversions::to_string_t(U("deadLettered"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dead_lettered")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("deadLettered")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDeadLettered;
@@ -152,9 +152,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_published"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamPublished"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_published")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamPublished")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDownstreamPublished;
@@ -163,9 +163,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateRaw;
@@ -174,9 +174,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateSpans;
@@ -185,9 +185,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("failed_downstream_publishes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failedDownstreamPublishes"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failed_downstream_publishes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failedDownstreamPublishes")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setFailedDownstreamPublishes;
@@ -196,9 +196,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("failed_writes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("failedWrites"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failed_writes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("failedWrites")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setFailedWrites;
@@ -207,9 +207,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("invalid_messages"))))
+    if(val.has_field(utility::conversions::to_string_t(U("invalidMessages"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("invalid_messages")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("invalidMessages")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setInvalidMessages;
@@ -229,9 +229,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceIds")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<utility::string_t>> refVal_setTraceIds;
@@ -240,9 +240,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_refs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceRefs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_refs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceRefs")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<QueuedTraceWork>> refVal_setTraceRefs;
@@ -251,9 +251,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("written_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("writtenRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("written_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("writtenRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setWrittenRaw;
@@ -262,9 +262,9 @@ bool TraceWriteDrainReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("written_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("writtenSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("written_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("writtenSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setWrittenSpans;
@@ -287,53 +287,53 @@ void TraceWriteDrainReport::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("consumed")), m_Consumed));
     }
-    if(m_Dead_letteredIsSet)
+    if(m_DeadLetteredIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dead_lettered")), m_Dead_lettered));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("deadLettered")), m_DeadLettered));
     }
-    if(m_Downstream_publishedIsSet)
+    if(m_DownstreamPublishedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_published")), m_Downstream_published));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamPublished")), m_DownstreamPublished));
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_raw")), m_Duplicate_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateRaw")), m_DuplicateRaw));
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_spans")), m_Duplicate_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateSpans")), m_DuplicateSpans));
     }
-    if(m_Failed_downstream_publishesIsSet)
+    if(m_FailedDownstreamPublishesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failed_downstream_publishes")), m_Failed_downstream_publishes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failedDownstreamPublishes")), m_FailedDownstreamPublishes));
     }
-    if(m_Failed_writesIsSet)
+    if(m_FailedWritesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failed_writes")), m_Failed_writes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("failedWrites")), m_FailedWrites));
     }
-    if(m_Invalid_messagesIsSet)
+    if(m_InvalidMessagesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("invalid_messages")), m_Invalid_messages));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("invalidMessages")), m_InvalidMessages));
     }
     if(m_RetriedIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("retried")), m_Retried));
     }
-    if(m_Trace_idsIsSet)
+    if(m_TraceIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_ids")), m_Trace_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceIds")), m_TraceIds));
     }
-    if(m_Trace_refsIsSet)
+    if(m_TraceRefsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_refs")), m_Trace_refs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceRefs")), m_TraceRefs));
     }
-    if(m_Written_rawIsSet)
+    if(m_WrittenRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("written_raw")), m_Written_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("writtenRaw")), m_WrittenRaw));
     }
-    if(m_Written_spansIsSet)
+    if(m_WrittenSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("written_spans")), m_Written_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("writtenSpans")), m_WrittenSpans));
     }
 }
 
@@ -352,46 +352,46 @@ bool TraceWriteDrainReport::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("consumed"))), refVal_setConsumed );
         setConsumed(refVal_setConsumed);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dead_lettered"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("deadLettered"))))
     {
         int32_t refVal_setDeadLettered;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dead_lettered"))), refVal_setDeadLettered );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("deadLettered"))), refVal_setDeadLettered );
         setDeadLettered(refVal_setDeadLettered);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_published"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamPublished"))))
     {
         int32_t refVal_setDownstreamPublished;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_published"))), refVal_setDownstreamPublished );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamPublished"))), refVal_setDownstreamPublished );
         setDownstreamPublished(refVal_setDownstreamPublished);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
         int32_t refVal_setDuplicateRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_raw"))), refVal_setDuplicateRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateRaw"))), refVal_setDuplicateRaw );
         setDuplicateRaw(refVal_setDuplicateRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
         int32_t refVal_setDuplicateSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_spans"))), refVal_setDuplicateSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateSpans"))), refVal_setDuplicateSpans );
         setDuplicateSpans(refVal_setDuplicateSpans);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failed_downstream_publishes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failedDownstreamPublishes"))))
     {
         int32_t refVal_setFailedDownstreamPublishes;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failed_downstream_publishes"))), refVal_setFailedDownstreamPublishes );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failedDownstreamPublishes"))), refVal_setFailedDownstreamPublishes );
         setFailedDownstreamPublishes(refVal_setFailedDownstreamPublishes);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("failed_writes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("failedWrites"))))
     {
         int32_t refVal_setFailedWrites;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failed_writes"))), refVal_setFailedWrites );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("failedWrites"))), refVal_setFailedWrites );
         setFailedWrites(refVal_setFailedWrites);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("invalid_messages"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("invalidMessages"))))
     {
         int32_t refVal_setInvalidMessages;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("invalid_messages"))), refVal_setInvalidMessages );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("invalidMessages"))), refVal_setInvalidMessages );
         setInvalidMessages(refVal_setInvalidMessages);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("retried"))))
@@ -400,28 +400,28 @@ bool TraceWriteDrainReport::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("retried"))), refVal_setRetried );
         setRetried(refVal_setRetried);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceIds"))))
     {
         std::vector<std::shared_ptr<utility::string_t>> refVal_setTraceIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_ids"))), refVal_setTraceIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceIds"))), refVal_setTraceIds );
         setTraceIds(refVal_setTraceIds);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_refs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceRefs"))))
     {
         std::vector<std::shared_ptr<QueuedTraceWork>> refVal_setTraceRefs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_refs"))), refVal_setTraceRefs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceRefs"))), refVal_setTraceRefs );
         setTraceRefs(refVal_setTraceRefs);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("written_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("writtenRaw"))))
     {
         int32_t refVal_setWrittenRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("written_raw"))), refVal_setWrittenRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("writtenRaw"))), refVal_setWrittenRaw );
         setWrittenRaw(refVal_setWrittenRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("written_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("writtenSpans"))))
     {
         int32_t refVal_setWrittenSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("written_spans"))), refVal_setWrittenSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("writtenSpans"))), refVal_setWrittenSpans );
         setWrittenSpans(refVal_setWrittenSpans);
     }
     return ok;
@@ -450,143 +450,143 @@ void TraceWriteDrainReport::unsetConsumed()
 }
 int32_t TraceWriteDrainReport::getDeadLettered() const
 {
-    return m_Dead_lettered;
+    return m_DeadLettered;
 }
 
 void TraceWriteDrainReport::setDeadLettered(int32_t value)
 {
-    m_Dead_lettered = value;
-    m_Dead_letteredIsSet = true;
+    m_DeadLettered = value;
+    m_DeadLetteredIsSet = true;
 }
 
 bool TraceWriteDrainReport::deadLetteredIsSet() const
 {
-    return m_Dead_letteredIsSet;
+    return m_DeadLetteredIsSet;
 }
 
-void TraceWriteDrainReport::unsetDead_lettered()
+void TraceWriteDrainReport::unsetDeadLettered()
 {
-    m_Dead_letteredIsSet = false;
+    m_DeadLetteredIsSet = false;
 }
 int32_t TraceWriteDrainReport::getDownstreamPublished() const
 {
-    return m_Downstream_published;
+    return m_DownstreamPublished;
 }
 
 void TraceWriteDrainReport::setDownstreamPublished(int32_t value)
 {
-    m_Downstream_published = value;
-    m_Downstream_publishedIsSet = true;
+    m_DownstreamPublished = value;
+    m_DownstreamPublishedIsSet = true;
 }
 
 bool TraceWriteDrainReport::downstreamPublishedIsSet() const
 {
-    return m_Downstream_publishedIsSet;
+    return m_DownstreamPublishedIsSet;
 }
 
-void TraceWriteDrainReport::unsetDownstream_published()
+void TraceWriteDrainReport::unsetDownstreamPublished()
 {
-    m_Downstream_publishedIsSet = false;
+    m_DownstreamPublishedIsSet = false;
 }
 int32_t TraceWriteDrainReport::getDuplicateRaw() const
 {
-    return m_Duplicate_raw;
+    return m_DuplicateRaw;
 }
 
 void TraceWriteDrainReport::setDuplicateRaw(int32_t value)
 {
-    m_Duplicate_raw = value;
-    m_Duplicate_rawIsSet = true;
+    m_DuplicateRaw = value;
+    m_DuplicateRawIsSet = true;
 }
 
 bool TraceWriteDrainReport::duplicateRawIsSet() const
 {
-    return m_Duplicate_rawIsSet;
+    return m_DuplicateRawIsSet;
 }
 
-void TraceWriteDrainReport::unsetDuplicate_raw()
+void TraceWriteDrainReport::unsetDuplicateRaw()
 {
-    m_Duplicate_rawIsSet = false;
+    m_DuplicateRawIsSet = false;
 }
 int32_t TraceWriteDrainReport::getDuplicateSpans() const
 {
-    return m_Duplicate_spans;
+    return m_DuplicateSpans;
 }
 
 void TraceWriteDrainReport::setDuplicateSpans(int32_t value)
 {
-    m_Duplicate_spans = value;
-    m_Duplicate_spansIsSet = true;
+    m_DuplicateSpans = value;
+    m_DuplicateSpansIsSet = true;
 }
 
 bool TraceWriteDrainReport::duplicateSpansIsSet() const
 {
-    return m_Duplicate_spansIsSet;
+    return m_DuplicateSpansIsSet;
 }
 
-void TraceWriteDrainReport::unsetDuplicate_spans()
+void TraceWriteDrainReport::unsetDuplicateSpans()
 {
-    m_Duplicate_spansIsSet = false;
+    m_DuplicateSpansIsSet = false;
 }
 int32_t TraceWriteDrainReport::getFailedDownstreamPublishes() const
 {
-    return m_Failed_downstream_publishes;
+    return m_FailedDownstreamPublishes;
 }
 
 void TraceWriteDrainReport::setFailedDownstreamPublishes(int32_t value)
 {
-    m_Failed_downstream_publishes = value;
-    m_Failed_downstream_publishesIsSet = true;
+    m_FailedDownstreamPublishes = value;
+    m_FailedDownstreamPublishesIsSet = true;
 }
 
 bool TraceWriteDrainReport::failedDownstreamPublishesIsSet() const
 {
-    return m_Failed_downstream_publishesIsSet;
+    return m_FailedDownstreamPublishesIsSet;
 }
 
-void TraceWriteDrainReport::unsetFailed_downstream_publishes()
+void TraceWriteDrainReport::unsetFailedDownstreamPublishes()
 {
-    m_Failed_downstream_publishesIsSet = false;
+    m_FailedDownstreamPublishesIsSet = false;
 }
 int32_t TraceWriteDrainReport::getFailedWrites() const
 {
-    return m_Failed_writes;
+    return m_FailedWrites;
 }
 
 void TraceWriteDrainReport::setFailedWrites(int32_t value)
 {
-    m_Failed_writes = value;
-    m_Failed_writesIsSet = true;
+    m_FailedWrites = value;
+    m_FailedWritesIsSet = true;
 }
 
 bool TraceWriteDrainReport::failedWritesIsSet() const
 {
-    return m_Failed_writesIsSet;
+    return m_FailedWritesIsSet;
 }
 
-void TraceWriteDrainReport::unsetFailed_writes()
+void TraceWriteDrainReport::unsetFailedWrites()
 {
-    m_Failed_writesIsSet = false;
+    m_FailedWritesIsSet = false;
 }
 int32_t TraceWriteDrainReport::getInvalidMessages() const
 {
-    return m_Invalid_messages;
+    return m_InvalidMessages;
 }
 
 void TraceWriteDrainReport::setInvalidMessages(int32_t value)
 {
-    m_Invalid_messages = value;
-    m_Invalid_messagesIsSet = true;
+    m_InvalidMessages = value;
+    m_InvalidMessagesIsSet = true;
 }
 
 bool TraceWriteDrainReport::invalidMessagesIsSet() const
 {
-    return m_Invalid_messagesIsSet;
+    return m_InvalidMessagesIsSet;
 }
 
-void TraceWriteDrainReport::unsetInvalid_messages()
+void TraceWriteDrainReport::unsetInvalidMessages()
 {
-    m_Invalid_messagesIsSet = false;
+    m_InvalidMessagesIsSet = false;
 }
 int32_t TraceWriteDrainReport::getRetried() const
 {
@@ -610,85 +610,85 @@ void TraceWriteDrainReport::unsetRetried()
 }
 std::vector<std::shared_ptr<utility::string_t>> TraceWriteDrainReport::getTraceIds() const
 {
-    return m_Trace_ids;
+    return m_TraceIds;
 }
 
 
 void TraceWriteDrainReport::setTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value)
 {
-    m_Trace_ids = value;
-    m_Trace_idsIsSet = true;
+    m_TraceIds = value;
+    m_TraceIdsIsSet = true;
 }
 
 bool TraceWriteDrainReport::traceIdsIsSet() const
 {
-    return m_Trace_idsIsSet;
+    return m_TraceIdsIsSet;
 }
 
-void TraceWriteDrainReport::unsetTrace_ids()
+void TraceWriteDrainReport::unsetTraceIds()
 {
-    m_Trace_idsIsSet = false;
+    m_TraceIdsIsSet = false;
 }
 std::vector<std::shared_ptr<QueuedTraceWork>> TraceWriteDrainReport::getTraceRefs() const
 {
-    return m_Trace_refs;
+    return m_TraceRefs;
 }
 
 
 void TraceWriteDrainReport::setTraceRefs(const std::vector<std::shared_ptr<QueuedTraceWork>>& value)
 {
-    m_Trace_refs = value;
-    m_Trace_refsIsSet = true;
+    m_TraceRefs = value;
+    m_TraceRefsIsSet = true;
 }
 
 bool TraceWriteDrainReport::traceRefsIsSet() const
 {
-    return m_Trace_refsIsSet;
+    return m_TraceRefsIsSet;
 }
 
-void TraceWriteDrainReport::unsetTrace_refs()
+void TraceWriteDrainReport::unsetTraceRefs()
 {
-    m_Trace_refsIsSet = false;
+    m_TraceRefsIsSet = false;
 }
 int32_t TraceWriteDrainReport::getWrittenRaw() const
 {
-    return m_Written_raw;
+    return m_WrittenRaw;
 }
 
 void TraceWriteDrainReport::setWrittenRaw(int32_t value)
 {
-    m_Written_raw = value;
-    m_Written_rawIsSet = true;
+    m_WrittenRaw = value;
+    m_WrittenRawIsSet = true;
 }
 
 bool TraceWriteDrainReport::writtenRawIsSet() const
 {
-    return m_Written_rawIsSet;
+    return m_WrittenRawIsSet;
 }
 
-void TraceWriteDrainReport::unsetWritten_raw()
+void TraceWriteDrainReport::unsetWrittenRaw()
 {
-    m_Written_rawIsSet = false;
+    m_WrittenRawIsSet = false;
 }
 int32_t TraceWriteDrainReport::getWrittenSpans() const
 {
-    return m_Written_spans;
+    return m_WrittenSpans;
 }
 
 void TraceWriteDrainReport::setWrittenSpans(int32_t value)
 {
-    m_Written_spans = value;
-    m_Written_spansIsSet = true;
+    m_WrittenSpans = value;
+    m_WrittenSpansIsSet = true;
 }
 
 bool TraceWriteDrainReport::writtenSpansIsSet() const
 {
-    return m_Written_spansIsSet;
+    return m_WrittenSpansIsSet;
 }
 
-void TraceWriteDrainReport::unsetWritten_spans()
+void TraceWriteDrainReport::unsetWrittenSpans()
 {
-    m_Written_spansIsSet = false;
+    m_WrittenSpansIsSet = false;
 }
 
 }

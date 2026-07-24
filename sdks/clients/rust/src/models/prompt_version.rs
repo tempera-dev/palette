@@ -15,17 +15,17 @@ use serde::{Deserialize, Serialize};
 pub struct PromptVersion {
     #[serde(rename = "metadata")]
     pub metadata: Box<models::PromptVersionMetadata>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "prompt_id")]
+    #[serde(rename = "promptId")]
     pub prompt_id: String,
     #[serde(rename = "template")]
     pub template: Box<models::PromptTemplate>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "version_id")]
+    #[serde(rename = "versionId")]
     pub version_id: String,
-    #[serde(rename = "version_number")]
+    #[serde(rename = "versionNumber")]
     pub version_number: i32,
 }
 

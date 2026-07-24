@@ -4,25 +4,25 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectorsAPI_connectorsConnect**](ConnectorsAPI.md#ConnectorsAPI_connectorsConnect) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |
-[**ConnectorsAPI_connectorsGetSkills**](ConnectorsAPI.md#ConnectorsAPI_connectorsGetSkills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |
-[**ConnectorsAPI_connectorsInvokeTool**](ConnectorsAPI.md#ConnectorsAPI_connectorsInvokeTool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |
-[**ConnectorsAPI_connectorsList**](ConnectorsAPI.md#ConnectorsAPI_connectorsList) | **GET** /v1/connectors/{tenant_id}/{project_id} |
-[**ConnectorsAPI_connectorsListTools**](ConnectorsAPI.md#ConnectorsAPI_connectorsListTools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |
-[**ConnectorsAPI_connectorsStatus**](ConnectorsAPI.md#ConnectorsAPI_connectorsStatus) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |
+[**ConnectorsAPI_connectorsConnect**](ConnectorsAPI.md#ConnectorsAPI_connectorsConnect) | **POST** /v1/connectors/{tenantId}/{projectId}/connect |
+[**ConnectorsAPI_connectorsGetSkills**](ConnectorsAPI.md#ConnectorsAPI_connectorsGetSkills) | **GET** /v1/connectors/{tenantId}/{projectId}/skills |
+[**ConnectorsAPI_connectorsInvokeTool**](ConnectorsAPI.md#ConnectorsAPI_connectorsInvokeTool) | **POST** /v1/connectors/{tenantId}/{projectId}/invoke |
+[**ConnectorsAPI_connectorsList**](ConnectorsAPI.md#ConnectorsAPI_connectorsList) | **GET** /v1/connectors/{tenantId}/{projectId} |
+[**ConnectorsAPI_connectorsListTools**](ConnectorsAPI.md#ConnectorsAPI_connectorsListTools) | **GET** /v1/connectors/{tenantId}/{projectId}/tools |
+[**ConnectorsAPI_connectorsStatus**](ConnectorsAPI.md#ConnectorsAPI_connectorsStatus) | **GET** /v1/connectors/{tenantId}/{projectId}/status |
 
 
 # **ConnectorsAPI_connectorsConnect**
 ```c
-connection_link_t* ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenant_id, char *project_id, connect_connector_request_t *connect_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+connection_link_t* ConnectorsAPI_connectorsConnect(apiClient_t *apiClient, char *tenantId, char *projectId, connect_connector_request_t *connect_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **connect_connector_request** | **[connect_connector_request_t](connect_connector_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -47,15 +47,15 @@ No authorization required
 
 # **ConnectorsAPI_connectorsGetSkills**
 ```c
-connector_skills_response_t* ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+connector_skills_response_t* ConnectorsAPI_connectorsGetSkills(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **toolkit** | **char \*** | Toolkit slug to scope the request to. |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -80,15 +80,15 @@ No authorization required
 
 # **ConnectorsAPI_connectorsInvokeTool**
 ```c
-tool_execution_t* ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenant_id, char *project_id, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+tool_execution_t* ConnectorsAPI_connectorsInvokeTool(apiClient_t *apiClient, char *tenantId, char *projectId, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **invoke_connector_request** | **[invoke_connector_request_t](invoke_connector_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -113,15 +113,15 @@ No authorization required
 
 # **ConnectorsAPI_connectorsList**
 ```c
-connector_list_response_t* ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+connector_list_response_t* ConnectorsAPI_connectorsList(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **pageSize** | **int \*** | Maximum number of apps to return. Zero selects the server default. | [optional]
 **pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -147,15 +147,15 @@ No authorization required
 
 # **ConnectorsAPI_connectorsListTools**
 ```c
-connector_tool_list_response_t* ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+connector_tool_list_response_t* ConnectorsAPI_connectorsListTools(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **toolkit** | **char \*** | Toolkit slug to list tools for. |
 **pageSize** | **int \*** | Maximum number of tools to return. Zero selects the server default. | [optional]
 **pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
@@ -182,15 +182,15 @@ No authorization required
 
 # **ConnectorsAPI_connectorsStatus**
 ```c
-connection_status_t* ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+connection_status_t* ConnectorsAPI_connectorsStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **toolkit** | **char \*** | Toolkit slug to scope the request to. |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]

@@ -117,7 +117,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->enqueued_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "enqueued_at", bus_message->enqueued_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "enqueuedAt", bus_message->enqueued_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -126,7 +126,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->idempotency_key) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "idempotency_key", bus_message->idempotency_key) == NULL) {
+    if(cJSON_AddStringToObject(item, "idempotencyKey", bus_message->idempotency_key) == NULL) {
     goto fail; //String
     }
 
@@ -144,7 +144,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->max_attempts) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_attempts", bus_message->max_attempts) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxAttempts", bus_message->max_attempts) == NULL) {
     goto fail; //Numeric
     }
 
@@ -153,7 +153,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->message_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "message_id", bus_message->message_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "messageId", bus_message->message_id) == NULL) {
     goto fail; //String
     }
 
@@ -180,7 +180,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", bus_message->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", bus_message->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -189,7 +189,7 @@ cJSON *bus_message_convertToJSON(bus_message_t *bus_message) {
     if (!bus_message->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", bus_message->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", bus_message->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -224,7 +224,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->enqueued_at
-    cJSON *enqueued_at = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "enqueued_at");
+    cJSON *enqueued_at = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "enqueuedAt");
     if (cJSON_IsNull(enqueued_at)) {
         enqueued_at = NULL;
     }
@@ -239,7 +239,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->idempotency_key
-    cJSON *idempotency_key = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "idempotency_key");
+    cJSON *idempotency_key = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "idempotencyKey");
     if (cJSON_IsNull(idempotency_key)) {
         idempotency_key = NULL;
     }
@@ -269,7 +269,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->max_attempts
-    cJSON *max_attempts = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "max_attempts");
+    cJSON *max_attempts = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "maxAttempts");
     if (cJSON_IsNull(max_attempts)) {
         max_attempts = NULL;
     }
@@ -284,7 +284,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->message_id
-    cJSON *message_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "message_id");
+    cJSON *message_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "messageId");
     if (cJSON_IsNull(message_id)) {
         message_id = NULL;
     }
@@ -330,7 +330,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -345,7 +345,7 @@ bus_message_t *bus_message_parseFromJSON(cJSON *bus_messageJSON){
     }
 
     // bus_message->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(bus_messageJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

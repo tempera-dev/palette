@@ -63,7 +63,7 @@ export function EvaluatorKindOneOf8FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'maxSteps': json['max_steps'],
+        'maxSteps': json['maxSteps'],
         'type': json['type'],
     };
 }
@@ -79,7 +79,7 @@ export function EvaluatorKindOneOf8ToJSONTyped(value?: EvaluatorKindOneOf8 | nul
 
     return {
         
-        'max_steps': value['maxSteps'],
+        'maxSteps': value['maxSteps'],
         'type': value['type'],
     };
 }

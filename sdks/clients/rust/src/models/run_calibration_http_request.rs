@@ -13,11 +13,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunCalibrationHttpRequest {
-    #[serde(rename = "eval_report_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "evalReportId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub eval_report_id: Option<Option<String>>,
-    #[serde(rename = "evaluator_version_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "evaluatorVersionId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub evaluator_version_id: Option<Option<String>>,
-    #[serde(rename = "pass_threshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "passThreshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub pass_threshold: Option<Option<f64>>,
 }
 

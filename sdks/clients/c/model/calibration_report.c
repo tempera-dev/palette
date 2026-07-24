@@ -183,7 +183,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->brier_score) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "brier_score", calibration_report->brier_score) == NULL) {
+    if(cJSON_AddNumberToObject(item, "brierScore", calibration_report->brier_score) == NULL) {
     goto fail; //Numeric
     }
 
@@ -192,7 +192,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->calibration_report_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "calibration_report_id", calibration_report->calibration_report_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "calibrationReportId", calibration_report->calibration_report_id) == NULL) {
     goto fail; //String
     }
 
@@ -201,14 +201,14 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->cohen_kappa) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "cohen_kappa", calibration_report->cohen_kappa) == NULL) {
+    if(cJSON_AddNumberToObject(item, "cohenKappa", calibration_report->cohen_kappa) == NULL) {
     goto fail; //Numeric
     }
 
 
     // calibration_report->cohen_kappa_ci_high
     if(calibration_report->cohen_kappa_ci_high) {
-    if(cJSON_AddNumberToObject(item, "cohen_kappa_ci_high", calibration_report->cohen_kappa_ci_high) == NULL) {
+    if(cJSON_AddNumberToObject(item, "cohenKappaCiHigh", calibration_report->cohen_kappa_ci_high) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -216,7 +216,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
 
     // calibration_report->cohen_kappa_ci_low
     if(calibration_report->cohen_kappa_ci_low) {
-    if(cJSON_AddNumberToObject(item, "cohen_kappa_ci_low", calibration_report->cohen_kappa_ci_low) == NULL) {
+    if(cJSON_AddNumberToObject(item, "cohenKappaCiLow", calibration_report->cohen_kappa_ci_low) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -240,7 +240,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", calibration_report->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", calibration_report->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -249,7 +249,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", calibration_report->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", calibration_report->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -258,7 +258,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->dataset_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_version_id", calibration_report->dataset_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetVersionId", calibration_report->dataset_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -267,7 +267,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->eval_report_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "eval_report_id", calibration_report->eval_report_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evalReportId", calibration_report->eval_report_id) == NULL) {
     goto fail; //String
     }
 
@@ -276,7 +276,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", calibration_report->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", calibration_report->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -285,7 +285,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->expected_agreement) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "expected_agreement", calibration_report->expected_agreement) == NULL) {
+    if(cJSON_AddNumberToObject(item, "expectedAgreement", calibration_report->expected_agreement) == NULL) {
     goto fail; //Numeric
     }
 
@@ -294,7 +294,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->expected_calibration_error) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "expected_calibration_error", calibration_report->expected_calibration_error) == NULL) {
+    if(cJSON_AddNumberToObject(item, "expectedCalibrationError", calibration_report->expected_calibration_error) == NULL) {
     goto fail; //Numeric
     }
 
@@ -324,14 +324,14 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->observed_agreement) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "observed_agreement", calibration_report->observed_agreement) == NULL) {
+    if(cJSON_AddNumberToObject(item, "observedAgreement", calibration_report->observed_agreement) == NULL) {
     goto fail; //Numeric
     }
 
 
     // calibration_report->observed_agreement_ci_high
     if(calibration_report->observed_agreement_ci_high) {
-    if(cJSON_AddNumberToObject(item, "observed_agreement_ci_high", calibration_report->observed_agreement_ci_high) == NULL) {
+    if(cJSON_AddNumberToObject(item, "observedAgreementCiHigh", calibration_report->observed_agreement_ci_high) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -339,7 +339,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
 
     // calibration_report->observed_agreement_ci_low
     if(calibration_report->observed_agreement_ci_low) {
-    if(cJSON_AddNumberToObject(item, "observed_agreement_ci_low", calibration_report->observed_agreement_ci_low) == NULL) {
+    if(cJSON_AddNumberToObject(item, "observedAgreementCiLow", calibration_report->observed_agreement_ci_low) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -363,7 +363,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", calibration_report->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", calibration_report->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -372,7 +372,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->reliability_bins) {
         goto fail;
     }
-    cJSON *reliability_bins = cJSON_AddArrayToObject(item, "reliability_bins");
+    cJSON *reliability_bins = cJSON_AddArrayToObject(item, "reliabilityBins");
     if(reliability_bins == NULL) {
     goto fail; //nonprimitive container
     }
@@ -393,7 +393,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->sample_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "sample_count", calibration_report->sample_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "sampleCount", calibration_report->sample_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -402,7 +402,7 @@ cJSON *calibration_report_convertToJSON(calibration_report_t *calibration_report
     if (!calibration_report->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", calibration_report->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", calibration_report->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -431,7 +431,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     list_t *reliability_binsList = NULL;
 
     // calibration_report->brier_score
-    cJSON *brier_score = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "brier_score");
+    cJSON *brier_score = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "brierScore");
     if (cJSON_IsNull(brier_score)) {
         brier_score = NULL;
     }
@@ -446,7 +446,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->calibration_report_id
-    cJSON *calibration_report_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "calibration_report_id");
+    cJSON *calibration_report_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "calibrationReportId");
     if (cJSON_IsNull(calibration_report_id)) {
         calibration_report_id = NULL;
     }
@@ -461,7 +461,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->cohen_kappa
-    cJSON *cohen_kappa = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohen_kappa");
+    cJSON *cohen_kappa = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohenKappa");
     if (cJSON_IsNull(cohen_kappa)) {
         cohen_kappa = NULL;
     }
@@ -476,7 +476,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->cohen_kappa_ci_high
-    cJSON *cohen_kappa_ci_high = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohen_kappa_ci_high");
+    cJSON *cohen_kappa_ci_high = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohenKappaCiHigh");
     if (cJSON_IsNull(cohen_kappa_ci_high)) {
         cohen_kappa_ci_high = NULL;
     }
@@ -488,7 +488,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->cohen_kappa_ci_low
-    cJSON *cohen_kappa_ci_low = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohen_kappa_ci_low");
+    cJSON *cohen_kappa_ci_low = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "cohenKappaCiLow");
     if (cJSON_IsNull(cohen_kappa_ci_low)) {
         cohen_kappa_ci_low = NULL;
     }
@@ -512,7 +512,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     confusion_local_nonprim = calibration_confusion_parseFromJSON(confusion); //nonprimitive
 
     // calibration_report->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -527,7 +527,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -542,7 +542,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->dataset_version_id
-    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "dataset_version_id");
+    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "datasetVersionId");
     if (cJSON_IsNull(dataset_version_id)) {
         dataset_version_id = NULL;
     }
@@ -557,7 +557,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->eval_report_id
-    cJSON *eval_report_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "eval_report_id");
+    cJSON *eval_report_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "evalReportId");
     if (cJSON_IsNull(eval_report_id)) {
         eval_report_id = NULL;
     }
@@ -572,7 +572,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -587,7 +587,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->expected_agreement
-    cJSON *expected_agreement = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "expected_agreement");
+    cJSON *expected_agreement = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "expectedAgreement");
     if (cJSON_IsNull(expected_agreement)) {
         expected_agreement = NULL;
     }
@@ -602,7 +602,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->expected_calibration_error
-    cJSON *expected_calibration_error = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "expected_calibration_error");
+    cJSON *expected_calibration_error = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "expectedCalibrationError");
     if (cJSON_IsNull(expected_calibration_error)) {
         expected_calibration_error = NULL;
     }
@@ -644,7 +644,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->observed_agreement
-    cJSON *observed_agreement = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observed_agreement");
+    cJSON *observed_agreement = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observedAgreement");
     if (cJSON_IsNull(observed_agreement)) {
         observed_agreement = NULL;
     }
@@ -659,7 +659,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->observed_agreement_ci_high
-    cJSON *observed_agreement_ci_high = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observed_agreement_ci_high");
+    cJSON *observed_agreement_ci_high = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observedAgreementCiHigh");
     if (cJSON_IsNull(observed_agreement_ci_high)) {
         observed_agreement_ci_high = NULL;
     }
@@ -671,7 +671,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->observed_agreement_ci_low
-    cJSON *observed_agreement_ci_low = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observed_agreement_ci_low");
+    cJSON *observed_agreement_ci_low = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "observedAgreementCiLow");
     if (cJSON_IsNull(observed_agreement_ci_low)) {
         observed_agreement_ci_low = NULL;
     }
@@ -695,7 +695,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     policy_local_nonprim = calibration_policy_parseFromJSON(policy); //nonprimitive
 
     // calibration_report->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -710,7 +710,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->reliability_bins
-    cJSON *reliability_bins = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "reliability_bins");
+    cJSON *reliability_bins = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "reliabilityBins");
     if (cJSON_IsNull(reliability_bins)) {
         reliability_bins = NULL;
     }
@@ -737,7 +737,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->sample_count
-    cJSON *sample_count = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "sample_count");
+    cJSON *sample_count = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "sampleCount");
     if (cJSON_IsNull(sample_count)) {
         sample_count = NULL;
     }
@@ -752,7 +752,7 @@ calibration_report_t *calibration_report_parseFromJSON(cJSON *calibration_report
     }
 
     // calibration_report->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(calibration_reportJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

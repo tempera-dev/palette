@@ -21,7 +21,7 @@ pub struct ToolExecution {
     #[serde(rename = "error", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub error: Option<Option<String>>,
     /// Composio execution log id, for tracing.
-    #[serde(rename = "log_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "logId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub log_id: Option<Option<String>>,
     /// Whether the tool reported success.
     #[serde(rename = "successful")]

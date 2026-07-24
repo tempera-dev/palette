@@ -27,12 +27,12 @@ class OtlpIngestOutcome(BaseModel):
     """
     OtlpIngestOutcome
     """ # noqa: E501
-    accepted_raw: Annotated[int, Field(strict=True, ge=0)]
-    accepted_spans: Annotated[int, Field(strict=True, ge=0)]
-    downstream_queued: StrictBool
-    duplicate_raw: Annotated[int, Field(strict=True, ge=0)]
-    duplicate_spans: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["accepted_raw", "accepted_spans", "downstream_queued", "duplicate_raw", "duplicate_spans"]
+    accepted_raw: Annotated[int, Field(strict=True, ge=0)] = Field(alias="acceptedRaw")
+    accepted_spans: Annotated[int, Field(strict=True, ge=0)] = Field(alias="acceptedSpans")
+    downstream_queued: StrictBool = Field(alias="downstreamQueued")
+    duplicate_raw: Annotated[int, Field(strict=True, ge=0)] = Field(alias="duplicateRaw")
+    duplicate_spans: Annotated[int, Field(strict=True, ge=0)] = Field(alias="duplicateSpans")
+    __properties: ClassVar[List[str]] = ["acceptedRaw", "acceptedSpans", "downstreamQueued", "duplicateRaw", "duplicateSpans"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,11 +85,11 @@ class OtlpIngestOutcome(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "accepted_raw": obj.get("accepted_raw"),
-            "accepted_spans": obj.get("accepted_spans"),
-            "downstream_queued": obj.get("downstream_queued"),
-            "duplicate_raw": obj.get("duplicate_raw"),
-            "duplicate_spans": obj.get("duplicate_spans")
+            "acceptedRaw": obj.get("acceptedRaw"),
+            "acceptedSpans": obj.get("acceptedSpans"),
+            "downstreamQueued": obj.get("downstreamQueued"),
+            "duplicateRaw": obj.get("duplicateRaw"),
+            "duplicateSpans": obj.get("duplicateSpans")
         })
         return _obj
 

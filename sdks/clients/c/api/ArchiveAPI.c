@@ -8,7 +8,7 @@
 
 
 archive_manifest_t*
-ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,45 +22,45 @@ ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/archive/{tenant_id}/{project_id}/{trace_id}");
+    char *localVarPath = strdup("/v1/archive/{tenantId}/{projectId}/{traceId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
 
 
@@ -166,9 +166,9 @@ ArchiveAPI_archiveArchiveTrace(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_trace_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_traceId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -213,7 +213,7 @@ end:
 }
 
 archive_query_response_t*
-ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *traceId, char *spanId, char *kind, char *status, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -227,33 +227,33 @@ ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *proj
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/archive/{tenant_id}/{project_id}/spans");
+    char *localVarPath = strdup("/v1/archive/{tenantId}/{projectId}/spans");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -306,39 +306,39 @@ ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *proj
 
 
     // query parameters
-    char *keyQuery_environment_id = NULL;
-    char * valueQuery_environment_id = NULL;
-    keyValuePair_t *keyPairQuery_environment_id = 0;
-    if (environment_id)
+    char *keyQuery_environmentId = NULL;
+    char * valueQuery_environmentId = NULL;
+    keyValuePair_t *keyPairQuery_environmentId = 0;
+    if (environmentId)
     {
-        keyQuery_environment_id = strdup("environment_id");
-        valueQuery_environment_id = strdup((environment_id));
-        keyPairQuery_environment_id = keyValuePair_create(keyQuery_environment_id, valueQuery_environment_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_environment_id);
+        keyQuery_environmentId = strdup("environmentId");
+        valueQuery_environmentId = strdup((environmentId));
+        keyPairQuery_environmentId = keyValuePair_create(keyQuery_environmentId, valueQuery_environmentId);
+        list_addElement(localVarQueryParameters,keyPairQuery_environmentId);
     }
 
     // query parameters
-    char *keyQuery_trace_id = NULL;
-    char * valueQuery_trace_id = NULL;
-    keyValuePair_t *keyPairQuery_trace_id = 0;
-    if (trace_id)
+    char *keyQuery_traceId = NULL;
+    char * valueQuery_traceId = NULL;
+    keyValuePair_t *keyPairQuery_traceId = 0;
+    if (traceId)
     {
-        keyQuery_trace_id = strdup("trace_id");
-        valueQuery_trace_id = strdup((trace_id));
-        keyPairQuery_trace_id = keyValuePair_create(keyQuery_trace_id, valueQuery_trace_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_trace_id);
+        keyQuery_traceId = strdup("traceId");
+        valueQuery_traceId = strdup((traceId));
+        keyPairQuery_traceId = keyValuePair_create(keyQuery_traceId, valueQuery_traceId);
+        list_addElement(localVarQueryParameters,keyPairQuery_traceId);
     }
 
     // query parameters
-    char *keyQuery_span_id = NULL;
-    char * valueQuery_span_id = NULL;
-    keyValuePair_t *keyPairQuery_span_id = 0;
-    if (span_id)
+    char *keyQuery_spanId = NULL;
+    char * valueQuery_spanId = NULL;
+    keyValuePair_t *keyPairQuery_spanId = 0;
+    if (spanId)
     {
-        keyQuery_span_id = strdup("span_id");
-        valueQuery_span_id = strdup((span_id));
-        keyPairQuery_span_id = keyValuePair_create(keyQuery_span_id, valueQuery_span_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_span_id);
+        keyQuery_spanId = strdup("spanId");
+        valueQuery_spanId = strdup((spanId));
+        keyPairQuery_spanId = keyValuePair_create(keyQuery_spanId, valueQuery_spanId);
+        list_addElement(localVarQueryParameters,keyPairQuery_spanId);
     }
 
     // query parameters
@@ -440,8 +440,8 @@ ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *proj
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -478,41 +478,41 @@ ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *proj
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
-    if(keyQuery_environment_id){
-        free(keyQuery_environment_id);
-        keyQuery_environment_id = NULL;
+    if(keyQuery_environmentId){
+        free(keyQuery_environmentId);
+        keyQuery_environmentId = NULL;
     }
-    if(valueQuery_environment_id){
-        free(valueQuery_environment_id);
-        valueQuery_environment_id = NULL;
+    if(valueQuery_environmentId){
+        free(valueQuery_environmentId);
+        valueQuery_environmentId = NULL;
     }
-    if(keyPairQuery_environment_id){
-        keyValuePair_free(keyPairQuery_environment_id);
-        keyPairQuery_environment_id = NULL;
+    if(keyPairQuery_environmentId){
+        keyValuePair_free(keyPairQuery_environmentId);
+        keyPairQuery_environmentId = NULL;
     }
-    if(keyQuery_trace_id){
-        free(keyQuery_trace_id);
-        keyQuery_trace_id = NULL;
+    if(keyQuery_traceId){
+        free(keyQuery_traceId);
+        keyQuery_traceId = NULL;
     }
-    if(valueQuery_trace_id){
-        free(valueQuery_trace_id);
-        valueQuery_trace_id = NULL;
+    if(valueQuery_traceId){
+        free(valueQuery_traceId);
+        valueQuery_traceId = NULL;
     }
-    if(keyPairQuery_trace_id){
-        keyValuePair_free(keyPairQuery_trace_id);
-        keyPairQuery_trace_id = NULL;
+    if(keyPairQuery_traceId){
+        keyValuePair_free(keyPairQuery_traceId);
+        keyPairQuery_traceId = NULL;
     }
-    if(keyQuery_span_id){
-        free(keyQuery_span_id);
-        keyQuery_span_id = NULL;
+    if(keyQuery_spanId){
+        free(keyQuery_spanId);
+        keyQuery_spanId = NULL;
     }
-    if(valueQuery_span_id){
-        free(valueQuery_span_id);
-        valueQuery_span_id = NULL;
+    if(valueQuery_spanId){
+        free(valueQuery_spanId);
+        valueQuery_spanId = NULL;
     }
-    if(keyPairQuery_span_id){
-        keyValuePair_free(keyPairQuery_span_id);
-        keyPairQuery_span_id = NULL;
+    if(keyPairQuery_spanId){
+        keyValuePair_free(keyPairQuery_spanId);
+        keyPairQuery_spanId = NULL;
     }
     if(keyQuery_kind){
         free(keyQuery_kind);

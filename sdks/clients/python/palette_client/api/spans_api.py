@@ -375,11 +375,11 @@ class SpansApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         if span_id is not None:
-            _path_params['span_id'] = span_id
+            _path_params['spanId'] = span_id
         # process the query parameters
         if unmask is not None:
             
@@ -417,7 +417,7 @@ class SpansApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/spans/{tenant_id}/{trace_id}/{span_id}',
+            resource_path='/v1/spans/{tenantId}/{traceId}/{spanId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -768,11 +768,11 @@ class SpansApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         if span_id is not None:
-            _path_params['span_id'] = span_id
+            _path_params['spanId'] = span_id
         # process the query parameters
         if unmask is not None:
             
@@ -810,7 +810,7 @@ class SpansApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/spans/{tenant_id}/{trace_id}/{span_id}/io',
+            resource_path='/v1/spans/{tenantId}/{traceId}/{spanId}/io',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

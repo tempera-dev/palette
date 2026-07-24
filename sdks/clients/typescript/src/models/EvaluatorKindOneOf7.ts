@@ -69,9 +69,9 @@ export function EvaluatorKindOneOf7FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'domContains': json['dom_contains'] == null ? undefined : json['dom_contains'],
+        'domContains': json['domContains'] == null ? undefined : json['domContains'],
         'type': json['type'],
-        'urlContains': json['url_contains'] == null ? undefined : json['url_contains'],
+        'urlContains': json['urlContains'] == null ? undefined : json['urlContains'],
     };
 }
 
@@ -86,9 +86,9 @@ export function EvaluatorKindOneOf7ToJSONTyped(value?: EvaluatorKindOneOf7 | nul
 
     return {
         
-        'dom_contains': value['domContains'],
+        'domContains': value['domContains'],
         'type': value['type'],
-        'url_contains': value['urlContains'],
+        'urlContains': value['urlContains'],
     };
 }
 

@@ -13,19 +13,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunDeterministicEvalRequest {
-    #[serde(rename = "agent_release_id")]
+    #[serde(rename = "agentReleaseId")]
     pub agent_release_id: String,
-    #[serde(rename = "code_hash", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "codeHash", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub code_hash: Option<Option<String>>,
-    #[serde(rename = "evaluator_id")]
+    #[serde(rename = "evaluatorId")]
     pub evaluator_id: String,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
     #[serde(rename = "kind")]
     pub kind: Box<models::EvaluatorKind>,
-    #[serde(rename = "prompt_version_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "promptVersionId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub prompt_version_id: Option<Option<String>>,
-    #[serde(rename = "wasm_hash", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "wasmHash", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub wasm_hash: Option<Option<String>>,
 }
 

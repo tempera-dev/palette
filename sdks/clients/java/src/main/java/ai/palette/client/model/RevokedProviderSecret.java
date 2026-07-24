@@ -44,11 +44,11 @@ public class RevokedProviderSecret {
   @javax.annotation.Nonnull
   private Boolean active;
 
-  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "provider_secret_id";
+  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "providerSecretId";
   @javax.annotation.Nonnull
   private String providerSecretId;
 
-  public static final String JSON_PROPERTY_ROTATED_AT = "rotated_at";
+  public static final String JSON_PROPERTY_ROTATED_AT = "rotatedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime rotatedAt;
 
@@ -208,14 +208,14 @@ public class RevokedProviderSecret {
       joiner.add(String.format("%sactive%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActive()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `provider_secret_id` to the URL query string
+    // add `providerSecretId` to the URL query string
     if (getProviderSecretId() != null) {
-      joiner.add(String.format("%sprovider_secret_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sproviderSecretId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `rotated_at` to the URL query string
+    // add `rotatedAt` to the URL query string
     if (getRotatedAt() != null) {
-      joiner.add(String.format("%srotated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srotatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

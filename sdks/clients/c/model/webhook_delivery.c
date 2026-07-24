@@ -85,7 +85,7 @@ cJSON *webhook_delivery_convertToJSON(webhook_delivery_t *webhook_delivery) {
     if (!webhook_delivery->endpoint_url) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "endpoint_url", webhook_delivery->endpoint_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "endpointUrl", webhook_delivery->endpoint_url) == NULL) {
     goto fail; //String
     }
 
@@ -141,7 +141,7 @@ webhook_delivery_t *webhook_delivery_parseFromJSON(cJSON *webhook_deliveryJSON){
     body_local_nonprim = _parseFromJSON(body); //custom
 
     // webhook_delivery->endpoint_url
-    cJSON *endpoint_url = cJSON_GetObjectItemCaseSensitive(webhook_deliveryJSON, "endpoint_url");
+    cJSON *endpoint_url = cJSON_GetObjectItemCaseSensitive(webhook_deliveryJSON, "endpointUrl");
     if (cJSON_IsNull(endpoint_url)) {
         endpoint_url = NULL;
     }

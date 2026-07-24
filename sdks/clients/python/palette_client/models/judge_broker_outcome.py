@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.judge_audit_record import JudgeAuditRecord
 from palette_client.models.money import Money
@@ -30,9 +30,9 @@ class JudgeBrokerOutcome(BaseModel):
     JudgeBrokerOutcome
     """ # noqa: E501
     audit: JudgeAuditRecord
-    remaining_budget: Money
+    remaining_budget: Money = Field(alias="remainingBudget")
     result: ScoreResult
-    __properties: ClassVar[List[str]] = ["audit", "remaining_budget", "result"]
+    __properties: ClassVar[List[str]] = ["audit", "remainingBudget", "result"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,7 +78,7 @@ class JudgeBrokerOutcome(BaseModel):
             _dict['audit'] = self.audit.to_dict()
         # override the default output from pydantic by calling `to_dict()` of remaining_budget
         if self.remaining_budget:
-            _dict['remaining_budget'] = self.remaining_budget.to_dict()
+            _dict['remainingBudget'] = self.remaining_budget.to_dict()
         # override the default output from pydantic by calling `to_dict()` of result
         if self.result:
             _dict['result'] = self.result.to_dict()
@@ -95,7 +95,7 @@ class JudgeBrokerOutcome(BaseModel):
 
         _obj = cls.model_validate({
             "audit": JudgeAuditRecord.from_dict(obj["audit"]) if obj.get("audit") is not None else None,
-            "remaining_budget": Money.from_dict(obj["remaining_budget"]) if obj.get("remaining_budget") is not None else None,
+            "remainingBudget": Money.from_dict(obj["remainingBudget"]) if obj.get("remainingBudget") is not None else None,
             "result": ScoreResult.from_dict(obj["result"]) if obj.get("result") is not None else None
         })
         return _obj

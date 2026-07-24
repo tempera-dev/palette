@@ -22,25 +22,25 @@ PublicJudgeAuditRecord::PublicJudgeAuditRecord()
 {
     m_Cached = false;
     m_CachedIsSet = false;
-    m_Charged_costIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Evaluator_id = utility::conversions::to_string_t("");
-    m_Evaluator_idIsSet = false;
-    m_Judge_call_id = utility::conversions::to_string_t("");
-    m_Judge_call_idIsSet = false;
+    m_ChargedCostIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_EvaluatorId = utility::conversions::to_string_t("");
+    m_EvaluatorIdIsSet = false;
+    m_JudgeCallId = utility::conversions::to_string_t("");
+    m_JudgeCallIdIsSet = false;
     m_Model = utility::conversions::to_string_t("");
     m_ModelIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Request_hash = utility::conversions::to_string_t("");
-    m_Request_hashIsSet = false;
-    m_Response_hash = utility::conversions::to_string_t("");
-    m_Response_hashIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_RequestHash = utility::conversions::to_string_t("");
+    m_RequestHashIsSet = false;
+    m_ResponseHash = utility::conversions::to_string_t("");
+    m_ResponseHashIsSet = false;
     m_Score = 0.0;
     m_ScoreIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 PublicJudgeAuditRecord::~PublicJudgeAuditRecord()
@@ -60,55 +60,55 @@ web::json::value PublicJudgeAuditRecord::toJson() const
         
         val[utility::conversions::to_string_t(U("cached"))] = ModelBase::toJson(m_Cached);
     }
-    if(m_Charged_costIsSet)
+    if(m_ChargedCostIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("charged_cost"))] = ModelBase::toJson(m_Charged_cost);
+        val[utility::conversions::to_string_t(U("chargedCost"))] = ModelBase::toJson(m_ChargedCost);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_id"))] = ModelBase::toJson(m_Evaluator_id);
+        val[utility::conversions::to_string_t(U("evaluatorId"))] = ModelBase::toJson(m_EvaluatorId);
     }
-    if(m_Judge_call_idIsSet)
+    if(m_JudgeCallIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_call_id"))] = ModelBase::toJson(m_Judge_call_id);
+        val[utility::conversions::to_string_t(U("judgeCallId"))] = ModelBase::toJson(m_JudgeCallId);
     }
     if(m_ModelIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("model"))] = ModelBase::toJson(m_Model);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Request_hashIsSet)
+    if(m_RequestHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("request_hash"))] = ModelBase::toJson(m_Request_hash);
+        val[utility::conversions::to_string_t(U("requestHash"))] = ModelBase::toJson(m_RequestHash);
     }
-    if(m_Response_hashIsSet)
+    if(m_ResponseHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("response_hash"))] = ModelBase::toJson(m_Response_hash);
+        val[utility::conversions::to_string_t(U("responseHash"))] = ModelBase::toJson(m_ResponseHash);
     }
     if(m_ScoreIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("score"))] = ModelBase::toJson(m_Score);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -128,9 +128,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("charged_cost"))))
+    if(val.has_field(utility::conversions::to_string_t(U("chargedCost"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("charged_cost")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("chargedCost")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Money> refVal_setChargedCost;
@@ -139,9 +139,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -150,9 +150,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorId;
@@ -161,9 +161,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_call_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeCallId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_call_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeCallId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setJudgeCallId;
@@ -183,9 +183,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -194,9 +194,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("request_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("requestHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("request_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("requestHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setRequestHash;
@@ -205,9 +205,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("response_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("responseHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("response_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("responseHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setResponseHash;
@@ -227,9 +227,9 @@ bool PublicJudgeAuditRecord::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -252,45 +252,45 @@ void PublicJudgeAuditRecord::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cached")), m_Cached));
     }
-    if(m_Charged_costIsSet)
+    if(m_ChargedCostIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("charged_cost")), m_Charged_cost));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("chargedCost")), m_ChargedCost));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_id")), m_Evaluator_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorId")), m_EvaluatorId));
     }
-    if(m_Judge_call_idIsSet)
+    if(m_JudgeCallIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_call_id")), m_Judge_call_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeCallId")), m_JudgeCallId));
     }
     if(m_ModelIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("model")), m_Model));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Request_hashIsSet)
+    if(m_RequestHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("request_hash")), m_Request_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("requestHash")), m_RequestHash));
     }
-    if(m_Response_hashIsSet)
+    if(m_ResponseHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("response_hash")), m_Response_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("responseHash")), m_ResponseHash));
     }
     if(m_ScoreIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("score")), m_Score));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -309,28 +309,28 @@ bool PublicJudgeAuditRecord::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cached"))), refVal_setCached );
         setCached(refVal_setCached);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("charged_cost"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("chargedCost"))))
     {
         std::shared_ptr<Money> refVal_setChargedCost;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("charged_cost"))), refVal_setChargedCost );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("chargedCost"))), refVal_setChargedCost );
         setChargedCost(refVal_setChargedCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorId"))))
     {
         utility::string_t refVal_setEvaluatorId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_id"))), refVal_setEvaluatorId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorId"))), refVal_setEvaluatorId );
         setEvaluatorId(refVal_setEvaluatorId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_call_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeCallId"))))
     {
         utility::string_t refVal_setJudgeCallId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_call_id"))), refVal_setJudgeCallId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeCallId"))), refVal_setJudgeCallId );
         setJudgeCallId(refVal_setJudgeCallId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("model"))))
@@ -339,22 +339,22 @@ bool PublicJudgeAuditRecord::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("model"))), refVal_setModel );
         setModel(refVal_setModel);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("request_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("requestHash"))))
     {
         utility::string_t refVal_setRequestHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("request_hash"))), refVal_setRequestHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("requestHash"))), refVal_setRequestHash );
         setRequestHash(refVal_setRequestHash);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("response_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("responseHash"))))
     {
         utility::string_t refVal_setResponseHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("response_hash"))), refVal_setResponseHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("responseHash"))), refVal_setResponseHash );
         setResponseHash(refVal_setResponseHash);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("score"))))
@@ -363,10 +363,10 @@ bool PublicJudgeAuditRecord::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("score"))), refVal_setScore );
         setScore(refVal_setScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -395,87 +395,87 @@ void PublicJudgeAuditRecord::unsetCached()
 }
 std::shared_ptr<Money> PublicJudgeAuditRecord::getChargedCost() const
 {
-    return m_Charged_cost;
+    return m_ChargedCost;
 }
 
 
 void PublicJudgeAuditRecord::setChargedCost(const std::shared_ptr<Money>& value)
 {
-    m_Charged_cost = value;
-    m_Charged_costIsSet = true;
+    m_ChargedCost = value;
+    m_ChargedCostIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::chargedCostIsSet() const
 {
-    return m_Charged_costIsSet;
+    return m_ChargedCostIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetCharged_cost()
+void PublicJudgeAuditRecord::unsetChargedCost()
 {
-    m_Charged_costIsSet = false;
+    m_ChargedCostIsSet = false;
 }
 utility::datetime PublicJudgeAuditRecord::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void PublicJudgeAuditRecord::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetCreated_at()
+void PublicJudgeAuditRecord::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t PublicJudgeAuditRecord::getEvaluatorId() const
 {
-    return m_Evaluator_id;
+    return m_EvaluatorId;
 }
 
 
 void PublicJudgeAuditRecord::setEvaluatorId(const utility::string_t& value)
 {
-    m_Evaluator_id = value;
-    m_Evaluator_idIsSet = true;
+    m_EvaluatorId = value;
+    m_EvaluatorIdIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::evaluatorIdIsSet() const
 {
-    return m_Evaluator_idIsSet;
+    return m_EvaluatorIdIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetEvaluator_id()
+void PublicJudgeAuditRecord::unsetEvaluatorId()
 {
-    m_Evaluator_idIsSet = false;
+    m_EvaluatorIdIsSet = false;
 }
 utility::string_t PublicJudgeAuditRecord::getJudgeCallId() const
 {
-    return m_Judge_call_id;
+    return m_JudgeCallId;
 }
 
 
 void PublicJudgeAuditRecord::setJudgeCallId(const utility::string_t& value)
 {
-    m_Judge_call_id = value;
-    m_Judge_call_idIsSet = true;
+    m_JudgeCallId = value;
+    m_JudgeCallIdIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::judgeCallIdIsSet() const
 {
-    return m_Judge_call_idIsSet;
+    return m_JudgeCallIdIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetJudge_call_id()
+void PublicJudgeAuditRecord::unsetJudgeCallId()
 {
-    m_Judge_call_idIsSet = false;
+    m_JudgeCallIdIsSet = false;
 }
 utility::string_t PublicJudgeAuditRecord::getModel() const
 {
@@ -500,66 +500,66 @@ void PublicJudgeAuditRecord::unsetModel()
 }
 utility::string_t PublicJudgeAuditRecord::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void PublicJudgeAuditRecord::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetProject_id()
+void PublicJudgeAuditRecord::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t PublicJudgeAuditRecord::getRequestHash() const
 {
-    return m_Request_hash;
+    return m_RequestHash;
 }
 
 
 void PublicJudgeAuditRecord::setRequestHash(const utility::string_t& value)
 {
-    m_Request_hash = value;
-    m_Request_hashIsSet = true;
+    m_RequestHash = value;
+    m_RequestHashIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::requestHashIsSet() const
 {
-    return m_Request_hashIsSet;
+    return m_RequestHashIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetRequest_hash()
+void PublicJudgeAuditRecord::unsetRequestHash()
 {
-    m_Request_hashIsSet = false;
+    m_RequestHashIsSet = false;
 }
 utility::string_t PublicJudgeAuditRecord::getResponseHash() const
 {
-    return m_Response_hash;
+    return m_ResponseHash;
 }
 
 
 void PublicJudgeAuditRecord::setResponseHash(const utility::string_t& value)
 {
-    m_Response_hash = value;
-    m_Response_hashIsSet = true;
+    m_ResponseHash = value;
+    m_ResponseHashIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::responseHashIsSet() const
 {
-    return m_Response_hashIsSet;
+    return m_ResponseHashIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetResponse_hash()
+void PublicJudgeAuditRecord::unsetResponseHash()
 {
-    m_Response_hashIsSet = false;
+    m_ResponseHashIsSet = false;
 }
 double PublicJudgeAuditRecord::getScore() const
 {
@@ -583,24 +583,24 @@ void PublicJudgeAuditRecord::unsetScore()
 }
 utility::string_t PublicJudgeAuditRecord::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void PublicJudgeAuditRecord::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool PublicJudgeAuditRecord::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void PublicJudgeAuditRecord::unsetTenant_id()
+void PublicJudgeAuditRecord::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

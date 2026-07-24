@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**traces_get**](TracesApi.md#traces_get) | **GET** /v1/traces/{tenant_id}/{trace_id} |
-[**traces_list**](TracesApi.md#traces_list) | **GET** /v1/traces/{tenant_id} |
+[**traces_get**](TracesApi.md#traces_get) | **GET** /v1/traces/{tenantId}/{traceId} |
+[**traces_list**](TracesApi.md#traces_list) | **GET** /v1/traces/{tenantId} |
 
 
 # **traces_get**

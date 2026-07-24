@@ -26,10 +26,10 @@ class ImportTemperaEvidenceRequest(BaseModel):
     """
     ImportTemperaEvidenceRequest
     """ # noqa: E501
-    canonical_json: StrictStr = Field(description="Canonical compact JSON signed by the release/decision key. The endpoint rejects equivalent but non-canonical JSON so the verified bytes are unambiguous across SDKs.")
-    public_key_pem: StrictStr = Field(description="PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is pinned inside the signed payload.")
-    signature_base64: StrictStr = Field(description="Standard-base64 detached Ed25519 signature over `canonical_json` bytes.")
-    __properties: ClassVar[List[str]] = ["canonical_json", "public_key_pem", "signature_base64"]
+    canonical_json: StrictStr = Field(description="Canonical compact JSON signed by the release/decision key. The endpoint rejects equivalent but non-canonical JSON so the verified bytes are unambiguous across SDKs.", alias="canonicalJson")
+    public_key_pem: StrictStr = Field(description="PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is pinned inside the signed payload.", alias="publicKeyPem")
+    signature_base64: StrictStr = Field(description="Standard-base64 detached Ed25519 signature over `canonical_json` bytes.", alias="signatureBase64")
+    __properties: ClassVar[List[str]] = ["canonicalJson", "publicKeyPem", "signatureBase64"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,9 +82,9 @@ class ImportTemperaEvidenceRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "canonical_json": obj.get("canonical_json"),
-            "public_key_pem": obj.get("public_key_pem"),
-            "signature_base64": obj.get("signature_base64")
+            "canonicalJson": obj.get("canonicalJson"),
+            "publicKeyPem": obj.get("publicKeyPem"),
+            "signatureBase64": obj.get("signatureBase64")
         })
         return _obj
 

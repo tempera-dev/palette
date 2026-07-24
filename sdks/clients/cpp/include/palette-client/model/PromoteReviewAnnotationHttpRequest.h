@@ -56,7 +56,7 @@ public:
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getReference() const;
@@ -66,8 +66,8 @@ public:
 
 
 protected:
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
     std::shared_ptr<AnyType> m_Reference;
     bool m_ReferenceIsSet;

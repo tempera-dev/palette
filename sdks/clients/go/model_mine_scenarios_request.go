@@ -21,8 +21,8 @@ var _ MappedNullable = &MineScenariosRequest{}
 
 // MineScenariosRequest struct for MineScenariosRequest
 type MineScenariosRequest struct {
-	JaccardThreshold NullableFloat64 `json:"jaccard_threshold,omitempty"`
-	TraceIds []string `json:"trace_ids"`
+	JaccardThreshold NullableFloat64 `json:"jaccardThreshold,omitempty"`
+	TraceIds []string `json:"traceIds"`
 }
 
 type _MineScenariosRequest MineScenariosRequest
@@ -122,9 +122,9 @@ func (o MineScenariosRequest) MarshalJSON() ([]byte, error) {
 func (o MineScenariosRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.JaccardThreshold.IsSet() {
-		toSerialize["jaccard_threshold"] = o.JaccardThreshold.Get()
+		toSerialize["jaccardThreshold"] = o.JaccardThreshold.Get()
 	}
-	toSerialize["trace_ids"] = o.TraceIds
+	toSerialize["traceIds"] = o.TraceIds
 	return toSerialize, nil
 }
 
@@ -133,7 +133,7 @@ func (o *MineScenariosRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"trace_ids",
+		"traceIds",
 	}
 
 	allProperties := make(map[string]interface{})

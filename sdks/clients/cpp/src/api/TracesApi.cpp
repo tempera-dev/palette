@@ -40,9 +40,9 @@ pplx::task<std::shared_ptr<TraceView>> TracesApi::traces_get(utility::string_t t
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/traces/{tenant_id}/{trace_id}");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("trace_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/traces/{tenantId}/{traceId}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("traceId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -188,8 +188,8 @@ pplx::task<std::shared_ptr<TraceListResponse>> TracesApi::traces_list(utility::s
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/traces/{tenant_id}");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/traces/{tenantId}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -227,15 +227,15 @@ pplx::task<std::shared_ptr<TraceListResponse>> TracesApi::traces_list(utility::s
 
     if (projectId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("project_id")] = ApiClient::parameterToString(*projectId);
+        localVarQueryParams[utility::conversions::to_string_t("projectId")] = ApiClient::parameterToString(*projectId);
     }
     if (environmentId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("environment_id")] = ApiClient::parameterToString(*environmentId);
+        localVarQueryParams[utility::conversions::to_string_t("environmentId")] = ApiClient::parameterToString(*environmentId);
     }
     if (traceId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("trace_id")] = ApiClient::parameterToString(*traceId);
+        localVarQueryParams[utility::conversions::to_string_t("traceId")] = ApiClient::parameterToString(*traceId);
     }
     if (kind)
     {
@@ -247,11 +247,11 @@ pplx::task<std::shared_ptr<TraceListResponse>> TracesApi::traces_list(utility::s
     }
     if (startedAfter)
     {
-        localVarQueryParams[utility::conversions::to_string_t("started_after")] = ApiClient::parameterToString(*startedAfter);
+        localVarQueryParams[utility::conversions::to_string_t("startedAfter")] = ApiClient::parameterToString(*startedAfter);
     }
     if (startedBefore)
     {
-        localVarQueryParams[utility::conversions::to_string_t("started_before")] = ApiClient::parameterToString(*startedBefore);
+        localVarQueryParams[utility::conversions::to_string_t("startedBefore")] = ApiClient::parameterToString(*startedBefore);
     }
     if (model)
     {
@@ -263,19 +263,19 @@ pplx::task<std::shared_ptr<TraceListResponse>> TracesApi::traces_list(utility::s
     }
     if (minCostMicros)
     {
-        localVarQueryParams[utility::conversions::to_string_t("min_cost_micros")] = ApiClient::parameterToString(*minCostMicros);
+        localVarQueryParams[utility::conversions::to_string_t("minCostMicros")] = ApiClient::parameterToString(*minCostMicros);
     }
     if (maxCostMicros)
     {
-        localVarQueryParams[utility::conversions::to_string_t("max_cost_micros")] = ApiClient::parameterToString(*maxCostMicros);
+        localVarQueryParams[utility::conversions::to_string_t("maxCostMicros")] = ApiClient::parameterToString(*maxCostMicros);
     }
     if (minLatencyMs)
     {
-        localVarQueryParams[utility::conversions::to_string_t("min_latency_ms")] = ApiClient::parameterToString(*minLatencyMs);
+        localVarQueryParams[utility::conversions::to_string_t("minLatencyMs")] = ApiClient::parameterToString(*minLatencyMs);
     }
     if (maxLatencyMs)
     {
-        localVarQueryParams[utility::conversions::to_string_t("max_latency_ms")] = ApiClient::parameterToString(*maxLatencyMs);
+        localVarQueryParams[utility::conversions::to_string_t("maxLatencyMs")] = ApiClient::parameterToString(*maxLatencyMs);
     }
     if (pageSize)
     {

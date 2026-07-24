@@ -171,7 +171,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"prompt_id"}}`, encodeURIComponent(String(requestParameters['promptId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}/{promptId}/versions`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -235,7 +235,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -319,7 +319,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"prompt_id"}}`, encodeURIComponent(String(requestParameters['promptId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}/{promptId}/diff`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -380,7 +380,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}/{prompt_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"prompt_id"}}`, encodeURIComponent(String(requestParameters['promptId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}/{promptId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -442,7 +442,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -511,7 +511,7 @@ export class PromptsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"prompt_id"}}`, encodeURIComponent(String(requestParameters['promptId']))),
+            path: `/v1/prompts/{tenantId}/{projectId}/{promptId}/versions`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

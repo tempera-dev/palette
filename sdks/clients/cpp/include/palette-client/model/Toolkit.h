@@ -62,7 +62,7 @@ public:
     /// </summary>
     std::vector<utility::string_t> getAuthSchemes() const;
     bool authSchemesIsSet() const;
-    void unsetAuth_schemes();
+    void unsetAuthSchemes();
     void setAuthSchemes(const std::vector<utility::string_t>& value);
 
     /// <summary>
@@ -86,7 +86,7 @@ public:
     /// </summary>
     bool isNoAuth() const;
     bool noAuthIsSet() const;
-    void unsetNo_auth();
+    void unsetNoAuth();
     void setNoAuth(bool value);
 
     /// <summary>
@@ -102,13 +102,13 @@ public:
     /// </summary>
     int32_t getToolsCount() const;
     bool toolsCountIsSet() const;
-    void unsetTools_count();
+    void unsetToolsCount();
     void setToolsCount(int32_t value);
 
 
 protected:
-    std::vector<utility::string_t> m_Auth_schemes;
-    bool m_Auth_schemesIsSet;
+    std::vector<utility::string_t> m_AuthSchemes;
+    bool m_AuthSchemesIsSet;
 
     utility::string_t m_Description;
     bool m_DescriptionIsSet;
@@ -116,14 +116,14 @@ protected:
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    bool m_No_auth;
-    bool m_No_authIsSet;
+    bool m_NoAuth;
+    bool m_NoAuthIsSet;
 
     utility::string_t m_Slug;
     bool m_SlugIsSet;
 
-    int32_t m_Tools_count;
-    bool m_Tools_countIsSet;
+    int32_t m_ToolsCount;
+    bool m_ToolsCountIsSet;
 
 };
 

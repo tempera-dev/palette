@@ -20,12 +20,12 @@ namespace model {
 
 CreateProviderSecretHttpRequest::CreateProviderSecretHttpRequest()
 {
-    m_Display_name = utility::conversions::to_string_t("");
-    m_Display_nameIsSet = false;
+    m_DisplayName = utility::conversions::to_string_t("");
+    m_DisplayNameIsSet = false;
     m_Provider = utility::conversions::to_string_t("");
     m_ProviderIsSet = false;
-    m_Secret_value = utility::conversions::to_string_t("");
-    m_Secret_valueIsSet = false;
+    m_SecretValue = utility::conversions::to_string_t("");
+    m_SecretValueIsSet = false;
 }
 
 CreateProviderSecretHttpRequest::~CreateProviderSecretHttpRequest()
@@ -40,20 +40,20 @@ void CreateProviderSecretHttpRequest::validate()
 web::json::value CreateProviderSecretHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Display_nameIsSet)
+    if(m_DisplayNameIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("display_name"))] = ModelBase::toJson(m_Display_name);
+        val[utility::conversions::to_string_t(U("displayName"))] = ModelBase::toJson(m_DisplayName);
     }
     if(m_ProviderIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("provider"))] = ModelBase::toJson(m_Provider);
     }
-    if(m_Secret_valueIsSet)
+    if(m_SecretValueIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("secret_value"))] = ModelBase::toJson(m_Secret_value);
+        val[utility::conversions::to_string_t(U("secretValue"))] = ModelBase::toJson(m_SecretValue);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value CreateProviderSecretHttpRequest::toJson() const
 bool CreateProviderSecretHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("display_name"))))
+    if(val.has_field(utility::conversions::to_string_t(U("displayName"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("display_name")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("displayName")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDisplayName;
@@ -84,9 +84,9 @@ bool CreateProviderSecretHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("secret_value"))))
+    if(val.has_field(utility::conversions::to_string_t(U("secretValue"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("secret_value")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("secretValue")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSecretValue;
@@ -105,17 +105,17 @@ void CreateProviderSecretHttpRequest::toMultipart(std::shared_ptr<MultipartFormD
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Display_nameIsSet)
+    if(m_DisplayNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("display_name")), m_Display_name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("displayName")), m_DisplayName));
     }
     if(m_ProviderIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider")), m_Provider));
     }
-    if(m_Secret_valueIsSet)
+    if(m_SecretValueIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("secret_value")), m_Secret_value));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("secretValue")), m_SecretValue));
     }
 }
 
@@ -128,10 +128,10 @@ bool CreateProviderSecretHttpRequest::fromMultiPart(std::shared_ptr<MultipartFor
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("display_name"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("displayName"))))
     {
         utility::string_t refVal_setDisplayName;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("display_name"))), refVal_setDisplayName );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("displayName"))), refVal_setDisplayName );
         setDisplayName(refVal_setDisplayName);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("provider"))))
@@ -140,10 +140,10 @@ bool CreateProviderSecretHttpRequest::fromMultiPart(std::shared_ptr<MultipartFor
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider"))), refVal_setProvider );
         setProvider(refVal_setProvider);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("secret_value"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("secretValue"))))
     {
         utility::string_t refVal_setSecretValue;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("secret_value"))), refVal_setSecretValue );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("secretValue"))), refVal_setSecretValue );
         setSecretValue(refVal_setSecretValue);
     }
     return ok;
@@ -152,24 +152,24 @@ bool CreateProviderSecretHttpRequest::fromMultiPart(std::shared_ptr<MultipartFor
 
 utility::string_t CreateProviderSecretHttpRequest::getDisplayName() const
 {
-    return m_Display_name;
+    return m_DisplayName;
 }
 
 
 void CreateProviderSecretHttpRequest::setDisplayName(const utility::string_t& value)
 {
-    m_Display_name = value;
-    m_Display_nameIsSet = true;
+    m_DisplayName = value;
+    m_DisplayNameIsSet = true;
 }
 
 bool CreateProviderSecretHttpRequest::displayNameIsSet() const
 {
-    return m_Display_nameIsSet;
+    return m_DisplayNameIsSet;
 }
 
-void CreateProviderSecretHttpRequest::unsetDisplay_name()
+void CreateProviderSecretHttpRequest::unsetDisplayName()
 {
-    m_Display_nameIsSet = false;
+    m_DisplayNameIsSet = false;
 }
 utility::string_t CreateProviderSecretHttpRequest::getProvider() const
 {
@@ -194,24 +194,24 @@ void CreateProviderSecretHttpRequest::unsetProvider()
 }
 utility::string_t CreateProviderSecretHttpRequest::getSecretValue() const
 {
-    return m_Secret_value;
+    return m_SecretValue;
 }
 
 
 void CreateProviderSecretHttpRequest::setSecretValue(const utility::string_t& value)
 {
-    m_Secret_value = value;
-    m_Secret_valueIsSet = true;
+    m_SecretValue = value;
+    m_SecretValueIsSet = true;
 }
 
 bool CreateProviderSecretHttpRequest::secretValueIsSet() const
 {
-    return m_Secret_valueIsSet;
+    return m_SecretValueIsSet;
 }
 
-void CreateProviderSecretHttpRequest::unsetSecret_value()
+void CreateProviderSecretHttpRequest::unsetSecretValue()
 {
-    m_Secret_valueIsSet = false;
+    m_SecretValueIsSet = false;
 }
 
 }

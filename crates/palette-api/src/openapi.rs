@@ -186,7 +186,7 @@ pub struct SpecOperation<'a> {
     pub operation_id: &'a str,
     /// Lower-case HTTP method as it appears in the spec (e.g. `"get"`).
     pub method: &'a str,
-    /// Path template, e.g. `/v1/traces/{tenant_id}`.
+    /// Path template, e.g. `/v1/traces/{tenantId}`.
     pub path: &'a str,
     /// The full Operation Object, for callers that need its parameters,
     /// request body, responses, etc.

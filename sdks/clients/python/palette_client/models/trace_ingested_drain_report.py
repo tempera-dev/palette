@@ -30,12 +30,12 @@ class TraceIngestedDrainReport(BaseModel):
     """ # noqa: E501
     completed: Annotated[int, Field(strict=True, ge=0)]
     consumed: Annotated[int, Field(strict=True, ge=0)]
-    dead_lettered: Annotated[int, Field(strict=True, ge=0)]
-    failed_work: Annotated[int, Field(strict=True, ge=0)]
-    invalid_messages: Annotated[int, Field(strict=True, ge=0)]
+    dead_lettered: Annotated[int, Field(strict=True, ge=0)] = Field(alias="deadLettered")
+    failed_work: Annotated[int, Field(strict=True, ge=0)] = Field(alias="failedWork")
+    invalid_messages: Annotated[int, Field(strict=True, ge=0)] = Field(alias="invalidMessages")
     retried: Annotated[int, Field(strict=True, ge=0)]
-    trace_refs: List[QueuedTraceWork]
-    __properties: ClassVar[List[str]] = ["completed", "consumed", "dead_lettered", "failed_work", "invalid_messages", "retried", "trace_refs"]
+    trace_refs: List[QueuedTraceWork] = Field(alias="traceRefs")
+    __properties: ClassVar[List[str]] = ["completed", "consumed", "deadLettered", "failedWork", "invalidMessages", "retried", "traceRefs"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class TraceIngestedDrainReport(BaseModel):
             for _item_trace_refs in self.trace_refs:
                 if _item_trace_refs:
                     _items.append(_item_trace_refs.to_dict())
-            _dict['trace_refs'] = _items
+            _dict['traceRefs'] = _items
         return _dict
 
     @classmethod
@@ -97,11 +97,11 @@ class TraceIngestedDrainReport(BaseModel):
         _obj = cls.model_validate({
             "completed": obj.get("completed"),
             "consumed": obj.get("consumed"),
-            "dead_lettered": obj.get("dead_lettered"),
-            "failed_work": obj.get("failed_work"),
-            "invalid_messages": obj.get("invalid_messages"),
+            "deadLettered": obj.get("deadLettered"),
+            "failedWork": obj.get("failedWork"),
+            "invalidMessages": obj.get("invalidMessages"),
             "retried": obj.get("retried"),
-            "trace_refs": [QueuedTraceWork.from_dict(_item) for _item in obj["trace_refs"]] if obj.get("trace_refs") is not None else None
+            "traceRefs": [QueuedTraceWork.from_dict(_item) for _item in obj["traceRefs"]] if obj.get("traceRefs") is not None else None
         })
         return _obj
 

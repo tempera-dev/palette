@@ -51,10 +51,10 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class AlertInput {
-  public static final String JSON_PROPERTY_BASELINE_SCORE = "baseline_score";
+  public static final String JSON_PROPERTY_BASELINE_SCORE = "baselineScore";
   private JsonNullable<Double> baselineScore = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_GROUP_KEY = "group_key";
+  public static final String JSON_PROPERTY_GROUP_KEY = "groupKey";
   @javax.annotation.Nonnull
   private String groupKey;
 
@@ -66,7 +66,7 @@ public class AlertInput {
   @javax.annotation.Nonnull
   private OffsetDateTime now;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -74,7 +74,7 @@ public class AlertInput {
   @javax.annotation.Nonnull
   private Double score;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -82,7 +82,7 @@ public class AlertInput {
   @javax.annotation.Nonnull
   private String title;
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -412,14 +412,14 @@ public class AlertInput {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `baseline_score` to the URL query string
+    // add `baselineScore` to the URL query string
     if (getBaselineScore() != null) {
-      joiner.add(String.format("%sbaseline_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `group_key` to the URL query string
+    // add `groupKey` to the URL query string
     if (getGroupKey() != null) {
-      joiner.add(String.format("%sgroup_key%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGroupKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sgroupKey%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGroupKey()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `links` to the URL query string
@@ -432,9 +432,9 @@ public class AlertInput {
       joiner.add(String.format("%snow%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `score` to the URL query string
@@ -442,9 +442,9 @@ public class AlertInput {
       joiner.add(String.format("%sscore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `title` to the URL query string
@@ -452,9 +452,9 @@ public class AlertInput {
       joiner.add(String.format("%stitle%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTitle()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

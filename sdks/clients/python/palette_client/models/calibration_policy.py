@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class CalibrationPolicy(BaseModel):
     """
     CalibrationPolicy
     """ # noqa: E501
-    pass_threshold: Union[StrictFloat, StrictInt]
-    __properties: ClassVar[List[str]] = ["pass_threshold"]
+    pass_threshold: Union[StrictFloat, StrictInt] = Field(alias="passThreshold")
+    __properties: ClassVar[List[str]] = ["passThreshold"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +80,7 @@ class CalibrationPolicy(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "pass_threshold": obj.get("pass_threshold")
+            "passThreshold": obj.get("passThreshold")
         })
         return _obj
 

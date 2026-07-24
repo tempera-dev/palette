@@ -27,11 +27,11 @@ class CalibrationConfusion(BaseModel):
     """
     CalibrationConfusion
     """ # noqa: E501
-    human_fail_judge_fail: Annotated[int, Field(strict=True, ge=0)]
-    human_fail_judge_pass: Annotated[int, Field(strict=True, ge=0)]
-    human_pass_judge_fail: Annotated[int, Field(strict=True, ge=0)]
-    human_pass_judge_pass: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["human_fail_judge_fail", "human_fail_judge_pass", "human_pass_judge_fail", "human_pass_judge_pass"]
+    human_fail_judge_fail: Annotated[int, Field(strict=True, ge=0)] = Field(alias="humanFailJudgeFail")
+    human_fail_judge_pass: Annotated[int, Field(strict=True, ge=0)] = Field(alias="humanFailJudgePass")
+    human_pass_judge_fail: Annotated[int, Field(strict=True, ge=0)] = Field(alias="humanPassJudgeFail")
+    human_pass_judge_pass: Annotated[int, Field(strict=True, ge=0)] = Field(alias="humanPassJudgePass")
+    __properties: ClassVar[List[str]] = ["humanFailJudgeFail", "humanFailJudgePass", "humanPassJudgeFail", "humanPassJudgePass"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,10 +84,10 @@ class CalibrationConfusion(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "human_fail_judge_fail": obj.get("human_fail_judge_fail"),
-            "human_fail_judge_pass": obj.get("human_fail_judge_pass"),
-            "human_pass_judge_fail": obj.get("human_pass_judge_fail"),
-            "human_pass_judge_pass": obj.get("human_pass_judge_pass")
+            "humanFailJudgeFail": obj.get("humanFailJudgeFail"),
+            "humanFailJudgePass": obj.get("humanFailJudgePass"),
+            "humanPassJudgeFail": obj.get("humanPassJudgeFail"),
+            "humanPassJudgePass": obj.get("humanPassJudgePass")
         })
         return _obj
 

@@ -66,12 +66,12 @@ public:
     /// </summary>
     std::shared_ptr<FailureMode> getDominantFailureMode() const;
     bool dominantFailureModeIsSet() const;
-    void unsetDominant_failure_mode();
+    void unsetDominantFailureMode();
     void setDominantFailureMode(const std::shared_ptr<FailureMode>& value);
 
     utility::string_t getExemplarTraceId() const;
     bool exemplarTraceIdIsSet() const;
-    void unsetExemplar_trace_id();
+    void unsetExemplarTraceId();
     void setExemplarTraceId(const utility::string_t& value);
 
     /// <summary>
@@ -79,7 +79,7 @@ public:
     /// </summary>
     std::vector<std::shared_ptr<utility::string_t>> getMemberTraceIds() const;
     bool memberTraceIdsIsSet() const;
-    void unsetMember_trace_ids();
+    void unsetMemberTraceIds();
     void setMemberTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
     /// <summary>
@@ -100,14 +100,14 @@ public:
 
 
 protected:
-    std::shared_ptr<FailureMode> m_Dominant_failure_mode;
-    bool m_Dominant_failure_modeIsSet;
+    std::shared_ptr<FailureMode> m_DominantFailureMode;
+    bool m_DominantFailureModeIsSet;
 
-    utility::string_t m_Exemplar_trace_id;
-    bool m_Exemplar_trace_idIsSet;
+    utility::string_t m_ExemplarTraceId;
+    bool m_ExemplarTraceIdIsSet;
 
-    std::vector<std::shared_ptr<utility::string_t>> m_Member_trace_ids;
-    bool m_Member_trace_idsIsSet;
+    std::vector<std::shared_ptr<utility::string_t>> m_MemberTraceIds;
+    bool m_MemberTraceIdsIsSet;
 
     std::shared_ptr<Signature> m_Signature;
     bool m_SignatureIsSet;

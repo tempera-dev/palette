@@ -43,31 +43,31 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class TraceIngestedReconcileReport {
-  public static final String JSON_PROPERTY_DOWNSTREAM_ACCEPTED = "downstream_accepted";
+  public static final String JSON_PROPERTY_DOWNSTREAM_ACCEPTED = "downstreamAccepted";
   @javax.annotation.Nonnull
   private Integer downstreamAccepted;
 
-  public static final String JSON_PROPERTY_DOWNSTREAM_DUPLICATE = "downstream_duplicate";
+  public static final String JSON_PROPERTY_DOWNSTREAM_DUPLICATE = "downstreamDuplicate";
   @javax.annotation.Nonnull
   private Integer downstreamDuplicate;
 
-  public static final String JSON_PROPERTY_DOWNSTREAM_QUEUED = "downstream_queued";
+  public static final String JSON_PROPERTY_DOWNSTREAM_QUEUED = "downstreamQueued";
   @javax.annotation.Nonnull
   private Boolean downstreamQueued;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_SPAN_COUNT = "span_count";
+  public static final String JSON_PROPERTY_SPAN_COUNT = "spanCount";
   @javax.annotation.Nonnull
   private Integer spanCount;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -329,39 +329,39 @@ public class TraceIngestedReconcileReport {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `downstream_accepted` to the URL query string
+    // add `downstreamAccepted` to the URL query string
     if (getDownstreamAccepted() != null) {
-      joiner.add(String.format("%sdownstream_accepted%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamAccepted()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdownstreamAccepted%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamAccepted()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `downstream_duplicate` to the URL query string
+    // add `downstreamDuplicate` to the URL query string
     if (getDownstreamDuplicate() != null) {
-      joiner.add(String.format("%sdownstream_duplicate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamDuplicate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdownstreamDuplicate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamDuplicate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `downstream_queued` to the URL query string
+    // add `downstreamQueued` to the URL query string
     if (getDownstreamQueued() != null) {
-      joiner.add(String.format("%sdownstream_queued%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamQueued()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdownstreamQueued%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamQueued()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_count` to the URL query string
+    // add `spanCount` to the URL query string
     if (getSpanCount() != null) {
-      joiner.add(String.format("%sspan_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

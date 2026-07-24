@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**EvalResultsGetTemperaEvidence**](EvalResultsAPI.md#EvalResultsGetTemperaEvidence) | **Get** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
-[**EvalResultsImportTemperaBundle**](EvalResultsAPI.md#EvalResultsImportTemperaBundle) | **Post** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
-[**EvalResultsRecordTemperaDecision**](EvalResultsAPI.md#EvalResultsRecordTemperaDecision) | **Post** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
+[**EvalResultsGetTemperaEvidence**](EvalResultsAPI.md#EvalResultsGetTemperaEvidence) | **Get** /v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId} |
+[**EvalResultsImportTemperaBundle**](EvalResultsAPI.md#EvalResultsImportTemperaBundle) | **Post** /v1/eval-results/{tenantId}/{projectId}/tempera/bundles |
+[**EvalResultsRecordTemperaDecision**](EvalResultsAPI.md#EvalResultsRecordTemperaDecision) | **Post** /v1/eval-results/{tenantId}/{projectId}/tempera/decisions |
 
 
 

@@ -103,13 +103,13 @@ export function ApiKeyCreatedResponseFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'active': json['active'],
-        'apiKeyId': json['api_key_id'],
-        'createdAt': (new Date(json['created_at'])),
-        'environmentId': json['environment_id'],
-        'projectId': json['project_id'],
+        'apiKeyId': json['apiKeyId'],
+        'createdAt': (new Date(json['createdAt'])),
+        'environmentId': json['environmentId'],
+        'projectId': json['projectId'],
         'scopes': (new Set((json['scopes'] as Array<any>).map(ApiScopeFromJSON))),
         'secret': json['secret'],
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -125,13 +125,13 @@ export function ApiKeyCreatedResponseToJSONTyped(value?: ApiKeyCreatedResponse |
     return {
         
         'active': value['active'],
-        'api_key_id': value['apiKeyId'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'environment_id': value['environmentId'],
-        'project_id': value['projectId'],
+        'apiKeyId': value['apiKeyId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'environmentId': value['environmentId'],
+        'projectId': value['projectId'],
         'scopes': (Array.from(value['scopes'] as Set<any>).map(ApiScopeToJSON)),
         'secret': value['secret'],
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
     };
 }
 

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**evalResultsGetTemperaEvidence**](EvalResultsApi.md#evalResultsGetTemperaEvidence) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |  |
-| [**evalResultsGetTemperaEvidenceWithHttpInfo**](EvalResultsApi.md#evalResultsGetTemperaEvidenceWithHttpInfo) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |  |
-| [**evalResultsImportTemperaBundle**](EvalResultsApi.md#evalResultsImportTemperaBundle) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |  |
-| [**evalResultsImportTemperaBundleWithHttpInfo**](EvalResultsApi.md#evalResultsImportTemperaBundleWithHttpInfo) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |  |
-| [**evalResultsRecordTemperaDecision**](EvalResultsApi.md#evalResultsRecordTemperaDecision) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |  |
-| [**evalResultsRecordTemperaDecisionWithHttpInfo**](EvalResultsApi.md#evalResultsRecordTemperaDecisionWithHttpInfo) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |  |
+| [**evalResultsGetTemperaEvidence**](EvalResultsApi.md#evalResultsGetTemperaEvidence) | **GET** /v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId} |  |
+| [**evalResultsGetTemperaEvidenceWithHttpInfo**](EvalResultsApi.md#evalResultsGetTemperaEvidenceWithHttpInfo) | **GET** /v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId} |  |
+| [**evalResultsImportTemperaBundle**](EvalResultsApi.md#evalResultsImportTemperaBundle) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/bundles |  |
+| [**evalResultsImportTemperaBundleWithHttpInfo**](EvalResultsApi.md#evalResultsImportTemperaBundleWithHttpInfo) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/bundles |  |
+| [**evalResultsRecordTemperaDecision**](EvalResultsApi.md#evalResultsRecordTemperaDecision) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/decisions |  |
+| [**evalResultsRecordTemperaDecisionWithHttpInfo**](EvalResultsApi.md#evalResultsRecordTemperaDecisionWithHttpInfo) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/decisions |  |
 
 
 

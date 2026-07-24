@@ -57,7 +57,7 @@ public:
 
     utility::datetime getFailedAt() const;
     bool failedAtIsSet() const;
-    void unsetFailed_at();
+    void unsetFailedAt();
     void setFailedAt(const utility::datetime& value);
 
     std::shared_ptr<BusMessage> getMessage() const;
@@ -72,8 +72,8 @@ public:
 
 
 protected:
-    utility::datetime m_Failed_at;
-    bool m_Failed_atIsSet;
+    utility::datetime m_FailedAt;
+    bool m_FailedAtIsSet;
 
     std::shared_ptr<BusMessage> m_Message;
     bool m_MessageIsSet;

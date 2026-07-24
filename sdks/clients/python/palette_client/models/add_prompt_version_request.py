@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.prompt_template import PromptTemplate
 from typing import Optional, Set
@@ -27,10 +27,10 @@ class AddPromptVersionRequest(BaseModel):
     """
     Request body for `addPromptVersion`: a new immutable template revision.
     """ # noqa: E501
-    created_by: Optional[StrictStr] = None
+    created_by: Optional[StrictStr] = Field(default=None, alias="createdBy")
     message: Optional[StrictStr] = None
     template: PromptTemplate
-    __properties: ClassVar[List[str]] = ["created_by", "message", "template"]
+    __properties: ClassVar[List[str]] = ["createdBy", "message", "template"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,7 +77,7 @@ class AddPromptVersionRequest(BaseModel):
         # set to None if created_by (nullable) is None
         # and model_fields_set contains the field
         if self.created_by is None and "created_by" in self.model_fields_set:
-            _dict['created_by'] = None
+            _dict['createdBy'] = None
 
         # set to None if message (nullable) is None
         # and model_fields_set contains the field
@@ -96,7 +96,7 @@ class AddPromptVersionRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_by": obj.get("created_by"),
+            "createdBy": obj.get("createdBy"),
             "message": obj.get("message"),
             "template": PromptTemplate.from_dict(obj["template"]) if obj.get("template") is not None else None
         })

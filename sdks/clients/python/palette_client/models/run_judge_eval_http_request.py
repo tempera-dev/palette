@@ -28,11 +28,11 @@ class RunJudgeEvalHttpRequest(BaseModel):
     """
     RunJudgeEvalHttpRequest
     """ # noqa: E501
-    cache_namespace: Optional[StrictStr] = Field(default=None, description="Calibration-map / judge-instrument version folded into the judge cache key; bumping it on recalibration invalidates stale cached scores.")
+    cache_namespace: Optional[StrictStr] = Field(default=None, description="Calibration-map / judge-instrument version folded into the judge cache key; bumping it on recalibration invalidates stale cached scores.", alias="cacheNamespace")
     case: EvaluationCase
     evaluator: EvaluatorSpec
-    provider_secret_id: StrictStr
-    __properties: ClassVar[List[str]] = ["cache_namespace", "case", "evaluator", "provider_secret_id"]
+    provider_secret_id: StrictStr = Field(alias="providerSecretId")
+    __properties: ClassVar[List[str]] = ["cacheNamespace", "case", "evaluator", "providerSecretId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class RunJudgeEvalHttpRequest(BaseModel):
         # set to None if cache_namespace (nullable) is None
         # and model_fields_set contains the field
         if self.cache_namespace is None and "cache_namespace" in self.model_fields_set:
-            _dict['cache_namespace'] = None
+            _dict['cacheNamespace'] = None
 
         return _dict
 
@@ -96,10 +96,10 @@ class RunJudgeEvalHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cache_namespace": obj.get("cache_namespace"),
+            "cacheNamespace": obj.get("cacheNamespace"),
             "case": EvaluationCase.from_dict(obj["case"]) if obj.get("case") is not None else None,
             "evaluator": EvaluatorSpec.from_dict(obj["evaluator"]) if obj.get("evaluator") is not None else None,
-            "provider_secret_id": obj.get("provider_secret_id")
+            "providerSecretId": obj.get("providerSecretId")
         })
         return _obj
 

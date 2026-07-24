@@ -22,12 +22,12 @@ var _ MappedNullable = &PromptVersion{}
 // PromptVersion struct for PromptVersion
 type PromptVersion struct {
 	Metadata PromptVersionMetadata `json:"metadata"`
-	ProjectId string `json:"project_id"`
-	PromptId string `json:"prompt_id"`
+	ProjectId string `json:"projectId"`
+	PromptId string `json:"promptId"`
 	Template PromptTemplate `json:"template"`
-	TenantId string `json:"tenant_id"`
-	VersionId string `json:"version_id"`
-	VersionNumber int32 `json:"version_number"`
+	TenantId string `json:"tenantId"`
+	VersionId string `json:"versionId"`
+	VersionNumber int32 `json:"versionNumber"`
 }
 
 type _PromptVersion PromptVersion
@@ -235,12 +235,12 @@ func (o PromptVersion) MarshalJSON() ([]byte, error) {
 func (o PromptVersion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["metadata"] = o.Metadata
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["prompt_id"] = o.PromptId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["promptId"] = o.PromptId
 	toSerialize["template"] = o.Template
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["version_id"] = o.VersionId
-	toSerialize["version_number"] = o.VersionNumber
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["versionId"] = o.VersionId
+	toSerialize["versionNumber"] = o.VersionNumber
 	return toSerialize, nil
 }
 
@@ -250,12 +250,12 @@ func (o *PromptVersion) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"metadata",
-		"project_id",
-		"prompt_id",
+		"projectId",
+		"promptId",
 		"template",
-		"tenant_id",
-		"version_id",
-		"version_number",
+		"tenantId",
+		"versionId",
+		"versionNumber",
 	}
 
 	allProperties := make(map[string]interface{})

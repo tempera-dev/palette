@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.case_experiment_score import CaseExperimentScore
 from palette_client.models.experiment_comparison import ExperimentComparison
@@ -31,20 +31,20 @@ class ExperimentRunReport(BaseModel):
     """
     ExperimentRunReport
     """ # noqa: E501
-    baseline_release_id: StrictStr
-    candidate_release_id: StrictStr
-    case_scores: List[CaseExperimentScore]
+    baseline_release_id: StrictStr = Field(alias="baselineReleaseId")
+    candidate_release_id: StrictStr = Field(alias="candidateReleaseId")
+    case_scores: List[CaseExperimentScore] = Field(alias="caseScores")
     comparison: ExperimentComparison
-    created_at: datetime
-    dataset_id: StrictStr
-    dataset_version_id: StrictStr
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
+    dataset_version_id: StrictStr = Field(alias="datasetVersionId")
     decision: GateDecision
-    evaluator_version_id: StrictStr
-    experiment_run_id: StrictStr
-    gate_policy: Optional[GatePolicy] = None
-    project_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["baseline_release_id", "candidate_release_id", "case_scores", "comparison", "created_at", "dataset_id", "dataset_version_id", "decision", "evaluator_version_id", "experiment_run_id", "gate_policy", "project_id", "tenant_id"]
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    experiment_run_id: StrictStr = Field(alias="experimentRunId")
+    gate_policy: Optional[GatePolicy] = Field(default=None, alias="gatePolicy")
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["baselineReleaseId", "candidateReleaseId", "caseScores", "comparison", "createdAt", "datasetId", "datasetVersionId", "decision", "evaluatorVersionId", "experimentRunId", "gatePolicy", "projectId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,13 +91,13 @@ class ExperimentRunReport(BaseModel):
             for _item_case_scores in self.case_scores:
                 if _item_case_scores:
                     _items.append(_item_case_scores.to_dict())
-            _dict['case_scores'] = _items
+            _dict['caseScores'] = _items
         # override the default output from pydantic by calling `to_dict()` of comparison
         if self.comparison:
             _dict['comparison'] = self.comparison.to_dict()
         # override the default output from pydantic by calling `to_dict()` of gate_policy
         if self.gate_policy:
-            _dict['gate_policy'] = self.gate_policy.to_dict()
+            _dict['gatePolicy'] = self.gate_policy.to_dict()
         return _dict
 
     @classmethod
@@ -110,19 +110,19 @@ class ExperimentRunReport(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "baseline_release_id": obj.get("baseline_release_id"),
-            "candidate_release_id": obj.get("candidate_release_id"),
-            "case_scores": [CaseExperimentScore.from_dict(_item) for _item in obj["case_scores"]] if obj.get("case_scores") is not None else None,
+            "baselineReleaseId": obj.get("baselineReleaseId"),
+            "candidateReleaseId": obj.get("candidateReleaseId"),
+            "caseScores": [CaseExperimentScore.from_dict(_item) for _item in obj["caseScores"]] if obj.get("caseScores") is not None else None,
             "comparison": ExperimentComparison.from_dict(obj["comparison"]) if obj.get("comparison") is not None else None,
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "dataset_version_id": obj.get("dataset_version_id"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "datasetVersionId": obj.get("datasetVersionId"),
             "decision": obj.get("decision"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "experiment_run_id": obj.get("experiment_run_id"),
-            "gate_policy": GatePolicy.from_dict(obj["gate_policy"]) if obj.get("gate_policy") is not None else None,
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id")
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "experimentRunId": obj.get("experimentRunId"),
+            "gatePolicy": GatePolicy.from_dict(obj["gatePolicy"]) if obj.get("gatePolicy") is not None else None,
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

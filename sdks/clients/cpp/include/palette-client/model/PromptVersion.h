@@ -64,12 +64,12 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getPromptId() const;
     bool promptIdIsSet() const;
-    void unsetPrompt_id();
+    void unsetPromptId();
     void setPromptId(const utility::string_t& value);
 
     std::shared_ptr<PromptTemplate> getRTemplate() const;
@@ -79,17 +79,17 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getVersionId() const;
     bool versionIdIsSet() const;
-    void unsetVersion_id();
+    void unsetVersionId();
     void setVersionId(const utility::string_t& value);
 
     int32_t getVersionNumber() const;
     bool versionNumberIsSet() const;
-    void unsetVersion_number();
+    void unsetVersionNumber();
     void setVersionNumber(int32_t value);
 
 
@@ -97,23 +97,23 @@ protected:
     std::shared_ptr<PromptVersionMetadata> m_Metadata;
     bool m_MetadataIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Prompt_id;
-    bool m_Prompt_idIsSet;
+    utility::string_t m_PromptId;
+    bool m_PromptIdIsSet;
 
     std::shared_ptr<PromptTemplate> m_r_template;
     bool m_r_templateIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::string_t m_Version_id;
-    bool m_Version_idIsSet;
+    utility::string_t m_VersionId;
+    bool m_VersionIdIsSet;
 
-    int32_t m_Version_number;
-    bool m_Version_numberIsSet;
+    int32_t m_VersionNumber;
+    bool m_VersionNumberIsSet;
 
 };
 

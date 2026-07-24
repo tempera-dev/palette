@@ -50,35 +50,35 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class DatasetEvalReport {
-  public static final String JSON_PROPERTY_AGGREGATE_SCORE = "aggregate_score";
+  public static final String JSON_PROPERTY_AGGREGATE_SCORE = "aggregateScore";
   @javax.annotation.Nonnull
   private Double aggregateScore;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_DATASET_ID = "dataset_id";
+  public static final String JSON_PROPERTY_DATASET_ID = "datasetId";
   @javax.annotation.Nonnull
   private String datasetId;
 
-  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "dataset_version_id";
+  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "datasetVersionId";
   @javax.annotation.Nonnull
   private String datasetVersionId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_REPORT_ID = "report_id";
+  public static final String JSON_PROPERTY_REPORT_ID = "reportId";
   @javax.annotation.Nonnull
   private String reportId;
 
-  public static final String JSON_PROPERTY_RESULT_COUNT = "result_count";
+  public static final String JSON_PROPERTY_RESULT_COUNT = "resultCount";
   @javax.annotation.Nonnull
   private Integer resultCount;
 
@@ -86,7 +86,7 @@ public class DatasetEvalReport {
   @javax.annotation.Nonnull
   private List<EvalResult> results = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -432,44 +432,44 @@ public class DatasetEvalReport {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `aggregate_score` to the URL query string
+    // add `aggregateScore` to the URL query string
     if (getAggregateScore() != null) {
-      joiner.add(String.format("%saggregate_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAggregateScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%saggregateScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAggregateScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_id` to the URL query string
+    // add `datasetId` to the URL query string
     if (getDatasetId() != null) {
-      joiner.add(String.format("%sdataset_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_version_id` to the URL query string
+    // add `datasetVersionId` to the URL query string
     if (getDatasetVersionId() != null) {
-      joiner.add(String.format("%sdataset_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `report_id` to the URL query string
+    // add `reportId` to the URL query string
     if (getReportId() != null) {
-      joiner.add(String.format("%sreport_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `result_count` to the URL query string
+    // add `resultCount` to the URL query string
     if (getResultCount() != null) {
-      joiner.add(String.format("%sresult_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResultCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sresultCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResultCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `results` to the URL query string
@@ -482,9 +482,9 @@ public class DatasetEvalReport {
       }
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

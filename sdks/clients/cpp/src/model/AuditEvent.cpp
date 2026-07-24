@@ -21,26 +21,26 @@ namespace model {
 AuditEvent::AuditEvent()
 {
     m_ActionIsSet = false;
-    m_Actor_api_key_id = utility::conversions::to_string_t("");
-    m_Actor_api_key_idIsSet = false;
+    m_ActorApiKeyId = utility::conversions::to_string_t("");
+    m_ActorApiKeyIdIsSet = false;
     m_AttributesIsSet = false;
-    m_Audit_event_id = utility::conversions::to_string_t("");
-    m_Audit_event_idIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
+    m_AuditEventId = utility::conversions::to_string_t("");
+    m_AuditEventIdIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
     m_OutcomeIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_Reason = utility::conversions::to_string_t("");
     m_ReasonIsSet = false;
-    m_Resource_id = utility::conversions::to_string_t("");
-    m_Resource_idIsSet = false;
-    m_Resource_type = utility::conversions::to_string_t("");
-    m_Resource_typeIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ResourceId = utility::conversions::to_string_t("");
+    m_ResourceIdIsSet = false;
+    m_ResourceType = utility::conversions::to_string_t("");
+    m_ResourceTypeIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 AuditEvent::~AuditEvent()
@@ -60,60 +60,60 @@ web::json::value AuditEvent::toJson() const
         
         val[utility::conversions::to_string_t(U("action"))] = ModelBase::toJson(m_Action);
     }
-    if(m_Actor_api_key_idIsSet)
+    if(m_ActorApiKeyIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("actor_api_key_id"))] = ModelBase::toJson(m_Actor_api_key_id);
+        val[utility::conversions::to_string_t(U("actorApiKeyId"))] = ModelBase::toJson(m_ActorApiKeyId);
     }
     if(m_AttributesIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("attributes"))] = ModelBase::toJson(m_Attributes);
     }
-    if(m_Audit_event_idIsSet)
+    if(m_AuditEventIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("audit_event_id"))] = ModelBase::toJson(m_Audit_event_id);
+        val[utility::conversions::to_string_t(U("auditEventId"))] = ModelBase::toJson(m_AuditEventId);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
     if(m_OutcomeIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("outcome"))] = ModelBase::toJson(m_Outcome);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ReasonIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("reason"))] = ModelBase::toJson(m_Reason);
     }
-    if(m_Resource_idIsSet)
+    if(m_ResourceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("resource_id"))] = ModelBase::toJson(m_Resource_id);
+        val[utility::conversions::to_string_t(U("resourceId"))] = ModelBase::toJson(m_ResourceId);
     }
-    if(m_Resource_typeIsSet)
+    if(m_ResourceTypeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("resource_type"))] = ModelBase::toJson(m_Resource_type);
+        val[utility::conversions::to_string_t(U("resourceType"))] = ModelBase::toJson(m_ResourceType);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -133,9 +133,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("actor_api_key_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("actorApiKeyId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("actor_api_key_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("actorApiKeyId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setActorApiKeyId;
@@ -155,9 +155,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("audit_event_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("auditEventId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("audit_event_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("auditEventId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAuditEventId;
@@ -166,9 +166,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -177,9 +177,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -199,9 +199,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -221,9 +221,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("resource_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("resourceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resource_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resourceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setResourceId;
@@ -232,9 +232,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("resource_type"))))
+    if(val.has_field(utility::conversions::to_string_t(U("resourceType"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resource_type")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resourceType")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setResourceType;
@@ -243,9 +243,9 @@ bool AuditEvent::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -268,49 +268,49 @@ void AuditEvent::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("action")), m_Action));
     }
-    if(m_Actor_api_key_idIsSet)
+    if(m_ActorApiKeyIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("actor_api_key_id")), m_Actor_api_key_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("actorApiKeyId")), m_ActorApiKeyId));
     }
     if(m_AttributesIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("attributes")), m_Attributes));
     }
-    if(m_Audit_event_idIsSet)
+    if(m_AuditEventIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("audit_event_id")), m_Audit_event_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("auditEventId")), m_AuditEventId));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
     if(m_OutcomeIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("outcome")), m_Outcome));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ReasonIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reason")), m_Reason));
     }
-    if(m_Resource_idIsSet)
+    if(m_ResourceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resource_id")), m_Resource_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resourceId")), m_ResourceId));
     }
-    if(m_Resource_typeIsSet)
+    if(m_ResourceTypeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resource_type")), m_Resource_type));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resourceType")), m_ResourceType));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -329,10 +329,10 @@ bool AuditEvent::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("action"))), refVal_setAction );
         setAction(refVal_setAction);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("actor_api_key_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("actorApiKeyId"))))
     {
         utility::string_t refVal_setActorApiKeyId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("actor_api_key_id"))), refVal_setActorApiKeyId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("actorApiKeyId"))), refVal_setActorApiKeyId );
         setActorApiKeyId(refVal_setActorApiKeyId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("attributes"))))
@@ -341,22 +341,22 @@ bool AuditEvent::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("attributes"))), refVal_setAttributes );
         setAttributes(refVal_setAttributes);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("audit_event_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("auditEventId"))))
     {
         utility::string_t refVal_setAuditEventId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("audit_event_id"))), refVal_setAuditEventId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("auditEventId"))), refVal_setAuditEventId );
         setAuditEventId(refVal_setAuditEventId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("outcome"))))
@@ -365,10 +365,10 @@ bool AuditEvent::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("outcome"))), refVal_setOutcome );
         setOutcome(refVal_setOutcome);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("reason"))))
@@ -377,22 +377,22 @@ bool AuditEvent::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reason"))), refVal_setReason );
         setReason(refVal_setReason);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("resource_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("resourceId"))))
     {
         utility::string_t refVal_setResourceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resource_id"))), refVal_setResourceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resourceId"))), refVal_setResourceId );
         setResourceId(refVal_setResourceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("resource_type"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("resourceType"))))
     {
         utility::string_t refVal_setResourceType;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resource_type"))), refVal_setResourceType );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resourceType"))), refVal_setResourceType );
         setResourceType(refVal_setResourceType);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -422,24 +422,24 @@ void AuditEvent::unsetAction()
 }
 utility::string_t AuditEvent::getActorApiKeyId() const
 {
-    return m_Actor_api_key_id;
+    return m_ActorApiKeyId;
 }
 
 
 void AuditEvent::setActorApiKeyId(const utility::string_t& value)
 {
-    m_Actor_api_key_id = value;
-    m_Actor_api_key_idIsSet = true;
+    m_ActorApiKeyId = value;
+    m_ActorApiKeyIdIsSet = true;
 }
 
 bool AuditEvent::actorApiKeyIdIsSet() const
 {
-    return m_Actor_api_key_idIsSet;
+    return m_ActorApiKeyIdIsSet;
 }
 
-void AuditEvent::unsetActor_api_key_id()
+void AuditEvent::unsetActorApiKeyId()
 {
-    m_Actor_api_key_idIsSet = false;
+    m_ActorApiKeyIdIsSet = false;
 }
 std::shared_ptr<AnyType> AuditEvent::getAttributes() const
 {
@@ -464,66 +464,66 @@ void AuditEvent::unsetAttributes()
 }
 utility::string_t AuditEvent::getAuditEventId() const
 {
-    return m_Audit_event_id;
+    return m_AuditEventId;
 }
 
 
 void AuditEvent::setAuditEventId(const utility::string_t& value)
 {
-    m_Audit_event_id = value;
-    m_Audit_event_idIsSet = true;
+    m_AuditEventId = value;
+    m_AuditEventIdIsSet = true;
 }
 
 bool AuditEvent::auditEventIdIsSet() const
 {
-    return m_Audit_event_idIsSet;
+    return m_AuditEventIdIsSet;
 }
 
-void AuditEvent::unsetAudit_event_id()
+void AuditEvent::unsetAuditEventId()
 {
-    m_Audit_event_idIsSet = false;
+    m_AuditEventIdIsSet = false;
 }
 utility::datetime AuditEvent::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void AuditEvent::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool AuditEvent::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void AuditEvent::unsetCreated_at()
+void AuditEvent::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t AuditEvent::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void AuditEvent::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool AuditEvent::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void AuditEvent::unsetEnvironment_id()
+void AuditEvent::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 std::shared_ptr<AuditOutcome> AuditEvent::getOutcome() const
 {
@@ -548,24 +548,24 @@ void AuditEvent::unsetOutcome()
 }
 utility::string_t AuditEvent::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void AuditEvent::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool AuditEvent::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void AuditEvent::unsetProject_id()
+void AuditEvent::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t AuditEvent::getReason() const
 {
@@ -590,66 +590,66 @@ void AuditEvent::unsetReason()
 }
 utility::string_t AuditEvent::getResourceId() const
 {
-    return m_Resource_id;
+    return m_ResourceId;
 }
 
 
 void AuditEvent::setResourceId(const utility::string_t& value)
 {
-    m_Resource_id = value;
-    m_Resource_idIsSet = true;
+    m_ResourceId = value;
+    m_ResourceIdIsSet = true;
 }
 
 bool AuditEvent::resourceIdIsSet() const
 {
-    return m_Resource_idIsSet;
+    return m_ResourceIdIsSet;
 }
 
-void AuditEvent::unsetResource_id()
+void AuditEvent::unsetResourceId()
 {
-    m_Resource_idIsSet = false;
+    m_ResourceIdIsSet = false;
 }
 utility::string_t AuditEvent::getResourceType() const
 {
-    return m_Resource_type;
+    return m_ResourceType;
 }
 
 
 void AuditEvent::setResourceType(const utility::string_t& value)
 {
-    m_Resource_type = value;
-    m_Resource_typeIsSet = true;
+    m_ResourceType = value;
+    m_ResourceTypeIsSet = true;
 }
 
 bool AuditEvent::resourceTypeIsSet() const
 {
-    return m_Resource_typeIsSet;
+    return m_ResourceTypeIsSet;
 }
 
-void AuditEvent::unsetResource_type()
+void AuditEvent::unsetResourceType()
 {
-    m_Resource_typeIsSet = false;
+    m_ResourceTypeIsSet = false;
 }
 utility::string_t AuditEvent::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void AuditEvent::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool AuditEvent::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void AuditEvent::unsetTenant_id()
+void AuditEvent::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

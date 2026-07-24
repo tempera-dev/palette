@@ -88,7 +88,7 @@ pub enum TracesPeriodListError {
 
 pub async fn traces_period_get(configuration: &configuration::Configuration, params: TracesPeriodGetParams) -> Result<models::TraceView, Error<TracesPeriodGetError>> {
 
-    let uri_str = format!("{}/v1/traces/{tenant_id}/{trace_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), trace_id=crate::apis::urlencode(params.trace_id));
+    let uri_str = format!("{}/v1/traces/{tenantId}/{traceId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), traceId=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.unmask {
@@ -130,17 +130,17 @@ pub async fn traces_period_get(configuration: &configuration::Configuration, par
 
 pub async fn traces_period_list(configuration: &configuration::Configuration, params: TracesPeriodListParams) -> Result<models::TraceListResponse, Error<TracesPeriodListError>> {
 
-    let uri_str = format!("{}/v1/traces/{tenant_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id));
+    let uri_str = format!("{}/v1/traces/{tenantId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.project_id {
-        req_builder = req_builder.query(&[("project_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("projectId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.environment_id {
-        req_builder = req_builder.query(&[("environment_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("environmentId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.trace_id {
-        req_builder = req_builder.query(&[("trace_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("traceId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.kind {
         req_builder = req_builder.query(&[("kind", &param_value.to_string())]);
@@ -149,10 +149,10 @@ pub async fn traces_period_list(configuration: &configuration::Configuration, pa
         req_builder = req_builder.query(&[("status", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.started_after {
-        req_builder = req_builder.query(&[("started_after", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("startedAfter", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.started_before {
-        req_builder = req_builder.query(&[("started_before", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("startedBefore", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.model {
         req_builder = req_builder.query(&[("model", &param_value.to_string())]);
@@ -161,16 +161,16 @@ pub async fn traces_period_list(configuration: &configuration::Configuration, pa
         req_builder = req_builder.query(&[("release", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.min_cost_micros {
-        req_builder = req_builder.query(&[("min_cost_micros", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("minCostMicros", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.max_cost_micros {
-        req_builder = req_builder.query(&[("max_cost_micros", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("maxCostMicros", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.min_latency_ms {
-        req_builder = req_builder.query(&[("min_latency_ms", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("minLatencyMs", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.max_latency_ms {
-        req_builder = req_builder.query(&[("max_latency_ms", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("maxLatencyMs", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);

@@ -77,7 +77,7 @@ pub enum JudgePeriodListLedgerError {
 
 pub async fn judge_period_evaluate(configuration: &configuration::Configuration, params: JudgePeriodEvaluateParams) -> Result<models::JudgeBrokerOutcome, Error<JudgePeriodEvaluateError>> {
 
-    let uri_str = format!("{}/v1/judge/{tenant_id}/{project_id}/evaluate", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/judge/{tenantId}/{projectId}/evaluate", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -114,7 +114,7 @@ pub async fn judge_period_evaluate(configuration: &configuration::Configuration,
 
 pub async fn judge_period_list_ledger(configuration: &configuration::Configuration, params: JudgePeriodListLedgerParams) -> Result<models::JudgeLedgerListResponse, Error<JudgePeriodListLedgerError>> {
 
-    let uri_str = format!("{}/v1/judge/{tenant_id}/{project_id}/ledger", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/judge/{tenantId}/{projectId}/ledger", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {

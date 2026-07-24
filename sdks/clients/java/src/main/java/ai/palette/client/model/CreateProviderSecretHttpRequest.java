@@ -39,7 +39,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CreateProviderSecretHttpRequest {
-  public static final String JSON_PROPERTY_DISPLAY_NAME = "display_name";
+  public static final String JSON_PROPERTY_DISPLAY_NAME = "displayName";
   @javax.annotation.Nonnull
   private String displayName;
 
@@ -47,7 +47,7 @@ public class CreateProviderSecretHttpRequest {
   @javax.annotation.Nonnull
   private String provider;
 
-  public static final String JSON_PROPERTY_SECRET_VALUE = "secret_value";
+  public static final String JSON_PROPERTY_SECRET_VALUE = "secretValue";
   @javax.annotation.Nonnull
   private String secretValue;
 
@@ -202,9 +202,9 @@ public class CreateProviderSecretHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `display_name` to the URL query string
+    // add `displayName` to the URL query string
     if (getDisplayName() != null) {
-      joiner.add(String.format("%sdisplay_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDisplayName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdisplayName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDisplayName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `provider` to the URL query string
@@ -212,9 +212,9 @@ public class CreateProviderSecretHttpRequest {
       joiner.add(String.format("%sprovider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `secret_value` to the URL query string
+    // add `secretValue` to the URL query string
     if (getSecretValue() != null) {
-      joiner.add(String.format("%ssecret_value%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSecretValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssecretValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSecretValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

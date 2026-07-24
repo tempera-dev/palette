@@ -20,11 +20,11 @@ namespace model {
 
 CreateReviewQueueHttpRequest::CreateReviewQueueHttpRequest()
 {
-    m_Annotation_schemaIsSet = false;
+    m_AnnotationSchemaIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_Queue_id = utility::conversions::to_string_t("");
-    m_Queue_idIsSet = false;
+    m_QueueId = utility::conversions::to_string_t("");
+    m_QueueIdIsSet = false;
 }
 
 CreateReviewQueueHttpRequest::~CreateReviewQueueHttpRequest()
@@ -39,20 +39,20 @@ void CreateReviewQueueHttpRequest::validate()
 web::json::value CreateReviewQueueHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Annotation_schemaIsSet)
+    if(m_AnnotationSchemaIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("annotation_schema"))] = ModelBase::toJson(m_Annotation_schema);
+        val[utility::conversions::to_string_t(U("annotationSchema"))] = ModelBase::toJson(m_AnnotationSchema);
     }
     if(m_NameIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("queue_id"))] = ModelBase::toJson(m_Queue_id);
+        val[utility::conversions::to_string_t(U("queueId"))] = ModelBase::toJson(m_QueueId);
     }
 
     return val;
@@ -61,9 +61,9 @@ web::json::value CreateReviewQueueHttpRequest::toJson() const
 bool CreateReviewQueueHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("annotation_schema"))))
+    if(val.has_field(utility::conversions::to_string_t(U("annotationSchema"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotation_schema")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotationSchema")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setAnnotationSchema;
@@ -83,9 +83,9 @@ bool CreateReviewQueueHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("queue_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("queueId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queue_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queueId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setQueueId;
@@ -104,17 +104,17 @@ void CreateReviewQueueHttpRequest::toMultipart(std::shared_ptr<MultipartFormData
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Annotation_schemaIsSet)
+    if(m_AnnotationSchemaIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotation_schema")), m_Annotation_schema));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotationSchema")), m_AnnotationSchema));
     }
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queue_id")), m_Queue_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queueId")), m_QueueId));
     }
 }
 
@@ -127,10 +127,10 @@ bool CreateReviewQueueHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormDa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("annotation_schema"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("annotationSchema"))))
     {
         std::shared_ptr<AnyType> refVal_setAnnotationSchema;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotation_schema"))), refVal_setAnnotationSchema );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotationSchema"))), refVal_setAnnotationSchema );
         setAnnotationSchema(refVal_setAnnotationSchema);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
@@ -139,10 +139,10 @@ bool CreateReviewQueueHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormDa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("queue_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("queueId"))))
     {
         utility::string_t refVal_setQueueId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queue_id"))), refVal_setQueueId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queueId"))), refVal_setQueueId );
         setQueueId(refVal_setQueueId);
     }
     return ok;
@@ -151,24 +151,24 @@ bool CreateReviewQueueHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormDa
 
 std::shared_ptr<AnyType> CreateReviewQueueHttpRequest::getAnnotationSchema() const
 {
-    return m_Annotation_schema;
+    return m_AnnotationSchema;
 }
 
 
 void CreateReviewQueueHttpRequest::setAnnotationSchema(const std::shared_ptr<AnyType>& value)
 {
-    m_Annotation_schema = value;
-    m_Annotation_schemaIsSet = true;
+    m_AnnotationSchema = value;
+    m_AnnotationSchemaIsSet = true;
 }
 
 bool CreateReviewQueueHttpRequest::annotationSchemaIsSet() const
 {
-    return m_Annotation_schemaIsSet;
+    return m_AnnotationSchemaIsSet;
 }
 
-void CreateReviewQueueHttpRequest::unsetAnnotation_schema()
+void CreateReviewQueueHttpRequest::unsetAnnotationSchema()
 {
-    m_Annotation_schemaIsSet = false;
+    m_AnnotationSchemaIsSet = false;
 }
 utility::string_t CreateReviewQueueHttpRequest::getName() const
 {
@@ -193,24 +193,24 @@ void CreateReviewQueueHttpRequest::unsetName()
 }
 utility::string_t CreateReviewQueueHttpRequest::getQueueId() const
 {
-    return m_Queue_id;
+    return m_QueueId;
 }
 
 
 void CreateReviewQueueHttpRequest::setQueueId(const utility::string_t& value)
 {
-    m_Queue_id = value;
-    m_Queue_idIsSet = true;
+    m_QueueId = value;
+    m_QueueIdIsSet = true;
 }
 
 bool CreateReviewQueueHttpRequest::queueIdIsSet() const
 {
-    return m_Queue_idIsSet;
+    return m_QueueIdIsSet;
 }
 
-void CreateReviewQueueHttpRequest::unsetQueue_id()
+void CreateReviewQueueHttpRequest::unsetQueueId()
 {
-    m_Queue_idIsSet = false;
+    m_QueueIdIsSet = false;
 }
 
 }

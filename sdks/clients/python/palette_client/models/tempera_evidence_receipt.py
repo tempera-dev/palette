@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.external_eval_evidence_kind import ExternalEvalEvidenceKind
 from palette_client.models.tempera_evidence_summary import TemperaEvidenceSummary
@@ -30,19 +30,19 @@ class TemperaEvidenceReceipt(BaseModel):
     TemperaEvidenceReceipt
     """ # noqa: E501
     created: StrictBool
-    declared_content_sha256: StrictStr
-    external_id: StrictStr
+    declared_content_sha256: StrictStr = Field(alias="declaredContentSha256")
+    external_id: StrictStr = Field(alias="externalId")
     kind: ExternalEvalEvidenceKind
-    project_id: StrictStr
-    public_key_sha256: StrictStr
-    schema_version: StrictStr
-    signature_sha256: StrictStr
-    signed_payload_sha256: StrictStr
-    source_schema_version: StrictStr
-    stored_at: datetime
+    project_id: StrictStr = Field(alias="projectId")
+    public_key_sha256: StrictStr = Field(alias="publicKeySha256")
+    schema_version: StrictStr = Field(alias="schemaVersion")
+    signature_sha256: StrictStr = Field(alias="signatureSha256")
+    signed_payload_sha256: StrictStr = Field(alias="signedPayloadSha256")
+    source_schema_version: StrictStr = Field(alias="sourceSchemaVersion")
+    stored_at: datetime = Field(alias="storedAt")
     summary: TemperaEvidenceSummary
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["created", "declared_content_sha256", "external_id", "kind", "project_id", "public_key_sha256", "schema_version", "signature_sha256", "signed_payload_sha256", "source_schema_version", "stored_at", "summary", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["created", "declaredContentSha256", "externalId", "kind", "projectId", "publicKeySha256", "schemaVersion", "signatureSha256", "signedPayloadSha256", "sourceSchemaVersion", "storedAt", "summary", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,18 +99,18 @@ class TemperaEvidenceReceipt(BaseModel):
 
         _obj = cls.model_validate({
             "created": obj.get("created"),
-            "declared_content_sha256": obj.get("declared_content_sha256"),
-            "external_id": obj.get("external_id"),
+            "declaredContentSha256": obj.get("declaredContentSha256"),
+            "externalId": obj.get("externalId"),
             "kind": obj.get("kind"),
-            "project_id": obj.get("project_id"),
-            "public_key_sha256": obj.get("public_key_sha256"),
-            "schema_version": obj.get("schema_version"),
-            "signature_sha256": obj.get("signature_sha256"),
-            "signed_payload_sha256": obj.get("signed_payload_sha256"),
-            "source_schema_version": obj.get("source_schema_version"),
-            "stored_at": obj.get("stored_at"),
+            "projectId": obj.get("projectId"),
+            "publicKeySha256": obj.get("publicKeySha256"),
+            "schemaVersion": obj.get("schemaVersion"),
+            "signatureSha256": obj.get("signatureSha256"),
+            "signedPayloadSha256": obj.get("signedPayloadSha256"),
+            "sourceSchemaVersion": obj.get("sourceSchemaVersion"),
+            "storedAt": obj.get("storedAt"),
             "summary": TemperaEvidenceSummary.from_dict(obj["summary"]) if obj.get("summary") is not None else None,
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

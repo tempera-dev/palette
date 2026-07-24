@@ -53,15 +53,15 @@ public class ProviderSecretMetadata {
   @javax.annotation.Nonnull
   private Boolean active;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_DISPLAY_NAME = "display_name";
+  public static final String JSON_PROPERTY_DISPLAY_NAME = "displayName";
   @javax.annotation.Nonnull
   private String displayName;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -69,14 +69,14 @@ public class ProviderSecretMetadata {
   @javax.annotation.Nonnull
   private String provider;
 
-  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "provider_secret_id";
+  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "providerSecretId";
   @javax.annotation.Nonnull
   private String providerSecretId;
 
-  public static final String JSON_PROPERTY_ROTATED_AT = "rotated_at";
+  public static final String JSON_PROPERTY_ROTATED_AT = "rotatedAt";
   private JsonNullable<OffsetDateTime> rotatedAt = JsonNullable.<OffsetDateTime>undefined();
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -385,19 +385,19 @@ public class ProviderSecretMetadata {
       joiner.add(String.format("%sactive%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActive()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `display_name` to the URL query string
+    // add `displayName` to the URL query string
     if (getDisplayName() != null) {
-      joiner.add(String.format("%sdisplay_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDisplayName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdisplayName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDisplayName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `provider` to the URL query string
@@ -405,19 +405,19 @@ public class ProviderSecretMetadata {
       joiner.add(String.format("%sprovider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `provider_secret_id` to the URL query string
+    // add `providerSecretId` to the URL query string
     if (getProviderSecretId() != null) {
-      joiner.add(String.format("%sprovider_secret_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sproviderSecretId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `rotated_at` to the URL query string
+    // add `rotatedAt` to the URL query string
     if (getRotatedAt() != null) {
-      joiner.add(String.format("%srotated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srotatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

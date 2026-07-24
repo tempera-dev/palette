@@ -63,37 +63,37 @@ public:
 
     int32_t getDeadLettered() const;
     bool deadLetteredIsSet() const;
-    void unsetDead_lettered();
+    void unsetDeadLettered();
     void setDeadLettered(int32_t value);
 
     int32_t getDownstreamPublished() const;
     bool downstreamPublishedIsSet() const;
-    void unsetDownstream_published();
+    void unsetDownstreamPublished();
     void setDownstreamPublished(int32_t value);
 
     int32_t getDuplicateRaw() const;
     bool duplicateRawIsSet() const;
-    void unsetDuplicate_raw();
+    void unsetDuplicateRaw();
     void setDuplicateRaw(int32_t value);
 
     int32_t getDuplicateSpans() const;
     bool duplicateSpansIsSet() const;
-    void unsetDuplicate_spans();
+    void unsetDuplicateSpans();
     void setDuplicateSpans(int32_t value);
 
     int32_t getFailedDownstreamPublishes() const;
     bool failedDownstreamPublishesIsSet() const;
-    void unsetFailed_downstream_publishes();
+    void unsetFailedDownstreamPublishes();
     void setFailedDownstreamPublishes(int32_t value);
 
     int32_t getFailedWrites() const;
     bool failedWritesIsSet() const;
-    void unsetFailed_writes();
+    void unsetFailedWrites();
     void setFailedWrites(int32_t value);
 
     int32_t getInvalidMessages() const;
     bool invalidMessagesIsSet() const;
-    void unsetInvalid_messages();
+    void unsetInvalidMessages();
     void setInvalidMessages(int32_t value);
 
     int32_t getRetried() const;
@@ -103,22 +103,22 @@ public:
 
     std::vector<std::shared_ptr<utility::string_t>> getTraceIds() const;
     bool traceIdsIsSet() const;
-    void unsetTrace_ids();
+    void unsetTraceIds();
     void setTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
     std::vector<std::shared_ptr<QueuedTraceWork>> getTraceRefs() const;
     bool traceRefsIsSet() const;
-    void unsetTrace_refs();
+    void unsetTraceRefs();
     void setTraceRefs(const std::vector<std::shared_ptr<QueuedTraceWork>>& value);
 
     int32_t getWrittenRaw() const;
     bool writtenRawIsSet() const;
-    void unsetWritten_raw();
+    void unsetWrittenRaw();
     void setWrittenRaw(int32_t value);
 
     int32_t getWrittenSpans() const;
     bool writtenSpansIsSet() const;
-    void unsetWritten_spans();
+    void unsetWrittenSpans();
     void setWrittenSpans(int32_t value);
 
 
@@ -126,41 +126,41 @@ protected:
     int32_t m_Consumed;
     bool m_ConsumedIsSet;
 
-    int32_t m_Dead_lettered;
-    bool m_Dead_letteredIsSet;
+    int32_t m_DeadLettered;
+    bool m_DeadLetteredIsSet;
 
-    int32_t m_Downstream_published;
-    bool m_Downstream_publishedIsSet;
+    int32_t m_DownstreamPublished;
+    bool m_DownstreamPublishedIsSet;
 
-    int32_t m_Duplicate_raw;
-    bool m_Duplicate_rawIsSet;
+    int32_t m_DuplicateRaw;
+    bool m_DuplicateRawIsSet;
 
-    int32_t m_Duplicate_spans;
-    bool m_Duplicate_spansIsSet;
+    int32_t m_DuplicateSpans;
+    bool m_DuplicateSpansIsSet;
 
-    int32_t m_Failed_downstream_publishes;
-    bool m_Failed_downstream_publishesIsSet;
+    int32_t m_FailedDownstreamPublishes;
+    bool m_FailedDownstreamPublishesIsSet;
 
-    int32_t m_Failed_writes;
-    bool m_Failed_writesIsSet;
+    int32_t m_FailedWrites;
+    bool m_FailedWritesIsSet;
 
-    int32_t m_Invalid_messages;
-    bool m_Invalid_messagesIsSet;
+    int32_t m_InvalidMessages;
+    bool m_InvalidMessagesIsSet;
 
     int32_t m_Retried;
     bool m_RetriedIsSet;
 
-    std::vector<std::shared_ptr<utility::string_t>> m_Trace_ids;
-    bool m_Trace_idsIsSet;
+    std::vector<std::shared_ptr<utility::string_t>> m_TraceIds;
+    bool m_TraceIdsIsSet;
 
-    std::vector<std::shared_ptr<QueuedTraceWork>> m_Trace_refs;
-    bool m_Trace_refsIsSet;
+    std::vector<std::shared_ptr<QueuedTraceWork>> m_TraceRefs;
+    bool m_TraceRefsIsSet;
 
-    int32_t m_Written_raw;
-    bool m_Written_rawIsSet;
+    int32_t m_WrittenRaw;
+    bool m_WrittenRawIsSet;
 
-    int32_t m_Written_spans;
-    bool m_Written_spansIsSet;
+    int32_t m_WrittenSpans;
+    bool m_WrittenSpansIsSet;
 
 };
 

@@ -61,7 +61,7 @@ public:
     /// </summary>
     utility::string_t getConnectedAccountId() const;
     bool connectedAccountIdIsSet() const;
-    void unsetConnected_account_id();
+    void unsetConnectedAccountId();
     void setConnectedAccountId(const utility::string_t& value);
 
     /// <summary>
@@ -69,7 +69,7 @@ public:
     /// </summary>
     utility::string_t getExpiresAt() const;
     bool expiresAtIsSet() const;
-    void unsetExpires_at();
+    void unsetExpiresAt();
     void setExpiresAt(const utility::string_t& value);
 
     /// <summary>
@@ -77,19 +77,19 @@ public:
     /// </summary>
     utility::string_t getRedirectUrl() const;
     bool redirectUrlIsSet() const;
-    void unsetRedirect_url();
+    void unsetRedirectUrl();
     void setRedirectUrl(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Connected_account_id;
-    bool m_Connected_account_idIsSet;
+    utility::string_t m_ConnectedAccountId;
+    bool m_ConnectedAccountIdIsSet;
 
-    utility::string_t m_Expires_at;
-    bool m_Expires_atIsSet;
+    utility::string_t m_ExpiresAt;
+    bool m_ExpiresAtIsSet;
 
-    utility::string_t m_Redirect_url;
-    bool m_Redirect_urlIsSet;
+    utility::string_t m_RedirectUrl;
+    bool m_RedirectUrlIsSet;
 
 };
 

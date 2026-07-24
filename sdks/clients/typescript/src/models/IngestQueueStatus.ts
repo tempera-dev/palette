@@ -88,12 +88,12 @@ export function IngestQueueStatusFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'deadLetters': ((json['dead_letters'] as Array<any>).map(DeadLetterFromJSON)),
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
-        'totalDepth': json['total_depth'],
-        'traceIngestedDepth': json['trace_ingested_depth'],
-        'traceWriteDepth': json['trace_write_depth'],
+        'deadLetters': ((json['deadLetters'] as Array<any>).map(DeadLetterFromJSON)),
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
+        'totalDepth': json['totalDepth'],
+        'traceIngestedDepth': json['traceIngestedDepth'],
+        'traceWriteDepth': json['traceWriteDepth'],
     };
 }
 
@@ -108,12 +108,12 @@ export function IngestQueueStatusToJSONTyped(value?: IngestQueueStatus | null, i
 
     return {
         
-        'dead_letters': ((value['deadLetters'] as Array<any>).map(DeadLetterToJSON)),
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
-        'total_depth': value['totalDepth'],
-        'trace_ingested_depth': value['traceIngestedDepth'],
-        'trace_write_depth': value['traceWriteDepth'],
+        'deadLetters': ((value['deadLetters'] as Array<any>).map(DeadLetterToJSON)),
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
+        'totalDepth': value['totalDepth'],
+        'traceIngestedDepth': value['traceIngestedDepth'],
+        'traceWriteDepth': value['traceWriteDepth'],
     };
 }
 

@@ -65,7 +65,7 @@ public:
 
     int64_t getMaxMicros() const;
     bool maxMicrosIsSet() const;
-    void unsetMax_micros();
+    void unsetMaxMicros();
     void setMaxMicros(int64_t value);
 
     TypeEnum getType() const;
@@ -75,8 +75,8 @@ public:
 
 
 protected:
-    int64_t m_Max_micros;
-    bool m_Max_microsIsSet;
+    int64_t m_MaxMicros;
+    bool m_MaxMicrosIsSet;
 
     TypeEnum m_Type;
     bool m_TypeIsSet;

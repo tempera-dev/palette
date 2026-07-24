@@ -15,17 +15,17 @@ use serde::{Deserialize, Serialize};
 pub struct CalibrationItem {
     #[serde(rename = "agreed")]
     pub agreed: bool,
-    #[serde(rename = "dataset_case_id")]
+    #[serde(rename = "datasetCaseId")]
     pub dataset_case_id: String,
     #[serde(rename = "evidence", deserialize_with = "Option::deserialize")]
     pub evidence: Option<serde_json::Value>,
-    #[serde(rename = "human_label")]
+    #[serde(rename = "humanLabel")]
     pub human_label: models::CalibrationLabel,
-    #[serde(rename = "judge_label")]
+    #[serde(rename = "judgeLabel")]
     pub judge_label: models::CalibrationLabel,
-    #[serde(rename = "judge_result_label", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "judgeResultLabel", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub judge_result_label: Option<Option<String>>,
-    #[serde(rename = "judge_score")]
+    #[serde(rename = "judgeScore")]
     pub judge_score: f64,
 }
 

@@ -75,7 +75,7 @@ public:
 
     std::shared_ptr<AuthContext> getAuthContext() const;
     bool authContextIsSet() const;
-    void unsetAuth_context();
+    void unsetAuthContext();
     void setAuthContext(const std::shared_ptr<AuthContext>& value);
 
     std::shared_ptr<Money> getCost() const;
@@ -85,12 +85,12 @@ public:
 
     utility::datetime getEndTime() const;
     bool endTimeIsSet() const;
-    void unsetEnd_time();
+    void unsetEndTime();
     void setEndTime(const utility::datetime& value);
 
     utility::string_t getIdempotencyKey() const;
     bool idempotencyKeyIsSet() const;
-    void unsetIdempotency_key();
+    void unsetIdempotencyKey();
     void setIdempotencyKey(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getInput() const;
@@ -123,12 +123,12 @@ public:
 
     utility::string_t getParentSpanId() const;
     bool parentSpanIdIsSet() const;
-    void unsetParent_span_id();
+    void unsetParentSpanId();
     void setParentSpanId(const utility::string_t& value);
 
     std::shared_ptr<RedactionClass> getRedactionClass() const;
     bool redactionClassIsSet() const;
-    void unsetRedaction_class();
+    void unsetRedactionClass();
     void setRedactionClass(const std::shared_ptr<RedactionClass>& value);
 
     std::shared_ptr<TenantScope> getScope() const;
@@ -143,12 +143,12 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::datetime getStartTime() const;
     bool startTimeIsSet() const;
-    void unsetStart_time();
+    void unsetStartTime();
     void setStartTime(const utility::datetime& value);
 
     std::shared_ptr<SpanStatus> getStatus() const;
@@ -163,7 +163,7 @@ public:
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
@@ -171,17 +171,17 @@ protected:
     std::map<utility::string_t, std::shared_ptr<AnyType>> m_Attributes;
     bool m_AttributesIsSet;
 
-    std::shared_ptr<AuthContext> m_Auth_context;
-    bool m_Auth_contextIsSet;
+    std::shared_ptr<AuthContext> m_AuthContext;
+    bool m_AuthContextIsSet;
 
     std::shared_ptr<Money> m_Cost;
     bool m_CostIsSet;
 
-    utility::datetime m_End_time;
-    bool m_End_timeIsSet;
+    utility::datetime m_EndTime;
+    bool m_EndTimeIsSet;
 
-    utility::string_t m_Idempotency_key;
-    bool m_Idempotency_keyIsSet;
+    utility::string_t m_IdempotencyKey;
+    bool m_IdempotencyKeyIsSet;
 
     std::shared_ptr<AnyType> m_Input;
     bool m_InputIsSet;
@@ -198,11 +198,11 @@ protected:
     std::shared_ptr<AnyType> m_Output;
     bool m_OutputIsSet;
 
-    utility::string_t m_Parent_span_id;
-    bool m_Parent_span_idIsSet;
+    utility::string_t m_ParentSpanId;
+    bool m_ParentSpanIdIsSet;
 
-    std::shared_ptr<RedactionClass> m_Redaction_class;
-    bool m_Redaction_classIsSet;
+    std::shared_ptr<RedactionClass> m_RedactionClass;
+    bool m_RedactionClassIsSet;
 
     std::shared_ptr<TenantScope> m_Scope;
     bool m_ScopeIsSet;
@@ -210,11 +210,11 @@ protected:
     int64_t m_Seq;
     bool m_SeqIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::datetime m_Start_time;
-    bool m_Start_timeIsSet;
+    utility::datetime m_StartTime;
+    bool m_StartTimeIsSet;
 
     std::shared_ptr<SpanStatus> m_Status;
     bool m_StatusIsSet;
@@ -222,8 +222,8 @@ protected:
     std::shared_ptr<TokenCounts> m_Tokens;
     bool m_TokensIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

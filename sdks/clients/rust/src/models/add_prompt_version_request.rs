@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 /// AddPromptVersionRequest : Request body for `addPromptVersion`: a new immutable template revision.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AddPromptVersionRequest {
-    #[serde(rename = "created_by", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "createdBy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub created_by: Option<Option<String>>,
     #[serde(rename = "message", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub message: Option<Option<String>>,

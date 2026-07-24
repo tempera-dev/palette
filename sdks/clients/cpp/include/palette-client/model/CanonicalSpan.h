@@ -77,17 +77,17 @@ public:
 
     utility::datetime getEndTime() const;
     bool endTimeIsSet() const;
-    void unsetEnd_time();
+    void unsetEndTime();
     void setEndTime(const utility::datetime& value);
 
     utility::string_t getEnvironmentId() const;
     bool environmentIdIsSet() const;
-    void unsetEnvironment_id();
+    void unsetEnvironmentId();
     void setEnvironmentId(const utility::string_t& value);
 
     std::shared_ptr<ArtifactRef> getInputRef() const;
     bool inputRefIsSet() const;
-    void unsetInput_ref();
+    void unsetInputRef();
     void setInputRef(const std::shared_ptr<ArtifactRef>& value);
 
     /// <summary>
@@ -110,32 +110,32 @@ public:
 
     utility::string_t getNormalizerVersion() const;
     bool normalizerVersionIsSet() const;
-    void unsetNormalizer_version();
+    void unsetNormalizerVersion();
     void setNormalizerVersion(const utility::string_t& value);
 
     std::shared_ptr<ArtifactRef> getOutputRef() const;
     bool outputRefIsSet() const;
-    void unsetOutput_ref();
+    void unsetOutputRef();
     void setOutputRef(const std::shared_ptr<ArtifactRef>& value);
 
     utility::string_t getParentSpanId() const;
     bool parentSpanIdIsSet() const;
-    void unsetParent_span_id();
+    void unsetParentSpanId();
     void setParentSpanId(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::shared_ptr<ArtifactRef> getRawRef() const;
     bool rawRefIsSet() const;
-    void unsetRaw_ref();
+    void unsetRawRef();
     void setRawRef(const std::shared_ptr<ArtifactRef>& value);
 
     int32_t getSchemaVersion() const;
     bool schemaVersionIsSet() const;
-    void unsetSchema_version();
+    void unsetSchemaVersion();
     void setSchemaVersion(int32_t value);
 
     int64_t getSeq() const;
@@ -145,12 +145,12 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::datetime getStartTime() const;
     bool startTimeIsSet() const;
-    void unsetStart_time();
+    void unsetStartTime();
     void setStartTime(const utility::datetime& value);
 
     std::shared_ptr<SpanStatus> getStatus() const;
@@ -160,7 +160,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::shared_ptr<TokenCounts> getTokens() const;
@@ -170,12 +170,12 @@ public:
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getUnmappedAttrs() const;
     bool unmappedAttrsIsSet() const;
-    void unsetUnmapped_attrs();
+    void unsetUnmappedAttrs();
     void setUnmappedAttrs(const std::shared_ptr<AnyType>& value);
 
 
@@ -186,14 +186,14 @@ protected:
     std::shared_ptr<Money> m_Cost;
     bool m_CostIsSet;
 
-    utility::datetime m_End_time;
-    bool m_End_timeIsSet;
+    utility::datetime m_EndTime;
+    bool m_EndTimeIsSet;
 
-    utility::string_t m_Environment_id;
-    bool m_Environment_idIsSet;
+    utility::string_t m_EnvironmentId;
+    bool m_EnvironmentIdIsSet;
 
-    std::shared_ptr<ArtifactRef> m_Input_ref;
-    bool m_Input_refIsSet;
+    std::shared_ptr<ArtifactRef> m_InputRef;
+    bool m_InputRefIsSet;
 
     utility::string_t m_Kind;
     bool m_KindIsSet;
@@ -204,47 +204,47 @@ protected:
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Normalizer_version;
-    bool m_Normalizer_versionIsSet;
+    utility::string_t m_NormalizerVersion;
+    bool m_NormalizerVersionIsSet;
 
-    std::shared_ptr<ArtifactRef> m_Output_ref;
-    bool m_Output_refIsSet;
+    std::shared_ptr<ArtifactRef> m_OutputRef;
+    bool m_OutputRefIsSet;
 
-    utility::string_t m_Parent_span_id;
-    bool m_Parent_span_idIsSet;
+    utility::string_t m_ParentSpanId;
+    bool m_ParentSpanIdIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    std::shared_ptr<ArtifactRef> m_Raw_ref;
-    bool m_Raw_refIsSet;
+    std::shared_ptr<ArtifactRef> m_RawRef;
+    bool m_RawRefIsSet;
 
-    int32_t m_Schema_version;
-    bool m_Schema_versionIsSet;
+    int32_t m_SchemaVersion;
+    bool m_SchemaVersionIsSet;
 
     int64_t m_Seq;
     bool m_SeqIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::datetime m_Start_time;
-    bool m_Start_timeIsSet;
+    utility::datetime m_StartTime;
+    bool m_StartTimeIsSet;
 
     std::shared_ptr<SpanStatus> m_Status;
     bool m_StatusIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     std::shared_ptr<TokenCounts> m_Tokens;
     bool m_TokensIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
-    std::shared_ptr<AnyType> m_Unmapped_attrs;
-    bool m_Unmapped_attrsIsSet;
+    std::shared_ptr<AnyType> m_UnmappedAttrs;
+    bool m_UnmappedAttrsIsSet;
 
 };
 

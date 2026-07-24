@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**scenariosCreate**](ScenariosApi.md#scenariosCreate) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosCreateWithHttpInfo**](ScenariosApi.md#scenariosCreateWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosGet**](ScenariosApi.md#scenariosGet) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
-| [**scenariosGetWithHttpInfo**](ScenariosApi.md#scenariosGetWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
-| [**scenariosList**](ScenariosApi.md#scenariosList) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosListWithHttpInfo**](ScenariosApi.md#scenariosListWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosMine**](ScenariosApi.md#scenariosMine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
-| [**scenariosMineWithHttpInfo**](ScenariosApi.md#scenariosMineWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
+| [**scenariosCreate**](ScenariosApi.md#scenariosCreate) | **POST** /v1/scenarios/{tenantId}/{projectId} |  |
+| [**scenariosCreateWithHttpInfo**](ScenariosApi.md#scenariosCreateWithHttpInfo) | **POST** /v1/scenarios/{tenantId}/{projectId} |  |
+| [**scenariosGet**](ScenariosApi.md#scenariosGet) | **GET** /v1/scenarios/{tenantId}/{projectId}/{scenarioId} |  |
+| [**scenariosGetWithHttpInfo**](ScenariosApi.md#scenariosGetWithHttpInfo) | **GET** /v1/scenarios/{tenantId}/{projectId}/{scenarioId} |  |
+| [**scenariosList**](ScenariosApi.md#scenariosList) | **GET** /v1/scenarios/{tenantId}/{projectId} |  |
+| [**scenariosListWithHttpInfo**](ScenariosApi.md#scenariosListWithHttpInfo) | **GET** /v1/scenarios/{tenantId}/{projectId} |  |
+| [**scenariosMine**](ScenariosApi.md#scenariosMine) | **POST** /v1/scenarios/{tenantId}/{projectId}/mine |  |
+| [**scenariosMineWithHttpInfo**](ScenariosApi.md#scenariosMineWithHttpInfo) | **POST** /v1/scenarios/{tenantId}/{projectId}/mine |  |
 
 
 

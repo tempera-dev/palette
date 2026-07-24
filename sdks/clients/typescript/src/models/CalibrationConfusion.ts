@@ -66,10 +66,10 @@ export function CalibrationConfusionFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'humanFailJudgeFail': json['human_fail_judge_fail'],
-        'humanFailJudgePass': json['human_fail_judge_pass'],
-        'humanPassJudgeFail': json['human_pass_judge_fail'],
-        'humanPassJudgePass': json['human_pass_judge_pass'],
+        'humanFailJudgeFail': json['humanFailJudgeFail'],
+        'humanFailJudgePass': json['humanFailJudgePass'],
+        'humanPassJudgeFail': json['humanPassJudgeFail'],
+        'humanPassJudgePass': json['humanPassJudgePass'],
     };
 }
 
@@ -84,10 +84,10 @@ export function CalibrationConfusionToJSONTyped(value?: CalibrationConfusion | n
 
     return {
         
-        'human_fail_judge_fail': value['humanFailJudgeFail'],
-        'human_fail_judge_pass': value['humanFailJudgePass'],
-        'human_pass_judge_fail': value['humanPassJudgeFail'],
-        'human_pass_judge_pass': value['humanPassJudgePass'],
+        'humanFailJudgeFail': value['humanFailJudgeFail'],
+        'humanFailJudgePass': value['humanFailJudgePass'],
+        'humanPassJudgeFail': value['humanPassJudgeFail'],
+        'humanPassJudgePass': value['humanPassJudgePass'],
     };
 }
 

@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct RevokedApiKey {
     #[serde(rename = "active")]
     pub active: bool,
-    #[serde(rename = "api_key_id")]
+    #[serde(rename = "apiKeyId")]
     pub api_key_id: String,
-    #[serde(rename = "rotated_at")]
+    #[serde(rename = "rotatedAt")]
     pub rotated_at: String,
 }
 

@@ -27,23 +27,23 @@ class EvalReproducibility(BaseModel):
     """
     EvalReproducibility
     """ # noqa: E501
-    agent_release_id: StrictStr
-    code_hash: Optional[StrictStr] = None
-    dataset_case_id: StrictStr
-    dataset_version_id: StrictStr
-    evaluator_version_id: StrictStr
-    input_artifact_hashes: List[StrictStr]
-    judge_model_id: Optional[StrictStr] = None
-    judge_parameters: Optional[Any]
-    judge_provider: Optional[StrictStr] = None
-    judge_rubric_version: Optional[StrictStr] = None
-    judge_seed: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
-    normalizer_version: StrictStr
-    prompt_version_id: Optional[StrictStr] = None
-    trace_schema_version: Annotated[int, Field(strict=True, ge=0)]
-    wasi_abi_version: Optional[StrictStr] = None
-    wasm_hash: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["agent_release_id", "code_hash", "dataset_case_id", "dataset_version_id", "evaluator_version_id", "input_artifact_hashes", "judge_model_id", "judge_parameters", "judge_provider", "judge_rubric_version", "judge_seed", "normalizer_version", "prompt_version_id", "trace_schema_version", "wasi_abi_version", "wasm_hash"]
+    agent_release_id: StrictStr = Field(alias="agentReleaseId")
+    code_hash: Optional[StrictStr] = Field(default=None, alias="codeHash")
+    dataset_case_id: StrictStr = Field(alias="datasetCaseId")
+    dataset_version_id: StrictStr = Field(alias="datasetVersionId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    input_artifact_hashes: List[StrictStr] = Field(alias="inputArtifactHashes")
+    judge_model_id: Optional[StrictStr] = Field(default=None, alias="judgeModelId")
+    judge_parameters: Optional[Any] = Field(alias="judgeParameters")
+    judge_provider: Optional[StrictStr] = Field(default=None, alias="judgeProvider")
+    judge_rubric_version: Optional[StrictStr] = Field(default=None, alias="judgeRubricVersion")
+    judge_seed: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="judgeSeed")
+    normalizer_version: StrictStr = Field(alias="normalizerVersion")
+    prompt_version_id: Optional[StrictStr] = Field(default=None, alias="promptVersionId")
+    trace_schema_version: Annotated[int, Field(strict=True, ge=0)] = Field(alias="traceSchemaVersion")
+    wasi_abi_version: Optional[StrictStr] = Field(default=None, alias="wasiAbiVersion")
+    wasm_hash: Optional[StrictStr] = Field(default=None, alias="wasmHash")
+    __properties: ClassVar[List[str]] = ["agentReleaseId", "codeHash", "datasetCaseId", "datasetVersionId", "evaluatorVersionId", "inputArtifactHashes", "judgeModelId", "judgeParameters", "judgeProvider", "judgeRubricVersion", "judgeSeed", "normalizerVersion", "promptVersionId", "traceSchemaVersion", "wasiAbiVersion", "wasmHash"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,32 +87,32 @@ class EvalReproducibility(BaseModel):
         # set to None if judge_model_id (nullable) is None
         # and model_fields_set contains the field
         if self.judge_model_id is None and "judge_model_id" in self.model_fields_set:
-            _dict['judge_model_id'] = None
+            _dict['judgeModelId'] = None
 
         # set to None if judge_parameters (nullable) is None
         # and model_fields_set contains the field
         if self.judge_parameters is None and "judge_parameters" in self.model_fields_set:
-            _dict['judge_parameters'] = None
+            _dict['judgeParameters'] = None
 
         # set to None if judge_provider (nullable) is None
         # and model_fields_set contains the field
         if self.judge_provider is None and "judge_provider" in self.model_fields_set:
-            _dict['judge_provider'] = None
+            _dict['judgeProvider'] = None
 
         # set to None if judge_rubric_version (nullable) is None
         # and model_fields_set contains the field
         if self.judge_rubric_version is None and "judge_rubric_version" in self.model_fields_set:
-            _dict['judge_rubric_version'] = None
+            _dict['judgeRubricVersion'] = None
 
         # set to None if judge_seed (nullable) is None
         # and model_fields_set contains the field
         if self.judge_seed is None and "judge_seed" in self.model_fields_set:
-            _dict['judge_seed'] = None
+            _dict['judgeSeed'] = None
 
         # set to None if wasi_abi_version (nullable) is None
         # and model_fields_set contains the field
         if self.wasi_abi_version is None and "wasi_abi_version" in self.model_fields_set:
-            _dict['wasi_abi_version'] = None
+            _dict['wasiAbiVersion'] = None
 
         return _dict
 
@@ -126,22 +126,22 @@ class EvalReproducibility(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "agent_release_id": obj.get("agent_release_id"),
-            "code_hash": obj.get("code_hash"),
-            "dataset_case_id": obj.get("dataset_case_id"),
-            "dataset_version_id": obj.get("dataset_version_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "input_artifact_hashes": obj.get("input_artifact_hashes"),
-            "judge_model_id": obj.get("judge_model_id"),
-            "judge_parameters": obj.get("judge_parameters"),
-            "judge_provider": obj.get("judge_provider"),
-            "judge_rubric_version": obj.get("judge_rubric_version"),
-            "judge_seed": obj.get("judge_seed"),
-            "normalizer_version": obj.get("normalizer_version"),
-            "prompt_version_id": obj.get("prompt_version_id"),
-            "trace_schema_version": obj.get("trace_schema_version"),
-            "wasi_abi_version": obj.get("wasi_abi_version"),
-            "wasm_hash": obj.get("wasm_hash")
+            "agentReleaseId": obj.get("agentReleaseId"),
+            "codeHash": obj.get("codeHash"),
+            "datasetCaseId": obj.get("datasetCaseId"),
+            "datasetVersionId": obj.get("datasetVersionId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "inputArtifactHashes": obj.get("inputArtifactHashes"),
+            "judgeModelId": obj.get("judgeModelId"),
+            "judgeParameters": obj.get("judgeParameters"),
+            "judgeProvider": obj.get("judgeProvider"),
+            "judgeRubricVersion": obj.get("judgeRubricVersion"),
+            "judgeSeed": obj.get("judgeSeed"),
+            "normalizerVersion": obj.get("normalizerVersion"),
+            "promptVersionId": obj.get("promptVersionId"),
+            "traceSchemaVersion": obj.get("traceSchemaVersion"),
+            "wasiAbiVersion": obj.get("wasiAbiVersion"),
+            "wasmHash": obj.get("wasmHash")
         })
         return _obj
 

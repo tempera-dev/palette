@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.currency import Currency
 from typing import Optional, Set
@@ -27,9 +27,9 @@ class Money(BaseModel):
     """
     Money
     """ # noqa: E501
-    amount_micros: StrictInt
+    amount_micros: StrictInt = Field(alias="amountMicros")
     currency: Currency
-    __properties: ClassVar[List[str]] = ["amount_micros", "currency"]
+    __properties: ClassVar[List[str]] = ["amountMicros", "currency"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class Money(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "amount_micros": obj.get("amount_micros"),
+            "amountMicros": obj.get("amountMicros"),
             "currency": obj.get("currency")
         })
         return _obj

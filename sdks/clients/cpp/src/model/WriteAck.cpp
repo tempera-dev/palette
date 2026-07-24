@@ -20,14 +20,14 @@ namespace model {
 
 WriteAck::WriteAck()
 {
-    m_Accepted_raw = 0;
-    m_Accepted_rawIsSet = false;
-    m_Accepted_spans = 0;
-    m_Accepted_spansIsSet = false;
-    m_Duplicate_raw = 0;
-    m_Duplicate_rawIsSet = false;
-    m_Duplicate_spans = 0;
-    m_Duplicate_spansIsSet = false;
+    m_AcceptedRaw = 0;
+    m_AcceptedRawIsSet = false;
+    m_AcceptedSpans = 0;
+    m_AcceptedSpansIsSet = false;
+    m_DuplicateRaw = 0;
+    m_DuplicateRawIsSet = false;
+    m_DuplicateSpans = 0;
+    m_DuplicateSpansIsSet = false;
 }
 
 WriteAck::~WriteAck()
@@ -42,25 +42,25 @@ void WriteAck::validate()
 web::json::value WriteAck::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Accepted_rawIsSet)
+    if(m_AcceptedRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("accepted_raw"))] = ModelBase::toJson(m_Accepted_raw);
+        val[utility::conversions::to_string_t(U("acceptedRaw"))] = ModelBase::toJson(m_AcceptedRaw);
     }
-    if(m_Accepted_spansIsSet)
+    if(m_AcceptedSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("accepted_spans"))] = ModelBase::toJson(m_Accepted_spans);
+        val[utility::conversions::to_string_t(U("acceptedSpans"))] = ModelBase::toJson(m_AcceptedSpans);
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_raw"))] = ModelBase::toJson(m_Duplicate_raw);
+        val[utility::conversions::to_string_t(U("duplicateRaw"))] = ModelBase::toJson(m_DuplicateRaw);
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_spans"))] = ModelBase::toJson(m_Duplicate_spans);
+        val[utility::conversions::to_string_t(U("duplicateSpans"))] = ModelBase::toJson(m_DuplicateSpans);
     }
 
     return val;
@@ -69,9 +69,9 @@ web::json::value WriteAck::toJson() const
 bool WriteAck::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("accepted_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("acceptedRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("accepted_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("acceptedRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setAcceptedRaw;
@@ -80,9 +80,9 @@ bool WriteAck::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("accepted_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("acceptedSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("accepted_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("acceptedSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setAcceptedSpans;
@@ -91,9 +91,9 @@ bool WriteAck::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateRaw;
@@ -102,9 +102,9 @@ bool WriteAck::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateSpans;
@@ -123,21 +123,21 @@ void WriteAck::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Accepted_rawIsSet)
+    if(m_AcceptedRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("accepted_raw")), m_Accepted_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("acceptedRaw")), m_AcceptedRaw));
     }
-    if(m_Accepted_spansIsSet)
+    if(m_AcceptedSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("accepted_spans")), m_Accepted_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("acceptedSpans")), m_AcceptedSpans));
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_raw")), m_Duplicate_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateRaw")), m_DuplicateRaw));
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_spans")), m_Duplicate_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateSpans")), m_DuplicateSpans));
     }
 }
 
@@ -150,28 +150,28 @@ bool WriteAck::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("accepted_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("acceptedRaw"))))
     {
         int32_t refVal_setAcceptedRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("accepted_raw"))), refVal_setAcceptedRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("acceptedRaw"))), refVal_setAcceptedRaw );
         setAcceptedRaw(refVal_setAcceptedRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("accepted_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("acceptedSpans"))))
     {
         int32_t refVal_setAcceptedSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("accepted_spans"))), refVal_setAcceptedSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("acceptedSpans"))), refVal_setAcceptedSpans );
         setAcceptedSpans(refVal_setAcceptedSpans);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
         int32_t refVal_setDuplicateRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_raw"))), refVal_setDuplicateRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateRaw"))), refVal_setDuplicateRaw );
         setDuplicateRaw(refVal_setDuplicateRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
         int32_t refVal_setDuplicateSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_spans"))), refVal_setDuplicateSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateSpans"))), refVal_setDuplicateSpans );
         setDuplicateSpans(refVal_setDuplicateSpans);
     }
     return ok;
@@ -180,83 +180,83 @@ bool WriteAck::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
 
 int32_t WriteAck::getAcceptedRaw() const
 {
-    return m_Accepted_raw;
+    return m_AcceptedRaw;
 }
 
 void WriteAck::setAcceptedRaw(int32_t value)
 {
-    m_Accepted_raw = value;
-    m_Accepted_rawIsSet = true;
+    m_AcceptedRaw = value;
+    m_AcceptedRawIsSet = true;
 }
 
 bool WriteAck::acceptedRawIsSet() const
 {
-    return m_Accepted_rawIsSet;
+    return m_AcceptedRawIsSet;
 }
 
-void WriteAck::unsetAccepted_raw()
+void WriteAck::unsetAcceptedRaw()
 {
-    m_Accepted_rawIsSet = false;
+    m_AcceptedRawIsSet = false;
 }
 int32_t WriteAck::getAcceptedSpans() const
 {
-    return m_Accepted_spans;
+    return m_AcceptedSpans;
 }
 
 void WriteAck::setAcceptedSpans(int32_t value)
 {
-    m_Accepted_spans = value;
-    m_Accepted_spansIsSet = true;
+    m_AcceptedSpans = value;
+    m_AcceptedSpansIsSet = true;
 }
 
 bool WriteAck::acceptedSpansIsSet() const
 {
-    return m_Accepted_spansIsSet;
+    return m_AcceptedSpansIsSet;
 }
 
-void WriteAck::unsetAccepted_spans()
+void WriteAck::unsetAcceptedSpans()
 {
-    m_Accepted_spansIsSet = false;
+    m_AcceptedSpansIsSet = false;
 }
 int32_t WriteAck::getDuplicateRaw() const
 {
-    return m_Duplicate_raw;
+    return m_DuplicateRaw;
 }
 
 void WriteAck::setDuplicateRaw(int32_t value)
 {
-    m_Duplicate_raw = value;
-    m_Duplicate_rawIsSet = true;
+    m_DuplicateRaw = value;
+    m_DuplicateRawIsSet = true;
 }
 
 bool WriteAck::duplicateRawIsSet() const
 {
-    return m_Duplicate_rawIsSet;
+    return m_DuplicateRawIsSet;
 }
 
-void WriteAck::unsetDuplicate_raw()
+void WriteAck::unsetDuplicateRaw()
 {
-    m_Duplicate_rawIsSet = false;
+    m_DuplicateRawIsSet = false;
 }
 int32_t WriteAck::getDuplicateSpans() const
 {
-    return m_Duplicate_spans;
+    return m_DuplicateSpans;
 }
 
 void WriteAck::setDuplicateSpans(int32_t value)
 {
-    m_Duplicate_spans = value;
-    m_Duplicate_spansIsSet = true;
+    m_DuplicateSpans = value;
+    m_DuplicateSpansIsSet = true;
 }
 
 bool WriteAck::duplicateSpansIsSet() const
 {
-    return m_Duplicate_spansIsSet;
+    return m_DuplicateSpansIsSet;
 }
 
-void WriteAck::unsetDuplicate_spans()
+void WriteAck::unsetDuplicateSpans()
 {
-    m_Duplicate_spansIsSet = false;
+    m_DuplicateSpansIsSet = false;
 }
 
 }

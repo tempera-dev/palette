@@ -21,18 +21,18 @@ namespace model {
 DatasetVersionSnapshot::DatasetVersionSnapshot()
 {
     m_CasesIsSet = false;
-    m_Corpus_root = utility::conversions::to_string_t("");
-    m_Corpus_rootIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Version_id = utility::conversions::to_string_t("");
-    m_Version_idIsSet = false;
+    m_CorpusRoot = utility::conversions::to_string_t("");
+    m_CorpusRootIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_VersionId = utility::conversions::to_string_t("");
+    m_VersionIdIsSet = false;
 }
 
 DatasetVersionSnapshot::~DatasetVersionSnapshot()
@@ -52,35 +52,35 @@ web::json::value DatasetVersionSnapshot::toJson() const
         
         val[utility::conversions::to_string_t(U("cases"))] = ModelBase::toJson(m_Cases);
     }
-    if(m_Corpus_rootIsSet)
+    if(m_CorpusRootIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("corpus_root"))] = ModelBase::toJson(m_Corpus_root);
+        val[utility::conversions::to_string_t(U("corpusRoot"))] = ModelBase::toJson(m_CorpusRoot);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Version_idIsSet)
+    if(m_VersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("version_id"))] = ModelBase::toJson(m_Version_id);
+        val[utility::conversions::to_string_t(U("versionId"))] = ModelBase::toJson(m_VersionId);
     }
 
     return val;
@@ -100,9 +100,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("corpus_root"))))
+    if(val.has_field(utility::conversions::to_string_t(U("corpusRoot"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("corpus_root")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("corpusRoot")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCorpusRoot;
@@ -111,9 +111,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -122,9 +122,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -133,9 +133,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -144,9 +144,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -155,9 +155,9 @@ bool DatasetVersionSnapshot::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("versionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("versionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setVersionId;
@@ -180,29 +180,29 @@ void DatasetVersionSnapshot::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cases")), m_Cases));
     }
-    if(m_Corpus_rootIsSet)
+    if(m_CorpusRootIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("corpus_root")), m_Corpus_root));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("corpusRoot")), m_CorpusRoot));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Version_idIsSet)
+    if(m_VersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("version_id")), m_Version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("versionId")), m_VersionId));
     }
 }
 
@@ -221,40 +221,40 @@ bool DatasetVersionSnapshot::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cases"))), refVal_setCases );
         setCases(refVal_setCases);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("corpus_root"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("corpusRoot"))))
     {
         utility::string_t refVal_setCorpusRoot;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("corpus_root"))), refVal_setCorpusRoot );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("corpusRoot"))), refVal_setCorpusRoot );
         setCorpusRoot(refVal_setCorpusRoot);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("versionId"))))
     {
         utility::string_t refVal_setVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("version_id"))), refVal_setVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("versionId"))), refVal_setVersionId );
         setVersionId(refVal_setVersionId);
     }
     return ok;
@@ -284,129 +284,129 @@ void DatasetVersionSnapshot::unsetCases()
 }
 utility::string_t DatasetVersionSnapshot::getCorpusRoot() const
 {
-    return m_Corpus_root;
+    return m_CorpusRoot;
 }
 
 
 void DatasetVersionSnapshot::setCorpusRoot(const utility::string_t& value)
 {
-    m_Corpus_root = value;
-    m_Corpus_rootIsSet = true;
+    m_CorpusRoot = value;
+    m_CorpusRootIsSet = true;
 }
 
 bool DatasetVersionSnapshot::corpusRootIsSet() const
 {
-    return m_Corpus_rootIsSet;
+    return m_CorpusRootIsSet;
 }
 
-void DatasetVersionSnapshot::unsetCorpus_root()
+void DatasetVersionSnapshot::unsetCorpusRoot()
 {
-    m_Corpus_rootIsSet = false;
+    m_CorpusRootIsSet = false;
 }
 utility::datetime DatasetVersionSnapshot::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void DatasetVersionSnapshot::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool DatasetVersionSnapshot::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void DatasetVersionSnapshot::unsetCreated_at()
+void DatasetVersionSnapshot::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t DatasetVersionSnapshot::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void DatasetVersionSnapshot::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool DatasetVersionSnapshot::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void DatasetVersionSnapshot::unsetDataset_id()
+void DatasetVersionSnapshot::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 utility::string_t DatasetVersionSnapshot::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void DatasetVersionSnapshot::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool DatasetVersionSnapshot::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void DatasetVersionSnapshot::unsetProject_id()
+void DatasetVersionSnapshot::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t DatasetVersionSnapshot::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void DatasetVersionSnapshot::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool DatasetVersionSnapshot::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void DatasetVersionSnapshot::unsetTenant_id()
+void DatasetVersionSnapshot::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t DatasetVersionSnapshot::getVersionId() const
 {
-    return m_Version_id;
+    return m_VersionId;
 }
 
 
 void DatasetVersionSnapshot::setVersionId(const utility::string_t& value)
 {
-    m_Version_id = value;
-    m_Version_idIsSet = true;
+    m_VersionId = value;
+    m_VersionIdIsSet = true;
 }
 
 bool DatasetVersionSnapshot::versionIdIsSet() const
 {
-    return m_Version_idIsSet;
+    return m_VersionIdIsSet;
 }
 
-void DatasetVersionSnapshot::unsetVersion_id()
+void DatasetVersionSnapshot::unsetVersionId()
 {
-    m_Version_idIsSet = false;
+    m_VersionIdIsSet = false;
 }
 
 }

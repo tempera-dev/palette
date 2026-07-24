@@ -57,12 +57,12 @@ public:
 
     double getBaselineScore() const;
     bool baselineScoreIsSet() const;
-    void unsetBaseline_score();
+    void unsetBaselineScore();
     void setBaselineScore(double value);
 
     utility::string_t getGroupKey() const;
     bool groupKeyIsSet() const;
-    void unsetGroup_key();
+    void unsetGroupKey();
     void setGroupKey(const utility::string_t& value);
 
     std::shared_ptr<AlertLinks> getLinks() const;
@@ -77,7 +77,7 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     double getScore() const;
@@ -87,7 +87,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTitle() const;
@@ -97,16 +97,16 @@ public:
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
 protected:
-    double m_Baseline_score;
-    bool m_Baseline_scoreIsSet;
+    double m_BaselineScore;
+    bool m_BaselineScoreIsSet;
 
-    utility::string_t m_Group_key;
-    bool m_Group_keyIsSet;
+    utility::string_t m_GroupKey;
+    bool m_GroupKeyIsSet;
 
     std::shared_ptr<AlertLinks> m_Links;
     bool m_LinksIsSet;
@@ -114,20 +114,20 @@ protected:
     utility::datetime m_Now;
     bool m_NowIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     double m_Score;
     bool m_ScoreIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     utility::string_t m_Title;
     bool m_TitleIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

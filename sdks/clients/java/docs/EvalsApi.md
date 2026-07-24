@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**evalsRunDeterministic**](EvalsApi.md#evalsRunDeterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
-| [**evalsRunDeterministicWithHttpInfo**](EvalsApi.md#evalsRunDeterministicWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
-| [**evalsRunJudge**](EvalsApi.md#evalsRunJudge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
-| [**evalsRunJudgeWithHttpInfo**](EvalsApi.md#evalsRunJudgeWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
+| [**evalsRunDeterministic**](EvalsApi.md#evalsRunDeterministic) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic |  |
+| [**evalsRunDeterministicWithHttpInfo**](EvalsApi.md#evalsRunDeterministicWithHttpInfo) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic |  |
+| [**evalsRunJudge**](EvalsApi.md#evalsRunJudge) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge |  |
+| [**evalsRunJudgeWithHttpInfo**](EvalsApi.md#evalsRunJudgeWithHttpInfo) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge |  |
 
 
 

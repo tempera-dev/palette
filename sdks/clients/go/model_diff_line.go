@@ -22,8 +22,8 @@ var _ MappedNullable = &DiffLine{}
 // DiffLine struct for DiffLine
 type DiffLine struct {
 	Kind DiffLineKind `json:"kind"`
-	NewLine NullableInt32 `json:"new_line,omitempty"`
-	OldLine NullableInt32 `json:"old_line,omitempty"`
+	NewLine NullableInt32 `json:"newLine,omitempty"`
+	OldLine NullableInt32 `json:"oldLine,omitempty"`
 	Text string `json:"text"`
 }
 
@@ -192,10 +192,10 @@ func (o DiffLine) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["kind"] = o.Kind
 	if o.NewLine.IsSet() {
-		toSerialize["new_line"] = o.NewLine.Get()
+		toSerialize["newLine"] = o.NewLine.Get()
 	}
 	if o.OldLine.IsSet() {
-		toSerialize["old_line"] = o.OldLine.Get()
+		toSerialize["oldLine"] = o.OldLine.Get()
 	}
 	toSerialize["text"] = o.Text
 	return toSerialize, nil

@@ -154,7 +154,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
     if (!eval_result->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", eval_result->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", eval_result->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -163,7 +163,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
     if (!eval_result->eval_result_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "eval_result_id", eval_result->eval_result_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evalResultId", eval_result->eval_result_id) == NULL) {
     goto fail; //String
     }
 
@@ -192,7 +192,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
 
     // eval_result->non_reproducible_reason
     if(eval_result->non_reproducible_reason) {
-    if(cJSON_AddStringToObject(item, "non_reproducible_reason", eval_result->non_reproducible_reason) == NULL) {
+    if(cJSON_AddStringToObject(item, "nonReproducibleReason", eval_result->non_reproducible_reason) == NULL) {
     goto fail; //String
     }
     }
@@ -202,7 +202,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
     if (!eval_result->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", eval_result->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", eval_result->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -232,7 +232,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
 
     // eval_result->span_id
     if(eval_result->span_id) {
-    if(cJSON_AddStringToObject(item, "span_id", eval_result->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", eval_result->span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -242,7 +242,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
     if (!eval_result->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", eval_result->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", eval_result->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -264,7 +264,7 @@ cJSON *eval_result_convertToJSON(eval_result_t *eval_result) {
     if (!eval_result->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", eval_result->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", eval_result->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -302,7 +302,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -317,7 +317,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->eval_result_id
-    cJSON *eval_result_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "eval_result_id");
+    cJSON *eval_result_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "evalResultId");
     if (cJSON_IsNull(eval_result_id)) {
         eval_result_id = NULL;
     }
@@ -356,7 +356,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->non_reproducible_reason
-    cJSON *non_reproducible_reason = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "non_reproducible_reason");
+    cJSON *non_reproducible_reason = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "nonReproducibleReason");
     if (cJSON_IsNull(non_reproducible_reason)) {
         non_reproducible_reason = NULL;
     }
@@ -368,7 +368,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -410,7 +410,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -422,7 +422,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -446,7 +446,7 @@ eval_result_t *eval_result_parseFromJSON(cJSON *eval_resultJSON){
     }
 
     // eval_result->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(eval_resultJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

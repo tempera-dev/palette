@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,18 +26,18 @@ class SearchHit(BaseModel):
     """
     SearchHit
     """ # noqa: E501
-    environment_id: StrictStr
+    environment_id: StrictStr = Field(alias="environmentId")
     kind: StrictStr
     model: StrictStr
     name: StrictStr
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     score: Union[StrictFloat, StrictInt]
-    span_id: StrictStr
+    span_id: StrictStr = Field(alias="spanId")
     status: StrictStr
-    tenant_id: StrictStr
+    tenant_id: StrictStr = Field(alias="tenantId")
     tool: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["environment_id", "kind", "model", "name", "project_id", "score", "span_id", "status", "tenant_id", "tool", "trace_id"]
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["environmentId", "kind", "model", "name", "projectId", "score", "spanId", "status", "tenantId", "tool", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,17 +90,17 @@ class SearchHit(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "environment_id": obj.get("environment_id"),
+            "environmentId": obj.get("environmentId"),
             "kind": obj.get("kind"),
             "model": obj.get("model"),
             "name": obj.get("name"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "score": obj.get("score"),
-            "span_id": obj.get("span_id"),
+            "spanId": obj.get("spanId"),
             "status": obj.get("status"),
-            "tenant_id": obj.get("tenant_id"),
+            "tenantId": obj.get("tenantId"),
             "tool": obj.get("tool"),
-            "trace_id": obj.get("trace_id")
+            "traceId": obj.get("traceId")
         })
         return _obj
 

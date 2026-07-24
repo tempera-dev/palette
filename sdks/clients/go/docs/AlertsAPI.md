@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AlertsEvaluate**](AlertsAPI.md#AlertsEvaluate) | **Post** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
+[**AlertsEvaluate**](AlertsAPI.md#AlertsEvaluate) | **Post** /v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook |
 
 
 

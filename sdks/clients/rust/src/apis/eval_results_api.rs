@@ -114,7 +114,7 @@ pub enum EvalResultsPeriodRecordTemperaDecisionError {
 
 pub async fn eval_results_period_get_tempera_evidence(configuration: &configuration::Configuration, params: EvalResultsPeriodGetTemperaEvidenceParams) -> Result<models::TemperaEvidenceReceipt, Error<EvalResultsPeriodGetTemperaEvidenceError>> {
 
-    let uri_str = format!("{}/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), kind=crate::apis::urlencode(params.kind), external_id=crate::apis::urlencode(params.external_id));
+    let uri_str = format!("{}/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), kind=crate::apis::urlencode(params.kind), externalId=crate::apis::urlencode(params.external_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -150,7 +150,7 @@ pub async fn eval_results_period_get_tempera_evidence(configuration: &configurat
 
 pub async fn eval_results_period_import_tempera_bundle(configuration: &configuration::Configuration, params: EvalResultsPeriodImportTemperaBundleParams) -> Result<models::TemperaEvidenceReceipt, Error<EvalResultsPeriodImportTemperaBundleError>> {
 
-    let uri_str = format!("{}/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/eval-results/{tenantId}/{projectId}/tempera/bundles", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -187,7 +187,7 @@ pub async fn eval_results_period_import_tempera_bundle(configuration: &configura
 
 pub async fn eval_results_period_record_tempera_decision(configuration: &configuration::Configuration, params: EvalResultsPeriodRecordTemperaDecisionParams) -> Result<models::TemperaEvidenceReceipt, Error<EvalResultsPeriodRecordTemperaDecisionError>> {
 
-    let uri_str = format!("{}/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/eval-results/{tenantId}/{projectId}/tempera/decisions", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

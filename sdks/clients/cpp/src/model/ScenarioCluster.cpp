@@ -20,10 +20,10 @@ namespace model {
 
 ScenarioCluster::ScenarioCluster()
 {
-    m_Dominant_failure_modeIsSet = false;
-    m_Exemplar_trace_id = utility::conversions::to_string_t("");
-    m_Exemplar_trace_idIsSet = false;
-    m_Member_trace_idsIsSet = false;
+    m_DominantFailureModeIsSet = false;
+    m_ExemplarTraceId = utility::conversions::to_string_t("");
+    m_ExemplarTraceIdIsSet = false;
+    m_MemberTraceIdsIsSet = false;
     m_SignatureIsSet = false;
     m_Size = 0;
     m_SizeIsSet = false;
@@ -41,20 +41,20 @@ void ScenarioCluster::validate()
 web::json::value ScenarioCluster::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dominant_failure_modeIsSet)
+    if(m_DominantFailureModeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dominant_failure_mode"))] = ModelBase::toJson(m_Dominant_failure_mode);
+        val[utility::conversions::to_string_t(U("dominantFailureMode"))] = ModelBase::toJson(m_DominantFailureMode);
     }
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("exemplar_trace_id"))] = ModelBase::toJson(m_Exemplar_trace_id);
+        val[utility::conversions::to_string_t(U("exemplarTraceId"))] = ModelBase::toJson(m_ExemplarTraceId);
     }
-    if(m_Member_trace_idsIsSet)
+    if(m_MemberTraceIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("member_trace_ids"))] = ModelBase::toJson(m_Member_trace_ids);
+        val[utility::conversions::to_string_t(U("memberTraceIds"))] = ModelBase::toJson(m_MemberTraceIds);
     }
     if(m_SignatureIsSet)
     {   
@@ -73,9 +73,9 @@ web::json::value ScenarioCluster::toJson() const
 bool ScenarioCluster::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dominant_failure_mode"))))
+    if(val.has_field(utility::conversions::to_string_t(U("dominantFailureMode"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dominant_failure_mode")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dominantFailureMode")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<FailureMode> refVal_setDominantFailureMode;
@@ -84,9 +84,9 @@ bool ScenarioCluster::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplar_trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("exemplarTraceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExemplarTraceId;
@@ -95,9 +95,9 @@ bool ScenarioCluster::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("member_trace_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("memberTraceIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("member_trace_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("memberTraceIds")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<utility::string_t>> refVal_setMemberTraceIds;
@@ -138,17 +138,17 @@ void ScenarioCluster::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dominant_failure_modeIsSet)
+    if(m_DominantFailureModeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dominant_failure_mode")), m_Dominant_failure_mode));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dominantFailureMode")), m_DominantFailureMode));
     }
-    if(m_Exemplar_trace_idIsSet)
+    if(m_ExemplarTraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplar_trace_id")), m_Exemplar_trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("exemplarTraceId")), m_ExemplarTraceId));
     }
-    if(m_Member_trace_idsIsSet)
+    if(m_MemberTraceIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("member_trace_ids")), m_Member_trace_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("memberTraceIds")), m_MemberTraceIds));
     }
     if(m_SignatureIsSet)
     {
@@ -169,22 +169,22 @@ bool ScenarioCluster::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dominant_failure_mode"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("dominantFailureMode"))))
     {
         std::shared_ptr<FailureMode> refVal_setDominantFailureMode;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dominant_failure_mode"))), refVal_setDominantFailureMode );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dominantFailureMode"))), refVal_setDominantFailureMode );
         setDominantFailureMode(refVal_setDominantFailureMode);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplar_trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("exemplarTraceId"))))
     {
         utility::string_t refVal_setExemplarTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplar_trace_id"))), refVal_setExemplarTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("exemplarTraceId"))), refVal_setExemplarTraceId );
         setExemplarTraceId(refVal_setExemplarTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("member_trace_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("memberTraceIds"))))
     {
         std::vector<std::shared_ptr<utility::string_t>> refVal_setMemberTraceIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("member_trace_ids"))), refVal_setMemberTraceIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("memberTraceIds"))), refVal_setMemberTraceIds );
         setMemberTraceIds(refVal_setMemberTraceIds);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("signature"))))
@@ -205,66 +205,66 @@ bool ScenarioCluster::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
 
 std::shared_ptr<FailureMode> ScenarioCluster::getDominantFailureMode() const
 {
-    return m_Dominant_failure_mode;
+    return m_DominantFailureMode;
 }
 
 
 void ScenarioCluster::setDominantFailureMode(const std::shared_ptr<FailureMode>& value)
 {
-    m_Dominant_failure_mode = value;
-    m_Dominant_failure_modeIsSet = true;
+    m_DominantFailureMode = value;
+    m_DominantFailureModeIsSet = true;
 }
 
 bool ScenarioCluster::dominantFailureModeIsSet() const
 {
-    return m_Dominant_failure_modeIsSet;
+    return m_DominantFailureModeIsSet;
 }
 
-void ScenarioCluster::unsetDominant_failure_mode()
+void ScenarioCluster::unsetDominantFailureMode()
 {
-    m_Dominant_failure_modeIsSet = false;
+    m_DominantFailureModeIsSet = false;
 }
 utility::string_t ScenarioCluster::getExemplarTraceId() const
 {
-    return m_Exemplar_trace_id;
+    return m_ExemplarTraceId;
 }
 
 
 void ScenarioCluster::setExemplarTraceId(const utility::string_t& value)
 {
-    m_Exemplar_trace_id = value;
-    m_Exemplar_trace_idIsSet = true;
+    m_ExemplarTraceId = value;
+    m_ExemplarTraceIdIsSet = true;
 }
 
 bool ScenarioCluster::exemplarTraceIdIsSet() const
 {
-    return m_Exemplar_trace_idIsSet;
+    return m_ExemplarTraceIdIsSet;
 }
 
-void ScenarioCluster::unsetExemplar_trace_id()
+void ScenarioCluster::unsetExemplarTraceId()
 {
-    m_Exemplar_trace_idIsSet = false;
+    m_ExemplarTraceIdIsSet = false;
 }
 std::vector<std::shared_ptr<utility::string_t>> ScenarioCluster::getMemberTraceIds() const
 {
-    return m_Member_trace_ids;
+    return m_MemberTraceIds;
 }
 
 
 void ScenarioCluster::setMemberTraceIds(const std::vector<std::shared_ptr<utility::string_t>>& value)
 {
-    m_Member_trace_ids = value;
-    m_Member_trace_idsIsSet = true;
+    m_MemberTraceIds = value;
+    m_MemberTraceIdsIsSet = true;
 }
 
 bool ScenarioCluster::memberTraceIdsIsSet() const
 {
-    return m_Member_trace_idsIsSet;
+    return m_MemberTraceIdsIsSet;
 }
 
-void ScenarioCluster::unsetMember_trace_ids()
+void ScenarioCluster::unsetMemberTraceIds()
 {
-    m_Member_trace_idsIsSet = false;
+    m_MemberTraceIdsIsSet = false;
 }
 std::shared_ptr<Signature> ScenarioCluster::getSignature() const
 {

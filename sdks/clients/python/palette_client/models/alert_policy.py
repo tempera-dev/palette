@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from palette_client.models.alert_severity import AlertSeverity
 from palette_client.models.maintenance_window import MaintenanceWindow
@@ -28,14 +28,14 @@ class AlertPolicy(BaseModel):
     """
     AlertPolicy
     """ # noqa: E501
-    dedupe_window_seconds: StrictInt
-    endpoint_url: StrictStr
-    fire_when_score_at_or_below: Union[StrictFloat, StrictInt]
-    maintenance_windows: List[MaintenanceWindow]
-    policy_id: StrictStr
+    dedupe_window_seconds: StrictInt = Field(alias="dedupeWindowSeconds")
+    endpoint_url: StrictStr = Field(alias="endpointUrl")
+    fire_when_score_at_or_below: Union[StrictFloat, StrictInt] = Field(alias="fireWhenScoreAtOrBelow")
+    maintenance_windows: List[MaintenanceWindow] = Field(alias="maintenanceWindows")
+    policy_id: StrictStr = Field(alias="policyId")
     severity: AlertSeverity
-    signing_secret: StrictStr
-    __properties: ClassVar[List[str]] = ["dedupe_window_seconds", "endpoint_url", "fire_when_score_at_or_below", "maintenance_windows", "policy_id", "severity", "signing_secret"]
+    signing_secret: StrictStr = Field(alias="signingSecret")
+    __properties: ClassVar[List[str]] = ["dedupeWindowSeconds", "endpointUrl", "fireWhenScoreAtOrBelow", "maintenanceWindows", "policyId", "severity", "signingSecret"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class AlertPolicy(BaseModel):
             for _item_maintenance_windows in self.maintenance_windows:
                 if _item_maintenance_windows:
                     _items.append(_item_maintenance_windows.to_dict())
-            _dict['maintenance_windows'] = _items
+            _dict['maintenanceWindows'] = _items
         return _dict
 
     @classmethod
@@ -95,13 +95,13 @@ class AlertPolicy(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dedupe_window_seconds": obj.get("dedupe_window_seconds"),
-            "endpoint_url": obj.get("endpoint_url"),
-            "fire_when_score_at_or_below": obj.get("fire_when_score_at_or_below"),
-            "maintenance_windows": [MaintenanceWindow.from_dict(_item) for _item in obj["maintenance_windows"]] if obj.get("maintenance_windows") is not None else None,
-            "policy_id": obj.get("policy_id"),
+            "dedupeWindowSeconds": obj.get("dedupeWindowSeconds"),
+            "endpointUrl": obj.get("endpointUrl"),
+            "fireWhenScoreAtOrBelow": obj.get("fireWhenScoreAtOrBelow"),
+            "maintenanceWindows": [MaintenanceWindow.from_dict(_item) for _item in obj["maintenanceWindows"]] if obj.get("maintenanceWindows") is not None else None,
+            "policyId": obj.get("policyId"),
             "severity": obj.get("severity"),
-            "signing_secret": obj.get("signing_secret")
+            "signingSecret": obj.get("signingSecret")
         })
         return _obj
 

@@ -40,10 +40,10 @@ pplx::task<std::shared_ptr<CanonicalSpan>> SpansApi::spans_get(utility::string_t
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/spans/{tenant_id}/{trace_id}/{span_id}");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("trace_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("span_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(spanId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/spans/{tenantId}/{traceId}/{spanId}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("traceId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("spanId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(spanId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -189,10 +189,10 @@ pplx::task<std::shared_ptr<SpanIoResponse>> SpansApi::spans_getIo(utility::strin
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/spans/{tenant_id}/{trace_id}/{span_id}/io");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("trace_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("span_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(spanId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/spans/{tenantId}/{traceId}/{spanId}/io");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("traceId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(traceId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("spanId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(spanId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );

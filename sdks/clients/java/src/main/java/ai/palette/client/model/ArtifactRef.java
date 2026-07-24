@@ -43,15 +43,15 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ArtifactRef {
-  public static final String JSON_PROPERTY_ARTIFACT_ID = "artifact_id";
+  public static final String JSON_PROPERTY_ARTIFACT_ID = "artifactId";
   @javax.annotation.Nonnull
   private String artifactId;
 
-  public static final String JSON_PROPERTY_MIME_TYPE = "mime_type";
+  public static final String JSON_PROPERTY_MIME_TYPE = "mimeType";
   @javax.annotation.Nonnull
   private String mimeType;
 
-  public static final String JSON_PROPERTY_REDACTION_CLASS = "redaction_class";
+  public static final String JSON_PROPERTY_REDACTION_CLASS = "redactionClass";
   @javax.annotation.Nonnull
   private RedactionClass redactionClass;
 
@@ -59,7 +59,7 @@ public class ArtifactRef {
   @javax.annotation.Nonnull
   private String sha256;
 
-  public static final String JSON_PROPERTY_SIZE_BYTES = "size_bytes";
+  public static final String JSON_PROPERTY_SIZE_BYTES = "sizeBytes";
   @javax.annotation.Nonnull
   private Long sizeBytes;
 
@@ -297,19 +297,19 @@ public class ArtifactRef {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `artifact_id` to the URL query string
+    // add `artifactId` to the URL query string
     if (getArtifactId() != null) {
-      joiner.add(String.format("%sartifact_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getArtifactId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sartifactId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getArtifactId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `mime_type` to the URL query string
+    // add `mimeType` to the URL query string
     if (getMimeType() != null) {
-      joiner.add(String.format("%smime_type%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMimeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smimeType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMimeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `redaction_class` to the URL query string
+    // add `redactionClass` to the URL query string
     if (getRedactionClass() != null) {
-      joiner.add(String.format("%sredaction_class%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sredactionClass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRedactionClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `sha256` to the URL query string
@@ -317,9 +317,9 @@ public class ArtifactRef {
       joiner.add(String.format("%ssha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `size_bytes` to the URL query string
+    // add `sizeBytes` to the URL query string
     if (getSizeBytes() != null) {
-      joiner.add(String.format("%ssize_bytes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSizeBytes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssizeBytes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSizeBytes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `uri` to the URL query string

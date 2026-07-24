@@ -10,6 +10,6 @@
 
 
 palette_connect_status_response_t*
-ConnectAPI_connectGetStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ConnectAPI_connectGetStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 

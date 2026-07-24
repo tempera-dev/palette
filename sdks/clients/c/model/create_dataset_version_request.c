@@ -50,7 +50,7 @@ cJSON *create_dataset_version_request_convertToJSON(create_dataset_version_reque
 
     // create_dataset_version_request->case_ids
     if(create_dataset_version_request->case_ids) {
-    cJSON *case_ids = cJSON_AddArrayToObject(item, "case_ids");
+    cJSON *case_ids = cJSON_AddArrayToObject(item, "caseIds");
     if(case_ids == NULL) {
         goto fail; //primitive container
     }
@@ -80,7 +80,7 @@ create_dataset_version_request_t *create_dataset_version_request_parseFromJSON(c
     list_t *case_idsList = NULL;
 
     // create_dataset_version_request->case_ids
-    cJSON *case_ids = cJSON_GetObjectItemCaseSensitive(create_dataset_version_requestJSON, "case_ids");
+    cJSON *case_ids = cJSON_GetObjectItemCaseSensitive(create_dataset_version_requestJSON, "caseIds");
     if (cJSON_IsNull(case_ids)) {
         case_ids = NULL;
     }

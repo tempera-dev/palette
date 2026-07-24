@@ -111,14 +111,14 @@ export function PaletteConnectStatusResponseFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'firstEvalRun': json['first_eval_run'],
-        'firstTraceReceived': json['first_trace_received'],
+        'firstEvalRun': json['firstEvalRun'],
+        'firstTraceReceived': json['firstTraceReceived'],
         'ok': json['ok'],
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'status': PaletteConnectStatusFromJSON(json['status']),
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
         'totals': (mapValues(json['totals'], UsageTotalFromJSON)),
-        'usageConfigured': json['usage_configured'],
+        'usageConfigured': json['usageConfigured'],
     };
 }
 
@@ -133,14 +133,14 @@ export function PaletteConnectStatusResponseToJSONTyped(value?: PaletteConnectSt
 
     return {
         
-        'first_eval_run': value['firstEvalRun'],
-        'first_trace_received': value['firstTraceReceived'],
+        'firstEvalRun': value['firstEvalRun'],
+        'firstTraceReceived': value['firstTraceReceived'],
         'ok': value['ok'],
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'status': PaletteConnectStatusToJSON(value['status']),
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
         'totals': (mapValues(value['totals'], UsageTotalToJSON)),
-        'usage_configured': value['usageConfigured'],
+        'usageConfigured': value['usageConfigured'],
     };
 }
 

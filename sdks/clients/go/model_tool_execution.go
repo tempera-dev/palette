@@ -26,7 +26,7 @@ type ToolExecution struct {
 	// Error message when `successful` is false.
 	Error NullableString `json:"error,omitempty"`
 	// Composio execution log id, for tracing.
-	LogId NullableString `json:"log_id,omitempty"`
+	LogId NullableString `json:"logId,omitempty"`
 	// Whether the tool reported success.
 	Successful bool `json:"successful"`
 }
@@ -208,7 +208,7 @@ func (o ToolExecution) ToMap() (map[string]interface{}, error) {
 		toSerialize["error"] = o.Error.Get()
 	}
 	if o.LogId.IsSet() {
-		toSerialize["log_id"] = o.LogId.Get()
+		toSerialize["logId"] = o.LogId.Get()
 	}
 	toSerialize["successful"] = o.Successful
 	return toSerialize, nil

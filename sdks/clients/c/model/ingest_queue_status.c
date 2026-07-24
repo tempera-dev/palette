@@ -80,7 +80,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->dead_letters) {
         goto fail;
     }
-    cJSON *dead_letters = cJSON_AddArrayToObject(item, "dead_letters");
+    cJSON *dead_letters = cJSON_AddArrayToObject(item, "deadLetters");
     if(dead_letters == NULL) {
     goto fail; //nonprimitive container
     }
@@ -101,7 +101,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", ingest_queue_status->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", ingest_queue_status->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -110,7 +110,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", ingest_queue_status->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", ingest_queue_status->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -119,7 +119,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->total_depth) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "total_depth", ingest_queue_status->total_depth) == NULL) {
+    if(cJSON_AddNumberToObject(item, "totalDepth", ingest_queue_status->total_depth) == NULL) {
     goto fail; //Numeric
     }
 
@@ -128,7 +128,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->trace_ingested_depth) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "trace_ingested_depth", ingest_queue_status->trace_ingested_depth) == NULL) {
+    if(cJSON_AddNumberToObject(item, "traceIngestedDepth", ingest_queue_status->trace_ingested_depth) == NULL) {
     goto fail; //Numeric
     }
 
@@ -137,7 +137,7 @@ cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_sta
     if (!ingest_queue_status->trace_write_depth) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "trace_write_depth", ingest_queue_status->trace_write_depth) == NULL) {
+    if(cJSON_AddNumberToObject(item, "traceWriteDepth", ingest_queue_status->trace_write_depth) == NULL) {
     goto fail; //Numeric
     }
 
@@ -157,7 +157,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     list_t *dead_lettersList = NULL;
 
     // ingest_queue_status->dead_letters
-    cJSON *dead_letters = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "dead_letters");
+    cJSON *dead_letters = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "deadLetters");
     if (cJSON_IsNull(dead_letters)) {
         dead_letters = NULL;
     }
@@ -184,7 +184,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     }
 
     // ingest_queue_status->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -199,7 +199,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     }
 
     // ingest_queue_status->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -214,7 +214,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     }
 
     // ingest_queue_status->total_depth
-    cJSON *total_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "total_depth");
+    cJSON *total_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "totalDepth");
     if (cJSON_IsNull(total_depth)) {
         total_depth = NULL;
     }
@@ -229,7 +229,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     }
 
     // ingest_queue_status->trace_ingested_depth
-    cJSON *trace_ingested_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "trace_ingested_depth");
+    cJSON *trace_ingested_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "traceIngestedDepth");
     if (cJSON_IsNull(trace_ingested_depth)) {
         trace_ingested_depth = NULL;
     }
@@ -244,7 +244,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
     }
 
     // ingest_queue_status->trace_write_depth
-    cJSON *trace_write_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "trace_write_depth");
+    cJSON *trace_write_depth = cJSON_GetObjectItemCaseSensitive(ingest_queue_statusJSON, "traceWriteDepth");
     if (cJSON_IsNull(trace_write_depth)) {
         trace_write_depth = NULL;
     }

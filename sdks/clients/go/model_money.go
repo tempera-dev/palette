@@ -21,7 +21,7 @@ var _ MappedNullable = &Money{}
 
 // Money struct for Money
 type Money struct {
-	AmountMicros int64 `json:"amount_micros"`
+	AmountMicros int64 `json:"amountMicros"`
 	Currency Currency `json:"currency"`
 }
 
@@ -104,7 +104,7 @@ func (o Money) MarshalJSON() ([]byte, error) {
 
 func (o Money) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["amount_micros"] = o.AmountMicros
+	toSerialize["amountMicros"] = o.AmountMicros
 	toSerialize["currency"] = o.Currency
 	return toSerialize, nil
 }
@@ -114,7 +114,7 @@ func (o *Money) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"amount_micros",
+		"amountMicros",
 		"currency",
 	}
 

@@ -58,77 +58,77 @@ public:
 
     bool isBaselineCached() const;
     bool baselineCachedIsSet() const;
-    void unsetBaseline_cached();
+    void unsetBaselineCached();
     void setBaselineCached(bool value);
 
     std::shared_ptr<Money> getBaselineCost() const;
     bool baselineCostIsSet() const;
-    void unsetBaseline_cost();
+    void unsetBaselineCost();
     void setBaselineCost(const std::shared_ptr<Money>& value);
 
     std::shared_ptr<AnyType> getBaselineEvidence() const;
     bool baselineEvidenceIsSet() const;
-    void unsetBaseline_evidence();
+    void unsetBaselineEvidence();
     void setBaselineEvidence(const std::shared_ptr<AnyType>& value);
 
     utility::string_t getBaselineJudgeCallId() const;
     bool baselineJudgeCallIdIsSet() const;
-    void unsetBaseline_judge_call_id();
+    void unsetBaselineJudgeCallId();
     void setBaselineJudgeCallId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getBaselineOutput() const;
     bool baselineOutputIsSet() const;
-    void unsetBaseline_output();
+    void unsetBaselineOutput();
     void setBaselineOutput(const std::shared_ptr<AnyType>& value);
 
     double getBaselineScore() const;
     bool baselineScoreIsSet() const;
-    void unsetBaseline_score();
+    void unsetBaselineScore();
     void setBaselineScore(double value);
 
     std::shared_ptr<AnyType> getBaselineTrace() const;
     bool baselineTraceIsSet() const;
-    void unsetBaseline_trace();
+    void unsetBaselineTrace();
     void setBaselineTrace(const std::shared_ptr<AnyType>& value);
 
     bool isCandidateCached() const;
     bool candidateCachedIsSet() const;
-    void unsetCandidate_cached();
+    void unsetCandidateCached();
     void setCandidateCached(bool value);
 
     std::shared_ptr<Money> getCandidateCost() const;
     bool candidateCostIsSet() const;
-    void unsetCandidate_cost();
+    void unsetCandidateCost();
     void setCandidateCost(const std::shared_ptr<Money>& value);
 
     std::shared_ptr<AnyType> getCandidateEvidence() const;
     bool candidateEvidenceIsSet() const;
-    void unsetCandidate_evidence();
+    void unsetCandidateEvidence();
     void setCandidateEvidence(const std::shared_ptr<AnyType>& value);
 
     utility::string_t getCandidateJudgeCallId() const;
     bool candidateJudgeCallIdIsSet() const;
-    void unsetCandidate_judge_call_id();
+    void unsetCandidateJudgeCallId();
     void setCandidateJudgeCallId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getCandidateOutput() const;
     bool candidateOutputIsSet() const;
-    void unsetCandidate_output();
+    void unsetCandidateOutput();
     void setCandidateOutput(const std::shared_ptr<AnyType>& value);
 
     double getCandidateScore() const;
     bool candidateScoreIsSet() const;
-    void unsetCandidate_score();
+    void unsetCandidateScore();
     void setCandidateScore(double value);
 
     std::shared_ptr<AnyType> getCandidateTrace() const;
     bool candidateTraceIsSet() const;
-    void unsetCandidate_trace();
+    void unsetCandidateTrace();
     void setCandidateTrace(const std::shared_ptr<AnyType>& value);
 
     utility::string_t getCaseId() const;
     bool caseIdIsSet() const;
-    void unsetCase_id();
+    void unsetCaseId();
     void setCaseId(const utility::string_t& value);
 
     double getDelta() const;
@@ -143,50 +143,50 @@ public:
 
 
 protected:
-    bool m_Baseline_cached;
-    bool m_Baseline_cachedIsSet;
+    bool m_BaselineCached;
+    bool m_BaselineCachedIsSet;
 
-    std::shared_ptr<Money> m_Baseline_cost;
-    bool m_Baseline_costIsSet;
+    std::shared_ptr<Money> m_BaselineCost;
+    bool m_BaselineCostIsSet;
 
-    std::shared_ptr<AnyType> m_Baseline_evidence;
-    bool m_Baseline_evidenceIsSet;
+    std::shared_ptr<AnyType> m_BaselineEvidence;
+    bool m_BaselineEvidenceIsSet;
 
-    utility::string_t m_Baseline_judge_call_id;
-    bool m_Baseline_judge_call_idIsSet;
+    utility::string_t m_BaselineJudgeCallId;
+    bool m_BaselineJudgeCallIdIsSet;
 
-    std::shared_ptr<AnyType> m_Baseline_output;
-    bool m_Baseline_outputIsSet;
+    std::shared_ptr<AnyType> m_BaselineOutput;
+    bool m_BaselineOutputIsSet;
 
-    double m_Baseline_score;
-    bool m_Baseline_scoreIsSet;
+    double m_BaselineScore;
+    bool m_BaselineScoreIsSet;
 
-    std::shared_ptr<AnyType> m_Baseline_trace;
-    bool m_Baseline_traceIsSet;
+    std::shared_ptr<AnyType> m_BaselineTrace;
+    bool m_BaselineTraceIsSet;
 
-    bool m_Candidate_cached;
-    bool m_Candidate_cachedIsSet;
+    bool m_CandidateCached;
+    bool m_CandidateCachedIsSet;
 
-    std::shared_ptr<Money> m_Candidate_cost;
-    bool m_Candidate_costIsSet;
+    std::shared_ptr<Money> m_CandidateCost;
+    bool m_CandidateCostIsSet;
 
-    std::shared_ptr<AnyType> m_Candidate_evidence;
-    bool m_Candidate_evidenceIsSet;
+    std::shared_ptr<AnyType> m_CandidateEvidence;
+    bool m_CandidateEvidenceIsSet;
 
-    utility::string_t m_Candidate_judge_call_id;
-    bool m_Candidate_judge_call_idIsSet;
+    utility::string_t m_CandidateJudgeCallId;
+    bool m_CandidateJudgeCallIdIsSet;
 
-    std::shared_ptr<AnyType> m_Candidate_output;
-    bool m_Candidate_outputIsSet;
+    std::shared_ptr<AnyType> m_CandidateOutput;
+    bool m_CandidateOutputIsSet;
 
-    double m_Candidate_score;
-    bool m_Candidate_scoreIsSet;
+    double m_CandidateScore;
+    bool m_CandidateScoreIsSet;
 
-    std::shared_ptr<AnyType> m_Candidate_trace;
-    bool m_Candidate_traceIsSet;
+    std::shared_ptr<AnyType> m_CandidateTrace;
+    bool m_CandidateTraceIsSet;
 
-    utility::string_t m_Case_id;
-    bool m_Case_idIsSet;
+    utility::string_t m_CaseId;
+    bool m_CaseIdIsSet;
 
     double m_Delta;
     bool m_DeltaIsSet;

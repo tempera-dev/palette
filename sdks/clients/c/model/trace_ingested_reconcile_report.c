@@ -81,7 +81,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->downstream_accepted) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "downstream_accepted", trace_ingested_reconcile_report->downstream_accepted) == NULL) {
+    if(cJSON_AddNumberToObject(item, "downstreamAccepted", trace_ingested_reconcile_report->downstream_accepted) == NULL) {
     goto fail; //Numeric
     }
 
@@ -90,7 +90,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->downstream_duplicate) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "downstream_duplicate", trace_ingested_reconcile_report->downstream_duplicate) == NULL) {
+    if(cJSON_AddNumberToObject(item, "downstreamDuplicate", trace_ingested_reconcile_report->downstream_duplicate) == NULL) {
     goto fail; //Numeric
     }
 
@@ -99,7 +99,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->downstream_queued) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "downstream_queued", trace_ingested_reconcile_report->downstream_queued) == NULL) {
+    if(cJSON_AddBoolToObject(item, "downstreamQueued", trace_ingested_reconcile_report->downstream_queued) == NULL) {
     goto fail; //Bool
     }
 
@@ -108,7 +108,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", trace_ingested_reconcile_report->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", trace_ingested_reconcile_report->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -117,7 +117,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->span_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "span_count", trace_ingested_reconcile_report->span_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "spanCount", trace_ingested_reconcile_report->span_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -126,7 +126,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", trace_ingested_reconcile_report->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", trace_ingested_reconcile_report->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -135,7 +135,7 @@ cJSON *trace_ingested_reconcile_report_convertToJSON(trace_ingested_reconcile_re
     if (!trace_ingested_reconcile_report->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", trace_ingested_reconcile_report->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", trace_ingested_reconcile_report->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -152,7 +152,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_local_var = NULL;
 
     // trace_ingested_reconcile_report->downstream_accepted
-    cJSON *downstream_accepted = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstream_accepted");
+    cJSON *downstream_accepted = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstreamAccepted");
     if (cJSON_IsNull(downstream_accepted)) {
         downstream_accepted = NULL;
     }
@@ -167,7 +167,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->downstream_duplicate
-    cJSON *downstream_duplicate = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstream_duplicate");
+    cJSON *downstream_duplicate = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstreamDuplicate");
     if (cJSON_IsNull(downstream_duplicate)) {
         downstream_duplicate = NULL;
     }
@@ -182,7 +182,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->downstream_queued
-    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstream_queued");
+    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "downstreamQueued");
     if (cJSON_IsNull(downstream_queued)) {
         downstream_queued = NULL;
     }
@@ -197,7 +197,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -212,7 +212,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->span_count
-    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "span_count");
+    cJSON *span_count = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "spanCount");
     if (cJSON_IsNull(span_count)) {
         span_count = NULL;
     }
@@ -227,7 +227,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -242,7 +242,7 @@ trace_ingested_reconcile_report_t *trace_ingested_reconcile_report_parseFromJSON
     }
 
     // trace_ingested_reconcile_report->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(trace_ingested_reconcile_reportJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

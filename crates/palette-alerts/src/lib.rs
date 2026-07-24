@@ -13,6 +13,7 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct OnlineSamplingPolicy {
     pub sample_rate_per_mille: u16,
     pub keep_errors: bool,
@@ -42,6 +43,7 @@ pub enum SamplingReason {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct SamplingDecision {
     pub selected: bool,
     pub reason: SamplingReason,
@@ -102,6 +104,7 @@ pub enum AlertSeverity {
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AlertPolicy {
     pub policy_id: String,
     pub endpoint_url: String,
@@ -131,6 +134,7 @@ impl std::fmt::Debug for AlertPolicy {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct MaintenanceWindow {
     #[schema(value_type = String, format = DateTime)]
     pub starts_at: Timestamp,
@@ -139,6 +143,7 @@ pub struct MaintenanceWindow {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AlertLinks {
     pub trace_url: String,
     pub cluster_url: Option<String>,
@@ -147,6 +152,7 @@ pub struct AlertLinks {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AlertInput {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -161,6 +167,7 @@ pub struct AlertInput {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AlertDecision {
     pub emitted: bool,
     pub suppressed_reason: Option<String>,
@@ -168,6 +175,7 @@ pub struct AlertDecision {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct WebhookDelivery {
     pub endpoint_url: String,
     pub headers: BTreeMap<String, String>,

@@ -60,12 +60,12 @@ public:
 
     bool isFirstEvalRun() const;
     bool firstEvalRunIsSet() const;
-    void unsetFirst_eval_run();
+    void unsetFirstEvalRun();
     void setFirstEvalRun(bool value);
 
     bool isFirstTraceReceived() const;
     bool firstTraceReceivedIsSet() const;
-    void unsetFirst_trace_received();
+    void unsetFirstTraceReceived();
     void setFirstTraceReceived(bool value);
 
     bool isOk() const;
@@ -75,7 +75,7 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::shared_ptr<PaletteConnectStatus> getStatus() const;
@@ -85,7 +85,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::map<utility::string_t, std::shared_ptr<UsageTotal>> getTotals() const;
@@ -95,34 +95,34 @@ public:
 
     bool isUsageConfigured() const;
     bool usageConfiguredIsSet() const;
-    void unsetUsage_configured();
+    void unsetUsageConfigured();
     void setUsageConfigured(bool value);
 
 
 protected:
-    bool m_First_eval_run;
-    bool m_First_eval_runIsSet;
+    bool m_FirstEvalRun;
+    bool m_FirstEvalRunIsSet;
 
-    bool m_First_trace_received;
-    bool m_First_trace_receivedIsSet;
+    bool m_FirstTraceReceived;
+    bool m_FirstTraceReceivedIsSet;
 
     bool m_Ok;
     bool m_OkIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     std::shared_ptr<PaletteConnectStatus> m_Status;
     bool m_StatusIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     std::map<utility::string_t, std::shared_ptr<UsageTotal>> m_Totals;
     bool m_TotalsIsSet;
 
-    bool m_Usage_configured;
-    bool m_Usage_configuredIsSet;
+    bool m_UsageConfigured;
+    bool m_UsageConfiguredIsSet;
 
 };
 

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.publish_ack import PublishAck
 from typing import Optional, Set
@@ -28,11 +28,11 @@ class DeadLetterReplayReport(BaseModel):
     DeadLetterReplayReport
     """ # noqa: E501
     ack: PublishAck
-    message_id: StrictStr
-    project_id: StrictStr
-    reset_attempts: StrictBool
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["ack", "message_id", "project_id", "reset_attempts", "tenant_id"]
+    message_id: StrictStr = Field(alias="messageId")
+    project_id: StrictStr = Field(alias="projectId")
+    reset_attempts: StrictBool = Field(alias="resetAttempts")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["ack", "messageId", "projectId", "resetAttempts", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,10 +89,10 @@ class DeadLetterReplayReport(BaseModel):
 
         _obj = cls.model_validate({
             "ack": PublishAck.from_dict(obj["ack"]) if obj.get("ack") is not None else None,
-            "message_id": obj.get("message_id"),
-            "project_id": obj.get("project_id"),
-            "reset_attempts": obj.get("reset_attempts"),
-            "tenant_id": obj.get("tenant_id")
+            "messageId": obj.get("messageId"),
+            "projectId": obj.get("projectId"),
+            "resetAttempts": obj.get("resetAttempts"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

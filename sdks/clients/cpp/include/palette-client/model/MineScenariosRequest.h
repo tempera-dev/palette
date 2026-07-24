@@ -56,21 +56,21 @@ public:
 
     double getJaccardThreshold() const;
     bool jaccardThresholdIsSet() const;
-    void unsetJaccard_threshold();
+    void unsetJaccardThreshold();
     void setJaccardThreshold(double value);
 
     std::vector<utility::string_t> getTraceIds() const;
     bool traceIdsIsSet() const;
-    void unsetTrace_ids();
+    void unsetTraceIds();
     void setTraceIds(const std::vector<utility::string_t>& value);
 
 
 protected:
-    double m_Jaccard_threshold;
-    bool m_Jaccard_thresholdIsSet;
+    double m_JaccardThreshold;
+    bool m_JaccardThresholdIsSet;
 
-    std::vector<utility::string_t> m_Trace_ids;
-    bool m_Trace_idsIsSet;
+    std::vector<utility::string_t> m_TraceIds;
+    bool m_TraceIdsIsSet;
 
 };
 

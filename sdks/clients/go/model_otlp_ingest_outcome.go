@@ -21,11 +21,11 @@ var _ MappedNullable = &OtlpIngestOutcome{}
 
 // OtlpIngestOutcome struct for OtlpIngestOutcome
 type OtlpIngestOutcome struct {
-	AcceptedRaw int32 `json:"accepted_raw"`
-	AcceptedSpans int32 `json:"accepted_spans"`
-	DownstreamQueued bool `json:"downstream_queued"`
-	DuplicateRaw int32 `json:"duplicate_raw"`
-	DuplicateSpans int32 `json:"duplicate_spans"`
+	AcceptedRaw int32 `json:"acceptedRaw"`
+	AcceptedSpans int32 `json:"acceptedSpans"`
+	DownstreamQueued bool `json:"downstreamQueued"`
+	DuplicateRaw int32 `json:"duplicateRaw"`
+	DuplicateSpans int32 `json:"duplicateSpans"`
 }
 
 type _OtlpIngestOutcome OtlpIngestOutcome
@@ -182,11 +182,11 @@ func (o OtlpIngestOutcome) MarshalJSON() ([]byte, error) {
 
 func (o OtlpIngestOutcome) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["accepted_raw"] = o.AcceptedRaw
-	toSerialize["accepted_spans"] = o.AcceptedSpans
-	toSerialize["downstream_queued"] = o.DownstreamQueued
-	toSerialize["duplicate_raw"] = o.DuplicateRaw
-	toSerialize["duplicate_spans"] = o.DuplicateSpans
+	toSerialize["acceptedRaw"] = o.AcceptedRaw
+	toSerialize["acceptedSpans"] = o.AcceptedSpans
+	toSerialize["downstreamQueued"] = o.DownstreamQueued
+	toSerialize["duplicateRaw"] = o.DuplicateRaw
+	toSerialize["duplicateSpans"] = o.DuplicateSpans
 	return toSerialize, nil
 }
 
@@ -195,11 +195,11 @@ func (o *OtlpIngestOutcome) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"accepted_raw",
-		"accepted_spans",
-		"downstream_queued",
-		"duplicate_raw",
-		"duplicate_spans",
+		"acceptedRaw",
+		"acceptedSpans",
+		"downstreamQueued",
+		"duplicateRaw",
+		"duplicateSpans",
 	}
 
 	allProperties := make(map[string]interface{})

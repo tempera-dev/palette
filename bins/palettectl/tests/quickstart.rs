@@ -23,22 +23,22 @@ fn quickstart_reaches_scored_failure() -> anyhow::Result<()> {
     assert_eq!(stdout["command"], "quickstart");
     assert_eq!(stdout["mode"], "local");
     assert_eq!(stdout["source"], "native-smoke");
-    assert_eq!(stdout["tenant_id"], "demo");
-    assert_eq!(stdout["project_id"], "demo");
-    assert_eq!(stdout["environment_id"], "local");
+    assert_eq!(stdout["tenantId"], "demo");
+    assert_eq!(stdout["projectId"], "demo");
+    assert_eq!(stdout["environmentId"], "local");
 
-    assert_eq!(stdout["trace"]["trace_id"], "smoke-trace");
-    assert_eq!(stdout["trace"]["span_id"], "smoke-root");
-    assert_eq!(stdout["trace"]["span_count"], 1);
-    assert!(stdout["dataset"]["dataset_id"].as_str().is_some());
-    assert!(stdout["dataset"]["dataset_version_id"].as_str().is_some());
-    assert!(stdout["dataset"]["case_id"].as_str().is_some());
+    assert_eq!(stdout["trace"]["traceId"], "smoke-trace");
+    assert_eq!(stdout["trace"]["spanId"], "smoke-root");
+    assert_eq!(stdout["trace"]["spanCount"], 1);
+    assert!(stdout["dataset"]["datasetId"].as_str().is_some());
+    assert!(stdout["dataset"]["datasetVersionId"].as_str().is_some());
+    assert!(stdout["dataset"]["caseId"].as_str().is_some());
 
     assert_eq!(stdout["scored_failure"], true);
     assert_eq!(stdout["eval"]["score"], 0.0);
-    assert_eq!(stdout["eval"]["aggregate_score"], 0.0);
+    assert_eq!(stdout["eval"]["aggregateScore"], 0.0);
     assert_eq!(stdout["eval"]["label"], "fail");
-    assert_eq!(stdout["eval"]["result_count"], 1);
+    assert_eq!(stdout["eval"]["resultCount"], 1);
     assert_eq!(stdout["eval"]["evidence"]["metric"], "exact_match");
     assert_eq!(stdout["eval"]["evidence"]["pass"], false);
 
@@ -48,7 +48,7 @@ fn quickstart_reaches_scored_failure() -> anyhow::Result<()> {
     );
     assert_eq!(
         stdout["api_trace_url"],
-        "http://127.0.0.1:8080/v1/traces/demo/smoke-trace?project_id=demo&environment_id=local"
+        "http://127.0.0.1:8080/v1/traces/demo/smoke-trace?projectId=demo&environmentId=local"
     );
     assert_eq!(
         stdout["zero_code_env"]["OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"],

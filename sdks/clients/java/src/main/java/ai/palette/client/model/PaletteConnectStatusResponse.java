@@ -48,11 +48,11 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class PaletteConnectStatusResponse {
-  public static final String JSON_PROPERTY_FIRST_EVAL_RUN = "first_eval_run";
+  public static final String JSON_PROPERTY_FIRST_EVAL_RUN = "firstEvalRun";
   @javax.annotation.Nonnull
   private Boolean firstEvalRun;
 
-  public static final String JSON_PROPERTY_FIRST_TRACE_RECEIVED = "first_trace_received";
+  public static final String JSON_PROPERTY_FIRST_TRACE_RECEIVED = "firstTraceReceived";
   @javax.annotation.Nonnull
   private Boolean firstTraceReceived;
 
@@ -60,7 +60,7 @@ public class PaletteConnectStatusResponse {
   @javax.annotation.Nonnull
   private Boolean ok;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -68,7 +68,7 @@ public class PaletteConnectStatusResponse {
   @javax.annotation.Nonnull
   private PaletteConnectStatus status;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -76,7 +76,7 @@ public class PaletteConnectStatusResponse {
   @javax.annotation.Nonnull
   private Map<String, UsageTotal> totals = new HashMap<>();
 
-  public static final String JSON_PROPERTY_USAGE_CONFIGURED = "usage_configured";
+  public static final String JSON_PROPERTY_USAGE_CONFIGURED = "usageConfigured";
   @javax.annotation.Nonnull
   private Boolean usageConfigured;
 
@@ -369,14 +369,14 @@ public class PaletteConnectStatusResponse {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `first_eval_run` to the URL query string
+    // add `firstEvalRun` to the URL query string
     if (getFirstEvalRun() != null) {
-      joiner.add(String.format("%sfirst_eval_run%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstEvalRun()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfirstEvalRun%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstEvalRun()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `first_trace_received` to the URL query string
+    // add `firstTraceReceived` to the URL query string
     if (getFirstTraceReceived() != null) {
-      joiner.add(String.format("%sfirst_trace_received%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstTraceReceived()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfirstTraceReceived%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstTraceReceived()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `ok` to the URL query string
@@ -384,9 +384,9 @@ public class PaletteConnectStatusResponse {
       joiner.add(String.format("%sok%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOk()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -394,9 +394,9 @@ public class PaletteConnectStatusResponse {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `totals` to the URL query string
@@ -409,9 +409,9 @@ public class PaletteConnectStatusResponse {
       }
     }
 
-    // add `usage_configured` to the URL query string
+    // add `usageConfigured` to the URL query string
     if (getUsageConfigured() != null) {
-      joiner.add(String.format("%susage_configured%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUsageConfigured()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%susageConfigured%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUsageConfigured()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

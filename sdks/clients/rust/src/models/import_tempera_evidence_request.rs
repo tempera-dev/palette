@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ImportTemperaEvidenceRequest {
     /// Canonical compact JSON signed by the release/decision key. The endpoint rejects equivalent but non-canonical JSON so the verified bytes are unambiguous across SDKs.
-    #[serde(rename = "canonical_json")]
+    #[serde(rename = "canonicalJson")]
     pub canonical_json: String,
     /// PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is pinned inside the signed payload.
-    #[serde(rename = "public_key_pem")]
+    #[serde(rename = "publicKeyPem")]
     pub public_key_pem: String,
     /// Standard-base64 detached Ed25519 signature over `canonical_json` bytes.
-    #[serde(rename = "signature_base64")]
+    #[serde(rename = "signatureBase64")]
     pub signature_base64: String,
 }
 

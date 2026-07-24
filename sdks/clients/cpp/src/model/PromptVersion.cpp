@@ -21,17 +21,17 @@ namespace model {
 PromptVersion::PromptVersion()
 {
     m_MetadataIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Prompt_id = utility::conversions::to_string_t("");
-    m_Prompt_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_PromptId = utility::conversions::to_string_t("");
+    m_PromptIdIsSet = false;
     m_r_templateIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Version_id = utility::conversions::to_string_t("");
-    m_Version_idIsSet = false;
-    m_Version_number = 0;
-    m_Version_numberIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_VersionId = utility::conversions::to_string_t("");
+    m_VersionIdIsSet = false;
+    m_VersionNumber = 0;
+    m_VersionNumberIsSet = false;
 }
 
 PromptVersion::~PromptVersion()
@@ -51,35 +51,35 @@ web::json::value PromptVersion::toJson() const
         
         val[utility::conversions::to_string_t(U("metadata"))] = ModelBase::toJson(m_Metadata);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Prompt_idIsSet)
+    if(m_PromptIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_id"))] = ModelBase::toJson(m_Prompt_id);
+        val[utility::conversions::to_string_t(U("promptId"))] = ModelBase::toJson(m_PromptId);
     }
     if(m_r_templateIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("template"))] = ModelBase::toJson(m_r_template);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Version_idIsSet)
+    if(m_VersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("version_id"))] = ModelBase::toJson(m_Version_id);
+        val[utility::conversions::to_string_t(U("versionId"))] = ModelBase::toJson(m_VersionId);
     }
-    if(m_Version_numberIsSet)
+    if(m_VersionNumberIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("version_number"))] = ModelBase::toJson(m_Version_number);
+        val[utility::conversions::to_string_t(U("versionNumber"))] = ModelBase::toJson(m_VersionNumber);
     }
 
     return val;
@@ -99,9 +99,9 @@ bool PromptVersion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -110,9 +110,9 @@ bool PromptVersion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPromptId;
@@ -132,9 +132,9 @@ bool PromptVersion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -143,9 +143,9 @@ bool PromptVersion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("versionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("versionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setVersionId;
@@ -154,9 +154,9 @@ bool PromptVersion::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("version_number"))))
+    if(val.has_field(utility::conversions::to_string_t(U("versionNumber"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("version_number")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("versionNumber")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setVersionNumber;
@@ -179,29 +179,29 @@ void PromptVersion::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("metadata")), m_Metadata));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Prompt_idIsSet)
+    if(m_PromptIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_id")), m_Prompt_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptId")), m_PromptId));
     }
     if(m_r_templateIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("template")), m_r_template));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Version_idIsSet)
+    if(m_VersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("version_id")), m_Version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("versionId")), m_VersionId));
     }
-    if(m_Version_numberIsSet)
+    if(m_VersionNumberIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("version_number")), m_Version_number));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("versionNumber")), m_VersionNumber));
     }
 }
 
@@ -220,16 +220,16 @@ bool PromptVersion::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("metadata"))), refVal_setMetadata );
         setMetadata(refVal_setMetadata);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptId"))))
     {
         utility::string_t refVal_setPromptId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_id"))), refVal_setPromptId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptId"))), refVal_setPromptId );
         setPromptId(refVal_setPromptId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("template"))))
@@ -238,22 +238,22 @@ bool PromptVersion::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("template"))), refVal_setRTemplate );
         setRTemplate(refVal_setRTemplate);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("versionId"))))
     {
         utility::string_t refVal_setVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("version_id"))), refVal_setVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("versionId"))), refVal_setVersionId );
         setVersionId(refVal_setVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("version_number"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("versionNumber"))))
     {
         int32_t refVal_setVersionNumber;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("version_number"))), refVal_setVersionNumber );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("versionNumber"))), refVal_setVersionNumber );
         setVersionNumber(refVal_setVersionNumber);
     }
     return ok;
@@ -283,45 +283,45 @@ void PromptVersion::unsetMetadata()
 }
 utility::string_t PromptVersion::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void PromptVersion::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool PromptVersion::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void PromptVersion::unsetProject_id()
+void PromptVersion::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t PromptVersion::getPromptId() const
 {
-    return m_Prompt_id;
+    return m_PromptId;
 }
 
 
 void PromptVersion::setPromptId(const utility::string_t& value)
 {
-    m_Prompt_id = value;
-    m_Prompt_idIsSet = true;
+    m_PromptId = value;
+    m_PromptIdIsSet = true;
 }
 
 bool PromptVersion::promptIdIsSet() const
 {
-    return m_Prompt_idIsSet;
+    return m_PromptIdIsSet;
 }
 
-void PromptVersion::unsetPrompt_id()
+void PromptVersion::unsetPromptId()
 {
-    m_Prompt_idIsSet = false;
+    m_PromptIdIsSet = false;
 }
 std::shared_ptr<PromptTemplate> PromptVersion::getRTemplate() const
 {
@@ -346,65 +346,65 @@ void PromptVersion::unsetr_template()
 }
 utility::string_t PromptVersion::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void PromptVersion::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool PromptVersion::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void PromptVersion::unsetTenant_id()
+void PromptVersion::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t PromptVersion::getVersionId() const
 {
-    return m_Version_id;
+    return m_VersionId;
 }
 
 
 void PromptVersion::setVersionId(const utility::string_t& value)
 {
-    m_Version_id = value;
-    m_Version_idIsSet = true;
+    m_VersionId = value;
+    m_VersionIdIsSet = true;
 }
 
 bool PromptVersion::versionIdIsSet() const
 {
-    return m_Version_idIsSet;
+    return m_VersionIdIsSet;
 }
 
-void PromptVersion::unsetVersion_id()
+void PromptVersion::unsetVersionId()
 {
-    m_Version_idIsSet = false;
+    m_VersionIdIsSet = false;
 }
 int32_t PromptVersion::getVersionNumber() const
 {
-    return m_Version_number;
+    return m_VersionNumber;
 }
 
 void PromptVersion::setVersionNumber(int32_t value)
 {
-    m_Version_number = value;
-    m_Version_numberIsSet = true;
+    m_VersionNumber = value;
+    m_VersionNumberIsSet = true;
 }
 
 bool PromptVersion::versionNumberIsSet() const
 {
-    return m_Version_numberIsSet;
+    return m_VersionNumberIsSet;
 }
 
-void PromptVersion::unsetVersion_number()
+void PromptVersion::unsetVersionNumber()
 {
-    m_Version_numberIsSet = false;
+    m_VersionNumberIsSet = false;
 }
 
 }

@@ -43,7 +43,7 @@ public class IngestOutcome {
   @javax.annotation.Nonnull
   private WriteAck ack;
 
-  public static final String JSON_PROPERTY_DOWNSTREAM_QUEUED = "downstream_queued";
+  public static final String JSON_PROPERTY_DOWNSTREAM_QUEUED = "downstreamQueued";
   @javax.annotation.Nonnull
   private Boolean downstreamQueued;
 
@@ -177,9 +177,9 @@ public class IngestOutcome {
       joiner.add(getAck().toUrlQueryString(prefix + "ack" + suffix));
     }
 
-    // add `downstream_queued` to the URL query string
+    // add `downstreamQueued` to the URL query string
     if (getDownstreamQueued() != null) {
-      joiner.add(String.format("%sdownstream_queued%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamQueued()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdownstreamQueued%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamQueued()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -62,22 +62,22 @@ public:
 
     utility::string_t getApiKeyId() const;
     bool apiKeyIdIsSet() const;
-    void unsetApi_key_id();
+    void unsetApiKeyId();
     void setApiKeyId(const utility::string_t& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getEnvironmentId() const;
     bool environmentIdIsSet() const;
-    void unsetEnvironment_id();
+    void unsetEnvironmentId();
     void setEnvironmentId(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::set<std::shared_ptr<ApiScope>> getScopes() const;
@@ -92,7 +92,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -100,17 +100,17 @@ protected:
     bool m_Active;
     bool m_ActiveIsSet;
 
-    utility::string_t m_Api_key_id;
-    bool m_Api_key_idIsSet;
+    utility::string_t m_ApiKeyId;
+    bool m_ApiKeyIdIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Environment_id;
-    bool m_Environment_idIsSet;
+    utility::string_t m_EnvironmentId;
+    bool m_EnvironmentIdIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     std::set<std::shared_ptr<ApiScope>> m_Scopes;
     bool m_ScopesIsSet;
@@ -118,8 +118,8 @@ protected:
     utility::string_t m_Secret;
     bool m_SecretIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

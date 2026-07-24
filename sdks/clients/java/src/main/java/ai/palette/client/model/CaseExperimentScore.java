@@ -58,57 +58,57 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CaseExperimentScore {
-  public static final String JSON_PROPERTY_BASELINE_CACHED = "baseline_cached";
+  public static final String JSON_PROPERTY_BASELINE_CACHED = "baselineCached";
   private JsonNullable<Boolean> baselineCached = JsonNullable.<Boolean>undefined();
 
-  public static final String JSON_PROPERTY_BASELINE_COST = "baseline_cost";
+  public static final String JSON_PROPERTY_BASELINE_COST = "baselineCost";
   private JsonNullable<Money> baselineCost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_BASELINE_EVIDENCE = "baseline_evidence";
+  public static final String JSON_PROPERTY_BASELINE_EVIDENCE = "baselineEvidence";
   @javax.annotation.Nullable
   private Object baselineEvidence = null;
 
-  public static final String JSON_PROPERTY_BASELINE_JUDGE_CALL_ID = "baseline_judge_call_id";
+  public static final String JSON_PROPERTY_BASELINE_JUDGE_CALL_ID = "baselineJudgeCallId";
   @javax.annotation.Nullable
   private String baselineJudgeCallId;
 
-  public static final String JSON_PROPERTY_BASELINE_OUTPUT = "baseline_output";
+  public static final String JSON_PROPERTY_BASELINE_OUTPUT = "baselineOutput";
   @javax.annotation.Nullable
   private Object baselineOutput = null;
 
-  public static final String JSON_PROPERTY_BASELINE_SCORE = "baseline_score";
+  public static final String JSON_PROPERTY_BASELINE_SCORE = "baselineScore";
   @javax.annotation.Nonnull
   private Double baselineScore;
 
-  public static final String JSON_PROPERTY_BASELINE_TRACE = "baseline_trace";
+  public static final String JSON_PROPERTY_BASELINE_TRACE = "baselineTrace";
   private JsonNullable<Object> baselineTrace = JsonNullable.<Object>of(null);
 
-  public static final String JSON_PROPERTY_CANDIDATE_CACHED = "candidate_cached";
+  public static final String JSON_PROPERTY_CANDIDATE_CACHED = "candidateCached";
   private JsonNullable<Boolean> candidateCached = JsonNullable.<Boolean>undefined();
 
-  public static final String JSON_PROPERTY_CANDIDATE_COST = "candidate_cost";
+  public static final String JSON_PROPERTY_CANDIDATE_COST = "candidateCost";
   private JsonNullable<Money> candidateCost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_CANDIDATE_EVIDENCE = "candidate_evidence";
+  public static final String JSON_PROPERTY_CANDIDATE_EVIDENCE = "candidateEvidence";
   @javax.annotation.Nullable
   private Object candidateEvidence = null;
 
-  public static final String JSON_PROPERTY_CANDIDATE_JUDGE_CALL_ID = "candidate_judge_call_id";
+  public static final String JSON_PROPERTY_CANDIDATE_JUDGE_CALL_ID = "candidateJudgeCallId";
   @javax.annotation.Nullable
   private String candidateJudgeCallId;
 
-  public static final String JSON_PROPERTY_CANDIDATE_OUTPUT = "candidate_output";
+  public static final String JSON_PROPERTY_CANDIDATE_OUTPUT = "candidateOutput";
   @javax.annotation.Nullable
   private Object candidateOutput = null;
 
-  public static final String JSON_PROPERTY_CANDIDATE_SCORE = "candidate_score";
+  public static final String JSON_PROPERTY_CANDIDATE_SCORE = "candidateScore";
   @javax.annotation.Nonnull
   private Double candidateScore;
 
-  public static final String JSON_PROPERTY_CANDIDATE_TRACE = "candidate_trace";
+  public static final String JSON_PROPERTY_CANDIDATE_TRACE = "candidateTrace";
   private JsonNullable<Object> candidateTrace = JsonNullable.<Object>of(null);
 
-  public static final String JSON_PROPERTY_CASE_ID = "case_id";
+  public static final String JSON_PROPERTY_CASE_ID = "caseId";
   @javax.annotation.Nonnull
   private String caseId;
 
@@ -701,79 +701,79 @@ public class CaseExperimentScore {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `baseline_cached` to the URL query string
+    // add `baselineCached` to the URL query string
     if (getBaselineCached() != null) {
-      joiner.add(String.format("%sbaseline_cached%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineCached()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineCached%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineCached()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_cost` to the URL query string
+    // add `baselineCost` to the URL query string
     if (getBaselineCost() != null) {
-      joiner.add(getBaselineCost().toUrlQueryString(prefix + "baseline_cost" + suffix));
+      joiner.add(getBaselineCost().toUrlQueryString(prefix + "baselineCost" + suffix));
     }
 
-    // add `baseline_evidence` to the URL query string
+    // add `baselineEvidence` to the URL query string
     if (getBaselineEvidence() != null) {
-      joiner.add(String.format("%sbaseline_evidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineEvidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineEvidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineEvidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_judge_call_id` to the URL query string
+    // add `baselineJudgeCallId` to the URL query string
     if (getBaselineJudgeCallId() != null) {
-      joiner.add(String.format("%sbaseline_judge_call_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineJudgeCallId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_output` to the URL query string
+    // add `baselineOutput` to the URL query string
     if (getBaselineOutput() != null) {
-      joiner.add(String.format("%sbaseline_output%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineOutput()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineOutput%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineOutput()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_score` to the URL query string
+    // add `baselineScore` to the URL query string
     if (getBaselineScore() != null) {
-      joiner.add(String.format("%sbaseline_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_trace` to the URL query string
+    // add `baselineTrace` to the URL query string
     if (getBaselineTrace() != null) {
-      joiner.add(String.format("%sbaseline_trace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineTrace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineTrace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineTrace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_cached` to the URL query string
+    // add `candidateCached` to the URL query string
     if (getCandidateCached() != null) {
-      joiner.add(String.format("%scandidate_cached%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateCached()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateCached%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateCached()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_cost` to the URL query string
+    // add `candidateCost` to the URL query string
     if (getCandidateCost() != null) {
-      joiner.add(getCandidateCost().toUrlQueryString(prefix + "candidate_cost" + suffix));
+      joiner.add(getCandidateCost().toUrlQueryString(prefix + "candidateCost" + suffix));
     }
 
-    // add `candidate_evidence` to the URL query string
+    // add `candidateEvidence` to the URL query string
     if (getCandidateEvidence() != null) {
-      joiner.add(String.format("%scandidate_evidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateEvidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateEvidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateEvidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_judge_call_id` to the URL query string
+    // add `candidateJudgeCallId` to the URL query string
     if (getCandidateJudgeCallId() != null) {
-      joiner.add(String.format("%scandidate_judge_call_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateJudgeCallId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_output` to the URL query string
+    // add `candidateOutput` to the URL query string
     if (getCandidateOutput() != null) {
-      joiner.add(String.format("%scandidate_output%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateOutput()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateOutput%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateOutput()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_score` to the URL query string
+    // add `candidateScore` to the URL query string
     if (getCandidateScore() != null) {
-      joiner.add(String.format("%scandidate_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_trace` to the URL query string
+    // add `candidateTrace` to the URL query string
     if (getCandidateTrace() != null) {
-      joiner.add(String.format("%scandidate_trace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateTrace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateTrace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateTrace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `case_id` to the URL query string
+    // add `caseId` to the URL query string
     if (getCaseId() != null) {
-      joiner.add(String.format("%scase_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `delta` to the URL query string

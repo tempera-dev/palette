@@ -64,12 +64,12 @@ public:
 
     utility::string_t getDeclaredContentSha256() const;
     bool declaredContentSha256IsSet() const;
-    void unsetDeclared_content_sha256();
+    void unsetDeclaredContentSha256();
     void setDeclaredContentSha256(const utility::string_t& value);
 
     utility::string_t getExternalId() const;
     bool externalIdIsSet() const;
-    void unsetExternal_id();
+    void unsetExternalId();
     void setExternalId(const utility::string_t& value);
 
     std::shared_ptr<ExternalEvalEvidenceKind> getKind() const;
@@ -79,37 +79,37 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getPublicKeySha256() const;
     bool publicKeySha256IsSet() const;
-    void unsetPublic_key_sha256();
+    void unsetPublicKeySha256();
     void setPublicKeySha256(const utility::string_t& value);
 
     utility::string_t getSchemaVersion() const;
     bool schemaVersionIsSet() const;
-    void unsetSchema_version();
+    void unsetSchemaVersion();
     void setSchemaVersion(const utility::string_t& value);
 
     utility::string_t getSignatureSha256() const;
     bool signatureSha256IsSet() const;
-    void unsetSignature_sha256();
+    void unsetSignatureSha256();
     void setSignatureSha256(const utility::string_t& value);
 
     utility::string_t getSignedPayloadSha256() const;
     bool signedPayloadSha256IsSet() const;
-    void unsetSigned_payload_sha256();
+    void unsetSignedPayloadSha256();
     void setSignedPayloadSha256(const utility::string_t& value);
 
     utility::string_t getSourceSchemaVersion() const;
     bool sourceSchemaVersionIsSet() const;
-    void unsetSource_schema_version();
+    void unsetSourceSchemaVersion();
     void setSourceSchemaVersion(const utility::string_t& value);
 
     utility::datetime getStoredAt() const;
     bool storedAtIsSet() const;
-    void unsetStored_at();
+    void unsetStoredAt();
     void setStoredAt(const utility::datetime& value);
 
     std::shared_ptr<TemperaEvidenceSummary> getSummary() const;
@@ -119,7 +119,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -127,41 +127,41 @@ protected:
     bool m_Created;
     bool m_CreatedIsSet;
 
-    utility::string_t m_Declared_content_sha256;
-    bool m_Declared_content_sha256IsSet;
+    utility::string_t m_DeclaredContentSha256;
+    bool m_DeclaredContentSha256IsSet;
 
-    utility::string_t m_External_id;
-    bool m_External_idIsSet;
+    utility::string_t m_ExternalId;
+    bool m_ExternalIdIsSet;
 
     std::shared_ptr<ExternalEvalEvidenceKind> m_Kind;
     bool m_KindIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Public_key_sha256;
-    bool m_Public_key_sha256IsSet;
+    utility::string_t m_PublicKeySha256;
+    bool m_PublicKeySha256IsSet;
 
-    utility::string_t m_Schema_version;
-    bool m_Schema_versionIsSet;
+    utility::string_t m_SchemaVersion;
+    bool m_SchemaVersionIsSet;
 
-    utility::string_t m_Signature_sha256;
-    bool m_Signature_sha256IsSet;
+    utility::string_t m_SignatureSha256;
+    bool m_SignatureSha256IsSet;
 
-    utility::string_t m_Signed_payload_sha256;
-    bool m_Signed_payload_sha256IsSet;
+    utility::string_t m_SignedPayloadSha256;
+    bool m_SignedPayloadSha256IsSet;
 
-    utility::string_t m_Source_schema_version;
-    bool m_Source_schema_versionIsSet;
+    utility::string_t m_SourceSchemaVersion;
+    bool m_SourceSchemaVersionIsSet;
 
-    utility::datetime m_Stored_at;
-    bool m_Stored_atIsSet;
+    utility::datetime m_StoredAt;
+    bool m_StoredAtIsSet;
 
     std::shared_ptr<TemperaEvidenceSummary> m_Summary;
     bool m_SummaryIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

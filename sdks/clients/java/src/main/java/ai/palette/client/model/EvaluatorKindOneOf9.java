@@ -38,7 +38,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvaluatorKindOneOf9 {
-  public static final String JSON_PROPERTY_MIN_RATIO = "min_ratio";
+  public static final String JSON_PROPERTY_MIN_RATIO = "minRatio";
   @javax.annotation.Nonnull
   private Double minRatio;
 
@@ -204,9 +204,9 @@ public class EvaluatorKindOneOf9 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `min_ratio` to the URL query string
+    // add `minRatio` to the URL query string
     if (getMinRatio() != null) {
-      joiner.add(String.format("%smin_ratio%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMinRatio()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sminRatio%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMinRatio()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `type` to the URL query string

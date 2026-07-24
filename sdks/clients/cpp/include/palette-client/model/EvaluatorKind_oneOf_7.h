@@ -68,7 +68,7 @@ public:
 
     utility::string_t getDomContains() const;
     bool domContainsIsSet() const;
-    void unsetDom_contains();
+    void unsetDomContains();
     void setDomContains(const utility::string_t& value);
 
     TypeEnum getType() const;
@@ -78,19 +78,19 @@ public:
 
     utility::string_t getUrlContains() const;
     bool urlContainsIsSet() const;
-    void unsetUrl_contains();
+    void unsetUrlContains();
     void setUrlContains(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Dom_contains;
-    bool m_Dom_containsIsSet;
+    utility::string_t m_DomContains;
+    bool m_DomContainsIsSet;
 
     TypeEnum m_Type;
     bool m_TypeIsSet;
 
-    utility::string_t m_Url_contains;
-    bool m_Url_containsIsSet;
+    utility::string_t m_UrlContains;
+    bool m_UrlContainsIsSet;
 
 };
 

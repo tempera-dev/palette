@@ -20,12 +20,12 @@ namespace model {
 
 TenantScope::TenantScope()
 {
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 TenantScope::~TenantScope()
@@ -40,20 +40,20 @@ void TenantScope::validate()
 web::json::value TenantScope::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value TenantScope::toJson() const
 bool TenantScope::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -73,9 +73,9 @@ bool TenantScope::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -84,9 +84,9 @@ bool TenantScope::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -105,17 +105,17 @@ void TenantScope::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -128,22 +128,22 @@ bool TenantScope::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -152,66 +152,66 @@ bool TenantScope::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 utility::string_t TenantScope::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void TenantScope::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool TenantScope::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void TenantScope::unsetEnvironment_id()
+void TenantScope::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 utility::string_t TenantScope::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void TenantScope::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool TenantScope::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void TenantScope::unsetProject_id()
+void TenantScope::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t TenantScope::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void TenantScope::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool TenantScope::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void TenantScope::unsetTenant_id()
+void TenantScope::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

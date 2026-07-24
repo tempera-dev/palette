@@ -67,8 +67,8 @@ export function UsageSummaryFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
         'totals': (mapValues(json['totals'], UsageTotalFromJSON)),
     };
 }
@@ -84,8 +84,8 @@ export function UsageSummaryToJSONTyped(value?: UsageSummary | null, ignoreDiscr
 
     return {
         
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
         'totals': (mapValues(value['totals'], UsageTotalToJSON)),
     };
 }

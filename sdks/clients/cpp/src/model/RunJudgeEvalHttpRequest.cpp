@@ -20,12 +20,12 @@ namespace model {
 
 RunJudgeEvalHttpRequest::RunJudgeEvalHttpRequest()
 {
-    m_Cache_namespace = utility::conversions::to_string_t("");
-    m_Cache_namespaceIsSet = false;
+    m_CacheNamespace = utility::conversions::to_string_t("");
+    m_CacheNamespaceIsSet = false;
     m_r_caseIsSet = false;
     m_EvaluatorIsSet = false;
-    m_Provider_secret_id = utility::conversions::to_string_t("");
-    m_Provider_secret_idIsSet = false;
+    m_ProviderSecretId = utility::conversions::to_string_t("");
+    m_ProviderSecretIdIsSet = false;
 }
 
 RunJudgeEvalHttpRequest::~RunJudgeEvalHttpRequest()
@@ -40,10 +40,10 @@ void RunJudgeEvalHttpRequest::validate()
 web::json::value RunJudgeEvalHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Cache_namespaceIsSet)
+    if(m_CacheNamespaceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cache_namespace"))] = ModelBase::toJson(m_Cache_namespace);
+        val[utility::conversions::to_string_t(U("cacheNamespace"))] = ModelBase::toJson(m_CacheNamespace);
     }
     if(m_r_caseIsSet)
     {   
@@ -55,10 +55,10 @@ web::json::value RunJudgeEvalHttpRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("evaluator"))] = ModelBase::toJson(m_Evaluator);
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("provider_secret_id"))] = ModelBase::toJson(m_Provider_secret_id);
+        val[utility::conversions::to_string_t(U("providerSecretId"))] = ModelBase::toJson(m_ProviderSecretId);
     }
 
     return val;
@@ -67,9 +67,9 @@ web::json::value RunJudgeEvalHttpRequest::toJson() const
 bool RunJudgeEvalHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("cache_namespace"))))
+    if(val.has_field(utility::conversions::to_string_t(U("cacheNamespace"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cache_namespace")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cacheNamespace")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCacheNamespace;
@@ -100,9 +100,9 @@ bool RunJudgeEvalHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("providerSecretId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("provider_secret_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("providerSecretId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProviderSecretId;
@@ -121,9 +121,9 @@ void RunJudgeEvalHttpRequest::toMultipart(std::shared_ptr<MultipartFormData> mul
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Cache_namespaceIsSet)
+    if(m_CacheNamespaceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cache_namespace")), m_Cache_namespace));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cacheNamespace")), m_CacheNamespace));
     }
     if(m_r_caseIsSet)
     {
@@ -133,9 +133,9 @@ void RunJudgeEvalHttpRequest::toMultipart(std::shared_ptr<MultipartFormData> mul
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator")), m_Evaluator));
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider_secret_id")), m_Provider_secret_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("providerSecretId")), m_ProviderSecretId));
     }
 }
 
@@ -148,10 +148,10 @@ bool RunJudgeEvalHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cache_namespace"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("cacheNamespace"))))
     {
         utility::string_t refVal_setCacheNamespace;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cache_namespace"))), refVal_setCacheNamespace );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cacheNamespace"))), refVal_setCacheNamespace );
         setCacheNamespace(refVal_setCacheNamespace);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("case"))))
@@ -166,10 +166,10 @@ bool RunJudgeEvalHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator"))), refVal_setEvaluator );
         setEvaluator(refVal_setEvaluator);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("providerSecretId"))))
     {
         utility::string_t refVal_setProviderSecretId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider_secret_id"))), refVal_setProviderSecretId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("providerSecretId"))), refVal_setProviderSecretId );
         setProviderSecretId(refVal_setProviderSecretId);
     }
     return ok;
@@ -178,24 +178,24 @@ bool RunJudgeEvalHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormData> m
 
 utility::string_t RunJudgeEvalHttpRequest::getCacheNamespace() const
 {
-    return m_Cache_namespace;
+    return m_CacheNamespace;
 }
 
 
 void RunJudgeEvalHttpRequest::setCacheNamespace(const utility::string_t& value)
 {
-    m_Cache_namespace = value;
-    m_Cache_namespaceIsSet = true;
+    m_CacheNamespace = value;
+    m_CacheNamespaceIsSet = true;
 }
 
 bool RunJudgeEvalHttpRequest::cacheNamespaceIsSet() const
 {
-    return m_Cache_namespaceIsSet;
+    return m_CacheNamespaceIsSet;
 }
 
-void RunJudgeEvalHttpRequest::unsetCache_namespace()
+void RunJudgeEvalHttpRequest::unsetCacheNamespace()
 {
-    m_Cache_namespaceIsSet = false;
+    m_CacheNamespaceIsSet = false;
 }
 std::shared_ptr<EvaluationCase> RunJudgeEvalHttpRequest::getRCase() const
 {
@@ -241,24 +241,24 @@ void RunJudgeEvalHttpRequest::unsetEvaluator()
 }
 utility::string_t RunJudgeEvalHttpRequest::getProviderSecretId() const
 {
-    return m_Provider_secret_id;
+    return m_ProviderSecretId;
 }
 
 
 void RunJudgeEvalHttpRequest::setProviderSecretId(const utility::string_t& value)
 {
-    m_Provider_secret_id = value;
-    m_Provider_secret_idIsSet = true;
+    m_ProviderSecretId = value;
+    m_ProviderSecretIdIsSet = true;
 }
 
 bool RunJudgeEvalHttpRequest::providerSecretIdIsSet() const
 {
-    return m_Provider_secret_idIsSet;
+    return m_ProviderSecretIdIsSet;
 }
 
-void RunJudgeEvalHttpRequest::unsetProvider_secret_id()
+void RunJudgeEvalHttpRequest::unsetProviderSecretId()
 {
-    m_Provider_secret_idIsSet = false;
+    m_ProviderSecretIdIsSet = false;
 }
 
 }

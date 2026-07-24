@@ -63,10 +63,10 @@ export function AlertLinksFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'clusterUrl': json['cluster_url'] == null ? undefined : json['cluster_url'],
-        'datasetUrl': json['dataset_url'] == null ? undefined : json['dataset_url'],
-        'gateUrl': json['gate_url'] == null ? undefined : json['gate_url'],
-        'traceUrl': json['trace_url'],
+        'clusterUrl': json['clusterUrl'] == null ? undefined : json['clusterUrl'],
+        'datasetUrl': json['datasetUrl'] == null ? undefined : json['datasetUrl'],
+        'gateUrl': json['gateUrl'] == null ? undefined : json['gateUrl'],
+        'traceUrl': json['traceUrl'],
     };
 }
 
@@ -81,10 +81,10 @@ export function AlertLinksToJSONTyped(value?: AlertLinks | null, ignoreDiscrimin
 
     return {
         
-        'cluster_url': value['clusterUrl'],
-        'dataset_url': value['datasetUrl'],
-        'gate_url': value['gateUrl'],
-        'trace_url': value['traceUrl'],
+        'clusterUrl': value['clusterUrl'],
+        'datasetUrl': value['datasetUrl'],
+        'gateUrl': value['gateUrl'],
+        'traceUrl': value['traceUrl'],
     };
 }
 

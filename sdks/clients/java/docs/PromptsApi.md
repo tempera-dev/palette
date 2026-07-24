@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**promptsAddVersion**](PromptsApi.md#promptsAddVersion) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsAddVersionWithHttpInfo**](PromptsApi.md#promptsAddVersionWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsCreate**](PromptsApi.md#promptsCreate) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsCreateWithHttpInfo**](PromptsApi.md#promptsCreateWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsDiffVersions**](PromptsApi.md#promptsDiffVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
-| [**promptsDiffVersionsWithHttpInfo**](PromptsApi.md#promptsDiffVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
-| [**promptsGet**](PromptsApi.md#promptsGet) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
-| [**promptsGetWithHttpInfo**](PromptsApi.md#promptsGetWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
-| [**promptsList**](PromptsApi.md#promptsList) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsListWithHttpInfo**](PromptsApi.md#promptsListWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsListVersions**](PromptsApi.md#promptsListVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsListVersionsWithHttpInfo**](PromptsApi.md#promptsListVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
+| [**promptsAddVersion**](PromptsApi.md#promptsAddVersion) | **POST** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |  |
+| [**promptsAddVersionWithHttpInfo**](PromptsApi.md#promptsAddVersionWithHttpInfo) | **POST** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |  |
+| [**promptsCreate**](PromptsApi.md#promptsCreate) | **POST** /v1/prompts/{tenantId}/{projectId} |  |
+| [**promptsCreateWithHttpInfo**](PromptsApi.md#promptsCreateWithHttpInfo) | **POST** /v1/prompts/{tenantId}/{projectId} |  |
+| [**promptsDiffVersions**](PromptsApi.md#promptsDiffVersions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/diff |  |
+| [**promptsDiffVersionsWithHttpInfo**](PromptsApi.md#promptsDiffVersionsWithHttpInfo) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/diff |  |
+| [**promptsGet**](PromptsApi.md#promptsGet) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId} |  |
+| [**promptsGetWithHttpInfo**](PromptsApi.md#promptsGetWithHttpInfo) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId} |  |
+| [**promptsList**](PromptsApi.md#promptsList) | **GET** /v1/prompts/{tenantId}/{projectId} |  |
+| [**promptsListWithHttpInfo**](PromptsApi.md#promptsListWithHttpInfo) | **GET** /v1/prompts/{tenantId}/{projectId} |  |
+| [**promptsListVersions**](PromptsApi.md#promptsListVersions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |  |
+| [**promptsListVersionsWithHttpInfo**](PromptsApi.md#promptsListVersionsWithHttpInfo) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |  |
 
 
 

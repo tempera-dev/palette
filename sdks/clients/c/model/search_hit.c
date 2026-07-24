@@ -125,7 +125,7 @@ cJSON *search_hit_convertToJSON(search_hit_t *search_hit) {
     if (!search_hit->environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "environment_id", search_hit->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", search_hit->environment_id) == NULL) {
     goto fail; //String
     }
 
@@ -161,7 +161,7 @@ cJSON *search_hit_convertToJSON(search_hit_t *search_hit) {
     if (!search_hit->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", search_hit->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", search_hit->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -179,7 +179,7 @@ cJSON *search_hit_convertToJSON(search_hit_t *search_hit) {
     if (!search_hit->span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "span_id", search_hit->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", search_hit->span_id) == NULL) {
     goto fail; //String
     }
 
@@ -197,7 +197,7 @@ cJSON *search_hit_convertToJSON(search_hit_t *search_hit) {
     if (!search_hit->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", search_hit->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", search_hit->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -215,7 +215,7 @@ cJSON *search_hit_convertToJSON(search_hit_t *search_hit) {
     if (!search_hit->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", search_hit->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", search_hit->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -232,7 +232,7 @@ search_hit_t *search_hit_parseFromJSON(cJSON *search_hitJSON){
     search_hit_t *search_hit_local_var = NULL;
 
     // search_hit->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -292,7 +292,7 @@ search_hit_t *search_hit_parseFromJSON(cJSON *search_hitJSON){
     }
 
     // search_hit->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -322,7 +322,7 @@ search_hit_t *search_hit_parseFromJSON(cJSON *search_hitJSON){
     }
 
     // search_hit->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -352,7 +352,7 @@ search_hit_t *search_hit_parseFromJSON(cJSON *search_hitJSON){
     }
 
     // search_hit->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -382,7 +382,7 @@ search_hit_t *search_hit_parseFromJSON(cJSON *search_hitJSON){
     }
 
     // search_hit->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(search_hitJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

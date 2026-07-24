@@ -189,7 +189,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->baseline_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "baseline_release_id", gate_run_report->baseline_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "baselineReleaseId", gate_run_report->baseline_release_id) == NULL) {
     goto fail; //String
     }
 
@@ -198,7 +198,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->candidate_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "candidate_release_id", gate_run_report->candidate_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "candidateReleaseId", gate_run_report->candidate_release_id) == NULL) {
     goto fail; //String
     }
 
@@ -221,7 +221,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", gate_run_report->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", gate_run_report->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -230,7 +230,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", gate_run_report->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", gate_run_report->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -239,7 +239,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", gate_run_report->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", gate_run_report->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -248,7 +248,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->experiment_created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "experiment_created_at", gate_run_report->experiment_created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "experimentCreatedAt", gate_run_report->experiment_created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -261,7 +261,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if(experiment_decision_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "experiment_decision", experiment_decision_local_JSON);
+    cJSON_AddItemToObject(item, "experimentDecision", experiment_decision_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -275,7 +275,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if(experiment_gate_policy_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "experiment_gate_policy", experiment_gate_policy_local_JSON);
+    cJSON_AddItemToObject(item, "experimentGatePolicy", experiment_gate_policy_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -285,14 +285,14 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->experiment_run_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "experiment_run_id", gate_run_report->experiment_run_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "experimentRunId", gate_run_report->experiment_run_id) == NULL) {
     goto fail; //String
     }
 
 
     // gate_run_report->gate_dataset_id
     if(gate_run_report->gate_dataset_id) {
-    if(cJSON_AddStringToObject(item, "gate_dataset_id", gate_run_report->gate_dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateDatasetId", gate_run_report->gate_dataset_id) == NULL) {
     goto fail; //String
     }
     }
@@ -300,7 +300,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
 
     // gate_run_report->gate_evaluator_version_id
     if(gate_run_report->gate_evaluator_version_id) {
-    if(cJSON_AddStringToObject(item, "gate_evaluator_version_id", gate_run_report->gate_evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateEvaluatorVersionId", gate_run_report->gate_evaluator_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -310,7 +310,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->gate_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "gate_id", gate_run_report->gate_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateId", gate_run_report->gate_id) == NULL) {
     goto fail; //String
     }
 
@@ -319,7 +319,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->gate_name) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "gate_name", gate_run_report->gate_name) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateName", gate_run_report->gate_name) == NULL) {
     goto fail; //String
     }
 
@@ -328,7 +328,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->gate_run_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "gate_run_id", gate_run_report->gate_run_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateRunId", gate_run_report->gate_run_id) == NULL) {
     goto fail; //String
     }
 
@@ -341,7 +341,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if(inconclusive_policy_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "inconclusive_policy", inconclusive_policy_local_JSON);
+    cJSON_AddItemToObject(item, "inconclusivePolicy", inconclusive_policy_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -360,7 +360,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", gate_run_report->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", gate_run_report->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -378,7 +378,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
     if (!gate_run_report->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", gate_run_report->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", gate_run_report->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -407,7 +407,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // gate_run_report->baseline_release_id
-    cJSON *baseline_release_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "baseline_release_id");
+    cJSON *baseline_release_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "baselineReleaseId");
     if (cJSON_IsNull(baseline_release_id)) {
         baseline_release_id = NULL;
     }
@@ -422,7 +422,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->candidate_release_id
-    cJSON *candidate_release_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "candidate_release_id");
+    cJSON *candidate_release_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "candidateReleaseId");
     if (cJSON_IsNull(candidate_release_id)) {
         candidate_release_id = NULL;
     }
@@ -449,7 +449,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     comparison_local_nonprim = experiment_comparison_parseFromJSON(comparison); //nonprimitive
 
     // gate_run_report->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -464,7 +464,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -479,7 +479,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -494,7 +494,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->experiment_created_at
-    cJSON *experiment_created_at = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experiment_created_at");
+    cJSON *experiment_created_at = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experimentCreatedAt");
     if (cJSON_IsNull(experiment_created_at)) {
         experiment_created_at = NULL;
     }
@@ -509,7 +509,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->experiment_decision
-    cJSON *experiment_decision = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experiment_decision");
+    cJSON *experiment_decision = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experimentDecision");
     if (cJSON_IsNull(experiment_decision)) {
         experiment_decision = NULL;
     }
@@ -521,7 +521,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     experiment_decision_local_nonprim = gate_decision_parseFromJSON(experiment_decision); //custom
 
     // gate_run_report->experiment_gate_policy
-    cJSON *experiment_gate_policy = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experiment_gate_policy");
+    cJSON *experiment_gate_policy = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experimentGatePolicy");
     if (cJSON_IsNull(experiment_gate_policy)) {
         experiment_gate_policy = NULL;
     }
@@ -533,7 +533,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     experiment_gate_policy_local_nonprim = gate_policy_parseFromJSON(experiment_gate_policy); //nonprimitive
 
     // gate_run_report->experiment_run_id
-    cJSON *experiment_run_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experiment_run_id");
+    cJSON *experiment_run_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "experimentRunId");
     if (cJSON_IsNull(experiment_run_id)) {
         experiment_run_id = NULL;
     }
@@ -548,7 +548,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->gate_dataset_id
-    cJSON *gate_dataset_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gate_dataset_id");
+    cJSON *gate_dataset_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gateDatasetId");
     if (cJSON_IsNull(gate_dataset_id)) {
         gate_dataset_id = NULL;
     }
@@ -560,7 +560,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->gate_evaluator_version_id
-    cJSON *gate_evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gate_evaluator_version_id");
+    cJSON *gate_evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gateEvaluatorVersionId");
     if (cJSON_IsNull(gate_evaluator_version_id)) {
         gate_evaluator_version_id = NULL;
     }
@@ -572,7 +572,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->gate_id
-    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gate_id");
+    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gateId");
     if (cJSON_IsNull(gate_id)) {
         gate_id = NULL;
     }
@@ -587,7 +587,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->gate_name
-    cJSON *gate_name = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gate_name");
+    cJSON *gate_name = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gateName");
     if (cJSON_IsNull(gate_name)) {
         gate_name = NULL;
     }
@@ -602,7 +602,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->gate_run_id
-    cJSON *gate_run_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gate_run_id");
+    cJSON *gate_run_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "gateRunId");
     if (cJSON_IsNull(gate_run_id)) {
         gate_run_id = NULL;
     }
@@ -617,7 +617,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->inconclusive_policy
-    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "inconclusive_policy");
+    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "inconclusivePolicy");
     if (cJSON_IsNull(inconclusive_policy)) {
         inconclusive_policy = NULL;
     }
@@ -644,7 +644,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -674,7 +674,7 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     }
 
     // gate_run_report->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

@@ -21,10 +21,10 @@ var _ MappedNullable = &WriteAck{}
 
 // WriteAck struct for WriteAck
 type WriteAck struct {
-	AcceptedRaw int32 `json:"accepted_raw"`
-	AcceptedSpans int32 `json:"accepted_spans"`
-	DuplicateRaw int32 `json:"duplicate_raw"`
-	DuplicateSpans int32 `json:"duplicate_spans"`
+	AcceptedRaw int32 `json:"acceptedRaw"`
+	AcceptedSpans int32 `json:"acceptedSpans"`
+	DuplicateRaw int32 `json:"duplicateRaw"`
+	DuplicateSpans int32 `json:"duplicateSpans"`
 }
 
 type _WriteAck WriteAck
@@ -156,10 +156,10 @@ func (o WriteAck) MarshalJSON() ([]byte, error) {
 
 func (o WriteAck) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["accepted_raw"] = o.AcceptedRaw
-	toSerialize["accepted_spans"] = o.AcceptedSpans
-	toSerialize["duplicate_raw"] = o.DuplicateRaw
-	toSerialize["duplicate_spans"] = o.DuplicateSpans
+	toSerialize["acceptedRaw"] = o.AcceptedRaw
+	toSerialize["acceptedSpans"] = o.AcceptedSpans
+	toSerialize["duplicateRaw"] = o.DuplicateRaw
+	toSerialize["duplicateSpans"] = o.DuplicateSpans
 	return toSerialize, nil
 }
 
@@ -168,10 +168,10 @@ func (o *WriteAck) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"accepted_raw",
-		"accepted_spans",
-		"duplicate_raw",
-		"duplicate_spans",
+		"acceptedRaw",
+		"acceptedSpans",
+		"duplicateRaw",
+		"duplicateSpans",
 	}
 
 	allProperties := make(map[string]interface{})

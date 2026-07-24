@@ -21,13 +21,13 @@ var _ MappedNullable = &RunExperimentRequest{}
 
 // RunExperimentRequest struct for RunExperimentRequest
 type RunExperimentRequest struct {
-	BaselineOutputs []CaseOutputOverrideRequest `json:"baseline_outputs"`
-	BaselineReleaseId string `json:"baseline_release_id"`
-	CandidateOutputs []CaseOutputOverrideRequest `json:"candidate_outputs"`
-	CandidateReleaseId string `json:"candidate_release_id"`
-	EvaluatorId string `json:"evaluator_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
-	GatePolicy NullableGatePolicy `json:"gate_policy,omitempty"`
+	BaselineOutputs []CaseOutputOverrideRequest `json:"baselineOutputs"`
+	BaselineReleaseId string `json:"baselineReleaseId"`
+	CandidateOutputs []CaseOutputOverrideRequest `json:"candidateOutputs"`
+	CandidateReleaseId string `json:"candidateReleaseId"`
+	EvaluatorId string `json:"evaluatorId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
+	GatePolicy NullableGatePolicy `json:"gatePolicy,omitempty"`
 	Kind EvaluatorKind `json:"kind"`
 }
 
@@ -277,14 +277,14 @@ func (o RunExperimentRequest) MarshalJSON() ([]byte, error) {
 
 func (o RunExperimentRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["baseline_outputs"] = o.BaselineOutputs
-	toSerialize["baseline_release_id"] = o.BaselineReleaseId
-	toSerialize["candidate_outputs"] = o.CandidateOutputs
-	toSerialize["candidate_release_id"] = o.CandidateReleaseId
-	toSerialize["evaluator_id"] = o.EvaluatorId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
+	toSerialize["baselineOutputs"] = o.BaselineOutputs
+	toSerialize["baselineReleaseId"] = o.BaselineReleaseId
+	toSerialize["candidateOutputs"] = o.CandidateOutputs
+	toSerialize["candidateReleaseId"] = o.CandidateReleaseId
+	toSerialize["evaluatorId"] = o.EvaluatorId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
 	if o.GatePolicy.IsSet() {
-		toSerialize["gate_policy"] = o.GatePolicy.Get()
+		toSerialize["gatePolicy"] = o.GatePolicy.Get()
 	}
 	toSerialize["kind"] = o.Kind
 	return toSerialize, nil
@@ -295,12 +295,12 @@ func (o *RunExperimentRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"baseline_outputs",
-		"baseline_release_id",
-		"candidate_outputs",
-		"candidate_release_id",
-		"evaluator_id",
-		"evaluator_version_id",
+		"baselineOutputs",
+		"baselineReleaseId",
+		"candidateOutputs",
+		"candidateReleaseId",
+		"evaluatorId",
+		"evaluatorVersionId",
 		"kind",
 	}
 

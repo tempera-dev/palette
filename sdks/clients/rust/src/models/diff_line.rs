@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct DiffLine {
     #[serde(rename = "kind")]
     pub kind: models::DiffLineKind,
-    #[serde(rename = "new_line", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "newLine", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub new_line: Option<Option<i32>>,
-    #[serde(rename = "old_line", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "oldLine", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub old_line: Option<Option<i32>>,
     #[serde(rename = "text")]
     pub text: String,

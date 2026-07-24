@@ -20,46 +20,46 @@ namespace model {
 
 CalibrationReport::CalibrationReport()
 {
-    m_Brier_score = 0.0;
-    m_Brier_scoreIsSet = false;
-    m_Calibration_report_id = utility::conversions::to_string_t("");
-    m_Calibration_report_idIsSet = false;
-    m_Cohen_kappa = 0.0;
-    m_Cohen_kappaIsSet = false;
-    m_Cohen_kappa_ci_high = 0.0;
-    m_Cohen_kappa_ci_highIsSet = false;
-    m_Cohen_kappa_ci_low = 0.0;
-    m_Cohen_kappa_ci_lowIsSet = false;
+    m_BrierScore = 0.0;
+    m_BrierScoreIsSet = false;
+    m_CalibrationReportId = utility::conversions::to_string_t("");
+    m_CalibrationReportIdIsSet = false;
+    m_CohenKappa = 0.0;
+    m_CohenKappaIsSet = false;
+    m_CohenKappaCiHigh = 0.0;
+    m_CohenKappaCiHighIsSet = false;
+    m_CohenKappaCiLow = 0.0;
+    m_CohenKappaCiLowIsSet = false;
     m_ConfusionIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
-    m_Dataset_version_id = utility::conversions::to_string_t("");
-    m_Dataset_version_idIsSet = false;
-    m_Eval_report_id = utility::conversions::to_string_t("");
-    m_Eval_report_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Expected_agreement = 0.0;
-    m_Expected_agreementIsSet = false;
-    m_Expected_calibration_error = 0.0;
-    m_Expected_calibration_errorIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
+    m_DatasetVersionId = utility::conversions::to_string_t("");
+    m_DatasetVersionIdIsSet = false;
+    m_EvalReportId = utility::conversions::to_string_t("");
+    m_EvalReportIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_ExpectedAgreement = 0.0;
+    m_ExpectedAgreementIsSet = false;
+    m_ExpectedCalibrationError = 0.0;
+    m_ExpectedCalibrationErrorIsSet = false;
     m_ItemsIsSet = false;
-    m_Observed_agreement = 0.0;
-    m_Observed_agreementIsSet = false;
-    m_Observed_agreement_ci_high = 0.0;
-    m_Observed_agreement_ci_highIsSet = false;
-    m_Observed_agreement_ci_low = 0.0;
-    m_Observed_agreement_ci_lowIsSet = false;
+    m_ObservedAgreement = 0.0;
+    m_ObservedAgreementIsSet = false;
+    m_ObservedAgreementCiHigh = 0.0;
+    m_ObservedAgreementCiHighIsSet = false;
+    m_ObservedAgreementCiLow = 0.0;
+    m_ObservedAgreementCiLowIsSet = false;
     m_PolicyIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Reliability_binsIsSet = false;
-    m_Sample_count = 0;
-    m_Sample_countIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_ReliabilityBinsIsSet = false;
+    m_SampleCount = 0;
+    m_SampleCountIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 CalibrationReport::~CalibrationReport()
@@ -74,115 +74,115 @@ void CalibrationReport::validate()
 web::json::value CalibrationReport::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Brier_scoreIsSet)
+    if(m_BrierScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("brier_score"))] = ModelBase::toJson(m_Brier_score);
+        val[utility::conversions::to_string_t(U("brierScore"))] = ModelBase::toJson(m_BrierScore);
     }
-    if(m_Calibration_report_idIsSet)
+    if(m_CalibrationReportIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("calibration_report_id"))] = ModelBase::toJson(m_Calibration_report_id);
+        val[utility::conversions::to_string_t(U("calibrationReportId"))] = ModelBase::toJson(m_CalibrationReportId);
     }
-    if(m_Cohen_kappaIsSet)
+    if(m_CohenKappaIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cohen_kappa"))] = ModelBase::toJson(m_Cohen_kappa);
+        val[utility::conversions::to_string_t(U("cohenKappa"))] = ModelBase::toJson(m_CohenKappa);
     }
-    if(m_Cohen_kappa_ci_highIsSet)
+    if(m_CohenKappaCiHighIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cohen_kappa_ci_high"))] = ModelBase::toJson(m_Cohen_kappa_ci_high);
+        val[utility::conversions::to_string_t(U("cohenKappaCiHigh"))] = ModelBase::toJson(m_CohenKappaCiHigh);
     }
-    if(m_Cohen_kappa_ci_lowIsSet)
+    if(m_CohenKappaCiLowIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cohen_kappa_ci_low"))] = ModelBase::toJson(m_Cohen_kappa_ci_low);
+        val[utility::conversions::to_string_t(U("cohenKappaCiLow"))] = ModelBase::toJson(m_CohenKappaCiLow);
     }
     if(m_ConfusionIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("confusion"))] = ModelBase::toJson(m_Confusion);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_version_id"))] = ModelBase::toJson(m_Dataset_version_id);
+        val[utility::conversions::to_string_t(U("datasetVersionId"))] = ModelBase::toJson(m_DatasetVersionId);
     }
-    if(m_Eval_report_idIsSet)
+    if(m_EvalReportIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("eval_report_id"))] = ModelBase::toJson(m_Eval_report_id);
+        val[utility::conversions::to_string_t(U("evalReportId"))] = ModelBase::toJson(m_EvalReportId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Expected_agreementIsSet)
+    if(m_ExpectedAgreementIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("expected_agreement"))] = ModelBase::toJson(m_Expected_agreement);
+        val[utility::conversions::to_string_t(U("expectedAgreement"))] = ModelBase::toJson(m_ExpectedAgreement);
     }
-    if(m_Expected_calibration_errorIsSet)
+    if(m_ExpectedCalibrationErrorIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("expected_calibration_error"))] = ModelBase::toJson(m_Expected_calibration_error);
+        val[utility::conversions::to_string_t(U("expectedCalibrationError"))] = ModelBase::toJson(m_ExpectedCalibrationError);
     }
     if(m_ItemsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("items"))] = ModelBase::toJson(m_Items);
     }
-    if(m_Observed_agreementIsSet)
+    if(m_ObservedAgreementIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("observed_agreement"))] = ModelBase::toJson(m_Observed_agreement);
+        val[utility::conversions::to_string_t(U("observedAgreement"))] = ModelBase::toJson(m_ObservedAgreement);
     }
-    if(m_Observed_agreement_ci_highIsSet)
+    if(m_ObservedAgreementCiHighIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("observed_agreement_ci_high"))] = ModelBase::toJson(m_Observed_agreement_ci_high);
+        val[utility::conversions::to_string_t(U("observedAgreementCiHigh"))] = ModelBase::toJson(m_ObservedAgreementCiHigh);
     }
-    if(m_Observed_agreement_ci_lowIsSet)
+    if(m_ObservedAgreementCiLowIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("observed_agreement_ci_low"))] = ModelBase::toJson(m_Observed_agreement_ci_low);
+        val[utility::conversions::to_string_t(U("observedAgreementCiLow"))] = ModelBase::toJson(m_ObservedAgreementCiLow);
     }
     if(m_PolicyIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("policy"))] = ModelBase::toJson(m_Policy);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Reliability_binsIsSet)
+    if(m_ReliabilityBinsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("reliability_bins"))] = ModelBase::toJson(m_Reliability_bins);
+        val[utility::conversions::to_string_t(U("reliabilityBins"))] = ModelBase::toJson(m_ReliabilityBins);
     }
-    if(m_Sample_countIsSet)
+    if(m_SampleCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("sample_count"))] = ModelBase::toJson(m_Sample_count);
+        val[utility::conversions::to_string_t(U("sampleCount"))] = ModelBase::toJson(m_SampleCount);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -191,9 +191,9 @@ web::json::value CalibrationReport::toJson() const
 bool CalibrationReport::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("brier_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("brierScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("brier_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("brierScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setBrierScore;
@@ -202,9 +202,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("calibration_report_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("calibrationReportId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("calibration_report_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("calibrationReportId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCalibrationReportId;
@@ -213,9 +213,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("cohen_kappa"))))
+    if(val.has_field(utility::conversions::to_string_t(U("cohenKappa"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohen_kappa")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohenKappa")));
         if(!fieldValue.is_null())
         {
             double refVal_setCohenKappa;
@@ -224,9 +224,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("cohen_kappa_ci_high"))))
+    if(val.has_field(utility::conversions::to_string_t(U("cohenKappaCiHigh"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohen_kappa_ci_high")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohenKappaCiHigh")));
         if(!fieldValue.is_null())
         {
             double refVal_setCohenKappaCiHigh;
@@ -235,9 +235,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("cohen_kappa_ci_low"))))
+    if(val.has_field(utility::conversions::to_string_t(U("cohenKappaCiLow"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohen_kappa_ci_low")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cohenKappaCiLow")));
         if(!fieldValue.is_null())
         {
             double refVal_setCohenKappaCiLow;
@@ -257,9 +257,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -268,9 +268,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -279,9 +279,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetVersionId;
@@ -290,9 +290,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("eval_report_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evalReportId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("eval_report_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evalReportId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvalReportId;
@@ -301,9 +301,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -312,9 +312,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("expected_agreement"))))
+    if(val.has_field(utility::conversions::to_string_t(U("expectedAgreement"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expected_agreement")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expectedAgreement")));
         if(!fieldValue.is_null())
         {
             double refVal_setExpectedAgreement;
@@ -323,9 +323,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("expected_calibration_error"))))
+    if(val.has_field(utility::conversions::to_string_t(U("expectedCalibrationError"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expected_calibration_error")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("expectedCalibrationError")));
         if(!fieldValue.is_null())
         {
             double refVal_setExpectedCalibrationError;
@@ -345,9 +345,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("observed_agreement"))))
+    if(val.has_field(utility::conversions::to_string_t(U("observedAgreement"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observed_agreement")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observedAgreement")));
         if(!fieldValue.is_null())
         {
             double refVal_setObservedAgreement;
@@ -356,9 +356,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("observed_agreement_ci_high"))))
+    if(val.has_field(utility::conversions::to_string_t(U("observedAgreementCiHigh"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observed_agreement_ci_high")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observedAgreementCiHigh")));
         if(!fieldValue.is_null())
         {
             double refVal_setObservedAgreementCiHigh;
@@ -367,9 +367,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("observed_agreement_ci_low"))))
+    if(val.has_field(utility::conversions::to_string_t(U("observedAgreementCiLow"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observed_agreement_ci_low")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("observedAgreementCiLow")));
         if(!fieldValue.is_null())
         {
             double refVal_setObservedAgreementCiLow;
@@ -389,9 +389,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -400,9 +400,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("reliability_bins"))))
+    if(val.has_field(utility::conversions::to_string_t(U("reliabilityBins"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reliability_bins")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reliabilityBins")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<ReliabilityBin>> refVal_setReliabilityBins;
@@ -411,9 +411,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("sample_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sampleCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sample_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sampleCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSampleCount;
@@ -422,9 +422,9 @@ bool CalibrationReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -443,93 +443,93 @@ void CalibrationReport::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Brier_scoreIsSet)
+    if(m_BrierScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("brier_score")), m_Brier_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("brierScore")), m_BrierScore));
     }
-    if(m_Calibration_report_idIsSet)
+    if(m_CalibrationReportIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("calibration_report_id")), m_Calibration_report_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("calibrationReportId")), m_CalibrationReportId));
     }
-    if(m_Cohen_kappaIsSet)
+    if(m_CohenKappaIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohen_kappa")), m_Cohen_kappa));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohenKappa")), m_CohenKappa));
     }
-    if(m_Cohen_kappa_ci_highIsSet)
+    if(m_CohenKappaCiHighIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohen_kappa_ci_high")), m_Cohen_kappa_ci_high));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohenKappaCiHigh")), m_CohenKappaCiHigh));
     }
-    if(m_Cohen_kappa_ci_lowIsSet)
+    if(m_CohenKappaCiLowIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohen_kappa_ci_low")), m_Cohen_kappa_ci_low));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cohenKappaCiLow")), m_CohenKappaCiLow));
     }
     if(m_ConfusionIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("confusion")), m_Confusion));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_version_id")), m_Dataset_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetVersionId")), m_DatasetVersionId));
     }
-    if(m_Eval_report_idIsSet)
+    if(m_EvalReportIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("eval_report_id")), m_Eval_report_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evalReportId")), m_EvalReportId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Expected_agreementIsSet)
+    if(m_ExpectedAgreementIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expected_agreement")), m_Expected_agreement));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expectedAgreement")), m_ExpectedAgreement));
     }
-    if(m_Expected_calibration_errorIsSet)
+    if(m_ExpectedCalibrationErrorIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expected_calibration_error")), m_Expected_calibration_error));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("expectedCalibrationError")), m_ExpectedCalibrationError));
     }
     if(m_ItemsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("items")), m_Items));
     }
-    if(m_Observed_agreementIsSet)
+    if(m_ObservedAgreementIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observed_agreement")), m_Observed_agreement));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observedAgreement")), m_ObservedAgreement));
     }
-    if(m_Observed_agreement_ci_highIsSet)
+    if(m_ObservedAgreementCiHighIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observed_agreement_ci_high")), m_Observed_agreement_ci_high));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observedAgreementCiHigh")), m_ObservedAgreementCiHigh));
     }
-    if(m_Observed_agreement_ci_lowIsSet)
+    if(m_ObservedAgreementCiLowIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observed_agreement_ci_low")), m_Observed_agreement_ci_low));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("observedAgreementCiLow")), m_ObservedAgreementCiLow));
     }
     if(m_PolicyIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("policy")), m_Policy));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Reliability_binsIsSet)
+    if(m_ReliabilityBinsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reliability_bins")), m_Reliability_bins));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reliabilityBins")), m_ReliabilityBins));
     }
-    if(m_Sample_countIsSet)
+    if(m_SampleCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sample_count")), m_Sample_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sampleCount")), m_SampleCount));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -542,34 +542,34 @@ bool CalibrationReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("brier_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("brierScore"))))
     {
         double refVal_setBrierScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("brier_score"))), refVal_setBrierScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("brierScore"))), refVal_setBrierScore );
         setBrierScore(refVal_setBrierScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("calibration_report_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("calibrationReportId"))))
     {
         utility::string_t refVal_setCalibrationReportId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("calibration_report_id"))), refVal_setCalibrationReportId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("calibrationReportId"))), refVal_setCalibrationReportId );
         setCalibrationReportId(refVal_setCalibrationReportId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cohen_kappa"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("cohenKappa"))))
     {
         double refVal_setCohenKappa;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohen_kappa"))), refVal_setCohenKappa );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohenKappa"))), refVal_setCohenKappa );
         setCohenKappa(refVal_setCohenKappa);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cohen_kappa_ci_high"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("cohenKappaCiHigh"))))
     {
         double refVal_setCohenKappaCiHigh;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohen_kappa_ci_high"))), refVal_setCohenKappaCiHigh );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohenKappaCiHigh"))), refVal_setCohenKappaCiHigh );
         setCohenKappaCiHigh(refVal_setCohenKappaCiHigh);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cohen_kappa_ci_low"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("cohenKappaCiLow"))))
     {
         double refVal_setCohenKappaCiLow;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohen_kappa_ci_low"))), refVal_setCohenKappaCiLow );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cohenKappaCiLow"))), refVal_setCohenKappaCiLow );
         setCohenKappaCiLow(refVal_setCohenKappaCiLow);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("confusion"))))
@@ -578,46 +578,46 @@ bool CalibrationReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("confusion"))), refVal_setConfusion );
         setConfusion(refVal_setConfusion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
         utility::string_t refVal_setDatasetVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_version_id"))), refVal_setDatasetVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetVersionId"))), refVal_setDatasetVersionId );
         setDatasetVersionId(refVal_setDatasetVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("eval_report_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evalReportId"))))
     {
         utility::string_t refVal_setEvalReportId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("eval_report_id"))), refVal_setEvalReportId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evalReportId"))), refVal_setEvalReportId );
         setEvalReportId(refVal_setEvalReportId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("expected_agreement"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("expectedAgreement"))))
     {
         double refVal_setExpectedAgreement;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expected_agreement"))), refVal_setExpectedAgreement );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expectedAgreement"))), refVal_setExpectedAgreement );
         setExpectedAgreement(refVal_setExpectedAgreement);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("expected_calibration_error"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("expectedCalibrationError"))))
     {
         double refVal_setExpectedCalibrationError;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expected_calibration_error"))), refVal_setExpectedCalibrationError );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("expectedCalibrationError"))), refVal_setExpectedCalibrationError );
         setExpectedCalibrationError(refVal_setExpectedCalibrationError);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("items"))))
@@ -626,22 +626,22 @@ bool CalibrationReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("items"))), refVal_setItems );
         setItems(refVal_setItems);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("observed_agreement"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("observedAgreement"))))
     {
         double refVal_setObservedAgreement;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observed_agreement"))), refVal_setObservedAgreement );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observedAgreement"))), refVal_setObservedAgreement );
         setObservedAgreement(refVal_setObservedAgreement);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("observed_agreement_ci_high"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("observedAgreementCiHigh"))))
     {
         double refVal_setObservedAgreementCiHigh;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observed_agreement_ci_high"))), refVal_setObservedAgreementCiHigh );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observedAgreementCiHigh"))), refVal_setObservedAgreementCiHigh );
         setObservedAgreementCiHigh(refVal_setObservedAgreementCiHigh);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("observed_agreement_ci_low"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("observedAgreementCiLow"))))
     {
         double refVal_setObservedAgreementCiLow;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observed_agreement_ci_low"))), refVal_setObservedAgreementCiLow );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("observedAgreementCiLow"))), refVal_setObservedAgreementCiLow );
         setObservedAgreementCiLow(refVal_setObservedAgreementCiLow);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("policy"))))
@@ -650,28 +650,28 @@ bool CalibrationReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("policy"))), refVal_setPolicy );
         setPolicy(refVal_setPolicy);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("reliability_bins"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("reliabilityBins"))))
     {
         std::vector<std::shared_ptr<ReliabilityBin>> refVal_setReliabilityBins;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reliability_bins"))), refVal_setReliabilityBins );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reliabilityBins"))), refVal_setReliabilityBins );
         setReliabilityBins(refVal_setReliabilityBins);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("sample_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sampleCount"))))
     {
         int32_t refVal_setSampleCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sample_count"))), refVal_setSampleCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sampleCount"))), refVal_setSampleCount );
         setSampleCount(refVal_setSampleCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -680,104 +680,104 @@ bool CalibrationReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 double CalibrationReport::getBrierScore() const
 {
-    return m_Brier_score;
+    return m_BrierScore;
 }
 
 void CalibrationReport::setBrierScore(double value)
 {
-    m_Brier_score = value;
-    m_Brier_scoreIsSet = true;
+    m_BrierScore = value;
+    m_BrierScoreIsSet = true;
 }
 
 bool CalibrationReport::brierScoreIsSet() const
 {
-    return m_Brier_scoreIsSet;
+    return m_BrierScoreIsSet;
 }
 
-void CalibrationReport::unsetBrier_score()
+void CalibrationReport::unsetBrierScore()
 {
-    m_Brier_scoreIsSet = false;
+    m_BrierScoreIsSet = false;
 }
 utility::string_t CalibrationReport::getCalibrationReportId() const
 {
-    return m_Calibration_report_id;
+    return m_CalibrationReportId;
 }
 
 
 void CalibrationReport::setCalibrationReportId(const utility::string_t& value)
 {
-    m_Calibration_report_id = value;
-    m_Calibration_report_idIsSet = true;
+    m_CalibrationReportId = value;
+    m_CalibrationReportIdIsSet = true;
 }
 
 bool CalibrationReport::calibrationReportIdIsSet() const
 {
-    return m_Calibration_report_idIsSet;
+    return m_CalibrationReportIdIsSet;
 }
 
-void CalibrationReport::unsetCalibration_report_id()
+void CalibrationReport::unsetCalibrationReportId()
 {
-    m_Calibration_report_idIsSet = false;
+    m_CalibrationReportIdIsSet = false;
 }
 double CalibrationReport::getCohenKappa() const
 {
-    return m_Cohen_kappa;
+    return m_CohenKappa;
 }
 
 void CalibrationReport::setCohenKappa(double value)
 {
-    m_Cohen_kappa = value;
-    m_Cohen_kappaIsSet = true;
+    m_CohenKappa = value;
+    m_CohenKappaIsSet = true;
 }
 
 bool CalibrationReport::cohenKappaIsSet() const
 {
-    return m_Cohen_kappaIsSet;
+    return m_CohenKappaIsSet;
 }
 
-void CalibrationReport::unsetCohen_kappa()
+void CalibrationReport::unsetCohenKappa()
 {
-    m_Cohen_kappaIsSet = false;
+    m_CohenKappaIsSet = false;
 }
 double CalibrationReport::getCohenKappaCiHigh() const
 {
-    return m_Cohen_kappa_ci_high;
+    return m_CohenKappaCiHigh;
 }
 
 void CalibrationReport::setCohenKappaCiHigh(double value)
 {
-    m_Cohen_kappa_ci_high = value;
-    m_Cohen_kappa_ci_highIsSet = true;
+    m_CohenKappaCiHigh = value;
+    m_CohenKappaCiHighIsSet = true;
 }
 
 bool CalibrationReport::cohenKappaCiHighIsSet() const
 {
-    return m_Cohen_kappa_ci_highIsSet;
+    return m_CohenKappaCiHighIsSet;
 }
 
-void CalibrationReport::unsetCohen_kappa_ci_high()
+void CalibrationReport::unsetCohenKappaCiHigh()
 {
-    m_Cohen_kappa_ci_highIsSet = false;
+    m_CohenKappaCiHighIsSet = false;
 }
 double CalibrationReport::getCohenKappaCiLow() const
 {
-    return m_Cohen_kappa_ci_low;
+    return m_CohenKappaCiLow;
 }
 
 void CalibrationReport::setCohenKappaCiLow(double value)
 {
-    m_Cohen_kappa_ci_low = value;
-    m_Cohen_kappa_ci_lowIsSet = true;
+    m_CohenKappaCiLow = value;
+    m_CohenKappaCiLowIsSet = true;
 }
 
 bool CalibrationReport::cohenKappaCiLowIsSet() const
 {
-    return m_Cohen_kappa_ci_lowIsSet;
+    return m_CohenKappaCiLowIsSet;
 }
 
-void CalibrationReport::unsetCohen_kappa_ci_low()
+void CalibrationReport::unsetCohenKappaCiLow()
 {
-    m_Cohen_kappa_ci_lowIsSet = false;
+    m_CohenKappaCiLowIsSet = false;
 }
 std::shared_ptr<CalibrationConfusion> CalibrationReport::getConfusion() const
 {
@@ -802,148 +802,148 @@ void CalibrationReport::unsetConfusion()
 }
 utility::datetime CalibrationReport::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void CalibrationReport::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool CalibrationReport::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void CalibrationReport::unsetCreated_at()
+void CalibrationReport::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t CalibrationReport::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void CalibrationReport::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool CalibrationReport::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void CalibrationReport::unsetDataset_id()
+void CalibrationReport::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 utility::string_t CalibrationReport::getDatasetVersionId() const
 {
-    return m_Dataset_version_id;
+    return m_DatasetVersionId;
 }
 
 
 void CalibrationReport::setDatasetVersionId(const utility::string_t& value)
 {
-    m_Dataset_version_id = value;
-    m_Dataset_version_idIsSet = true;
+    m_DatasetVersionId = value;
+    m_DatasetVersionIdIsSet = true;
 }
 
 bool CalibrationReport::datasetVersionIdIsSet() const
 {
-    return m_Dataset_version_idIsSet;
+    return m_DatasetVersionIdIsSet;
 }
 
-void CalibrationReport::unsetDataset_version_id()
+void CalibrationReport::unsetDatasetVersionId()
 {
-    m_Dataset_version_idIsSet = false;
+    m_DatasetVersionIdIsSet = false;
 }
 utility::string_t CalibrationReport::getEvalReportId() const
 {
-    return m_Eval_report_id;
+    return m_EvalReportId;
 }
 
 
 void CalibrationReport::setEvalReportId(const utility::string_t& value)
 {
-    m_Eval_report_id = value;
-    m_Eval_report_idIsSet = true;
+    m_EvalReportId = value;
+    m_EvalReportIdIsSet = true;
 }
 
 bool CalibrationReport::evalReportIdIsSet() const
 {
-    return m_Eval_report_idIsSet;
+    return m_EvalReportIdIsSet;
 }
 
-void CalibrationReport::unsetEval_report_id()
+void CalibrationReport::unsetEvalReportId()
 {
-    m_Eval_report_idIsSet = false;
+    m_EvalReportIdIsSet = false;
 }
 utility::string_t CalibrationReport::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void CalibrationReport::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool CalibrationReport::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void CalibrationReport::unsetEvaluator_version_id()
+void CalibrationReport::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 double CalibrationReport::getExpectedAgreement() const
 {
-    return m_Expected_agreement;
+    return m_ExpectedAgreement;
 }
 
 void CalibrationReport::setExpectedAgreement(double value)
 {
-    m_Expected_agreement = value;
-    m_Expected_agreementIsSet = true;
+    m_ExpectedAgreement = value;
+    m_ExpectedAgreementIsSet = true;
 }
 
 bool CalibrationReport::expectedAgreementIsSet() const
 {
-    return m_Expected_agreementIsSet;
+    return m_ExpectedAgreementIsSet;
 }
 
-void CalibrationReport::unsetExpected_agreement()
+void CalibrationReport::unsetExpectedAgreement()
 {
-    m_Expected_agreementIsSet = false;
+    m_ExpectedAgreementIsSet = false;
 }
 double CalibrationReport::getExpectedCalibrationError() const
 {
-    return m_Expected_calibration_error;
+    return m_ExpectedCalibrationError;
 }
 
 void CalibrationReport::setExpectedCalibrationError(double value)
 {
-    m_Expected_calibration_error = value;
-    m_Expected_calibration_errorIsSet = true;
+    m_ExpectedCalibrationError = value;
+    m_ExpectedCalibrationErrorIsSet = true;
 }
 
 bool CalibrationReport::expectedCalibrationErrorIsSet() const
 {
-    return m_Expected_calibration_errorIsSet;
+    return m_ExpectedCalibrationErrorIsSet;
 }
 
-void CalibrationReport::unsetExpected_calibration_error()
+void CalibrationReport::unsetExpectedCalibrationError()
 {
-    m_Expected_calibration_errorIsSet = false;
+    m_ExpectedCalibrationErrorIsSet = false;
 }
 std::vector<std::shared_ptr<CalibrationItem>> CalibrationReport::getItems() const
 {
@@ -968,63 +968,63 @@ void CalibrationReport::unsetItems()
 }
 double CalibrationReport::getObservedAgreement() const
 {
-    return m_Observed_agreement;
+    return m_ObservedAgreement;
 }
 
 void CalibrationReport::setObservedAgreement(double value)
 {
-    m_Observed_agreement = value;
-    m_Observed_agreementIsSet = true;
+    m_ObservedAgreement = value;
+    m_ObservedAgreementIsSet = true;
 }
 
 bool CalibrationReport::observedAgreementIsSet() const
 {
-    return m_Observed_agreementIsSet;
+    return m_ObservedAgreementIsSet;
 }
 
-void CalibrationReport::unsetObserved_agreement()
+void CalibrationReport::unsetObservedAgreement()
 {
-    m_Observed_agreementIsSet = false;
+    m_ObservedAgreementIsSet = false;
 }
 double CalibrationReport::getObservedAgreementCiHigh() const
 {
-    return m_Observed_agreement_ci_high;
+    return m_ObservedAgreementCiHigh;
 }
 
 void CalibrationReport::setObservedAgreementCiHigh(double value)
 {
-    m_Observed_agreement_ci_high = value;
-    m_Observed_agreement_ci_highIsSet = true;
+    m_ObservedAgreementCiHigh = value;
+    m_ObservedAgreementCiHighIsSet = true;
 }
 
 bool CalibrationReport::observedAgreementCiHighIsSet() const
 {
-    return m_Observed_agreement_ci_highIsSet;
+    return m_ObservedAgreementCiHighIsSet;
 }
 
-void CalibrationReport::unsetObserved_agreement_ci_high()
+void CalibrationReport::unsetObservedAgreementCiHigh()
 {
-    m_Observed_agreement_ci_highIsSet = false;
+    m_ObservedAgreementCiHighIsSet = false;
 }
 double CalibrationReport::getObservedAgreementCiLow() const
 {
-    return m_Observed_agreement_ci_low;
+    return m_ObservedAgreementCiLow;
 }
 
 void CalibrationReport::setObservedAgreementCiLow(double value)
 {
-    m_Observed_agreement_ci_low = value;
-    m_Observed_agreement_ci_lowIsSet = true;
+    m_ObservedAgreementCiLow = value;
+    m_ObservedAgreementCiLowIsSet = true;
 }
 
 bool CalibrationReport::observedAgreementCiLowIsSet() const
 {
-    return m_Observed_agreement_ci_lowIsSet;
+    return m_ObservedAgreementCiLowIsSet;
 }
 
-void CalibrationReport::unsetObserved_agreement_ci_low()
+void CalibrationReport::unsetObservedAgreementCiLow()
 {
-    m_Observed_agreement_ci_lowIsSet = false;
+    m_ObservedAgreementCiLowIsSet = false;
 }
 std::shared_ptr<CalibrationPolicy> CalibrationReport::getPolicy() const
 {
@@ -1049,86 +1049,86 @@ void CalibrationReport::unsetPolicy()
 }
 utility::string_t CalibrationReport::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void CalibrationReport::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool CalibrationReport::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void CalibrationReport::unsetProject_id()
+void CalibrationReport::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::vector<std::shared_ptr<ReliabilityBin>> CalibrationReport::getReliabilityBins() const
 {
-    return m_Reliability_bins;
+    return m_ReliabilityBins;
 }
 
 
 void CalibrationReport::setReliabilityBins(const std::vector<std::shared_ptr<ReliabilityBin>>& value)
 {
-    m_Reliability_bins = value;
-    m_Reliability_binsIsSet = true;
+    m_ReliabilityBins = value;
+    m_ReliabilityBinsIsSet = true;
 }
 
 bool CalibrationReport::reliabilityBinsIsSet() const
 {
-    return m_Reliability_binsIsSet;
+    return m_ReliabilityBinsIsSet;
 }
 
-void CalibrationReport::unsetReliability_bins()
+void CalibrationReport::unsetReliabilityBins()
 {
-    m_Reliability_binsIsSet = false;
+    m_ReliabilityBinsIsSet = false;
 }
 int32_t CalibrationReport::getSampleCount() const
 {
-    return m_Sample_count;
+    return m_SampleCount;
 }
 
 void CalibrationReport::setSampleCount(int32_t value)
 {
-    m_Sample_count = value;
-    m_Sample_countIsSet = true;
+    m_SampleCount = value;
+    m_SampleCountIsSet = true;
 }
 
 bool CalibrationReport::sampleCountIsSet() const
 {
-    return m_Sample_countIsSet;
+    return m_SampleCountIsSet;
 }
 
-void CalibrationReport::unsetSample_count()
+void CalibrationReport::unsetSampleCount()
 {
-    m_Sample_countIsSet = false;
+    m_SampleCountIsSet = false;
 }
 utility::string_t CalibrationReport::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void CalibrationReport::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool CalibrationReport::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void CalibrationReport::unsetTenant_id()
+void CalibrationReport::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

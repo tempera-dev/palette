@@ -20,7 +20,7 @@ namespace model {
 
 SpanIoValue_oneOf_1::SpanIoValue_oneOf_1()
 {
-    m_Artifact_refIsSet = false;
+    m_ArtifactRefIsSet = false;
     m_KindIsSet = false;
 }
 
@@ -36,10 +36,10 @@ void SpanIoValue_oneOf_1::validate()
 web::json::value SpanIoValue_oneOf_1::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Artifact_refIsSet)
+    if(m_ArtifactRefIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("artifact_ref"))] = ModelBase::toJson(m_Artifact_ref);
+        val[utility::conversions::to_string_t(U("artifactRef"))] = ModelBase::toJson(m_ArtifactRef);
     }
     if(m_KindIsSet)
     {   
@@ -55,9 +55,9 @@ web::json::value SpanIoValue_oneOf_1::toJson() const
 bool SpanIoValue_oneOf_1::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("artifact_ref"))))
+    if(val.has_field(utility::conversions::to_string_t(U("artifactRef"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("artifact_ref")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("artifactRef")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<ArtifactRef> refVal_setArtifactRef;
@@ -88,9 +88,9 @@ void SpanIoValue_oneOf_1::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Artifact_refIsSet)
+    if(m_ArtifactRefIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("artifact_ref")), m_Artifact_ref));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("artifactRef")), m_ArtifactRef));
     }
     if(m_KindIsSet)
     {
@@ -107,10 +107,10 @@ bool SpanIoValue_oneOf_1::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("artifact_ref"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("artifactRef"))))
     {
         std::shared_ptr<ArtifactRef> refVal_setArtifactRef;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("artifact_ref"))), refVal_setArtifactRef );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("artifactRef"))), refVal_setArtifactRef );
         setArtifactRef(refVal_setArtifactRef);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -146,24 +146,24 @@ const utility::string_t SpanIoValue_oneOf_1::fromKindEnum(const KindEnum value) 
 
 std::shared_ptr<ArtifactRef> SpanIoValue_oneOf_1::getArtifactRef() const
 {
-    return m_Artifact_ref;
+    return m_ArtifactRef;
 }
 
 
 void SpanIoValue_oneOf_1::setArtifactRef(const std::shared_ptr<ArtifactRef>& value)
 {
-    m_Artifact_ref = value;
-    m_Artifact_refIsSet = true;
+    m_ArtifactRef = value;
+    m_ArtifactRefIsSet = true;
 }
 
 bool SpanIoValue_oneOf_1::artifactRefIsSet() const
 {
-    return m_Artifact_refIsSet;
+    return m_ArtifactRefIsSet;
 }
 
-void SpanIoValue_oneOf_1::unsetArtifact_ref()
+void SpanIoValue_oneOf_1::unsetArtifactRef()
 {
-    m_Artifact_refIsSet = false;
+    m_ArtifactRefIsSet = false;
 }
 SpanIoValue_oneOf_1::KindEnum SpanIoValue_oneOf_1::getKind() const
 {

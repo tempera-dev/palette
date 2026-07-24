@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.span_io_value import SpanIoValue
 from typing import Optional, Set
@@ -29,10 +29,10 @@ class SpanIoResponse(BaseModel):
     """ # noqa: E501
     input: SpanIoValue
     output: SpanIoValue
-    span_id: StrictStr
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["input", "output", "span_id", "tenant_id", "trace_id"]
+    span_id: StrictStr = Field(alias="spanId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["input", "output", "spanId", "tenantId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,9 +93,9 @@ class SpanIoResponse(BaseModel):
         _obj = cls.model_validate({
             "input": SpanIoValue.from_dict(obj["input"]) if obj.get("input") is not None else None,
             "output": SpanIoValue.from_dict(obj["output"]) if obj.get("output") is not None else None,
-            "span_id": obj.get("span_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id")
+            "spanId": obj.get("spanId"),
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

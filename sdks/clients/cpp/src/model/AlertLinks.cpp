@@ -20,14 +20,14 @@ namespace model {
 
 AlertLinks::AlertLinks()
 {
-    m_Cluster_url = utility::conversions::to_string_t("");
-    m_Cluster_urlIsSet = false;
-    m_Dataset_url = utility::conversions::to_string_t("");
-    m_Dataset_urlIsSet = false;
-    m_Gate_url = utility::conversions::to_string_t("");
-    m_Gate_urlIsSet = false;
-    m_Trace_url = utility::conversions::to_string_t("");
-    m_Trace_urlIsSet = false;
+    m_ClusterUrl = utility::conversions::to_string_t("");
+    m_ClusterUrlIsSet = false;
+    m_DatasetUrl = utility::conversions::to_string_t("");
+    m_DatasetUrlIsSet = false;
+    m_GateUrl = utility::conversions::to_string_t("");
+    m_GateUrlIsSet = false;
+    m_TraceUrl = utility::conversions::to_string_t("");
+    m_TraceUrlIsSet = false;
 }
 
 AlertLinks::~AlertLinks()
@@ -42,25 +42,25 @@ void AlertLinks::validate()
 web::json::value AlertLinks::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Cluster_urlIsSet)
+    if(m_ClusterUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cluster_url"))] = ModelBase::toJson(m_Cluster_url);
+        val[utility::conversions::to_string_t(U("clusterUrl"))] = ModelBase::toJson(m_ClusterUrl);
     }
-    if(m_Dataset_urlIsSet)
+    if(m_DatasetUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_url"))] = ModelBase::toJson(m_Dataset_url);
+        val[utility::conversions::to_string_t(U("datasetUrl"))] = ModelBase::toJson(m_DatasetUrl);
     }
-    if(m_Gate_urlIsSet)
+    if(m_GateUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_url"))] = ModelBase::toJson(m_Gate_url);
+        val[utility::conversions::to_string_t(U("gateUrl"))] = ModelBase::toJson(m_GateUrl);
     }
-    if(m_Trace_urlIsSet)
+    if(m_TraceUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_url"))] = ModelBase::toJson(m_Trace_url);
+        val[utility::conversions::to_string_t(U("traceUrl"))] = ModelBase::toJson(m_TraceUrl);
     }
 
     return val;
@@ -69,9 +69,9 @@ web::json::value AlertLinks::toJson() const
 bool AlertLinks::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("cluster_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("clusterUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cluster_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("clusterUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setClusterUrl;
@@ -80,9 +80,9 @@ bool AlertLinks::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetUrl;
@@ -91,9 +91,9 @@ bool AlertLinks::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateUrl;
@@ -102,9 +102,9 @@ bool AlertLinks::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceUrl;
@@ -123,21 +123,21 @@ void AlertLinks::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Cluster_urlIsSet)
+    if(m_ClusterUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cluster_url")), m_Cluster_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("clusterUrl")), m_ClusterUrl));
     }
-    if(m_Dataset_urlIsSet)
+    if(m_DatasetUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_url")), m_Dataset_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetUrl")), m_DatasetUrl));
     }
-    if(m_Gate_urlIsSet)
+    if(m_GateUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_url")), m_Gate_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateUrl")), m_GateUrl));
     }
-    if(m_Trace_urlIsSet)
+    if(m_TraceUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_url")), m_Trace_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceUrl")), m_TraceUrl));
     }
 }
 
@@ -150,28 +150,28 @@ bool AlertLinks::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cluster_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("clusterUrl"))))
     {
         utility::string_t refVal_setClusterUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cluster_url"))), refVal_setClusterUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("clusterUrl"))), refVal_setClusterUrl );
         setClusterUrl(refVal_setClusterUrl);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetUrl"))))
     {
         utility::string_t refVal_setDatasetUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_url"))), refVal_setDatasetUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetUrl"))), refVal_setDatasetUrl );
         setDatasetUrl(refVal_setDatasetUrl);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateUrl"))))
     {
         utility::string_t refVal_setGateUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_url"))), refVal_setGateUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateUrl"))), refVal_setGateUrl );
         setGateUrl(refVal_setGateUrl);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceUrl"))))
     {
         utility::string_t refVal_setTraceUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_url"))), refVal_setTraceUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceUrl"))), refVal_setTraceUrl );
         setTraceUrl(refVal_setTraceUrl);
     }
     return ok;
@@ -180,87 +180,87 @@ bool AlertLinks::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
 
 utility::string_t AlertLinks::getClusterUrl() const
 {
-    return m_Cluster_url;
+    return m_ClusterUrl;
 }
 
 
 void AlertLinks::setClusterUrl(const utility::string_t& value)
 {
-    m_Cluster_url = value;
-    m_Cluster_urlIsSet = true;
+    m_ClusterUrl = value;
+    m_ClusterUrlIsSet = true;
 }
 
 bool AlertLinks::clusterUrlIsSet() const
 {
-    return m_Cluster_urlIsSet;
+    return m_ClusterUrlIsSet;
 }
 
-void AlertLinks::unsetCluster_url()
+void AlertLinks::unsetClusterUrl()
 {
-    m_Cluster_urlIsSet = false;
+    m_ClusterUrlIsSet = false;
 }
 utility::string_t AlertLinks::getDatasetUrl() const
 {
-    return m_Dataset_url;
+    return m_DatasetUrl;
 }
 
 
 void AlertLinks::setDatasetUrl(const utility::string_t& value)
 {
-    m_Dataset_url = value;
-    m_Dataset_urlIsSet = true;
+    m_DatasetUrl = value;
+    m_DatasetUrlIsSet = true;
 }
 
 bool AlertLinks::datasetUrlIsSet() const
 {
-    return m_Dataset_urlIsSet;
+    return m_DatasetUrlIsSet;
 }
 
-void AlertLinks::unsetDataset_url()
+void AlertLinks::unsetDatasetUrl()
 {
-    m_Dataset_urlIsSet = false;
+    m_DatasetUrlIsSet = false;
 }
 utility::string_t AlertLinks::getGateUrl() const
 {
-    return m_Gate_url;
+    return m_GateUrl;
 }
 
 
 void AlertLinks::setGateUrl(const utility::string_t& value)
 {
-    m_Gate_url = value;
-    m_Gate_urlIsSet = true;
+    m_GateUrl = value;
+    m_GateUrlIsSet = true;
 }
 
 bool AlertLinks::gateUrlIsSet() const
 {
-    return m_Gate_urlIsSet;
+    return m_GateUrlIsSet;
 }
 
-void AlertLinks::unsetGate_url()
+void AlertLinks::unsetGateUrl()
 {
-    m_Gate_urlIsSet = false;
+    m_GateUrlIsSet = false;
 }
 utility::string_t AlertLinks::getTraceUrl() const
 {
-    return m_Trace_url;
+    return m_TraceUrl;
 }
 
 
 void AlertLinks::setTraceUrl(const utility::string_t& value)
 {
-    m_Trace_url = value;
-    m_Trace_urlIsSet = true;
+    m_TraceUrl = value;
+    m_TraceUrlIsSet = true;
 }
 
 bool AlertLinks::traceUrlIsSet() const
 {
-    return m_Trace_urlIsSet;
+    return m_TraceUrlIsSet;
 }
 
-void AlertLinks::unsetTrace_url()
+void AlertLinks::unsetTraceUrl()
 {
-    m_Trace_urlIsSet = false;
+    m_TraceUrlIsSet = false;
 }
 
 }

@@ -56,9 +56,9 @@ export function RunCalibrationHttpRequestFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'evalReportId': json['eval_report_id'] == null ? undefined : json['eval_report_id'],
-        'evaluatorVersionId': json['evaluator_version_id'] == null ? undefined : json['evaluator_version_id'],
-        'passThreshold': json['pass_threshold'] == null ? undefined : json['pass_threshold'],
+        'evalReportId': json['evalReportId'] == null ? undefined : json['evalReportId'],
+        'evaluatorVersionId': json['evaluatorVersionId'] == null ? undefined : json['evaluatorVersionId'],
+        'passThreshold': json['passThreshold'] == null ? undefined : json['passThreshold'],
     };
 }
 
@@ -73,9 +73,9 @@ export function RunCalibrationHttpRequestToJSONTyped(value?: RunCalibrationHttpR
 
     return {
         
-        'eval_report_id': value['evalReportId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'pass_threshold': value['passThreshold'],
+        'evalReportId': value['evalReportId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'passThreshold': value['passThreshold'],
     };
 }
 

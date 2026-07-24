@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**judgeEvaluate**](JudgeApi.md#judgeEvaluate) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
-| [**judgeEvaluateWithHttpInfo**](JudgeApi.md#judgeEvaluateWithHttpInfo) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
-| [**judgeListLedger**](JudgeApi.md#judgeListLedger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
-| [**judgeListLedgerWithHttpInfo**](JudgeApi.md#judgeListLedgerWithHttpInfo) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
+| [**judgeEvaluate**](JudgeApi.md#judgeEvaluate) | **POST** /v1/judge/{tenantId}/{projectId}/evaluate |  |
+| [**judgeEvaluateWithHttpInfo**](JudgeApi.md#judgeEvaluateWithHttpInfo) | **POST** /v1/judge/{tenantId}/{projectId}/evaluate |  |
+| [**judgeListLedger**](JudgeApi.md#judgeListLedger) | **GET** /v1/judge/{tenantId}/{projectId}/ledger |  |
+| [**judgeListLedgerWithHttpInfo**](JudgeApi.md#judgeListLedgerWithHttpInfo) | **GET** /v1/judge/{tenantId}/{projectId}/ledger |  |
 
 
 

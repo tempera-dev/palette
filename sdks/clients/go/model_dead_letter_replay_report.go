@@ -22,10 +22,10 @@ var _ MappedNullable = &DeadLetterReplayReport{}
 // DeadLetterReplayReport struct for DeadLetterReplayReport
 type DeadLetterReplayReport struct {
 	Ack PublishAck `json:"ack"`
-	MessageId string `json:"message_id"`
-	ProjectId string `json:"project_id"`
-	ResetAttempts bool `json:"reset_attempts"`
-	TenantId string `json:"tenant_id"`
+	MessageId string `json:"messageId"`
+	ProjectId string `json:"projectId"`
+	ResetAttempts bool `json:"resetAttempts"`
+	TenantId string `json:"tenantId"`
 }
 
 type _DeadLetterReplayReport DeadLetterReplayReport
@@ -183,10 +183,10 @@ func (o DeadLetterReplayReport) MarshalJSON() ([]byte, error) {
 func (o DeadLetterReplayReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ack"] = o.Ack
-	toSerialize["message_id"] = o.MessageId
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["reset_attempts"] = o.ResetAttempts
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["messageId"] = o.MessageId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["resetAttempts"] = o.ResetAttempts
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -196,10 +196,10 @@ func (o *DeadLetterReplayReport) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"ack",
-		"message_id",
-		"project_id",
-		"reset_attempts",
-		"tenant_id",
+		"messageId",
+		"projectId",
+		"resetAttempts",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

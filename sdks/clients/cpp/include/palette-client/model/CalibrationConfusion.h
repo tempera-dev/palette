@@ -54,37 +54,37 @@ public:
 
     int32_t getHumanFailJudgeFail() const;
     bool humanFailJudgeFailIsSet() const;
-    void unsetHuman_fail_judge_fail();
+    void unsetHumanFailJudgeFail();
     void setHumanFailJudgeFail(int32_t value);
 
     int32_t getHumanFailJudgePass() const;
     bool humanFailJudgePassIsSet() const;
-    void unsetHuman_fail_judge_pass();
+    void unsetHumanFailJudgePass();
     void setHumanFailJudgePass(int32_t value);
 
     int32_t getHumanPassJudgeFail() const;
     bool humanPassJudgeFailIsSet() const;
-    void unsetHuman_pass_judge_fail();
+    void unsetHumanPassJudgeFail();
     void setHumanPassJudgeFail(int32_t value);
 
     int32_t getHumanPassJudgePass() const;
     bool humanPassJudgePassIsSet() const;
-    void unsetHuman_pass_judge_pass();
+    void unsetHumanPassJudgePass();
     void setHumanPassJudgePass(int32_t value);
 
 
 protected:
-    int32_t m_Human_fail_judge_fail;
-    bool m_Human_fail_judge_failIsSet;
+    int32_t m_HumanFailJudgeFail;
+    bool m_HumanFailJudgeFailIsSet;
 
-    int32_t m_Human_fail_judge_pass;
-    bool m_Human_fail_judge_passIsSet;
+    int32_t m_HumanFailJudgePass;
+    bool m_HumanFailJudgePassIsSet;
 
-    int32_t m_Human_pass_judge_fail;
-    bool m_Human_pass_judge_failIsSet;
+    int32_t m_HumanPassJudgeFail;
+    bool m_HumanPassJudgeFailIsSet;
 
-    int32_t m_Human_pass_judge_pass;
-    bool m_Human_pass_judge_passIsSet;
+    int32_t m_HumanPassJudgePass;
+    bool m_HumanPassJudgePassIsSet;
 
 };
 

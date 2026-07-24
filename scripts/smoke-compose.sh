@@ -90,7 +90,7 @@ wait_text() {
 }
 
 first_trace_id() {
-  python3 -c 'import json,sys; print(json.load(sys.stdin)["runs"][0]["trace_id"])'
+  python3 -c 'import json,sys; print(json.load(sys.stdin)["runs"][0]["traceId"])'
 }
 
 trap on_exit EXIT
@@ -102,7 +102,7 @@ compose run --rm palettectl
 compose run --rm otel-python-smoke
 
 wait_url "$dashboard_url/?tenant=demo&project=demo&environment=local" "dashboard"
-python_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-demo&release=compose-demo"
+python_trace_query="$api_url/v1/traces/demo?projectId=demo&environmentId=local&kind=llm.call&model=gpt-demo&release=compose-demo"
 wait_text "$python_trace_query" "gpt-demo" "stock Python OTLP trace"
 python_trace_id="$(curl -fsS "$python_trace_query" | first_trace_id)"
 python_trace_dashboard="$dashboard_url/?tenant=demo&project=demo&environment=local&trace=$python_trace_id"
@@ -111,7 +111,7 @@ wait_text "$python_trace_dashboard" "call-policy-model" "dashboard llm.call row"
 for kind in "${all_kinds[@]}"; do
   wait_text "$python_trace_dashboard" "$kind" "dashboard all-kind waterfall"
 done
-require_text "$api_url/openapi.json" "started_after"
+require_text "$api_url/openapi.json" "startedAfter"
 
 cat <<EOF
 Palette compose smoke passed.

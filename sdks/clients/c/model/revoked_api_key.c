@@ -70,7 +70,7 @@ cJSON *revoked_api_key_convertToJSON(revoked_api_key_t *revoked_api_key) {
     if (!revoked_api_key->api_key_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "api_key_id", revoked_api_key->api_key_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "apiKeyId", revoked_api_key->api_key_id) == NULL) {
     goto fail; //String
     }
 
@@ -79,7 +79,7 @@ cJSON *revoked_api_key_convertToJSON(revoked_api_key_t *revoked_api_key) {
     if (!revoked_api_key->rotated_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "rotated_at", revoked_api_key->rotated_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "rotatedAt", revoked_api_key->rotated_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -111,7 +111,7 @@ revoked_api_key_t *revoked_api_key_parseFromJSON(cJSON *revoked_api_keyJSON){
     }
 
     // revoked_api_key->api_key_id
-    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(revoked_api_keyJSON, "api_key_id");
+    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(revoked_api_keyJSON, "apiKeyId");
     if (cJSON_IsNull(api_key_id)) {
         api_key_id = NULL;
     }
@@ -126,7 +126,7 @@ revoked_api_key_t *revoked_api_key_parseFromJSON(cJSON *revoked_api_keyJSON){
     }
 
     // revoked_api_key->rotated_at
-    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(revoked_api_keyJSON, "rotated_at");
+    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(revoked_api_keyJSON, "rotatedAt");
     if (cJSON_IsNull(rotated_at)) {
         rotated_at = NULL;
     }

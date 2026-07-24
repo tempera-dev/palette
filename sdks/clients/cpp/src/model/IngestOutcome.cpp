@@ -21,8 +21,8 @@ namespace model {
 IngestOutcome::IngestOutcome()
 {
     m_AckIsSet = false;
-    m_Downstream_queued = false;
-    m_Downstream_queuedIsSet = false;
+    m_DownstreamQueued = false;
+    m_DownstreamQueuedIsSet = false;
 }
 
 IngestOutcome::~IngestOutcome()
@@ -42,10 +42,10 @@ web::json::value IngestOutcome::toJson() const
         
         val[utility::conversions::to_string_t(U("ack"))] = ModelBase::toJson(m_Ack);
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_queued"))] = ModelBase::toJson(m_Downstream_queued);
+        val[utility::conversions::to_string_t(U("downstreamQueued"))] = ModelBase::toJson(m_DownstreamQueued);
     }
 
     return val;
@@ -65,9 +65,9 @@ bool IngestOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_queued")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamQueued")));
         if(!fieldValue.is_null())
         {
             bool refVal_setDownstreamQueued;
@@ -90,9 +90,9 @@ void IngestOutcome::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ack")), m_Ack));
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_queued")), m_Downstream_queued));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamQueued")), m_DownstreamQueued));
     }
 }
 
@@ -111,10 +111,10 @@ bool IngestOutcome::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ack"))), refVal_setAck );
         setAck(refVal_setAck);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
         bool refVal_setDownstreamQueued;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_queued"))), refVal_setDownstreamQueued );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamQueued"))), refVal_setDownstreamQueued );
         setDownstreamQueued(refVal_setDownstreamQueued);
     }
     return ok;
@@ -144,23 +144,23 @@ void IngestOutcome::unsetAck()
 }
 bool IngestOutcome::isDownstreamQueued() const
 {
-    return m_Downstream_queued;
+    return m_DownstreamQueued;
 }
 
 void IngestOutcome::setDownstreamQueued(bool value)
 {
-    m_Downstream_queued = value;
-    m_Downstream_queuedIsSet = true;
+    m_DownstreamQueued = value;
+    m_DownstreamQueuedIsSet = true;
 }
 
 bool IngestOutcome::downstreamQueuedIsSet() const
 {
-    return m_Downstream_queuedIsSet;
+    return m_DownstreamQueuedIsSet;
 }
 
-void IngestOutcome::unsetDownstream_queued()
+void IngestOutcome::unsetDownstreamQueued()
 {
-    m_Downstream_queuedIsSet = false;
+    m_DownstreamQueuedIsSet = false;
 }
 
 }

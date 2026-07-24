@@ -69,53 +69,53 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CalibrationReport {
-  public static final String JSON_PROPERTY_BRIER_SCORE = "brier_score";
+  public static final String JSON_PROPERTY_BRIER_SCORE = "brierScore";
   @javax.annotation.Nonnull
   private Double brierScore;
 
-  public static final String JSON_PROPERTY_CALIBRATION_REPORT_ID = "calibration_report_id";
+  public static final String JSON_PROPERTY_CALIBRATION_REPORT_ID = "calibrationReportId";
   @javax.annotation.Nonnull
   private String calibrationReportId;
 
-  public static final String JSON_PROPERTY_COHEN_KAPPA = "cohen_kappa";
+  public static final String JSON_PROPERTY_COHEN_KAPPA = "cohenKappa";
   @javax.annotation.Nonnull
   private Double cohenKappa;
 
-  public static final String JSON_PROPERTY_COHEN_KAPPA_CI_HIGH = "cohen_kappa_ci_high";
+  public static final String JSON_PROPERTY_COHEN_KAPPA_CI_HIGH = "cohenKappaCiHigh";
   private JsonNullable<Double> cohenKappaCiHigh = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_COHEN_KAPPA_CI_LOW = "cohen_kappa_ci_low";
+  public static final String JSON_PROPERTY_COHEN_KAPPA_CI_LOW = "cohenKappaCiLow";
   private JsonNullable<Double> cohenKappaCiLow = JsonNullable.<Double>undefined();
 
   public static final String JSON_PROPERTY_CONFUSION = "confusion";
   @javax.annotation.Nonnull
   private CalibrationConfusion confusion;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_DATASET_ID = "dataset_id";
+  public static final String JSON_PROPERTY_DATASET_ID = "datasetId";
   @javax.annotation.Nonnull
   private String datasetId;
 
-  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "dataset_version_id";
+  public static final String JSON_PROPERTY_DATASET_VERSION_ID = "datasetVersionId";
   @javax.annotation.Nonnull
   private String datasetVersionId;
 
-  public static final String JSON_PROPERTY_EVAL_REPORT_ID = "eval_report_id";
+  public static final String JSON_PROPERTY_EVAL_REPORT_ID = "evalReportId";
   @javax.annotation.Nonnull
   private String evalReportId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
-  public static final String JSON_PROPERTY_EXPECTED_AGREEMENT = "expected_agreement";
+  public static final String JSON_PROPERTY_EXPECTED_AGREEMENT = "expectedAgreement";
   @javax.annotation.Nonnull
   private Double expectedAgreement;
 
-  public static final String JSON_PROPERTY_EXPECTED_CALIBRATION_ERROR = "expected_calibration_error";
+  public static final String JSON_PROPERTY_EXPECTED_CALIBRATION_ERROR = "expectedCalibrationError";
   @javax.annotation.Nonnull
   private Double expectedCalibrationError;
 
@@ -123,33 +123,33 @@ public class CalibrationReport {
   @javax.annotation.Nonnull
   private List<CalibrationItem> items = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT = "observed_agreement";
+  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT = "observedAgreement";
   @javax.annotation.Nonnull
   private Double observedAgreement;
 
-  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT_CI_HIGH = "observed_agreement_ci_high";
+  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT_CI_HIGH = "observedAgreementCiHigh";
   private JsonNullable<Double> observedAgreementCiHigh = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT_CI_LOW = "observed_agreement_ci_low";
+  public static final String JSON_PROPERTY_OBSERVED_AGREEMENT_CI_LOW = "observedAgreementCiLow";
   private JsonNullable<Double> observedAgreementCiLow = JsonNullable.<Double>undefined();
 
   public static final String JSON_PROPERTY_POLICY = "policy";
   @javax.annotation.Nonnull
   private CalibrationPolicy policy;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_RELIABILITY_BINS = "reliability_bins";
+  public static final String JSON_PROPERTY_RELIABILITY_BINS = "reliabilityBins";
   @javax.annotation.Nonnull
   private List<ReliabilityBin> reliabilityBins = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_SAMPLE_COUNT = "sample_count";
+  public static final String JSON_PROPERTY_SAMPLE_COUNT = "sampleCount";
   @javax.annotation.Nonnull
   private Integer sampleCount;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -858,29 +858,29 @@ public class CalibrationReport {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `brier_score` to the URL query string
+    // add `brierScore` to the URL query string
     if (getBrierScore() != null) {
-      joiner.add(String.format("%sbrier_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBrierScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbrierScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBrierScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `calibration_report_id` to the URL query string
+    // add `calibrationReportId` to the URL query string
     if (getCalibrationReportId() != null) {
-      joiner.add(String.format("%scalibration_report_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCalibrationReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scalibrationReportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCalibrationReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `cohen_kappa` to the URL query string
+    // add `cohenKappa` to the URL query string
     if (getCohenKappa() != null) {
-      joiner.add(String.format("%scohen_kappa%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappa()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scohenKappa%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappa()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `cohen_kappa_ci_high` to the URL query string
+    // add `cohenKappaCiHigh` to the URL query string
     if (getCohenKappaCiHigh() != null) {
-      joiner.add(String.format("%scohen_kappa_ci_high%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappaCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scohenKappaCiHigh%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappaCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `cohen_kappa_ci_low` to the URL query string
+    // add `cohenKappaCiLow` to the URL query string
     if (getCohenKappaCiLow() != null) {
-      joiner.add(String.format("%scohen_kappa_ci_low%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappaCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scohenKappaCiLow%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCohenKappaCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `confusion` to the URL query string
@@ -888,39 +888,39 @@ public class CalibrationReport {
       joiner.add(getConfusion().toUrlQueryString(prefix + "confusion" + suffix));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_id` to the URL query string
+    // add `datasetId` to the URL query string
     if (getDatasetId() != null) {
-      joiner.add(String.format("%sdataset_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_version_id` to the URL query string
+    // add `datasetVersionId` to the URL query string
     if (getDatasetVersionId() != null) {
-      joiner.add(String.format("%sdataset_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `eval_report_id` to the URL query string
+    // add `evalReportId` to the URL query string
     if (getEvalReportId() != null) {
-      joiner.add(String.format("%seval_report_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevalReportId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvalReportId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expected_agreement` to the URL query string
+    // add `expectedAgreement` to the URL query string
     if (getExpectedAgreement() != null) {
-      joiner.add(String.format("%sexpected_agreement%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedAgreement()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexpectedAgreement%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedAgreement()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `expected_calibration_error` to the URL query string
+    // add `expectedCalibrationError` to the URL query string
     if (getExpectedCalibrationError() != null) {
-      joiner.add(String.format("%sexpected_calibration_error%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedCalibrationError()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexpectedCalibrationError%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExpectedCalibrationError()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `items` to the URL query string
@@ -933,19 +933,19 @@ public class CalibrationReport {
       }
     }
 
-    // add `observed_agreement` to the URL query string
+    // add `observedAgreement` to the URL query string
     if (getObservedAgreement() != null) {
-      joiner.add(String.format("%sobserved_agreement%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreement()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sobservedAgreement%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreement()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `observed_agreement_ci_high` to the URL query string
+    // add `observedAgreementCiHigh` to the URL query string
     if (getObservedAgreementCiHigh() != null) {
-      joiner.add(String.format("%sobserved_agreement_ci_high%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreementCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sobservedAgreementCiHigh%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreementCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `observed_agreement_ci_low` to the URL query string
+    // add `observedAgreementCiLow` to the URL query string
     if (getObservedAgreementCiLow() != null) {
-      joiner.add(String.format("%sobserved_agreement_ci_low%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreementCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sobservedAgreementCiLow%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObservedAgreementCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `policy` to the URL query string
@@ -953,29 +953,29 @@ public class CalibrationReport {
       joiner.add(getPolicy().toUrlQueryString(prefix + "policy" + suffix));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `reliability_bins` to the URL query string
+    // add `reliabilityBins` to the URL query string
     if (getReliabilityBins() != null) {
       for (int i = 0; i < getReliabilityBins().size(); i++) {
         if (getReliabilityBins().get(i) != null) {
-          joiner.add(getReliabilityBins().get(i).toUrlQueryString(String.format("%sreliability_bins%s%s", prefix, suffix,
+          joiner.add(getReliabilityBins().get(i).toUrlQueryString(String.format("%sreliabilityBins%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `sample_count` to the URL query string
+    // add `sampleCount` to the URL query string
     if (getSampleCount() != null) {
-      joiner.add(String.format("%ssample_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssampleCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -425,6 +425,7 @@ pub struct SearchResponse {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct SearchHit {
     pub score: f32,
     pub tenant_id: String,

@@ -86,13 +86,13 @@ export function PromptFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pr
     }
     return {
         
-        'createdAt': (new Date(json['created_at'])),
+        'createdAt': (new Date(json['createdAt'])),
         'description': json['description'] == null ? undefined : json['description'],
         'name': json['name'],
-        'projectId': json['project_id'],
-        'promptId': json['prompt_id'],
-        'tenantId': json['tenant_id'],
-        'updatedAt': (new Date(json['updated_at'])),
+        'projectId': json['projectId'],
+        'promptId': json['promptId'],
+        'tenantId': json['tenantId'],
+        'updatedAt': (new Date(json['updatedAt'])),
     };
 }
 
@@ -107,13 +107,13 @@ export function PromptToJSONTyped(value?: Prompt | null, ignoreDiscriminator: bo
 
     return {
         
-        'created_at': ((value['createdAt']).toISOString()),
+        'createdAt': ((value['createdAt']).toISOString()),
         'description': value['description'],
         'name': value['name'],
-        'project_id': value['projectId'],
-        'prompt_id': value['promptId'],
-        'tenant_id': value['tenantId'],
-        'updated_at': ((value['updatedAt']).toISOString()),
+        'projectId': value['projectId'],
+        'promptId': value['promptId'],
+        'tenantId': value['tenantId'],
+        'updatedAt': ((value['updatedAt']).toISOString()),
     };
 }
 

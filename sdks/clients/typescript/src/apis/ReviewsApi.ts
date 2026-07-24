@@ -163,7 +163,7 @@ export class ReviewsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/review-queues/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/review-queues/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -234,7 +234,7 @@ export class ReviewsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queue_id"}}`, encodeURIComponent(String(requestParameters['queueId']))),
+            path: `/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queueId"}}`, encodeURIComponent(String(requestParameters['queueId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -308,7 +308,7 @@ export class ReviewsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queue_id"}}`, encodeURIComponent(String(requestParameters['queueId']))),
+            path: `/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queueId"}}`, encodeURIComponent(String(requestParameters['queueId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -392,7 +392,7 @@ export class ReviewsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queue_id"}}`, encodeURIComponent(String(requestParameters['queueId']))).replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))).replace(`{${"annotation_id"}}`, encodeURIComponent(String(requestParameters['annotationId']))),
+            path: `/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queueId"}}`, encodeURIComponent(String(requestParameters['queueId']))).replace(`{${"taskId"}}`, encodeURIComponent(String(requestParameters['taskId']))).replace(`{${"annotationId"}}`, encodeURIComponent(String(requestParameters['annotationId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -470,7 +470,7 @@ export class ReviewsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queue_id"}}`, encodeURIComponent(String(requestParameters['queueId']))).replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters['taskId']))),
+            path: `/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"queueId"}}`, encodeURIComponent(String(requestParameters['queueId']))).replace(`{${"taskId"}}`, encodeURIComponent(String(requestParameters['taskId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

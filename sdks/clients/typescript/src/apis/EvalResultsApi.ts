@@ -116,7 +116,7 @@ export class EvalResultsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"kind"}}`, encodeURIComponent(String(requestParameters['kind']))).replace(`{${"external_id"}}`, encodeURIComponent(String(requestParameters['externalId']))),
+            path: `/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"kind"}}`, encodeURIComponent(String(requestParameters['kind']))).replace(`{${"externalId"}}`, encodeURIComponent(String(requestParameters['externalId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -179,7 +179,7 @@ export class EvalResultsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/eval-results/{tenantId}/{projectId}/tempera/bundles`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -243,7 +243,7 @@ export class EvalResultsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/eval-results/{tenantId}/{projectId}/tempera/decisions`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

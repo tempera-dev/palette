@@ -22,8 +22,8 @@ var _ MappedNullable = &TraceView{}
 // TraceView struct for TraceView
 type TraceView struct {
 	Spans []CanonicalSpan `json:"spans"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
 }
 
 type _TraceView TraceView
@@ -131,8 +131,8 @@ func (o TraceView) MarshalJSON() ([]byte, error) {
 func (o TraceView) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["spans"] = o.Spans
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -142,8 +142,8 @@ func (o *TraceView) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"spans",
-		"tenant_id",
-		"trace_id",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})
