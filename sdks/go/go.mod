@@ -1,4 +1,4 @@
-module github.com/jadenfix/palette/sdks/go
+module github.com/tempera-dev/palette/sdks/go
 
 go 1.26.4
 

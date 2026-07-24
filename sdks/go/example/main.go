@@ -8,7 +8,7 @@ import (
 	"context"
 	"log"
 
-	palette "github.com/jadenfix/palette/sdks/go"
+	palette "github.com/tempera-dev/palette/sdks/go"
 	"go.opentelemetry.io/otel/trace"
 )
 

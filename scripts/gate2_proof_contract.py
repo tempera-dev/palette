@@ -3,11 +3,11 @@ import re
 from dataclasses import dataclass
 
 
-REMOTE_URL = "https://github.com/jadenfix/palette.git"
+REMOTE_URL = "https://github.com/tempera-dev/palette.git"
 REMOTE_MAIN_REF = "refs/heads/main"
 RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
-RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/palette"
-GATE2_GHCR_OWNER_REPO = "jadenfix/palette"
+RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/tempera-dev/palette"
+GATE2_GHCR_OWNER_REPO = "tempera-dev/palette"
 GATE2_GHCR_PREFIX = f"ghcr.io/{GATE2_GHCR_OWNER_REPO}"
 GATE2_EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
 DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
@@ -182,7 +182,7 @@ DIAGNOSTIC_ATTESTATION = (
     "this is not outside-person evidence and cannot close Gate 2."
 )
 IMMUTABLE_LOG_URL = re.compile(
-    r"https://github\.com/jadenfix/palette/actions/runs/[0-9]+(?:/job/[0-9]+)?"
+    r"https://github\.com/tempera-dev/palette/actions/runs/[0-9]+(?:/job/[0-9]+)?"
 )
 
 

@@ -26,7 +26,7 @@ DOC_TOKENS = {
         "Python 3.12+",
     ],
     "bootstrap commands": [
-        "git clone https://github.com/jadenfix/palette.git",
+        "git clone https://github.com/tempera-dev/palette.git",
         "cargo build --workspace",
         "cargo test --workspace",
         "cd web/dashboard && npm ci",

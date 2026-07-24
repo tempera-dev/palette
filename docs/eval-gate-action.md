@@ -34,7 +34,7 @@ jobs:
       # ... your steps that run evals and record an experiment into .palette ...
 
       - name: Palette eval gate
-        uses: jadenfix/palette@main
+        uses: tempera-dev/palette@main
         with:
           data-dir: .palette
           tenant-id: my-tenant
@@ -47,7 +47,7 @@ Zero-config demo (seeds a deterministic fixture gate whose latest experiment
 is a regression, so you can see the failure rendering without any setup):
 
 ```yaml
-      - uses: jadenfix/palette@main
+      - uses: tempera-dev/palette@main
         with:
           demo-fixture: "true"
           fail-on-gate-failure: "false"   # report-only

@@ -102,10 +102,10 @@ if [[ "$timing_start_source" == "external-clone" ]]; then
   clone_started_at="$(utc_from_epoch "$clone_started_epoch")"
 fi
 if [[ "$local_build" != "1" && "$git_sha" =~ ^[0-9a-f]{40}$ ]]; then
-  export PALETTED_IMAGE="${PALETTED_IMAGE:-ghcr.io/jadenfix/palette/paletted:$git_sha}"
-  export PALETTE_DASHBOARD_IMAGE="${PALETTE_DASHBOARD_IMAGE:-ghcr.io/jadenfix/palette/dashboard:$git_sha}"
-  export PALETTE_DASHBOARD_E2E_IMAGE="${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/palette/dashboard-e2e:$git_sha}"
-  export PALETTE_OTEL_PYTHON_IMAGE="${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:$git_sha}"
+  export PALETTED_IMAGE="${PALETTED_IMAGE:-ghcr.io/tempera-dev/palette/paletted:$git_sha}"
+  export PALETTE_DASHBOARD_IMAGE="${PALETTE_DASHBOARD_IMAGE:-ghcr.io/tempera-dev/palette/dashboard:$git_sha}"
+  export PALETTE_DASHBOARD_E2E_IMAGE="${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/tempera-dev/palette/dashboard-e2e:$git_sha}"
+  export PALETTE_OTEL_PYTHON_IMAGE="${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/tempera-dev/palette/otel-python:$git_sha}"
 fi
 palette_image_ref="${PALETTED_IMAGE:-local-build}"
 dashboard_image_ref="${PALETTE_DASHBOARD_IMAGE:-local-build}"
@@ -415,16 +415,16 @@ service_image_digest() {
   local image_ref=""
   case "$service" in
     paletted)
-      expected_repo="ghcr.io/jadenfix/palette/paletted"
+      expected_repo="ghcr.io/tempera-dev/palette/paletted"
       ;;
     dashboard)
-      expected_repo="ghcr.io/jadenfix/palette/dashboard"
+      expected_repo="ghcr.io/tempera-dev/palette/dashboard"
       ;;
     dashboard-e2e)
-      expected_repo="ghcr.io/jadenfix/palette/dashboard-e2e"
+      expected_repo="ghcr.io/tempera-dev/palette/dashboard-e2e"
       ;;
     otel-python | otel-python-quickstart | otel-python-smoke)
-      expected_repo="ghcr.io/jadenfix/palette/otel-python"
+      expected_repo="ghcr.io/tempera-dev/palette/otel-python"
       ;;
   esac
   image_id="$(compose images -q "$service" 2>/dev/null | head -n 1 || true)"

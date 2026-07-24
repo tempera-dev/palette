@@ -17,10 +17,10 @@ const MANUAL_CONFIRMATION_CODE: &str = "682ABA78";
 const MANUAL_CONFIRMATION_SALT: &str = "gate2-test-salt-123";
 const MANUAL_CONFIRMATION_SOURCE: &str = "browser-selected-llm-detail";
 const RECORDING_SHA: &str = "3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534";
-const PALETTE_IMAGE_DIGEST: &str = "ghcr.io/jadenfix/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-const DASHBOARD_IMAGE_DIGEST: &str = "ghcr.io/jadenfix/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc";
-const DASHBOARD_E2E_IMAGE_DIGEST: &str = "ghcr.io/jadenfix/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
-const OTEL_PYTHON_IMAGE_DIGEST: &str = "ghcr.io/jadenfix/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab";
+const PALETTE_IMAGE_DIGEST: &str = "ghcr.io/tempera-dev/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+const DASHBOARD_IMAGE_DIGEST: &str = "ghcr.io/tempera-dev/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc";
+const DASHBOARD_E2E_IMAGE_DIGEST: &str = "ghcr.io/tempera-dev/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+const OTEL_PYTHON_IMAGE_DIGEST: &str = "ghcr.io/tempera-dev/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab";
 const LLM_OBSERVATION: &str = "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code";
 const WATERFALL_OBSERVATION: &str =
     "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting";
@@ -126,7 +126,7 @@ fn gate2_outside_env_clear_uses_canonical_contract() {
         .env("GIT_CONFIG_KEY_0", "url.file:///tmp/fake.insteadOf")
         .env(
             "GIT_CONFIG_VALUE_0",
-            "https://github.com/jadenfix/palette.git",
+            "https://github.com/tempera-dev/palette.git",
         );
 
     clear_outside_env(&mut command);
@@ -184,7 +184,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
         let text =
             fs::read_to_string(root.join(rel)).unwrap_or_else(|err| panic!("read {rel}: {err}"));
         assert!(
-            !text.contains("git clone https://github.com/jadenfix/palette.git; cd palette"),
+            !text.contains("git clone https://github.com/tempera-dev/palette.git; cd palette"),
             "{rel} must not allow stale-clone semicolon chaining"
         );
     }
@@ -528,16 +528,16 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains("- Timing start source: external-clone"));
     assert!(generated_text.contains("- Clone started at: 2026-06-20T11:59:55Z"));
     assert!(generated_text.contains("- Script-to-first-trace: 7s"));
-    assert!(generated_text.contains("- Clone URL: https://github.com/jadenfix/palette.git"));
+    assert!(generated_text.contains("- Clone URL: https://github.com/tempera-dev/palette.git"));
     assert!(generated_text.contains("- Branch: main"));
     assert!(generated_text.contains("- Worktree clean: yes"));
     assert!(generated_text.contains(&format!(
-        "- Palette image reference: ghcr.io/jadenfix/palette/paletted:{}",
+        "- Palette image reference: ghcr.io/tempera-dev/palette/paletted:{}",
         current_head()
     )));
-    assert!(generated_text.contains("- Palette image digest: ghcr.io/jadenfix/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
-    assert!(generated_text.contains("- Dashboard e2e image digest: ghcr.io/jadenfix/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"));
-    assert!(generated_text.contains("- OTEL Python image digest: ghcr.io/jadenfix/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab"));
+    assert!(generated_text.contains("- Palette image digest: ghcr.io/tempera-dev/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+    assert!(generated_text.contains("- Dashboard e2e image digest: ghcr.io/tempera-dev/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"));
+    assert!(generated_text.contains("- OTEL Python image digest: ghcr.io/tempera-dev/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab"));
     assert!(generated_text.contains(canonical_outside_command()));
     assert!(!generated_text.contains(r#"PALETTE_GATE2_CLONE_STARTED_EPOCH="$(date +%s)""#));
     assert!(generated_text.contains("- Outside-run wrapper: yes"));
@@ -553,8 +553,8 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains(&format!(
         "- Runner waterfall observation: {WATERFALL_OBSERVATION}"
     )));
-    assert!(generated_text.contains("ghcr.io/jadenfix/palette/paletted"));
-    assert!(generated_text.contains("ghcr.io/jadenfix/palette/dashboard"));
+    assert!(generated_text.contains("ghcr.io/tempera-dev/palette/paletted"));
+    assert!(generated_text.contains("ghcr.io/tempera-dev/palette/dashboard"));
     assert!(generated_text.contains("palette-stopwatch-dashboard-e2e-run-1"));
     assert!(generated_text.contains("palette-stopwatch-otel-python-quickstart-run-1"));
     assert!(generated_text.contains(
@@ -1078,7 +1078,7 @@ fn gate2_outside_readiness_accepts_github_https_origin_without_git_suffix() {
             "remote",
             "add",
             "origin",
-            "https://github.com/jadenfix/palette",
+            "https://github.com/tempera-dev/palette",
         ],
     );
 
@@ -1126,7 +1126,7 @@ fn gate2_outside_readiness_rejects_github_https_origin_for_wrong_repo() {
 
     assert_failure(
         output,
-        "origin must be https://github.com/jadenfix/palette.git",
+        "origin must be https://github.com/tempera-dev/palette.git",
     );
 }
 
@@ -1186,7 +1186,7 @@ fn gate2_outside_readiness_rejects_default_service_third_party_image() {
     let fixture = write_public_handoff_fixture_repo();
     replace(
         &fixture.path().join("docker-compose.prebuilt.yml"),
-        "    image: ${PALETTE_DASHBOARD_IMAGE:-ghcr.io/jadenfix/palette/dashboard:main}",
+        "    image: ${PALETTE_DASHBOARD_IMAGE:-ghcr.io/tempera-dev/palette/dashboard:main}",
         "    image: postgres:17-alpine@sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
     );
 
@@ -1591,7 +1591,7 @@ fn gate2_public_handoff_verifier_full_run_rejects_registry_fixture_without_fixtu
     let clone_parent = tempdir("create public handoff clone parent");
 
     let output = run_public_handoff_full_run_with_fixture(
-        "https://github.com/jadenfix/palette.git",
+        "https://github.com/tempera-dev/palette.git",
         &current_head(),
         registry.path(),
         clone_parent.path(),
@@ -1646,7 +1646,7 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         .env("GIT_CONFIG_KEY_0", git_rewrite_key)
         .env(
             "GIT_CONFIG_VALUE_0",
-            "https://github.com/jadenfix/palette.git",
+            "https://github.com/tempera-dev/palette.git",
         );
 
     let output = command
@@ -1694,7 +1694,7 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
     );
     let clone_dir = clone_parent.path().join("palette");
     let clone_origin = git_output(&clone_dir, &["remote", "get-url", "origin"]);
-    assert_eq!(clone_origin, "https://github.com/jadenfix/palette.git");
+    assert_eq!(clone_origin, "https://github.com/tempera-dev/palette.git");
     let env_marker = fs::read_to_string(clone_dir.join("docs/demos/wrapper-real-env.txt"))
         .unwrap_or_else(|err| panic!("read cloned wrapper runtime marker: {err}"));
     assert!(env_marker.contains("manual_checkpoint_confirmed=yes"));
@@ -2287,7 +2287,7 @@ print("fixture_GIT_CONFIG_COUNT=" + fixture_env.get("GIT_CONFIG_COUNT", "unset")
         .env("GIT_CONFIG_KEY_0", "url.file:///tmp/fake.insteadOf")
         .env(
             "GIT_CONFIG_VALUE_0",
-            "https://github.com/jadenfix/palette.git",
+            "https://github.com/tempera-dev/palette.git",
         )
         .output()
         .unwrap_or_else(|err| panic!("run public clone env fixture: {err}"));
@@ -2548,7 +2548,7 @@ fn gate2_outside_wrapper_rejects_post_slo_timeout_override() {
 fn gate2_outside_wrapper_rejects_image_override() {
     let output = run_outside_wrapper_dry_run(Some((
         "PALETTED_IMAGE",
-        "ghcr.io/jadenfix/palette/paletted:main",
+        "ghcr.io/tempera-dev/palette/paletted:main",
     )));
 
     assert_failure(
@@ -2667,7 +2667,7 @@ fn gate2_outside_wrapper_rejects_wrong_origin() {
             "remote",
             "set-url",
             "origin",
-            "https://github.com/jadenfix/palette-fork.git",
+            "https://github.com/tempera-dev/palette-fork.git",
         ],
     );
 
@@ -2675,7 +2675,7 @@ fn gate2_outside_wrapper_rejects_wrong_origin() {
 
     assert_failure(
         output,
-        "outside-person evidence must run from origin 'https://github.com/jadenfix/palette.git'",
+        "outside-person evidence must run from origin 'https://github.com/tempera-dev/palette.git'",
     );
 }
 
@@ -2944,7 +2944,7 @@ fn gate2_outside_validator_rejects_split_clone_command() {
         &fixture.proof_path,
         canonical_outside_command(),
         r#"PALETTE_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
-git clone https://github.com/jadenfix/palette.git && cd palette
+git clone https://github.com/tempera-dev/palette.git && cd palette
 PALETTE_GATE2_CLONE_STARTED_EPOCH="$PALETTE_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh"#,
     );
 
@@ -3099,7 +3099,7 @@ fn gate2_outside_validator_rejects_placeholder_compose_images_excerpt() {
 
     assert_failure(
         output,
-        "`docker compose images` excerpt must include ghcr.io/jadenfix/palette/paletted",
+        "`docker compose images` excerpt must include ghcr.io/tempera-dev/palette/paletted",
     );
 }
 
@@ -3111,7 +3111,7 @@ fn gate2_outside_validator_accepts_compose_images_excerpt_from_all_gate2_service
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
         ),
     );
 
@@ -3128,7 +3128,7 @@ fn gate2_outside_validator_accepts_one_shot_runner_images_as_proof_rows() {
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
         ),
     );
 
@@ -3145,7 +3145,7 @@ fn gate2_outside_validator_rejects_compose_images_without_proof_image_rows() {
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python {commit_sha}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python {commit_sha}\n"
         ),
     );
 
@@ -3153,7 +3153,7 @@ fn gate2_outside_validator_rejects_compose_images_without_proof_image_rows() {
 
     assert_failure(
         output,
-        "`docker compose images` excerpt must include proof-image row for ghcr.io/jadenfix/palette/paletted",
+        "`docker compose images` excerpt must include proof-image row for ghcr.io/tempera-dev/palette/paletted",
     );
 }
 
@@ -3165,7 +3165,7 @@ fn gate2_outside_validator_rejects_compose_images_missing_dashboard_e2e() {
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
         ),
     );
 
@@ -3173,7 +3173,7 @@ fn gate2_outside_validator_rejects_compose_images_missing_dashboard_e2e() {
 
     assert_failure(
         output,
-        "`docker compose images` excerpt must include proof-image row for ghcr.io/jadenfix/palette/dashboard-e2e",
+        "`docker compose images` excerpt must include proof-image row for ghcr.io/tempera-dev/palette/dashboard-e2e",
     );
 }
 
@@ -3185,7 +3185,7 @@ fn gate2_outside_validator_rejects_compose_images_missing_otel_python() {
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST}\n"
         ),
     );
 
@@ -3193,7 +3193,7 @@ fn gate2_outside_validator_rejects_compose_images_missing_otel_python() {
 
     assert_failure(
         output,
-        "`docker compose images` excerpt must include proof-image row for ghcr.io/jadenfix/palette/otel-python",
+        "`docker compose images` excerpt must include proof-image row for ghcr.io/tempera-dev/palette/otel-python",
     );
 }
 
@@ -3205,7 +3205,7 @@ fn gate2_outside_validator_rejects_compose_images_with_stale_service_tags() {
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted stale-sha | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard stale-sha | unrelated-image {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
+            "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted stale-sha | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard stale-sha | unrelated-image {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
         ),
     );
 
@@ -3213,7 +3213,7 @@ fn gate2_outside_validator_rejects_compose_images_with_stale_service_tags() {
 
     assert_failure(
         output,
-        "`docker compose images` excerpt must include ghcr.io/jadenfix/palette/paletted tagged with the checked-out commit SHA",
+        "`docker compose images` excerpt must include ghcr.io/tempera-dev/palette/paletted tagged with the checked-out commit SHA",
     );
 }
 
@@ -3280,15 +3280,15 @@ fn gate2_outside_validator_rejects_wrong_clone_url() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.proof_path,
-        "- Clone URL: `https://github.com/jadenfix/palette.git`",
-        "- Clone URL: `https://github.com/jadenfix/palette-fork.git`",
+        "- Clone URL: `https://github.com/tempera-dev/palette.git`",
+        "- Clone URL: `https://github.com/tempera-dev/palette-fork.git`",
     );
 
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(
         output,
-        "Clone URL must be https://github.com/jadenfix/palette.git",
+        "Clone URL must be https://github.com/tempera-dev/palette.git",
     );
 }
 
@@ -3297,15 +3297,15 @@ fn gate2_outside_validator_rejects_wrong_stopwatch_origin() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.stopwatch_path,
-        "- Git origin: `https://github.com/jadenfix/palette.git`",
-        "- Git origin: `https://github.com/jadenfix/palette-fork.git`",
+        "- Git origin: `https://github.com/tempera-dev/palette.git`",
+        "- Git origin: `https://github.com/tempera-dev/palette-fork.git`",
     );
 
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(
         output,
-        "Git origin in stopwatch proof must be 'https://github.com/jadenfix/palette.git'",
+        "Git origin in stopwatch proof must be 'https://github.com/tempera-dev/palette.git'",
     );
 }
 
@@ -3811,8 +3811,11 @@ fn gate2_outside_validator_rejects_mutable_image_reference() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.proof_path,
-        &format!("ghcr.io/jadenfix/palette/dashboard-e2e:{}", current_head()),
-        "ghcr.io/jadenfix/palette/dashboard-e2e:main",
+        &format!(
+            "ghcr.io/tempera-dev/palette/dashboard-e2e:{}",
+            current_head()
+        ),
+        "ghcr.io/tempera-dev/palette/dashboard-e2e:main",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4151,7 +4154,7 @@ fn gate2_outside_validator_accepts_immutable_compose_log_url() {
             "- `docker compose` logs saved: {}",
             fixture.compose_log_field
         ),
-        "- `docker compose` logs saved: https://github.com/jadenfix/palette/actions/runs/123456789",
+        "- `docker compose` logs saved: https://github.com/tempera-dev/palette/actions/runs/123456789",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4552,7 +4555,7 @@ fn gate2_outside_validator_rejects_image_digest_mismatch() {
     replace(
         &fixture.proof_path,
         PALETTE_IMAGE_DIGEST,
-        "ghcr.io/jadenfix/palette/paletted@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "ghcr.io/tempera-dev/palette/paletted@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4566,7 +4569,7 @@ fn gate2_outside_validator_rejects_image_digest_mismatch() {
 #[test]
 fn gate2_outside_validator_rejects_registry_unbound_image_digest_at_closure() {
     let fixture = write_validator_closure_fixture_repo();
-    let wrong_digest = "ghcr.io/jadenfix/palette/paletted@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
+    let wrong_digest = "ghcr.io/tempera-dev/palette/paletted@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
     replace(
         &fixture
             .path()
@@ -4601,7 +4604,7 @@ fn gate2_outside_validator_rejects_dashboard_e2e_digest_mismatch() {
     replace(
         &fixture.proof_path,
         DASHBOARD_E2E_IMAGE_DIGEST,
-        "ghcr.io/jadenfix/palette/dashboard-e2e@sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "ghcr.io/tempera-dev/palette/dashboard-e2e@sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4618,7 +4621,7 @@ fn gate2_outside_validator_rejects_otel_python_digest_mismatch() {
     replace(
         &fixture.proof_path,
         OTEL_PYTHON_IMAGE_DIGEST,
-        "ghcr.io/jadenfix/palette/otel-python@sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+        "ghcr.io/tempera-dev/palette/otel-python@sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4749,15 +4752,15 @@ Status: completed.
 
 ## Repository
 
-- Clone URL: `https://github.com/jadenfix/palette.git`
+- Clone URL: `https://github.com/tempera-dev/palette.git`
 - Commit SHA: {commit_sha}
 - Branch: main
 - Worktree clean: yes
 - OS/arch: Darwin arm64
-- Palette image reference: ghcr.io/jadenfix/palette/paletted:{commit_sha}
-- Dashboard image reference: ghcr.io/jadenfix/palette/dashboard:{commit_sha}
-- Dashboard e2e image reference: ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha}
-- OTEL Python image reference: ghcr.io/jadenfix/palette/otel-python:{commit_sha}
+- Palette image reference: ghcr.io/tempera-dev/palette/paletted:{commit_sha}
+- Dashboard image reference: ghcr.io/tempera-dev/palette/dashboard:{commit_sha}
+- Dashboard e2e image reference: ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha}
+- OTEL Python image reference: ghcr.io/tempera-dev/palette/otel-python:{commit_sha}
 - Palette image digest: {PALETTE_IMAGE_DIGEST}
 - Dashboard image digest: {DASHBOARD_IMAGE_DIGEST}
 - Dashboard e2e image digest: {DASHBOARD_E2E_IMAGE_DIGEST}
@@ -4842,7 +4845,7 @@ The runner completed the flow using only public repository instructions.
 fn compose_images_excerpt_line() -> String {
     let commit_sha = current_head();
     format!(
-        "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/jadenfix/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/jadenfix/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
+        "- `docker compose images` excerpt: palette-stopwatch-paletted-1 ghcr.io/tempera-dev/palette/paletted {commit_sha} | palette-stopwatch-dashboard-1 ghcr.io/tempera-dev/palette/dashboard {commit_sha} | palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e {commit_sha} | palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python {commit_sha} | proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST} | proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST} | proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST} | proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}\n"
     )
 }
 
@@ -4925,7 +4928,7 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str, terminal_lo
 - Limit: 300s
 - Git SHA: `{commit_sha}`
 - Git branch: `main`
-- Git origin: `https://github.com/jadenfix/palette.git`
+- Git origin: `https://github.com/tempera-dev/palette.git`
 - Git worktree clean: yes
 - OS/arch: `Darwin arm64`
 - Docker: `Docker version 29.2.0`
@@ -4938,10 +4941,10 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str, terminal_lo
 - Compose project: palette-stopwatch
 - Compose logs artifact: `{compose_logs}`
 - Terminal transcript artifact: `{terminal_log}`
-- Palette image reference: `ghcr.io/jadenfix/palette/paletted:{commit_sha}`
-- Dashboard image reference: `ghcr.io/jadenfix/palette/dashboard:{commit_sha}`
-- Dashboard e2e image reference: `ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha}`
-- OTEL Python image reference: `ghcr.io/jadenfix/palette/otel-python:{commit_sha}`
+- Palette image reference: `ghcr.io/tempera-dev/palette/paletted:{commit_sha}`
+- Dashboard image reference: `ghcr.io/tempera-dev/palette/dashboard:{commit_sha}`
+- Dashboard e2e image reference: `ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha}`
+- OTEL Python image reference: `ghcr.io/tempera-dev/palette/otel-python:{commit_sha}`
 - Palette image digest: `{PALETTE_IMAGE_DIGEST}`
 - Dashboard image digest: `{DASHBOARD_IMAGE_DIGEST}`
 - Dashboard e2e image digest: `{DASHBOARD_E2E_IMAGE_DIGEST}`
@@ -4972,14 +4975,14 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str, terminal_lo
 
 ```text
 CONTAINER                      REPOSITORY                          TAG                                        PLATFORM            IMAGE ID            SIZE                CREATED
-palette-stopwatch-paletted-1     ghcr.io/jadenfix/palette/paletted     {commit_sha}   linux/arm64         bbbbbbbbbbbb        88.4MB              1 minute ago
-palette-stopwatch-dashboard-1   ghcr.io/jadenfix/palette/dashboard   {commit_sha}   linux/arm64         cccccccccccc        99.2MB              1 minute ago
-palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e {commit_sha} linux/arm64 eeeeeeeeeeee 132MB 1 minute ago
-palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python {commit_sha} linux/arm64 aaaaaaaaaaaa 116MB 1 minute ago
-proof-image paletted ghcr.io/jadenfix/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST}
-proof-image dashboard ghcr.io/jadenfix/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST}
-proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST}
-proof-image otel-python ghcr.io/jadenfix/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}
+palette-stopwatch-paletted-1     ghcr.io/tempera-dev/palette/paletted     {commit_sha}   linux/arm64         bbbbbbbbbbbb        88.4MB              1 minute ago
+palette-stopwatch-dashboard-1   ghcr.io/tempera-dev/palette/dashboard   {commit_sha}   linux/arm64         cccccccccccc        99.2MB              1 minute ago
+palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e {commit_sha} linux/arm64 eeeeeeeeeeee 132MB 1 minute ago
+palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python {commit_sha} linux/arm64 aaaaaaaaaaaa 116MB 1 minute ago
+proof-image paletted ghcr.io/tempera-dev/palette/paletted:{commit_sha} {PALETTE_IMAGE_DIGEST}
+proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:{commit_sha} {DASHBOARD_IMAGE_DIGEST}
+proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST}
+proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}
 ```
 
 This is an outside-run stopwatch source artifact generated through
@@ -5429,7 +5432,7 @@ fn run_generator_with_options_and_runner(
 
 fn compose_log_field_for_stopwatch(stopwatch_path: &Path) -> String {
     if stopwatch_path == repo_root().join("docs/demos/gate2-compose-stopwatch.md") {
-        return "https://github.com/jadenfix/palette/actions/runs/123456789".to_string();
+        return "https://github.com/tempera-dev/palette/actions/runs/123456789".to_string();
     }
     let log_path = stopwatch_path
         .parent()
@@ -5731,7 +5734,7 @@ while [ "$#" -gt 0 ]; do
   shift || break
 done
 case "$url" in
-  https://raw.githubusercontent.com/jadenfix/palette/*/scripts/gate2-outside-local-preflight.sh)
+  https://raw.githubusercontent.com/tempera-dev/palette/*/scripts/gate2-outside-local-preflight.sh)
     if [ -z "$output" ]; then
       printf 'missing curl -o output path\n' >&2
       exit 2
@@ -6496,7 +6499,7 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 - Limit: 300s
 - Git SHA: __COMMIT_SHA__
 - Git branch: main
-- Git origin: https://github.com/jadenfix/palette.git
+- Git origin: https://github.com/tempera-dev/palette.git
 - Git worktree clean: yes
 - OS/arch: Darwin arm64
 - Docker: Docker version 29.2.0
@@ -6509,14 +6512,14 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 - Compose project: palette-stopwatch
 - Compose logs artifact: docs/demos/gate2-outside-compose.log
 - Terminal transcript artifact: docs/demos/gate2-outside-terminal.log
-- Palette image reference: ghcr.io/jadenfix/palette/paletted:__COMMIT_SHA__
-- Dashboard image reference: ghcr.io/jadenfix/palette/dashboard:__COMMIT_SHA__
-- Dashboard e2e image reference: ghcr.io/jadenfix/palette/dashboard-e2e:__COMMIT_SHA__
-- OTEL Python image reference: ghcr.io/jadenfix/palette/otel-python:__COMMIT_SHA__
-- Palette image digest: ghcr.io/jadenfix/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-- Dashboard image digest: ghcr.io/jadenfix/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-- Dashboard e2e image digest: ghcr.io/jadenfix/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-- OTEL Python image digest: ghcr.io/jadenfix/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab
+- Palette image reference: ghcr.io/tempera-dev/palette/paletted:__COMMIT_SHA__
+- Dashboard image reference: ghcr.io/tempera-dev/palette/dashboard:__COMMIT_SHA__
+- Dashboard e2e image reference: ghcr.io/tempera-dev/palette/dashboard-e2e:__COMMIT_SHA__
+- OTEL Python image reference: ghcr.io/tempera-dev/palette/otel-python:__COMMIT_SHA__
+- Palette image digest: ghcr.io/tempera-dev/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+- Dashboard image digest: ghcr.io/tempera-dev/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+- Dashboard e2e image digest: ghcr.io/tempera-dev/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- OTEL Python image digest: ghcr.io/tempera-dev/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab
 - Quickstart snippet: examples/python/five_line_otel.py
 - API endpoint: http://127.0.0.1:8080
 - OTLP endpoint: http://127.0.0.1:4317
@@ -6543,14 +6546,14 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 
 ```text
 CONTAINER                      REPOSITORY                          TAG              PLATFORM      IMAGE ID      SIZE     CREATED
-palette-stopwatch-paletted-1     ghcr.io/jadenfix/palette/paletted     __COMMIT_SHA__   linux/arm64   bbbbbbbbbbbb  88.4MB   1 minute ago
-palette-stopwatch-dashboard-1   ghcr.io/jadenfix/palette/dashboard   __COMMIT_SHA__   linux/arm64   cccccccccccc  99.2MB   1 minute ago
-palette-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/palette/dashboard-e2e __COMMIT_SHA__ linux/arm64 eeeeeeeeeeee 132MB 1 minute ago
-palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/palette/otel-python __COMMIT_SHA__ linux/arm64 aaaaaaaaaaaa 116MB 1 minute ago
-proof-image paletted ghcr.io/jadenfix/palette/paletted:__COMMIT_SHA__ ghcr.io/jadenfix/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-proof-image dashboard ghcr.io/jadenfix/palette/dashboard:__COMMIT_SHA__ ghcr.io/jadenfix/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:__COMMIT_SHA__ ghcr.io/jadenfix/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-proof-image otel-python ghcr.io/jadenfix/palette/otel-python:__COMMIT_SHA__ ghcr.io/jadenfix/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab
+palette-stopwatch-paletted-1     ghcr.io/tempera-dev/palette/paletted     __COMMIT_SHA__   linux/arm64   bbbbbbbbbbbb  88.4MB   1 minute ago
+palette-stopwatch-dashboard-1   ghcr.io/tempera-dev/palette/dashboard   __COMMIT_SHA__   linux/arm64   cccccccccccc  99.2MB   1 minute ago
+palette-stopwatch-dashboard-e2e-run-1 ghcr.io/tempera-dev/palette/dashboard-e2e __COMMIT_SHA__ linux/arm64 eeeeeeeeeeee 132MB 1 minute ago
+palette-stopwatch-otel-python-quickstart-run-1 ghcr.io/tempera-dev/palette/otel-python __COMMIT_SHA__ linux/arm64 aaaaaaaaaaaa 116MB 1 minute ago
+proof-image paletted ghcr.io/tempera-dev/palette/paletted:__COMMIT_SHA__ ghcr.io/tempera-dev/palette/paletted@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+proof-image dashboard ghcr.io/tempera-dev/palette/dashboard:__COMMIT_SHA__ ghcr.io/tempera-dev/palette/dashboard@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+proof-image dashboard-e2e ghcr.io/tempera-dev/palette/dashboard-e2e:__COMMIT_SHA__ ghcr.io/tempera-dev/palette/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+proof-image otel-python ghcr.io/tempera-dev/palette/otel-python:__COMMIT_SHA__ ghcr.io/tempera-dev/palette/otel-python@sha256:abababababababababababababababababababababababababababababababab
 ```
 
 This is an outside-run stopwatch source artifact generated through
@@ -6618,7 +6621,7 @@ fn write_outside_wrapper_fixture_repo(branch: &str) -> TempDir {
             "remote",
             "add",
             "origin",
-            "https://github.com/jadenfix/palette.git",
+            "https://github.com/tempera-dev/palette.git",
         ],
     );
     fixture
