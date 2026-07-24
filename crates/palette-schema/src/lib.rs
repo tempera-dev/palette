@@ -154,6 +154,28 @@ pub mod conventions {
         pub const LLM_TOKEN_CACHE_READ: &str = "llm.token_count.cache_read";
         pub const LLM_COST_MICROS: &str = "llm.cost.amount_micros";
         pub const LLM_COST_CURRENCY: &str = "llm.cost.currency";
+        pub const DISCOVERY_CAMPAIGN_ID: &str = "tempera.discovery.campaign_id";
+        pub const DISCOVERY_ROUND_ID: &str = "tempera.discovery.round_id";
+        pub const DISCOVERY_STAGE: &str = "tempera.discovery.stage";
+        pub const DISCOVERY_STATUS: &str = "tempera.discovery.status";
+        pub const DISCOVERY_EVIDENCE_CLASS: &str = "tempera.discovery.evidence_class";
+        pub const DISCOVERY_CLAIM_CLASS: &str = "tempera.discovery.claim_class";
+        pub const DISCOVERY_CANDIDATE_COUNT: &str = "tempera.discovery.candidate_count";
+        pub const DISCOVERY_SELECTED_COUNT: &str = "tempera.discovery.selected_count";
+        pub const DISCOVERY_VERIFIED_COUNT: &str = "tempera.discovery.verified_count";
+        pub const DISCOVERY_BUDGET_LIMIT: &str = "tempera.discovery.budget.limit";
+        pub const DISCOVERY_BUDGET_CONSUMED: &str = "tempera.discovery.budget.consumed";
+        pub const DISCOVERY_PROGRAM_DIGEST: &str = "tempera.discovery.program.digest";
+        pub const DISCOVERY_PROPOSAL_DIGEST: &str = "tempera.discovery.proposal.digest";
+        pub const DISCOVERY_PROTOCOL_DIGEST: &str = "tempera.discovery.protocol.digest";
+        pub const DISCOVERY_PREPARE_RECEIPT_DIGEST: &str =
+            "tempera.discovery.receipt.prepare.digest";
+        pub const DISCOVERY_COMMIT_RECEIPT_DIGEST: &str = "tempera.discovery.receipt.commit.digest";
+        pub const DISCOVERY_VERIFIER_RECEIPT_DIGEST: &str =
+            "tempera.discovery.receipt.verifier.digest";
+        pub const DISCOVERY_DECISION_RECEIPT_DIGEST: &str =
+            "tempera.discovery.receipt.decision.digest";
+        pub const DISCOVERY_RELEASE_DIGEST: &str = "tempera.discovery.release.digest";
 
         /// OTLP scope headers used to scope traces on ingest.
         pub const HEADER_TENANT: &str = "x-palette-tenant-id";
@@ -176,6 +198,37 @@ pub mod conventions {
             ("LLM_TOKEN_CACHE_READ", LLM_TOKEN_CACHE_READ),
             ("LLM_COST_MICROS", LLM_COST_MICROS),
             ("LLM_COST_CURRENCY", LLM_COST_CURRENCY),
+            ("DISCOVERY_CAMPAIGN_ID", DISCOVERY_CAMPAIGN_ID),
+            ("DISCOVERY_ROUND_ID", DISCOVERY_ROUND_ID),
+            ("DISCOVERY_STAGE", DISCOVERY_STAGE),
+            ("DISCOVERY_STATUS", DISCOVERY_STATUS),
+            ("DISCOVERY_EVIDENCE_CLASS", DISCOVERY_EVIDENCE_CLASS),
+            ("DISCOVERY_CLAIM_CLASS", DISCOVERY_CLAIM_CLASS),
+            ("DISCOVERY_CANDIDATE_COUNT", DISCOVERY_CANDIDATE_COUNT),
+            ("DISCOVERY_SELECTED_COUNT", DISCOVERY_SELECTED_COUNT),
+            ("DISCOVERY_VERIFIED_COUNT", DISCOVERY_VERIFIED_COUNT),
+            ("DISCOVERY_BUDGET_LIMIT", DISCOVERY_BUDGET_LIMIT),
+            ("DISCOVERY_BUDGET_CONSUMED", DISCOVERY_BUDGET_CONSUMED),
+            ("DISCOVERY_PROGRAM_DIGEST", DISCOVERY_PROGRAM_DIGEST),
+            ("DISCOVERY_PROPOSAL_DIGEST", DISCOVERY_PROPOSAL_DIGEST),
+            ("DISCOVERY_PROTOCOL_DIGEST", DISCOVERY_PROTOCOL_DIGEST),
+            (
+                "DISCOVERY_PREPARE_RECEIPT_DIGEST",
+                DISCOVERY_PREPARE_RECEIPT_DIGEST,
+            ),
+            (
+                "DISCOVERY_COMMIT_RECEIPT_DIGEST",
+                DISCOVERY_COMMIT_RECEIPT_DIGEST,
+            ),
+            (
+                "DISCOVERY_VERIFIER_RECEIPT_DIGEST",
+                DISCOVERY_VERIFIER_RECEIPT_DIGEST,
+            ),
+            (
+                "DISCOVERY_DECISION_RECEIPT_DIGEST",
+                DISCOVERY_DECISION_RECEIPT_DIGEST,
+            ),
+            ("DISCOVERY_RELEASE_DIGEST", DISCOVERY_RELEASE_DIGEST),
             ("HEADER_TENANT", HEADER_TENANT),
             ("HEADER_PROJECT", HEADER_PROJECT),
             ("HEADER_ENVIRONMENT", HEADER_ENVIRONMENT),
@@ -297,6 +350,28 @@ pub mod conventions {
                 parsed["env"]["TENANT_ID"].as_str(),
                 Some("PALETTE_TENANT_ID")
             );
+            assert_eq!(
+                parsed["attributes"]["DISCOVERY_DECISION_RECEIPT_DIGEST"].as_str(),
+                Some("tempera.discovery.receipt.decision.digest")
+            );
+            assert_eq!(
+                parsed["attributes"]["DISCOVERY_EVIDENCE_CLASS"].as_str(),
+                Some("tempera.discovery.evidence_class")
+            );
+        }
+
+        #[test]
+        fn discovery_attribute_names_and_wire_values_are_unique() {
+            let names = attr::ALL
+                .iter()
+                .map(|(name, _)| *name)
+                .collect::<std::collections::BTreeSet<_>>();
+            let values = attr::ALL
+                .iter()
+                .map(|(_, value)| *value)
+                .collect::<std::collections::BTreeSet<_>>();
+            assert_eq!(names.len(), attr::ALL.len());
+            assert_eq!(values.len(), attr::ALL.len());
         }
     }
 }

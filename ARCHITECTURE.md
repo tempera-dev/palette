@@ -867,6 +867,14 @@ Input dialects:
 - Native Palette `/v1` JSON ingest.
 - Future imports from Phoenix, LangSmith, Langfuse, and Braintrust exports.
 
+Tempera Discovery instrumentation uses the canonical
+`tempera.discovery.*` semantic-convention attributes documented in
+[`docs/discovery-observability.md`](docs/discovery-observability.md). Palette
+stores operational identifiers, bounded counts, classifications, and
+content-addressed receipt digests only; raw biological data, hidden labels,
+provider secrets, authorization payloads, and scientific decision authority
+remain in their owning systems.
+
 **The normalizer algorithm (dialect → canonical projection).** Each dialect is a
 **deterministic projection**, not parsing-by-guess: a static **mapping table** keyed
 by `(dialect, source_span_kind)` → canonical span kind (§5.2), plus an

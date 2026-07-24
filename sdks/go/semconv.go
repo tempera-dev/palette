@@ -52,6 +52,26 @@ const (
 	AttrLLMTokenCacheRead  = "llm.token_count.cache_read"
 	AttrLLMCostMicros      = "llm.cost.amount_micros"
 	AttrLLMCostCurrency    = "llm.cost.currency"
+
+	AttrDiscoveryCampaignID            = "tempera.discovery.campaign_id"
+	AttrDiscoveryRoundID               = "tempera.discovery.round_id"
+	AttrDiscoveryStage                 = "tempera.discovery.stage"
+	AttrDiscoveryStatus                = "tempera.discovery.status"
+	AttrDiscoveryEvidenceClass         = "tempera.discovery.evidence_class"
+	AttrDiscoveryClaimClass            = "tempera.discovery.claim_class"
+	AttrDiscoveryCandidateCount        = "tempera.discovery.candidate_count"
+	AttrDiscoverySelectedCount         = "tempera.discovery.selected_count"
+	AttrDiscoveryVerifiedCount         = "tempera.discovery.verified_count"
+	AttrDiscoveryBudgetLimit           = "tempera.discovery.budget.limit"
+	AttrDiscoveryBudgetConsumed        = "tempera.discovery.budget.consumed"
+	AttrDiscoveryProgramDigest         = "tempera.discovery.program.digest"
+	AttrDiscoveryProposalDigest        = "tempera.discovery.proposal.digest"
+	AttrDiscoveryProtocolDigest        = "tempera.discovery.protocol.digest"
+	AttrDiscoveryPrepareReceiptDigest  = "tempera.discovery.receipt.prepare.digest"
+	AttrDiscoveryCommitReceiptDigest   = "tempera.discovery.receipt.commit.digest"
+	AttrDiscoveryVerifierReceiptDigest = "tempera.discovery.receipt.verifier.digest"
+	AttrDiscoveryDecisionReceiptDigest = "tempera.discovery.receipt.decision.digest"
+	AttrDiscoveryReleaseDigest         = "tempera.discovery.release.digest"
 )
 
 // OTLP scope headers used when exporting over gRPC (HTTP carries these in the URL path).
