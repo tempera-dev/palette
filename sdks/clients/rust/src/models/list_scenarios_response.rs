@@ -13,8 +13,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ListScenariosResponse {
-    #[serde(rename = "next_cursor", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub next_cursor: Option<Option<String>>,
+    #[serde(rename = "nextPageToken", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub next_page_token: Option<Option<String>>,
     #[serde(rename = "scenarios")]
     pub scenarios: Vec<models::Scenario>,
 }
@@ -22,7 +22,7 @@ pub struct ListScenariosResponse {
 impl ListScenariosResponse {
     pub fn new(scenarios: Vec<models::Scenario>) -> ListScenariosResponse {
         ListScenariosResponse {
-            next_cursor: None,
+            next_page_token: None,
             scenarios,
         }
     }

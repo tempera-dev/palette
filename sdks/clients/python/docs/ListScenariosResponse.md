@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**next_cursor** | **str** |  | [optional]
+**next_page_token** | **str** |  | [optional]
 **scenarios** | [**List[Scenario]**](Scenario.md) |  |
 
 ## Example

@@ -176,7 +176,7 @@ No authorization required
 
 ## ScenariosList
 
-> ListScenariosResponse ScenariosList(ctx, tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ListScenariosResponse ScenariosList(ctx, tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -195,8 +195,8 @@ import (
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
-	limit := int32(56) // int32 |  (optional)
-	cursor := "cursor_example" // string |  (optional)
+	pageSize := int32(56) // int32 | Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+	pageToken := "pageToken_example" // string | Opaque continuation token returned by the preceding list request. (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -204,7 +204,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosList(context.Background(), tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosList(context.Background(), tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -232,8 +232,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **limit** | **int32** |  |
- **cursor** | **string** |  |
+ **pageSize** | **int32** | Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. |
+ **pageToken** | **string** | Opaque continuation token returned by the preceding list request. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |

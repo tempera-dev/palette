@@ -40,13 +40,13 @@ import ai.palette.client.ApiClient;
  * ListScenariosResponse
  */
 @JsonPropertyOrder({
-  ListScenariosResponse.JSON_PROPERTY_NEXT_CURSOR,
+  ListScenariosResponse.JSON_PROPERTY_NEXT_PAGE_TOKEN,
   ListScenariosResponse.JSON_PROPERTY_SCENARIOS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ListScenariosResponse {
-  public static final String JSON_PROPERTY_NEXT_CURSOR = "next_cursor";
-  private JsonNullable<String> nextCursor = JsonNullable.<String>undefined();
+  public static final String JSON_PROPERTY_NEXT_PAGE_TOKEN = "nextPageToken";
+  private JsonNullable<String> nextPageToken = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_SCENARIOS = "scenarios";
   @javax.annotation.Nonnull
@@ -55,35 +55,35 @@ public class ListScenariosResponse {
   public ListScenariosResponse() { 
   }
 
-  public ListScenariosResponse nextCursor(@javax.annotation.Nullable String nextCursor) {
-    this.nextCursor = JsonNullable.<String>of(nextCursor);
+  public ListScenariosResponse nextPageToken(@javax.annotation.Nullable String nextPageToken) {
+    this.nextPageToken = JsonNullable.<String>of(nextPageToken);
     return this;
   }
 
   /**
-   * Get nextCursor
-   * @return nextCursor
+   * Get nextPageToken
+   * @return nextPageToken
    */
   @javax.annotation.Nullable
   @JsonIgnore
-  public String getNextCursor() {
-        return nextCursor.orElse(null);
+  public String getNextPageToken() {
+        return nextPageToken.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NEXT_CURSOR)
+  @JsonProperty(JSON_PROPERTY_NEXT_PAGE_TOKEN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<String> getNextCursor_JsonNullable() {
-    return nextCursor;
+  public JsonNullable<String> getNextPageToken_JsonNullable() {
+    return nextPageToken;
   }
   
-  @JsonProperty(JSON_PROPERTY_NEXT_CURSOR)
-  public void setNextCursor_JsonNullable(JsonNullable<String> nextCursor) {
-    this.nextCursor = nextCursor;
+  @JsonProperty(JSON_PROPERTY_NEXT_PAGE_TOKEN)
+  public void setNextPageToken_JsonNullable(JsonNullable<String> nextPageToken) {
+    this.nextPageToken = nextPageToken;
   }
 
-  public void setNextCursor(@javax.annotation.Nullable String nextCursor) {
-    this.nextCursor = JsonNullable.<String>of(nextCursor);
+  public void setNextPageToken(@javax.annotation.Nullable String nextPageToken) {
+    this.nextPageToken = JsonNullable.<String>of(nextPageToken);
   }
 
 
@@ -131,7 +131,7 @@ public class ListScenariosResponse {
       return false;
     }
     ListScenariosResponse listScenariosResponse = (ListScenariosResponse) o;
-    return equalsNullable(this.nextCursor, listScenariosResponse.nextCursor) &&
+    return equalsNullable(this.nextPageToken, listScenariosResponse.nextPageToken) &&
         Objects.equals(this.scenarios, listScenariosResponse.scenarios);
   }
 
@@ -141,7 +141,7 @@ public class ListScenariosResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(hashCodeNullable(nextCursor), scenarios);
+    return Objects.hash(hashCodeNullable(nextPageToken), scenarios);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -155,7 +155,7 @@ public class ListScenariosResponse {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ListScenariosResponse {\n");
-    sb.append("    nextCursor: ").append(toIndentedString(nextCursor)).append("\n");
+    sb.append("    nextPageToken: ").append(toIndentedString(nextPageToken)).append("\n");
     sb.append("    scenarios: ").append(toIndentedString(scenarios)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -204,9 +204,9 @@ public class ListScenariosResponse {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `next_cursor` to the URL query string
-    if (getNextCursor() != null) {
-      joiner.add(String.format("%snext_cursor%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNextCursor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    // add `nextPageToken` to the URL query string
+    if (getNextPageToken() != null) {
+      joiner.add(String.format("%snextPageToken%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNextPageToken()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scenarios` to the URL query string

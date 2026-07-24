@@ -45,11 +45,11 @@ class ListScenariosResponseTest {
     }
 
     /**
-     * Test the property 'nextCursor'
+     * Test the property 'nextPageToken'
      */
     @Test
-    void nextCursorTest() {
-        // TODO: test nextCursor
+    void nextPageTokenTest() {
+        // TODO: test nextPageToken
     }
 
     /**

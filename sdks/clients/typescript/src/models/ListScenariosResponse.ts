@@ -32,7 +32,7 @@ export interface ListScenariosResponse {
      * @type {string}
      * @memberof ListScenariosResponse
      */
-    nextCursor?: string | null;
+    nextPageToken?: string | null;
     /**
      * 
      * @type {Array<Scenario>}
@@ -59,7 +59,7 @@ export function ListScenariosResponseFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextPageToken': json['nextPageToken'] == null ? undefined : json['nextPageToken'],
         'scenarios': ((json['scenarios'] as Array<any>).map(ScenarioFromJSON)),
     };
 }
@@ -75,7 +75,7 @@ export function ListScenariosResponseToJSONTyped(value?: ListScenariosResponse |
 
     return {
         
-        'next_cursor': value['nextCursor'],
+        'nextPageToken': value['nextPageToken'],
         'scenarios': ((value['scenarios'] as Array<any>).map(ScenarioToJSON)),
     };
 }

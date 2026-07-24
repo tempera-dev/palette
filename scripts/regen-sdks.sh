@@ -156,6 +156,7 @@ for lang in "${LANGS[@]}"; do
       normalize_generated_text_files "$out" \
         README.md \
         model/error_response.c \
+        model/list_scenarios_response.c \
         api/IngestAPI.c \
         api/IngestAPI.h \
         docs/IngestAPI.md

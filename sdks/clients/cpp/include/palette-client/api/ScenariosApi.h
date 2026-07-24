@@ -100,8 +100,8 @@ public:
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
-    /// <param name="limit"> (optional, default to 0)</param>
-    /// <param name="cursor"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="pageSize">Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
@@ -109,8 +109,8 @@ public:
     pplx::task<std::shared_ptr<ListScenariosResponse>> scenarios_list(
         utility::string_t tenantId,
         utility::string_t projectId,
-        boost::optional<int32_t> limit,
-        boost::optional<utility::string_t> cursor,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
