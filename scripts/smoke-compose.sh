@@ -90,7 +90,7 @@ wait_text() {
 }
 
 first_trace_id() {
-  python3 -c 'import json,sys; print(json.load(sys.stdin)["items"][0]["trace_id"])'
+  python3 -c 'import json,sys; print(json.load(sys.stdin)["runs"][0]["trace_id"])'
 }
 
 trap on_exit EXIT

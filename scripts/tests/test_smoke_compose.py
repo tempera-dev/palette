@@ -63,7 +63,7 @@ case "$url" in
     fi
     ;;
   *'/v1/traces/demo?'*)
-    printf '{"items":[{"trace_id":"trace-compose-1"}],"model":"gpt-demo"}'
+    printf '{"runs":[{"trace_id":"trace-compose-1"}],"model":"gpt-demo"}'
     ;;
   *'trace=trace-compose-1'*)
     printf 'Agent Trace Debugger call-policy-model %s' "${PALETTE_TEST_DASHBOARD_KINDS:-}"

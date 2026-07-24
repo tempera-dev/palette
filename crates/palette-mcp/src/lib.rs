@@ -1426,42 +1426,21 @@ mod tests {
         }
     }
 
-    /// Every emitted output schema is object-rooted; the known array-returning
-    /// list operations advertise none. Guards the MCP object-only invariant.
+    /// Every emitted output schema is object-rooted. Public collection
+    /// operations use named AIP-158 response wrappers, so they can now
+    /// advertise structured MCP output schemas instead of being omitted.
     #[test]
-    fn output_schemas_are_object_rooted_or_absent() {
-        let array_ops = [
-            "audit.list",
-            "judge.listLedger",
-            "providerSecrets.list",
-            "reviews.listTasks",
-            "connectors.list",
-            "connectors.listTools",
-        ];
+    fn output_schemas_are_object_rooted() {
         for tool in tools() {
-            match &tool.output_schema {
-                None => assert!(
-                    array_ops.contains(&tool.name.as_str()),
-                    "{} unexpectedly has no output schema",
-                    tool.name
-                ),
-                Some(schema) => {
-                    // Resolve the root type against the bundled components.
-                    let comps = schema.get("components").and_then(|c| c.get("schemas"));
-                    assert!(
-                        resolves_to_object(schema, comps),
-                        "{}: emitted output schema must be object-rooted",
-                        tool.name
-                    );
-                }
-            }
-        }
-        // And the array ops are definitely omitted.
-        for name in array_ops {
-            let tool = tools().iter().find(|t| t.name == name).unwrap();
+            let Some(schema) = &tool.output_schema else {
+                panic!("{} unexpectedly has no output schema", tool.name);
+            };
+            // Resolve the root type against the bundled components.
+            let comps = schema.get("components").and_then(|c| c.get("schemas"));
             assert!(
-                tool.output_schema.is_none(),
-                "{name} returns an array and must not advertise an output schema"
+                resolves_to_object(schema, comps),
+                "{}: emitted output schema must be object-rooted",
+                tool.name
             );
         }
     }
