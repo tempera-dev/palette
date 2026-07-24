@@ -120,11 +120,13 @@ pub struct ConnectorTool {
 #[serde(rename_all = "camelCase")]
 pub struct ConnectionLink {
     /// URL the end user opens once to authorize the app.
+    #[serde(alias = "redirect_url")]
     pub redirect_url: String,
     /// Composio connection id (`ca_…`) created for this handshake.
+    #[serde(alias = "connected_account_id")]
     pub connected_account_id: String,
     /// When the link expires (RFC 3339), if provided.
-    #[serde(default)]
+    #[serde(default, alias = "expires_at")]
     pub expires_at: Option<String>,
 }
 
@@ -170,7 +172,7 @@ pub struct ToolExecution {
     #[serde(default)]
     pub error: Option<String>,
     /// Composio execution log id, for tracing.
-    #[serde(default)]
+    #[serde(default, alias = "log_id")]
     pub log_id: Option<String>,
 }
 
