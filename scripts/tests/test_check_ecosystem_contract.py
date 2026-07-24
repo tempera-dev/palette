@@ -134,8 +134,8 @@ def test_rejects_missing_import_ingress_route() -> None:
         api = root / "crates" / "palette-api" / "src" / "lib.rs"
         api.write_text(
             api.read_text(encoding="utf-8").replace(
-                '"/v1/import/:tenant_id/:project_id/:environment_id"',
-                '"/v1/import-removed/:tenant_id/:project_id/:environment_id"',
+                '"/v1/import/:tenantId/:projectId/:environmentId"',
+                '"/v1/import-removed/:tenantId/:projectId/:environmentId"',
             ),
             encoding="utf-8",
         )
@@ -144,7 +144,7 @@ def test_rejects_missing_import_ingress_route() -> None:
 
         assert result.returncode == 1
         assert (
-            "missing marker '\"/v1/import/:tenant_id/:project_id/:environment_id\"'"
+            "missing marker '\"/v1/import/:tenantId/:projectId/:environmentId\"'"
             in result.stderr
         )
 
