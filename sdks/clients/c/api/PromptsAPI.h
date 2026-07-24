@@ -33,10 +33,8 @@ PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id,
 
 
 prompt_list_response_t*
-PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 prompt_version_list_response_t*
-PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
-
-
+PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);

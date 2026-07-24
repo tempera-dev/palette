@@ -258,7 +258,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **connectors_list**
-> List[Toolkit] connectors_list(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> ConnectorListResponse connectors_list(tenant_id, project_id, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -267,7 +267,7 @@ No authorization required
 
 ```python
 import palette_client
-from palette_client.models.toolkit import Toolkit
+from palette_client.models.connector_list_response import ConnectorListResponse
 from palette_client.rest import ApiException
 from pprint import pprint
 
@@ -284,14 +284,15 @@ with palette_client.ApiClient(configuration) as api_client:
     api_instance = palette_client.ConnectorsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
-    limit = 56 # int | Maximum number of apps to return (page size). (optional)
+    page_size = 56 # int | Maximum number of apps to return. Zero selects the server default. (optional)
+    page_token = 'page_token_example' # str | Opaque continuation token returned by the preceding list request. (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
     x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
     x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.connectors_list(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        api_response = api_instance.connectors_list(tenant_id, project_id, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ConnectorsApi->connectors_list:\n")
         pprint(api_response)
     except Exception as e:
@@ -307,7 +308,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
- **limit** | **int**| Maximum number of apps to return (page size). | [optional]
+ **page_size** | **int**| Maximum number of apps to return. Zero selects the server default. | [optional]
+ **page_token** | **str**| Opaque continuation token returned by the preceding list request. | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
  **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
  **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
@@ -315,7 +317,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[Toolkit]**](Toolkit.md)
+[**ConnectorListResponse**](ConnectorListResponse.md)
 
 ### Authorization
 
@@ -339,7 +341,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **connectors_list_tools**
-> List[ConnectorTool] connectors_list_tools(tenant_id, project_id, toolkit, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> ConnectorToolListResponse connectors_list_tools(tenant_id, project_id, toolkit, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -348,7 +350,7 @@ No authorization required
 
 ```python
 import palette_client
-from palette_client.models.connector_tool import ConnectorTool
+from palette_client.models.connector_tool_list_response import ConnectorToolListResponse
 from palette_client.rest import ApiException
 from pprint import pprint
 
@@ -366,14 +368,15 @@ with palette_client.ApiClient(configuration) as api_client:
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     toolkit = 'toolkit_example' # str | Toolkit slug to list tools for.
-    limit = 56 # int | Maximum number of tools to return (page size). (optional)
+    page_size = 56 # int | Maximum number of tools to return. Zero selects the server default. (optional)
+    page_token = 'page_token_example' # str | Opaque continuation token returned by the preceding list request. (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
     x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
     x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.connectors_list_tools(tenant_id, project_id, toolkit, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        api_response = api_instance.connectors_list_tools(tenant_id, project_id, toolkit, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ConnectorsApi->connectors_list_tools:\n")
         pprint(api_response)
     except Exception as e:
@@ -390,7 +393,8 @@ Name | Type | Description  | Notes
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
  **toolkit** | **str**| Toolkit slug to list tools for. |
- **limit** | **int**| Maximum number of tools to return (page size). | [optional]
+ **page_size** | **int**| Maximum number of tools to return. Zero selects the server default. | [optional]
+ **page_token** | **str**| Opaque continuation token returned by the preceding list request. | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
  **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
  **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
@@ -398,7 +402,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[ConnectorTool]**](ConnectorTool.md)
+[**ConnectorToolListResponse**](ConnectorToolListResponse.md)
 
 ### Authorization
 

@@ -20,12 +20,7 @@ namespace model {
 
 ErrorResponse::ErrorResponse()
 {
-    m_Error = utility::conversions::to_string_t("");
     m_ErrorIsSet = false;
-    m_Message = utility::conversions::to_string_t("");
-    m_MessageIsSet = false;
-    m_Status = 0;
-    m_StatusIsSet = false;
 }
 
 ErrorResponse::~ErrorResponse()
@@ -45,16 +40,6 @@ web::json::value ErrorResponse::toJson() const
 
         val[utility::conversions::to_string_t(U("error"))] = ModelBase::toJson(m_Error);
     }
-    if(m_MessageIsSet)
-    {
-
-        val[utility::conversions::to_string_t(U("message"))] = ModelBase::toJson(m_Message);
-    }
-    if(m_StatusIsSet)
-    {
-
-        val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
-    }
 
     return val;
 }
@@ -67,31 +52,9 @@ bool ErrorResponse::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("error")));
         if(!fieldValue.is_null())
         {
-            utility::string_t refVal_setError;
+            std::shared_ptr<ErrorStatus> refVal_setError;
             ok &= ModelBase::fromJson(fieldValue, refVal_setError);
             setError(refVal_setError);
-
-        }
-    }
-    if(val.has_field(utility::conversions::to_string_t(U("message"))))
-    {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("message")));
-        if(!fieldValue.is_null())
-        {
-            utility::string_t refVal_setMessage;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setMessage);
-            setMessage(refVal_setMessage);
-
-        }
-    }
-    if(val.has_field(utility::conversions::to_string_t(U("status"))))
-    {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("status")));
-        if(!fieldValue.is_null())
-        {
-            int32_t refVal_setStatus;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
-            setStatus(refVal_setStatus);
 
         }
     }
@@ -109,14 +72,6 @@ void ErrorResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("error")), m_Error));
     }
-    if(m_MessageIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("message")), m_Message));
-    }
-    if(m_StatusIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
-    }
 }
 
 bool ErrorResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
@@ -130,33 +85,21 @@ bool ErrorResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 
     if(multipart->hasContent(utility::conversions::to_string_t(U("error"))))
     {
-        utility::string_t refVal_setError;
+        std::shared_ptr<ErrorStatus> refVal_setError;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("error"))), refVal_setError );
         setError(refVal_setError);
-    }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("message"))))
-    {
-        utility::string_t refVal_setMessage;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("message"))), refVal_setMessage );
-        setMessage(refVal_setMessage);
-    }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
-    {
-        int32_t refVal_setStatus;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
-        setStatus(refVal_setStatus);
     }
     return ok;
 }
 
 
-utility::string_t ErrorResponse::getError() const
+std::shared_ptr<ErrorStatus> ErrorResponse::getError() const
 {
     return m_Error;
 }
 
 
-void ErrorResponse::setError(const utility::string_t& value)
+void ErrorResponse::setError(const std::shared_ptr<ErrorStatus>& value)
 {
     m_Error = value;
     m_ErrorIsSet = true;
@@ -170,47 +113,6 @@ bool ErrorResponse::errorIsSet() const
 void ErrorResponse::unsetError()
 {
     m_ErrorIsSet = false;
-}
-utility::string_t ErrorResponse::getMessage() const
-{
-    return m_Message;
-}
-
-
-void ErrorResponse::setMessage(const utility::string_t& value)
-{
-    m_Message = value;
-    m_MessageIsSet = true;
-}
-
-bool ErrorResponse::messageIsSet() const
-{
-    return m_MessageIsSet;
-}
-
-void ErrorResponse::unsetMessage()
-{
-    m_MessageIsSet = false;
-}
-int32_t ErrorResponse::getStatus() const
-{
-    return m_Status;
-}
-
-void ErrorResponse::setStatus(int32_t value)
-{
-    m_Status = value;
-    m_StatusIsSet = true;
-}
-
-bool ErrorResponse::statusIsSet() const
-{
-    return m_StatusIsSet;
-}
-
-void ErrorResponse::unsetStatus()
-{
-    m_StatusIsSet = false;
 }
 
 }

@@ -84,6 +84,39 @@ normalize_generated_markdown_files() {
   )
 }
 
+normalize_aip_migration_text_files() {
+  local out="$1"
+  local file basename
+  while IFS= read -r -d '' file; do
+    basename="$(basename "$file" | tr '[:upper:]' '[:lower:]')"
+    case "$basename" in
+      archiveapi*.*|archive_api*.*|api_archive.*|\
+      auditapi*.*|audit_api*.*|api_audit.*|\
+      connectorsapi*.*|connectors_api*.*|api_connectors.*|\
+      judgeapi*.*|judge_api*.*|api_judge.*|\
+      promptsapi*.*|prompts_api*.*|api_prompts.*|\
+      providersecretsapi*.*|provider_secrets_api*.*|api_provider_secrets.*|\
+      reviewsapi*.*|reviews_api*.*|api_reviews.*|\
+      searchapi*.*|search_api*.*|api_search.*|\
+      tracesapi*.*|traces_api*.*|api_traces.*|\
+      *archivequeryresponse*|*archive_query_response*|\
+      *auditeventlistresponse*|*audit_event_list_response*|\
+      *connectorlistresponse*|*connector_list_response*|\
+      *connectortoollistresponse*|*connector_tool_list_response*|\
+      *judgeledgerlistresponse*|*judge_ledger_list_response*|\
+      *promptlistresponse*|*prompt_list_response*|\
+      *promptversionlistresponse*|*prompt_version_list_response*|\
+      *providersecretlistresponse*|*provider_secret_list_response*|\
+      *reviewtasklistresponse*|*review_task_list_response*|\
+      *searchspanlistresponse*|*search_span_list_response*|\
+      *tracelistresponse*|*trace_list_response*|\
+      *errorresponse*|*error_response*|*errorstatus*|*error_status*)
+        perl -0pi -e 's/[ \t]+$//mg; s/\n+\z/\n/' "$file"
+        ;;
+    esac
+  done < <(find "$out" -type f -print0)
+}
+
 # Optional release version for the generated clients (default keeps configs' 0.1.0).
 VERSION="${PALETTE_SDK_VERSION:-}"
 version_props=()
@@ -151,6 +184,10 @@ for lang in "${LANGS[@]}"; do
   # those files so `regen --check` and `git diff --check` agree without
   # hand-editing generated clients or churning unrelated generated output.
   normalize_generated_markdown_files "$out"
+  # The AIP-158 migration touches these API and response-model templates in
+  # every language. Normalize their generator-emitted trailing spaces so a
+  # clean regen and `git diff --check` remain reproducible.
+  normalize_aip_migration_text_files "$out"
   case "$lang" in
     c)
       normalize_generated_text_files "$out" \

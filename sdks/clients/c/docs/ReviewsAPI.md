@@ -80,7 +80,7 @@ No authorization required
 
 # **ReviewsAPI_reviewsListTasks**
 ```c
-list_t* ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_task_list_response_t* ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -91,6 +91,8 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **queue_id** | **char \*** | queue_id |
 **state** | **review_task_state_e** |  | [optional]
+**pageSize** | **int \*** | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
+**pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -98,7 +100,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[list_t](review_task.md) *
+[review_task_list_response_t](review_task_list_response.md) *
 
 
 ### Authorization

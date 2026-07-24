@@ -173,7 +173,7 @@ No authorization required
 
 ## judgeListLedger
 
-> List<PublicJudgeAuditRecord> judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> JudgeLedgerListResponse judgeListLedger(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -195,12 +195,14 @@ public class Example {
         JudgeApi apiInstance = new JudgeApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<PublicJudgeAuditRecord> result = apiInstance.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            JudgeLedgerListResponse result = apiInstance.judgeListLedger(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling JudgeApi#judgeListLedger");
@@ -220,6 +222,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -227,7 +231,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;PublicJudgeAuditRecord&gt;**](PublicJudgeAuditRecord.md)
+[**JudgeLedgerListResponse**](JudgeLedgerListResponse.md)
 
 
 ### Authorization
@@ -249,7 +253,7 @@ No authorization required
 
 ## judgeListLedgerWithHttpInfo
 
-> ApiResponse<List<PublicJudgeAuditRecord>> judgeListLedger judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<JudgeLedgerListResponse> judgeListLedger judgeListLedgerWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -272,12 +276,14 @@ public class Example {
         JudgeApi apiInstance = new JudgeApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<PublicJudgeAuditRecord>> response = apiInstance.judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<JudgeLedgerListResponse> response = apiInstance.judgeListLedgerWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -299,6 +305,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -306,7 +314,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;PublicJudgeAuditRecord&gt;**](PublicJudgeAuditRecord.md)>
+ApiResponse<[**JudgeLedgerListResponse**](JudgeLedgerListResponse.md)>
 
 
 ### Authorization

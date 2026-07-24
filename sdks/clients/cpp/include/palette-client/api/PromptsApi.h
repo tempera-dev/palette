@@ -12,7 +12,7 @@
 /*
  * PromptsApi.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_PromptsApi_H_
@@ -43,7 +43,7 @@ using namespace org::openapitools::client::model;
 
 
 
-class  PromptsApi 
+class  PromptsApi
 {
 public:
 
@@ -52,10 +52,10 @@ public:
     virtual ~PromptsApi();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -76,10 +76,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -98,10 +98,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -124,10 +124,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -146,13 +146,15 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
+    /// <param name="pageSize">Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
@@ -160,20 +162,24 @@ public:
     pplx::task<std::shared_ptr<PromptListResponse>> prompts_list(
         utility::string_t tenantId,
         utility::string_t projectId,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
     /// <param name="promptId">prompt_id</param>
+    /// <param name="pageSize">Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
@@ -182,6 +188,8 @@ public:
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t promptId,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
@@ -198,4 +206,3 @@ protected:
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_PromptsApi_H_ */
-

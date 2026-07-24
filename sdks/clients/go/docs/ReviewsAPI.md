@@ -179,7 +179,7 @@ No authorization required
 
 ## ReviewsListTasks
 
-> []ReviewTask ReviewsListTasks(ctx, tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ReviewTaskListResponse ReviewsListTasks(ctx, tenantId, projectId, queueId).State(state).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -200,6 +200,8 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	queueId := "queueId_example" // string | queue_id
 	state := openapiclient.ReviewTaskState("open") // ReviewTaskState |  (optional)
+	pageSize := int32(56) // int32 | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+	pageToken := "pageToken_example" // string | Opaque continuation token returned by the preceding list request. (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -207,12 +209,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsListTasks(context.Background(), tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsListTasks(context.Background(), tenantId, projectId, queueId).State(state).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsListTasks``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsListTasks`: []ReviewTask
+	// response from `ReviewsListTasks`: ReviewTaskListResponse
 	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsListTasks`: %v\n", resp)
 }
 ```
@@ -238,6 +240,8 @@ Name | Type | Description  | Notes
 
 
  **state** | [**ReviewTaskState**](ReviewTaskState.md) |  |
+ **pageSize** | **int32** | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. |
+ **pageToken** | **string** | Opaque continuation token returned by the preceding list request. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -245,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]ReviewTask**](ReviewTask.md)
+[**ReviewTaskListResponse**](ReviewTaskListResponse.md)
 
 ### Authorization
 

@@ -12,7 +12,7 @@
 /*
  * ArchiveQueryResponse.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_ArchiveQueryResponse_H_
@@ -21,6 +21,7 @@
 
 #include "palette-client/ModelBase.h"
 
+#include <cpprest/details/basic_types.h>
 #include "palette-client/model/ArchivedSpanRow.h"
 #include <vector>
 
@@ -55,6 +56,11 @@ public:
     /// ArchiveQueryResponse members
 
 
+    utility::string_t getNextPageToken() const;
+    bool nextPageTokenIsSet() const;
+    void unsetNextPageToken();
+    void setNextPageToken(const utility::string_t& value);
+
     std::vector<std::shared_ptr<ArchivedSpanRow>> getRows() const;
     bool rowsIsSet() const;
     void unsetRows();
@@ -62,6 +68,9 @@ public:
 
 
 protected:
+    utility::string_t m_NextPageToken;
+    bool m_NextPageTokenIsSet;
+
     std::vector<std::shared_ptr<ArchivedSpanRow>> m_Rows;
     bool m_RowsIsSet;
 

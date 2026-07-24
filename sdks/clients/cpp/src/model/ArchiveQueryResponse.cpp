@@ -20,6 +20,8 @@ namespace model {
 
 ArchiveQueryResponse::ArchiveQueryResponse()
 {
+    m_NextPageToken = utility::conversions::to_string_t("");
+    m_NextPageTokenIsSet = false;
     m_RowsIsSet = false;
 }
 
@@ -35,9 +37,14 @@ void ArchiveQueryResponse::validate()
 web::json::value ArchiveQueryResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
+    if(m_NextPageTokenIsSet)
+    {
+
+        val[utility::conversions::to_string_t(U("nextPageToken"))] = ModelBase::toJson(m_NextPageToken);
+    }
     if(m_RowsIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("rows"))] = ModelBase::toJson(m_Rows);
     }
 
@@ -47,6 +54,17 @@ web::json::value ArchiveQueryResponse::toJson() const
 bool ArchiveQueryResponse::fromJson(const web::json::value& val)
 {
     bool ok = true;
+    if(val.has_field(utility::conversions::to_string_t(U("nextPageToken"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("nextPageToken")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setNextPageToken;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setNextPageToken);
+            setNextPageToken(refVal_setNextPageToken);
+
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(U("rows"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rows")));
@@ -55,7 +73,7 @@ bool ArchiveQueryResponse::fromJson(const web::json::value& val)
             std::vector<std::shared_ptr<ArchivedSpanRow>> refVal_setRows;
             ok &= ModelBase::fromJson(fieldValue, refVal_setRows);
             setRows(refVal_setRows);
-            
+
         }
     }
     return ok;
@@ -67,6 +85,10 @@ void ArchiveQueryResponse::toMultipart(std::shared_ptr<MultipartFormData> multip
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
         namePrefix += utility::conversions::to_string_t(U("."));
+    }
+    if(m_NextPageTokenIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("nextPageToken")), m_NextPageToken));
     }
     if(m_RowsIsSet)
     {
@@ -83,6 +105,12 @@ bool ArchiveQueryResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
+    if(multipart->hasContent(utility::conversions::to_string_t(U("nextPageToken"))))
+    {
+        utility::string_t refVal_setNextPageToken;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("nextPageToken"))), refVal_setNextPageToken );
+        setNextPageToken(refVal_setNextPageToken);
+    }
     if(multipart->hasContent(utility::conversions::to_string_t(U("rows"))))
     {
         std::vector<std::shared_ptr<ArchivedSpanRow>> refVal_setRows;
@@ -93,6 +121,27 @@ bool ArchiveQueryResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 }
 
 
+utility::string_t ArchiveQueryResponse::getNextPageToken() const
+{
+    return m_NextPageToken;
+}
+
+
+void ArchiveQueryResponse::setNextPageToken(const utility::string_t& value)
+{
+    m_NextPageToken = value;
+    m_NextPageTokenIsSet = true;
+}
+
+bool ArchiveQueryResponse::nextPageTokenIsSet() const
+{
+    return m_NextPageTokenIsSet;
+}
+
+void ArchiveQueryResponse::unsetNextPageToken()
+{
+    m_NextPageTokenIsSet = false;
+}
 std::vector<std::shared_ptr<ArchivedSpanRow>> ArchiveQueryResponse::getRows() const
 {
     return m_Rows;
@@ -119,5 +168,3 @@ void ArchiveQueryResponse::unsetRows()
 }
 }
 }
-
-

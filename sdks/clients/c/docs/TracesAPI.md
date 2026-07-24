@@ -44,7 +44,7 @@ No authorization required
 
 # **TracesAPI_tracesList**
 ```c
-page_run_summary_t* TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_list_response_t* TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -65,8 +65,8 @@ Name | Type | Description  | Notes
 **max_cost_micros** | **long** |  | [optional]
 **min_latency_ms** | **long** |  | [optional]
 **max_latency_ms** | **long** |  | [optional]
-**limit** | **int \*** |  | [optional]
-**cursor** | **char \*** |  | [optional]
+**pageSize** | **int \*** |  | [optional]
+**pageToken** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[page_run_summary_t](page_run_summary.md) *
+[trace_list_response_t](trace_list_response.md) *
 
 
 ### Authorization

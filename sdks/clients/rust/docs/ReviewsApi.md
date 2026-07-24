@@ -83,7 +83,7 @@ No authorization required
 
 ## reviews_period_list_tasks
 
-> Vec<models::ReviewTask> reviews_period_list_tasks(tenant_id, project_id, queue_id, state, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ReviewTaskListResponse reviews_period_list_tasks(tenant_id, project_id, queue_id, state, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -95,6 +95,8 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **queue_id** | **String** | queue_id | [required] |
 **state** | Option<[**ReviewTaskState**](.md)> |  |  |
+**page_size** | Option<**i32**> | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. |  |
+**page_token** | Option<**String**> | Opaque continuation token returned by the preceding list request. |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
@@ -102,7 +104,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<models::ReviewTask>**](ReviewTask.md)
+[**models::ReviewTaskListResponse**](ReviewTaskListResponse.md)
 
 ### Authorization
 

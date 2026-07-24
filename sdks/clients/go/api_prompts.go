@@ -823,10 +823,24 @@ type ApiPromptsListRequest struct {
 	ApiService *PromptsAPIService
 	tenantId string
 	projectId string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
+}
+
+// Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiPromptsListRequest) PageSize(pageSize int32) ApiPromptsListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiPromptsListRequest) PageToken(pageToken string) ApiPromptsListRequest {
+	r.pageToken = &pageToken
+	return r
 }
 
 // Bearer API token for strict auth
@@ -897,6 +911,12 @@ func (a *PromptsAPIService) PromptsListExecute(r ApiPromptsListRequest) (*Prompt
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1001,10 +1021,24 @@ type ApiPromptsListVersionsRequest struct {
 	tenantId string
 	projectId string
 	promptId string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
+}
+
+// Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiPromptsListVersionsRequest) PageSize(pageSize int32) ApiPromptsListVersionsRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiPromptsListVersionsRequest) PageToken(pageToken string) ApiPromptsListVersionsRequest {
+	r.pageToken = &pageToken
+	return r
 }
 
 // Bearer API token for strict auth
@@ -1078,6 +1112,12 @@ func (a *PromptsAPIService) PromptsListVersionsExecute(r ApiPromptsListVersionsR
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

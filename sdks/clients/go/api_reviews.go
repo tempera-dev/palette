@@ -421,6 +421,8 @@ type ApiReviewsListTasksRequest struct {
 	projectId string
 	queueId string
 	state *ReviewTaskState
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
@@ -429,6 +431,18 @@ type ApiReviewsListTasksRequest struct {
 
 func (r ApiReviewsListTasksRequest) State(state ReviewTaskState) ApiReviewsListTasksRequest {
 	r.state = &state
+	return r
+}
+
+// Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiReviewsListTasksRequest) PageSize(pageSize int32) ApiReviewsListTasksRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiReviewsListTasksRequest) PageToken(pageToken string) ApiReviewsListTasksRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -456,7 +470,7 @@ func (r ApiReviewsListTasksRequest) XPaletteEnvironmentId(xPaletteEnvironmentId 
 	return r
 }
 
-func (r ApiReviewsListTasksRequest) Execute() ([]ReviewTask, *http.Response, error) {
+func (r ApiReviewsListTasksRequest) Execute() (*ReviewTaskListResponse, *http.Response, error) {
 	return r.ApiService.ReviewsListTasksExecute(r)
 }
 
@@ -480,13 +494,13 @@ func (a *ReviewsAPIService) ReviewsListTasks(ctx context.Context, tenantId strin
 }
 
 // Execute executes the request
-//  @return []ReviewTask
-func (a *ReviewsAPIService) ReviewsListTasksExecute(r ApiReviewsListTasksRequest) ([]ReviewTask, *http.Response, error) {
+//  @return ReviewTaskListResponse
+func (a *ReviewsAPIService) ReviewsListTasksExecute(r ApiReviewsListTasksRequest) (*ReviewTaskListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []ReviewTask
+		localVarReturnValue  *ReviewTaskListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsListTasks")
@@ -505,6 +519,12 @@ func (a *ReviewsAPIService) ReviewsListTasksExecute(r ApiReviewsListTasksRequest
 
 	if r.state != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
+	}
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

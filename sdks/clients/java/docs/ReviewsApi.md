@@ -345,7 +345,7 @@ No authorization required
 
 ## reviewsListTasks
 
-> List<ReviewTask> reviewsListTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ReviewTaskListResponse reviewsListTasks(tenantId, projectId, queueId, state, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -369,12 +369,14 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String queueId = "queueId_example"; // String | queue_id
         ReviewTaskState state = ReviewTaskState.fromValue("open"); // ReviewTaskState |
+        Integer pageSize = 56; // Integer | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ReviewTask> result = apiInstance.reviewsListTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ReviewTaskListResponse result = apiInstance.reviewsListTasks(tenantId, projectId, queueId, state, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsListTasks");
@@ -396,6 +398,8 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **queueId** | **String**| queue_id | |
 | **state** | [**ReviewTaskState**](.md)|  | [optional] [enum: open, submitted, cancelled] |
+| **pageSize** | **Integer**| Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -403,7 +407,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;ReviewTask&gt;**](ReviewTask.md)
+[**ReviewTaskListResponse**](ReviewTaskListResponse.md)
 
 
 ### Authorization
@@ -426,7 +430,7 @@ No authorization required
 
 ## reviewsListTasksWithHttpInfo
 
-> ApiResponse<List<ReviewTask>> reviewsListTasks reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ReviewTaskListResponse> reviewsListTasks reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -451,12 +455,14 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String queueId = "queueId_example"; // String | queue_id
         ReviewTaskState state = ReviewTaskState.fromValue("open"); // ReviewTaskState |
+        Integer pageSize = 56; // Integer | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ReviewTask>> response = apiInstance.reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ReviewTaskListResponse> response = apiInstance.reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -480,6 +486,8 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **queueId** | **String**| queue_id | |
 | **state** | [**ReviewTaskState**](.md)|  | [optional] [enum: open, submitted, cancelled] |
+| **pageSize** | **Integer**| Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -487,7 +495,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;ReviewTask&gt;**](ReviewTask.md)>
+ApiResponse<[**ReviewTaskListResponse**](ReviewTaskListResponse.md)>
 
 
 ### Authorization

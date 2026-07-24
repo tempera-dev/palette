@@ -43,6 +43,7 @@ src/models/ArchivedSpanRow.ts
 src/models/ArtifactRef.ts
 src/models/AuditAction.ts
 src/models/AuditEvent.ts
+src/models/AuditEventListResponse.ts
 src/models/AuditOutcome.ts
 src/models/AuthContext.ts
 src/models/BusMessage.ts
@@ -57,8 +58,10 @@ src/models/CaseOutputOverrideRequest.ts
 src/models/ConnectConnectorRequest.ts
 src/models/ConnectionLink.ts
 src/models/ConnectionStatus.ts
+src/models/ConnectorListResponse.ts
 src/models/ConnectorSkillsResponse.ts
 src/models/ConnectorTool.ts
+src/models/ConnectorToolListResponse.ts
 src/models/CreateApiKeyHttpRequest.ts
 src/models/CreateDatasetRequest.ts
 src/models/CreateDatasetVersionRequest.ts
@@ -79,6 +82,7 @@ src/models/DiffLine.ts
 src/models/DiffLineKind.ts
 src/models/EnqueueReviewTaskFromTraceHttpRequest.ts
 src/models/ErrorResponse.ts
+src/models/ErrorStatus.ts
 src/models/EvalReproducibility.ts
 src/models/EvalResult.ts
 src/models/EvaluateAlertRequest.ts
@@ -114,6 +118,7 @@ src/models/IngestQueueStatus.ts
 src/models/InvokeConnectorRequest.ts
 src/models/JudgeAuditRecord.ts
 src/models/JudgeBrokerOutcome.ts
+src/models/JudgeLedgerListResponse.ts
 src/models/ListScenariosResponse.ts
 src/models/MaintenanceWindow.ts
 src/models/MineScenariosRequest.ts
@@ -123,8 +128,6 @@ src/models/Money.ts
 src/models/NativeIngestRequest.ts
 src/models/OnlineSamplingPolicy.ts
 src/models/OtlpIngestOutcome.ts
-src/models/PageRunSummary.ts
-src/models/PageRunSummaryItemsInner.ts
 src/models/PaletteConnectStatus.ts
 src/models/PaletteConnectStatusResponse.ts
 src/models/PerturbationKnobs.ts
@@ -138,6 +141,7 @@ src/models/PromptVersion.ts
 src/models/PromptVersionDiff.ts
 src/models/PromptVersionListResponse.ts
 src/models/PromptVersionMetadata.ts
+src/models/ProviderSecretListResponse.ts
 src/models/ProviderSecretMetadata.ts
 src/models/PublicJudgeAuditRecord.ts
 src/models/PublishAck.ts
@@ -147,6 +151,7 @@ src/models/ReliabilityBin.ts
 src/models/ReviewAnnotation.ts
 src/models/ReviewQueue.ts
 src/models/ReviewTask.ts
+src/models/ReviewTaskListResponse.ts
 src/models/ReviewTaskState.ts
 src/models/ReviewVerdict.ts
 src/models/RevokedApiKey.ts
@@ -165,7 +170,7 @@ src/models/Scenario.ts
 src/models/ScenarioCluster.ts
 src/models/ScoreResult.ts
 src/models/SearchHit.ts
-src/models/SearchResponse.ts
+src/models/SearchSpanListResponse.ts
 src/models/Signature.ts
 src/models/SpanIoResponse.ts
 src/models/SpanIoValue.ts
@@ -184,6 +189,7 @@ src/models/ToolExecution.ts
 src/models/Toolkit.ts
 src/models/TraceIngestedDrainReport.ts
 src/models/TraceIngestedReconcileReport.ts
+src/models/TraceListResponse.ts
 src/models/TraceView.ts
 src/models/TraceWriteDrainReport.ts
 src/models/UsageSummary.ts

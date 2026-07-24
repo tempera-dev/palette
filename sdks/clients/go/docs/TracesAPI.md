@@ -94,7 +94,7 @@ No authorization required
 
 ## TracesList
 
-> PageRunSummary TracesList(ctx, tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> TraceListResponse TracesList(ctx, tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -125,8 +125,8 @@ func main() {
 	maxCostMicros := int64(789) // int64 |  (optional)
 	minLatencyMs := int64(789) // int64 |  (optional)
 	maxLatencyMs := int64(789) // int64 |  (optional)
-	limit := int32(56) // int32 |  (optional)
-	cursor := "cursor_example" // string |  (optional)
+	pageSize := int32(56) // int32 |  (optional)
+	pageToken := "pageToken_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -134,12 +134,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TracesAPI.TracesList(context.Background(), tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.TracesAPI.TracesList(context.Background(), tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.TracesList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TracesList`: PageRunSummary
+	// response from `TracesList`: TraceListResponse
 	fmt.Fprintf(os.Stdout, "Response from `TracesAPI.TracesList`: %v\n", resp)
 }
 ```
@@ -173,8 +173,8 @@ Name | Type | Description  | Notes
  **maxCostMicros** | **int64** |  |
  **minLatencyMs** | **int64** |  |
  **maxLatencyMs** | **int64** |  |
- **limit** | **int32** |  |
- **cursor** | **string** |  |
+ **pageSize** | **int32** |  |
+ **pageToken** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -182,7 +182,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PageRunSummary**](PageRunSummary.md)
+[**TraceListResponse**](TraceListResponse.md)
 
 ### Authorization
 

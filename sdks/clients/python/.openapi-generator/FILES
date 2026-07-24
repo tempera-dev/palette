@@ -22,6 +22,7 @@ docs/ArtifactRef.md
 docs/AuditAction.md
 docs/AuditApi.md
 docs/AuditEvent.md
+docs/AuditEventListResponse.md
 docs/AuditOutcome.md
 docs/AuthContext.md
 docs/BusMessage.md
@@ -38,8 +39,10 @@ docs/ConnectApi.md
 docs/ConnectConnectorRequest.md
 docs/ConnectionLink.md
 docs/ConnectionStatus.md
+docs/ConnectorListResponse.md
 docs/ConnectorSkillsResponse.md
 docs/ConnectorTool.md
+docs/ConnectorToolListResponse.md
 docs/ConnectorsApi.md
 docs/CreateApiKeyHttpRequest.md
 docs/CreateDatasetRequest.md
@@ -62,6 +65,7 @@ docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
+docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsApi.md
@@ -104,6 +108,7 @@ docs/InvokeConnectorRequest.md
 docs/JudgeApi.md
 docs/JudgeAuditRecord.md
 docs/JudgeBrokerOutcome.md
+docs/JudgeLedgerListResponse.md
 docs/ListScenariosResponse.md
 docs/MaintenanceWindow.md
 docs/MineScenariosRequest.md
@@ -114,8 +119,6 @@ docs/NativeIngestRequest.md
 docs/OnlineApi.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
-docs/PageRunSummary.md
-docs/PageRunSummaryItemsInner.md
 docs/PaletteConnectStatus.md
 docs/PaletteConnectStatusResponse.md
 docs/PerturbationKnobs.md
@@ -130,6 +133,7 @@ docs/PromptVersionDiff.md
 docs/PromptVersionListResponse.md
 docs/PromptVersionMetadata.md
 docs/PromptsApi.md
+docs/ProviderSecretListResponse.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsApi.md
 docs/PublicJudgeAuditRecord.md
@@ -140,6 +144,7 @@ docs/ReliabilityBin.md
 docs/ReviewAnnotation.md
 docs/ReviewQueue.md
 docs/ReviewTask.md
+docs/ReviewTaskListResponse.md
 docs/ReviewTaskState.md
 docs/ReviewVerdict.md
 docs/ReviewsApi.md
@@ -161,7 +166,7 @@ docs/ScenariosApi.md
 docs/ScoreResult.md
 docs/SearchApi.md
 docs/SearchHit.md
-docs/SearchResponse.md
+docs/SearchSpanListResponse.md
 docs/Signature.md
 docs/SpanIoResponse.md
 docs/SpanIoValue.md
@@ -181,6 +186,7 @@ docs/ToolExecution.md
 docs/Toolkit.md
 docs/TraceIngestedDrainReport.md
 docs/TraceIngestedReconcileReport.md
+docs/TraceListResponse.md
 docs/TraceView.md
 docs/TraceWriteDrainReport.md
 docs/TracesApi.md
@@ -235,6 +241,7 @@ palette_client/models/archived_span_row.py
 palette_client/models/artifact_ref.py
 palette_client/models/audit_action.py
 palette_client/models/audit_event.py
+palette_client/models/audit_event_list_response.py
 palette_client/models/audit_outcome.py
 palette_client/models/auth_context.py
 palette_client/models/bus_message.py
@@ -249,8 +256,10 @@ palette_client/models/case_output_override_request.py
 palette_client/models/connect_connector_request.py
 palette_client/models/connection_link.py
 palette_client/models/connection_status.py
+palette_client/models/connector_list_response.py
 palette_client/models/connector_skills_response.py
 palette_client/models/connector_tool.py
+palette_client/models/connector_tool_list_response.py
 palette_client/models/create_api_key_http_request.py
 palette_client/models/create_dataset_request.py
 palette_client/models/create_dataset_version_request.py
@@ -271,6 +280,7 @@ palette_client/models/diff_line.py
 palette_client/models/diff_line_kind.py
 palette_client/models/enqueue_review_task_from_trace_http_request.py
 palette_client/models/error_response.py
+palette_client/models/error_status.py
 palette_client/models/eval_reproducibility.py
 palette_client/models/eval_result.py
 palette_client/models/evaluate_alert_request.py
@@ -306,6 +316,7 @@ palette_client/models/ingest_queue_status.py
 palette_client/models/invoke_connector_request.py
 palette_client/models/judge_audit_record.py
 palette_client/models/judge_broker_outcome.py
+palette_client/models/judge_ledger_list_response.py
 palette_client/models/list_scenarios_response.py
 palette_client/models/maintenance_window.py
 palette_client/models/mine_scenarios_request.py
@@ -315,8 +326,6 @@ palette_client/models/money.py
 palette_client/models/native_ingest_request.py
 palette_client/models/online_sampling_policy.py
 palette_client/models/otlp_ingest_outcome.py
-palette_client/models/page_run_summary.py
-palette_client/models/page_run_summary_items_inner.py
 palette_client/models/palette_connect_status.py
 palette_client/models/palette_connect_status_response.py
 palette_client/models/perturbation_knobs.py
@@ -330,6 +339,7 @@ palette_client/models/prompt_version.py
 palette_client/models/prompt_version_diff.py
 palette_client/models/prompt_version_list_response.py
 palette_client/models/prompt_version_metadata.py
+palette_client/models/provider_secret_list_response.py
 palette_client/models/provider_secret_metadata.py
 palette_client/models/public_judge_audit_record.py
 palette_client/models/publish_ack.py
@@ -339,6 +349,7 @@ palette_client/models/reliability_bin.py
 palette_client/models/review_annotation.py
 palette_client/models/review_queue.py
 palette_client/models/review_task.py
+palette_client/models/review_task_list_response.py
 palette_client/models/review_task_state.py
 palette_client/models/review_verdict.py
 palette_client/models/revoked_api_key.py
@@ -357,7 +368,7 @@ palette_client/models/scenario.py
 palette_client/models/scenario_cluster.py
 palette_client/models/score_result.py
 palette_client/models/search_hit.py
-palette_client/models/search_response.py
+palette_client/models/search_span_list_response.py
 palette_client/models/signature.py
 palette_client/models/span_io_response.py
 palette_client/models/span_io_value.py
@@ -376,6 +387,7 @@ palette_client/models/tool_execution.py
 palette_client/models/toolkit.py
 palette_client/models/trace_ingested_drain_report.py
 palette_client/models/trace_ingested_reconcile_report.py
+palette_client/models/trace_list_response.py
 palette_client/models/trace_view.py
 palette_client/models/trace_write_drain_report.py
 palette_client/models/usage_summary.py
@@ -408,6 +420,7 @@ test/test_artifact_ref.py
 test/test_audit_action.py
 test/test_audit_api.py
 test/test_audit_event.py
+test/test_audit_event_list_response.py
 test/test_audit_outcome.py
 test/test_auth_context.py
 test/test_bus_message.py
@@ -424,8 +437,10 @@ test/test_connect_api.py
 test/test_connect_connector_request.py
 test/test_connection_link.py
 test/test_connection_status.py
+test/test_connector_list_response.py
 test/test_connector_skills_response.py
 test/test_connector_tool.py
+test/test_connector_tool_list_response.py
 test/test_connectors_api.py
 test/test_create_api_key_http_request.py
 test/test_create_dataset_request.py
@@ -448,6 +463,7 @@ test/test_diff_line.py
 test/test_diff_line_kind.py
 test/test_enqueue_review_task_from_trace_http_request.py
 test/test_error_response.py
+test/test_error_status.py
 test/test_eval_reproducibility.py
 test/test_eval_result.py
 test/test_eval_results_api.py
@@ -490,6 +506,7 @@ test/test_invoke_connector_request.py
 test/test_judge_api.py
 test/test_judge_audit_record.py
 test/test_judge_broker_outcome.py
+test/test_judge_ledger_list_response.py
 test/test_list_scenarios_response.py
 test/test_maintenance_window.py
 test/test_mine_scenarios_request.py
@@ -500,8 +517,6 @@ test/test_native_ingest_request.py
 test/test_online_api.py
 test/test_online_sampling_policy.py
 test/test_otlp_ingest_outcome.py
-test/test_page_run_summary.py
-test/test_page_run_summary_items_inner.py
 test/test_palette_connect_status.py
 test/test_palette_connect_status_response.py
 test/test_perturbation_knobs.py
@@ -516,6 +531,7 @@ test/test_prompt_version_diff.py
 test/test_prompt_version_list_response.py
 test/test_prompt_version_metadata.py
 test/test_prompts_api.py
+test/test_provider_secret_list_response.py
 test/test_provider_secret_metadata.py
 test/test_provider_secrets_api.py
 test/test_public_judge_audit_record.py
@@ -526,6 +542,7 @@ test/test_reliability_bin.py
 test/test_review_annotation.py
 test/test_review_queue.py
 test/test_review_task.py
+test/test_review_task_list_response.py
 test/test_review_task_state.py
 test/test_review_verdict.py
 test/test_reviews_api.py
@@ -547,7 +564,7 @@ test/test_scenarios_api.py
 test/test_score_result.py
 test/test_search_api.py
 test/test_search_hit.py
-test/test_search_response.py
+test/test_search_span_list_response.py
 test/test_signature.py
 test/test_span_io_response.py
 test/test_span_io_value.py
@@ -567,6 +584,7 @@ test/test_tool_execution.py
 test/test_toolkit.py
 test/test_trace_ingested_drain_report.py
 test/test_trace_ingested_reconcile_report.py
+test/test_trace_list_response.py
 test/test_trace_view.py
 test/test_trace_write_drain_report.py
 test/test_traces_api.py

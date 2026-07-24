@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## SearchSpans
 
-> SearchResponse SearchSpans(ctx, tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> SearchSpanListResponse SearchSpans(ctx, tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -37,7 +37,8 @@ func main() {
 	status := "status_example" // string |  (optional)
 	model := "model_example" // string |  (optional)
 	tool := "tool_example" // string |  (optional)
-	limit := int32(56) // int32 |  (optional)
+	pageSize := int32(56) // int32 |  (optional)
+	pageToken := "pageToken_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -45,12 +46,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchAPI.SearchSpans(context.Background(), tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.SearchAPI.SearchSpans(context.Background(), tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.SearchSpans``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SearchSpans`: SearchResponse
+	// response from `SearchSpans`: SearchSpanListResponse
 	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.SearchSpans`: %v\n", resp)
 }
 ```
@@ -80,7 +81,8 @@ Name | Type | Description  | Notes
  **status** | **string** |  |
  **model** | **string** |  |
  **tool** | **string** |  |
- **limit** | **int32** |  |
+ **pageSize** | **int32** |  |
+ **pageToken** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -88,7 +90,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**SearchSpanListResponse**](SearchSpanListResponse.md)
 
 ### Authorization
 

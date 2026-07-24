@@ -35,7 +35,7 @@ SearchApi::~SearchApi()
 {
 }
 
-pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_spans(utility::string_t tenantId, boost::optional<utility::string_t> q, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> model, boost::optional<utility::string_t> tool, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<SearchSpanListResponse>> SearchApi::search_spans(utility::string_t tenantId, boost::optional<utility::string_t> q, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> model, boost::optional<utility::string_t> tool, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -113,9 +113,13 @@ pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_spans(utility::str
     {
         localVarQueryParams[utility::conversions::to_string_t("tool")] = ApiClient::parameterToString(*tool);
     }
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -193,7 +197,7 @@ pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_spans(utility::str
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::shared_ptr<SearchResponse> localVarResult(new SearchResponse());
+        std::shared_ptr<SearchSpanListResponse> localVarResult(new SearchSpanListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
@@ -219,4 +223,3 @@ pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_spans(utility::str
 }
 }
 }
-

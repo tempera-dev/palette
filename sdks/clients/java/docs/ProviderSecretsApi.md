@@ -175,7 +175,7 @@ No authorization required
 
 ## providerSecretsList
 
-> List<ProviderSecretMetadata> providerSecretsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ProviderSecretListResponse providerSecretsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -197,12 +197,14 @@ public class Example {
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ProviderSecretMetadata> result = apiInstance.providerSecretsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ProviderSecretListResponse result = apiInstance.providerSecretsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProviderSecretsApi#providerSecretsList");
@@ -222,6 +224,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -229,7 +233,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;ProviderSecretMetadata&gt;**](ProviderSecretMetadata.md)
+[**ProviderSecretListResponse**](ProviderSecretListResponse.md)
 
 
 ### Authorization
@@ -251,7 +255,7 @@ No authorization required
 
 ## providerSecretsListWithHttpInfo
 
-> ApiResponse<List<ProviderSecretMetadata>> providerSecretsList providerSecretsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ProviderSecretListResponse> providerSecretsList providerSecretsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -274,12 +278,14 @@ public class Example {
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ProviderSecretMetadata>> response = apiInstance.providerSecretsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ProviderSecretListResponse> response = apiInstance.providerSecretsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -301,6 +307,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -308,7 +316,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;ProviderSecretMetadata&gt;**](ProviderSecretMetadata.md)>
+ApiResponse<[**ProviderSecretListResponse**](ProviderSecretListResponse.md)>
 
 
 ### Authorization

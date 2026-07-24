@@ -112,7 +112,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(createProviderSecretHttpRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -126,7 +126,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
         {
             createProviderSecretHttpRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createProviderSecretHttpRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -198,7 +198,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecretsApi::providerSecrets_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ProviderSecretListResponse>> ProviderSecretsApi::providerSecrets_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -241,6 +241,14 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
+    if (pageSize)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
+    }
     if (authorization)
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
@@ -317,17 +325,13 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<ProviderSecretMetadata>> localVarResult;
+        std::shared_ptr<ProviderSecretListResponse> localVarResult(new ProviderSecretListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<ProviderSecretMetadata> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -488,4 +492,3 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
 }
 }
 }
-

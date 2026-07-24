@@ -1,7 +1,7 @@
 /*
  * prompt_list_response.h
  *
- * 
+ *
  */
 
 #ifndef _prompt_list_response_H_
@@ -20,12 +20,14 @@ typedef struct prompt_list_response_t prompt_list_response_t;
 
 
 typedef struct prompt_list_response_t {
+    char *next_page_token; // string
     list_t *prompts; //nonprimitive container
 
     int _library_owned; // Is the library responsible for freeing this object?
 } prompt_list_response_t;
 
 __attribute__((deprecated)) prompt_list_response_t *prompt_list_response_create(
+    char *next_page_token,
     list_t *prompts
 );
 
@@ -36,4 +38,3 @@ prompt_list_response_t *prompt_list_response_parseFromJSON(cJSON *prompt_list_re
 cJSON *prompt_list_response_convertToJSON(prompt_list_response_t *prompt_list_response);
 
 #endif /* _prompt_list_response_H_ */
-

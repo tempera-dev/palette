@@ -24,6 +24,7 @@ docs/ArtifactRef.md
 docs/AuditAction.md
 docs/AuditApi.md
 docs/AuditEvent.md
+docs/AuditEventListResponse.md
 docs/AuditOutcome.md
 docs/AuthContext.md
 docs/BusMessage.md
@@ -40,8 +41,10 @@ docs/ConnectApi.md
 docs/ConnectConnectorRequest.md
 docs/ConnectionLink.md
 docs/ConnectionStatus.md
+docs/ConnectorListResponse.md
 docs/ConnectorSkillsResponse.md
 docs/ConnectorTool.md
+docs/ConnectorToolListResponse.md
 docs/ConnectorsApi.md
 docs/CreateApiKeyHttpRequest.md
 docs/CreateDatasetRequest.md
@@ -64,6 +67,7 @@ docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
+docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsApi.md
@@ -106,6 +110,7 @@ docs/InvokeConnectorRequest.md
 docs/JudgeApi.md
 docs/JudgeAuditRecord.md
 docs/JudgeBrokerOutcome.md
+docs/JudgeLedgerListResponse.md
 docs/ListScenariosResponse.md
 docs/MaintenanceWindow.md
 docs/MineScenariosRequest.md
@@ -116,8 +121,6 @@ docs/NativeIngestRequest.md
 docs/OnlineApi.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
-docs/PageRunSummary.md
-docs/PageRunSummaryItemsInner.md
 docs/PaletteConnectStatus.md
 docs/PaletteConnectStatusResponse.md
 docs/PerturbationKnobs.md
@@ -132,6 +135,7 @@ docs/PromptVersionDiff.md
 docs/PromptVersionListResponse.md
 docs/PromptVersionMetadata.md
 docs/PromptsApi.md
+docs/ProviderSecretListResponse.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsApi.md
 docs/PublicJudgeAuditRecord.md
@@ -142,6 +146,7 @@ docs/ReliabilityBin.md
 docs/ReviewAnnotation.md
 docs/ReviewQueue.md
 docs/ReviewTask.md
+docs/ReviewTaskListResponse.md
 docs/ReviewTaskState.md
 docs/ReviewVerdict.md
 docs/ReviewsApi.md
@@ -163,7 +168,7 @@ docs/ScenariosApi.md
 docs/ScoreResult.md
 docs/SearchApi.md
 docs/SearchHit.md
-docs/SearchResponse.md
+docs/SearchSpanListResponse.md
 docs/Signature.md
 docs/SpanIoResponse.md
 docs/SpanIoValue.md
@@ -183,6 +188,7 @@ docs/ToolExecution.md
 docs/Toolkit.md
 docs/TraceIngestedDrainReport.md
 docs/TraceIngestedReconcileReport.md
+docs/TraceListResponse.md
 docs/TraceView.md
 docs/TraceWriteDrainReport.md
 docs/TracesApi.md
@@ -248,6 +254,7 @@ src/main/java/ai/palette/client/model/ArchivedSpanRow.java
 src/main/java/ai/palette/client/model/ArtifactRef.java
 src/main/java/ai/palette/client/model/AuditAction.java
 src/main/java/ai/palette/client/model/AuditEvent.java
+src/main/java/ai/palette/client/model/AuditEventListResponse.java
 src/main/java/ai/palette/client/model/AuditOutcome.java
 src/main/java/ai/palette/client/model/AuthContext.java
 src/main/java/ai/palette/client/model/BusMessage.java
@@ -262,8 +269,10 @@ src/main/java/ai/palette/client/model/CaseOutputOverrideRequest.java
 src/main/java/ai/palette/client/model/ConnectConnectorRequest.java
 src/main/java/ai/palette/client/model/ConnectionLink.java
 src/main/java/ai/palette/client/model/ConnectionStatus.java
+src/main/java/ai/palette/client/model/ConnectorListResponse.java
 src/main/java/ai/palette/client/model/ConnectorSkillsResponse.java
 src/main/java/ai/palette/client/model/ConnectorTool.java
+src/main/java/ai/palette/client/model/ConnectorToolListResponse.java
 src/main/java/ai/palette/client/model/CreateApiKeyHttpRequest.java
 src/main/java/ai/palette/client/model/CreateDatasetRequest.java
 src/main/java/ai/palette/client/model/CreateDatasetVersionRequest.java
@@ -284,6 +293,7 @@ src/main/java/ai/palette/client/model/DiffLine.java
 src/main/java/ai/palette/client/model/DiffLineKind.java
 src/main/java/ai/palette/client/model/EnqueueReviewTaskFromTraceHttpRequest.java
 src/main/java/ai/palette/client/model/ErrorResponse.java
+src/main/java/ai/palette/client/model/ErrorStatus.java
 src/main/java/ai/palette/client/model/EvalReproducibility.java
 src/main/java/ai/palette/client/model/EvalResult.java
 src/main/java/ai/palette/client/model/EvaluateAlertRequest.java
@@ -319,6 +329,7 @@ src/main/java/ai/palette/client/model/IngestQueueStatus.java
 src/main/java/ai/palette/client/model/InvokeConnectorRequest.java
 src/main/java/ai/palette/client/model/JudgeAuditRecord.java
 src/main/java/ai/palette/client/model/JudgeBrokerOutcome.java
+src/main/java/ai/palette/client/model/JudgeLedgerListResponse.java
 src/main/java/ai/palette/client/model/ListScenariosResponse.java
 src/main/java/ai/palette/client/model/MaintenanceWindow.java
 src/main/java/ai/palette/client/model/MineScenariosRequest.java
@@ -328,8 +339,6 @@ src/main/java/ai/palette/client/model/Money.java
 src/main/java/ai/palette/client/model/NativeIngestRequest.java
 src/main/java/ai/palette/client/model/OnlineSamplingPolicy.java
 src/main/java/ai/palette/client/model/OtlpIngestOutcome.java
-src/main/java/ai/palette/client/model/PageRunSummary.java
-src/main/java/ai/palette/client/model/PageRunSummaryItemsInner.java
 src/main/java/ai/palette/client/model/PaletteConnectStatus.java
 src/main/java/ai/palette/client/model/PaletteConnectStatusResponse.java
 src/main/java/ai/palette/client/model/PerturbationKnobs.java
@@ -343,6 +352,7 @@ src/main/java/ai/palette/client/model/PromptVersion.java
 src/main/java/ai/palette/client/model/PromptVersionDiff.java
 src/main/java/ai/palette/client/model/PromptVersionListResponse.java
 src/main/java/ai/palette/client/model/PromptVersionMetadata.java
+src/main/java/ai/palette/client/model/ProviderSecretListResponse.java
 src/main/java/ai/palette/client/model/ProviderSecretMetadata.java
 src/main/java/ai/palette/client/model/PublicJudgeAuditRecord.java
 src/main/java/ai/palette/client/model/PublishAck.java
@@ -352,6 +362,7 @@ src/main/java/ai/palette/client/model/ReliabilityBin.java
 src/main/java/ai/palette/client/model/ReviewAnnotation.java
 src/main/java/ai/palette/client/model/ReviewQueue.java
 src/main/java/ai/palette/client/model/ReviewTask.java
+src/main/java/ai/palette/client/model/ReviewTaskListResponse.java
 src/main/java/ai/palette/client/model/ReviewTaskState.java
 src/main/java/ai/palette/client/model/ReviewVerdict.java
 src/main/java/ai/palette/client/model/RevokedApiKey.java
@@ -370,7 +381,7 @@ src/main/java/ai/palette/client/model/Scenario.java
 src/main/java/ai/palette/client/model/ScenarioCluster.java
 src/main/java/ai/palette/client/model/ScoreResult.java
 src/main/java/ai/palette/client/model/SearchHit.java
-src/main/java/ai/palette/client/model/SearchResponse.java
+src/main/java/ai/palette/client/model/SearchSpanListResponse.java
 src/main/java/ai/palette/client/model/Signature.java
 src/main/java/ai/palette/client/model/SpanIoResponse.java
 src/main/java/ai/palette/client/model/SpanIoValue.java
@@ -389,6 +400,7 @@ src/main/java/ai/palette/client/model/ToolExecution.java
 src/main/java/ai/palette/client/model/Toolkit.java
 src/main/java/ai/palette/client/model/TraceIngestedDrainReport.java
 src/main/java/ai/palette/client/model/TraceIngestedReconcileReport.java
+src/main/java/ai/palette/client/model/TraceListResponse.java
 src/main/java/ai/palette/client/model/TraceView.java
 src/main/java/ai/palette/client/model/TraceWriteDrainReport.java
 src/main/java/ai/palette/client/model/UsageSummary.java
@@ -432,6 +444,7 @@ src/test/java/ai/palette/client/model/ArchiveQueryResponseTest.java
 src/test/java/ai/palette/client/model/ArchivedSpanRowTest.java
 src/test/java/ai/palette/client/model/ArtifactRefTest.java
 src/test/java/ai/palette/client/model/AuditActionTest.java
+src/test/java/ai/palette/client/model/AuditEventListResponseTest.java
 src/test/java/ai/palette/client/model/AuditEventTest.java
 src/test/java/ai/palette/client/model/AuditOutcomeTest.java
 src/test/java/ai/palette/client/model/AuthContextTest.java
@@ -447,7 +460,9 @@ src/test/java/ai/palette/client/model/CaseOutputOverrideRequestTest.java
 src/test/java/ai/palette/client/model/ConnectConnectorRequestTest.java
 src/test/java/ai/palette/client/model/ConnectionLinkTest.java
 src/test/java/ai/palette/client/model/ConnectionStatusTest.java
+src/test/java/ai/palette/client/model/ConnectorListResponseTest.java
 src/test/java/ai/palette/client/model/ConnectorSkillsResponseTest.java
+src/test/java/ai/palette/client/model/ConnectorToolListResponseTest.java
 src/test/java/ai/palette/client/model/ConnectorToolTest.java
 src/test/java/ai/palette/client/model/CreateApiKeyHttpRequestTest.java
 src/test/java/ai/palette/client/model/CreateDatasetRequestTest.java
@@ -469,6 +484,7 @@ src/test/java/ai/palette/client/model/DiffLineKindTest.java
 src/test/java/ai/palette/client/model/DiffLineTest.java
 src/test/java/ai/palette/client/model/EnqueueReviewTaskFromTraceHttpRequestTest.java
 src/test/java/ai/palette/client/model/ErrorResponseTest.java
+src/test/java/ai/palette/client/model/ErrorStatusTest.java
 src/test/java/ai/palette/client/model/EvalReproducibilityTest.java
 src/test/java/ai/palette/client/model/EvalResultTest.java
 src/test/java/ai/palette/client/model/EvaluateAlertRequestTest.java
@@ -504,6 +520,7 @@ src/test/java/ai/palette/client/model/IngestQueueStatusTest.java
 src/test/java/ai/palette/client/model/InvokeConnectorRequestTest.java
 src/test/java/ai/palette/client/model/JudgeAuditRecordTest.java
 src/test/java/ai/palette/client/model/JudgeBrokerOutcomeTest.java
+src/test/java/ai/palette/client/model/JudgeLedgerListResponseTest.java
 src/test/java/ai/palette/client/model/ListScenariosResponseTest.java
 src/test/java/ai/palette/client/model/MaintenanceWindowTest.java
 src/test/java/ai/palette/client/model/MineScenariosRequestTest.java
@@ -513,8 +530,6 @@ src/test/java/ai/palette/client/model/MoneyTest.java
 src/test/java/ai/palette/client/model/NativeIngestRequestTest.java
 src/test/java/ai/palette/client/model/OnlineSamplingPolicyTest.java
 src/test/java/ai/palette/client/model/OtlpIngestOutcomeTest.java
-src/test/java/ai/palette/client/model/PageRunSummaryItemsInnerTest.java
-src/test/java/ai/palette/client/model/PageRunSummaryTest.java
 src/test/java/ai/palette/client/model/PaletteConnectStatusResponseTest.java
 src/test/java/ai/palette/client/model/PaletteConnectStatusTest.java
 src/test/java/ai/palette/client/model/PerturbationKnobsTest.java
@@ -528,6 +543,7 @@ src/test/java/ai/palette/client/model/PromptVersionDiffTest.java
 src/test/java/ai/palette/client/model/PromptVersionListResponseTest.java
 src/test/java/ai/palette/client/model/PromptVersionMetadataTest.java
 src/test/java/ai/palette/client/model/PromptVersionTest.java
+src/test/java/ai/palette/client/model/ProviderSecretListResponseTest.java
 src/test/java/ai/palette/client/model/ProviderSecretMetadataTest.java
 src/test/java/ai/palette/client/model/PublicJudgeAuditRecordTest.java
 src/test/java/ai/palette/client/model/PublishAckTest.java
@@ -536,6 +552,7 @@ src/test/java/ai/palette/client/model/RedactionClassTest.java
 src/test/java/ai/palette/client/model/ReliabilityBinTest.java
 src/test/java/ai/palette/client/model/ReviewAnnotationTest.java
 src/test/java/ai/palette/client/model/ReviewQueueTest.java
+src/test/java/ai/palette/client/model/ReviewTaskListResponseTest.java
 src/test/java/ai/palette/client/model/ReviewTaskStateTest.java
 src/test/java/ai/palette/client/model/ReviewTaskTest.java
 src/test/java/ai/palette/client/model/ReviewVerdictTest.java
@@ -555,7 +572,7 @@ src/test/java/ai/palette/client/model/ScenarioClusterTest.java
 src/test/java/ai/palette/client/model/ScenarioTest.java
 src/test/java/ai/palette/client/model/ScoreResultTest.java
 src/test/java/ai/palette/client/model/SearchHitTest.java
-src/test/java/ai/palette/client/model/SearchResponseTest.java
+src/test/java/ai/palette/client/model/SearchSpanListResponseTest.java
 src/test/java/ai/palette/client/model/SignatureTest.java
 src/test/java/ai/palette/client/model/SpanIoResponseTest.java
 src/test/java/ai/palette/client/model/SpanIoValueOneOf1Test.java
@@ -574,6 +591,7 @@ src/test/java/ai/palette/client/model/ToolExecutionTest.java
 src/test/java/ai/palette/client/model/ToolkitTest.java
 src/test/java/ai/palette/client/model/TraceIngestedDrainReportTest.java
 src/test/java/ai/palette/client/model/TraceIngestedReconcileReportTest.java
+src/test/java/ai/palette/client/model/TraceListResponseTest.java
 src/test/java/ai/palette/client/model/TraceViewTest.java
 src/test/java/ai/palette/client/model/TraceWriteDrainReportTest.java
 src/test/java/ai/palette/client/model/UsageSummaryTest.java

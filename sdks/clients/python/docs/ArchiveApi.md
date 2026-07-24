@@ -90,7 +90,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **archive_query_spans**
-> ArchiveQueryResponse archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> ArchiveQueryResponse archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -121,14 +121,15 @@ with palette_client.ApiClient(configuration) as api_client:
     span_id = 'span_id_example' # str |  (optional)
     kind = 'kind_example' # str |  (optional)
     status = 'status_example' # str |  (optional)
-    limit = 56 # int |  (optional)
+    page_size = 56 # int |  (optional)
+    page_token = 'page_token_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
     x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
     x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        api_response = api_instance.archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ArchiveApi->archive_query_spans:\n")
         pprint(api_response)
     except Exception as e:
@@ -149,7 +150,8 @@ Name | Type | Description  | Notes
  **span_id** | **str**|  | [optional]
  **kind** | **str**|  | [optional]
  **status** | **str**|  | [optional]
- **limit** | **int**|  | [optional]
+ **page_size** | **int**|  | [optional]
+ **page_token** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
  **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
  **x_palette_project_id** | **str**| Strict-auth project scope | [optional]

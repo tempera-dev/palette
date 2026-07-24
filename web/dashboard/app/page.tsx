@@ -77,7 +77,7 @@ export default async function DashboardPage({
   const criticalStats = criticalPathStats(spans);
   const selectedTraceProjectId = traceProjectId(data.trace);
   const listedSelectedRun = data.trace
-    ? data.runs.items.find(
+    ? data.runs.runs.find(
         (run) =>
           run.trace_id === data.trace?.trace_id &&
           (!selectedTraceProjectId || run.project_id === selectedTraceProjectId)
@@ -85,9 +85,9 @@ export default async function DashboardPage({
     : undefined;
   const selectedRun = listedSelectedRun ?? runSummaryFromTrace(data.trace);
   const selectedTraceOutsideFilters = Boolean(data.trace && selectedRun && !listedSelectedRun);
-  const activeRun = selectedRun ?? data.runs.items[0];
+  const activeRun = selectedRun ?? data.runs.runs[0];
   const runRows =
-    selectedTraceOutsideFilters && selectedRun ? [selectedRun, ...data.runs.items] : data.runs.items;
+    selectedTraceOutsideFilters && selectedRun ? [selectedRun, ...data.runs.runs] : data.runs.runs;
   const failedSpanCount = spans.filter((span) => span.status === "error").length;
   const spanSummaryMeta = activeRun
     ? failedSpanCount > 0
@@ -346,8 +346,8 @@ export default async function DashboardPage({
             <h2>Traces</h2>
             <span>
               {selectedTraceOutsideFilters
-                ? `${data.runs.items.length} + selected`
-                : data.runs.items.length}
+                ? `${data.runs.runs.length} + selected`
+                : data.runs.runs.length}
             </span>
           </div>
           <div className="run-table">

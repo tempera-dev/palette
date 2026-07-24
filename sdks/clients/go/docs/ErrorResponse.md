@@ -4,15 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **string** | Stable machine-readable error code. |
-**Message** | **string** | Human-readable error message. |
-**Status** | **int32** | Deprecated compatibility HTTP status code for older &#x60;/v1&#x60; clients. |
+**Error** | [**ErrorStatus**](ErrorStatus.md) |  |
 
 ## Methods
 
 ### NewErrorResponse
 
-`func NewErrorResponse(error_ string, message string, status int32, ) *ErrorResponse`
+`func NewErrorResponse(error_ ErrorStatus, ) *ErrorResponse`
 
 NewErrorResponse instantiates a new ErrorResponse object
 This constructor will assign default values to properties that have it defined,
@@ -29,62 +27,22 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetError
 
-`func (o *ErrorResponse) GetError() string`
+`func (o *ErrorResponse) GetError() ErrorStatus`
 
 GetError returns the Error field if non-nil, zero value otherwise.
 
 ### GetErrorOk
 
-`func (o *ErrorResponse) GetErrorOk() (*string, bool)`
+`func (o *ErrorResponse) GetErrorOk() (*ErrorStatus, bool)`
 
 GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetError
 
-`func (o *ErrorResponse) SetError(v string)`
+`func (o *ErrorResponse) SetError(v ErrorStatus)`
 
 SetError sets Error field to given value.
-
-
-### GetMessage
-
-`func (o *ErrorResponse) GetMessage() string`
-
-GetMessage returns the Message field if non-nil, zero value otherwise.
-
-### GetMessageOk
-
-`func (o *ErrorResponse) GetMessageOk() (*string, bool)`
-
-GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMessage
-
-`func (o *ErrorResponse) SetMessage(v string)`
-
-SetMessage sets Message field to given value.
-
-
-### GetStatus
-
-`func (o *ErrorResponse) GetStatus() int32`
-
-GetStatus returns the Status field if non-nil, zero value otherwise.
-
-### GetStatusOk
-
-`func (o *ErrorResponse) GetStatusOk() (*int32, bool)`
-
-GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStatus
-
-`func (o *ErrorResponse) SetStatus(v int32)`
-
-SetStatus sets Status field to given value.
 
 
 

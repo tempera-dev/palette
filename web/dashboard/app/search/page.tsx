@@ -31,7 +31,7 @@ export default async function SearchPage({
     tool: textValue(params.tool),
     traceId: textValue(params.trace_id) ?? textValue(params.trace),
     spanId: textValue(params.span_id) ?? textValue(params.span),
-    limit: boundedLimit(params.limit)
+    pageSize: boundedLimit(params.pageSize)
   };
   const data = await loadSearchData(query);
   const hits = data.response.hits;
@@ -80,7 +80,7 @@ export default async function SearchPage({
       </header>
 
       <section className="summary-strip search-summary" aria-label="Search summary">
-        <SummaryItem label="Hits" value={String(hits.length)} meta={`limit ${data.query.limit ?? 50}`} />
+        <SummaryItem label="Hits" value={String(hits.length)} meta={`page size ${data.query.pageSize ?? 50}`} />
         <SummaryItem label="Query" value={data.query.q || "all spans"} meta={data.query.kind || "any kind"} />
         <SummaryItem label="Status" value={data.query.status ? statusLabel(data.query.status) : "Any"} meta={data.query.model || "any model"} />
         <SummaryItem label="Tool" value={data.query.tool || "Any"} meta={data.query.traceId ? shortHash(data.query.traceId) : "any trace"} />
@@ -158,11 +158,11 @@ export default async function SearchPage({
             <label>
               <span>Limit</span>
               <input
-                name="limit"
+                name="pageSize"
                 type="number"
                 min="1"
                 max="100"
-                defaultValue={data.query.limit ?? 50}
+                defaultValue={data.query.pageSize ?? 50}
               />
             </label>
             <button className="filter-submit" type="submit">
@@ -314,7 +314,7 @@ function searchUiParams(query: SearchQuery): URLSearchParams {
   if (query.tool) params.set("tool", query.tool);
   if (query.traceId) params.set("trace_id", query.traceId);
   if (query.spanId) params.set("span_id", query.spanId);
-  if (query.limit !== undefined) params.set("limit", String(query.limit));
+  if (query.pageSize !== undefined) params.set("pageSize", String(query.pageSize));
   return params;
 }
 

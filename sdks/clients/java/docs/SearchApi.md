@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## searchSpans
 
-> SearchResponse searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> SearchSpanListResponse searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -41,13 +41,14 @@ public class Example {
         String status = "status_example"; // String |
         String model = "model_example"; // String |
         String tool = "tool_example"; // String |
-        Integer limit = 56; // Integer |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            SearchResponse result = apiInstance.searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            SearchSpanListResponse result = apiInstance.searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SearchApi#searchSpans");
@@ -75,7 +76,8 @@ public class Example {
 | **status** | **String**|  | [optional] |
 | **model** | **String**|  | [optional] |
 | **tool** | **String**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -83,7 +85,7 @@ public class Example {
 
 ### Return type
 
-[**SearchResponse**](SearchResponse.md)
+[**SearchSpanListResponse**](SearchSpanListResponse.md)
 
 
 ### Authorization
@@ -105,7 +107,7 @@ No authorization required
 
 ## searchSpansWithHttpInfo
 
-> ApiResponse<SearchResponse> searchSpans searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<SearchSpanListResponse> searchSpans searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -136,13 +138,14 @@ public class Example {
         String status = "status_example"; // String |
         String model = "model_example"; // String |
         String tool = "tool_example"; // String |
-        Integer limit = 56; // Integer |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<SearchResponse> response = apiInstance.searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<SearchSpanListResponse> response = apiInstance.searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -172,7 +175,8 @@ public class Example {
 | **status** | **String**|  | [optional] |
 | **model** | **String**|  | [optional] |
 | **tool** | **String**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -180,7 +184,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**SearchResponse**](SearchResponse.md)>
+ApiResponse<[**SearchSpanListResponse**](SearchSpanListResponse.md)>
 
 
 ### Authorization

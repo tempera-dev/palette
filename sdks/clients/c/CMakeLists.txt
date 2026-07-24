@@ -62,6 +62,7 @@ set(SRCS
     model/artifact_ref.c
     model/audit_action.c
     model/audit_event.c
+    model/audit_event_list_response.c
     model/audit_outcome.c
     model/auth_context.c
     model/bus_message.c
@@ -76,8 +77,10 @@ set(SRCS
     model/connect_connector_request.c
     model/connection_link.c
     model/connection_status.c
+    model/connector_list_response.c
     model/connector_skills_response.c
     model/connector_tool.c
+    model/connector_tool_list_response.c
     model/create_api_key_http_request.c
     model/create_dataset_request.c
     model/create_dataset_version_request.c
@@ -98,6 +101,7 @@ set(SRCS
     model/diff_line_kind.c
     model/enqueue_review_task_from_trace_http_request.c
     model/error_response.c
+    model/error_status.c
     model/eval_reproducibility.c
     model/eval_result.c
     model/evaluate_alert_request.c
@@ -133,6 +137,7 @@ set(SRCS
     model/invoke_connector_request.c
     model/judge_audit_record.c
     model/judge_broker_outcome.c
+    model/judge_ledger_list_response.c
     model/list_scenarios_response.c
     model/maintenance_window.c
     model/mine_scenarios_request.c
@@ -142,8 +147,6 @@ set(SRCS
     model/native_ingest_request.c
     model/online_sampling_policy.c
     model/otlp_ingest_outcome.c
-    model/page_run_summary.c
-    model/page_run_summary_items_inner.c
     model/palette_connect_status.c
     model/palette_connect_status_response.c
     model/perturbation_knobs.c
@@ -157,6 +160,7 @@ set(SRCS
     model/prompt_version_diff.c
     model/prompt_version_list_response.c
     model/prompt_version_metadata.c
+    model/provider_secret_list_response.c
     model/provider_secret_metadata.c
     model/public_judge_audit_record.c
     model/publish_ack.c
@@ -166,6 +170,7 @@ set(SRCS
     model/review_annotation.c
     model/review_queue.c
     model/review_task.c
+    model/review_task_list_response.c
     model/review_task_state.c
     model/review_verdict.c
     model/revoked_api_key.c
@@ -184,7 +189,7 @@ set(SRCS
     model/scenario_cluster.c
     model/score_result.c
     model/search_hit.c
-    model/search_response.c
+    model/search_span_list_response.c
     model/signature.c
     model/span_io_response.c
     model/span_io_value.c
@@ -203,6 +208,7 @@ set(SRCS
     model/toolkit.c
     model/trace_ingested_drain_report.c
     model/trace_ingested_reconcile_report.c
+    model/trace_list_response.c
     model/trace_view.c
     model/trace_write_drain_report.c
     model/usage_summary.c
@@ -258,6 +264,7 @@ set(HDRS
     model/artifact_ref.h
     model/audit_action.h
     model/audit_event.h
+    model/audit_event_list_response.h
     model/audit_outcome.h
     model/auth_context.h
     model/bus_message.h
@@ -272,8 +279,10 @@ set(HDRS
     model/connect_connector_request.h
     model/connection_link.h
     model/connection_status.h
+    model/connector_list_response.h
     model/connector_skills_response.h
     model/connector_tool.h
+    model/connector_tool_list_response.h
     model/create_api_key_http_request.h
     model/create_dataset_request.h
     model/create_dataset_version_request.h
@@ -294,6 +303,7 @@ set(HDRS
     model/diff_line_kind.h
     model/enqueue_review_task_from_trace_http_request.h
     model/error_response.h
+    model/error_status.h
     model/eval_reproducibility.h
     model/eval_result.h
     model/evaluate_alert_request.h
@@ -329,6 +339,7 @@ set(HDRS
     model/invoke_connector_request.h
     model/judge_audit_record.h
     model/judge_broker_outcome.h
+    model/judge_ledger_list_response.h
     model/list_scenarios_response.h
     model/maintenance_window.h
     model/mine_scenarios_request.h
@@ -338,8 +349,6 @@ set(HDRS
     model/native_ingest_request.h
     model/online_sampling_policy.h
     model/otlp_ingest_outcome.h
-    model/page_run_summary.h
-    model/page_run_summary_items_inner.h
     model/palette_connect_status.h
     model/palette_connect_status_response.h
     model/perturbation_knobs.h
@@ -353,6 +362,7 @@ set(HDRS
     model/prompt_version_diff.h
     model/prompt_version_list_response.h
     model/prompt_version_metadata.h
+    model/provider_secret_list_response.h
     model/provider_secret_metadata.h
     model/public_judge_audit_record.h
     model/publish_ack.h
@@ -362,6 +372,7 @@ set(HDRS
     model/review_annotation.h
     model/review_queue.h
     model/review_task.h
+    model/review_task_list_response.h
     model/review_task_state.h
     model/review_verdict.h
     model/revoked_api_key.h
@@ -380,7 +391,7 @@ set(HDRS
     model/scenario_cluster.h
     model/score_result.h
     model/search_hit.h
-    model/search_response.h
+    model/search_span_list_response.h
     model/signature.h
     model/span_io_response.h
     model/span_io_value.h
@@ -399,6 +410,7 @@ set(HDRS
     model/toolkit.h
     model/trace_ingested_drain_report.h
     model/trace_ingested_reconcile_report.h
+    model/trace_list_response.h
     model/trace_view.h
     model/trace_write_drain_report.h
     model/usage_summary.h

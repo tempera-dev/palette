@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**next_page_token** | **str** |  | [optional]
 **rows** | [**List[ArchivedSpanRow]**](ArchivedSpanRow.md) |  |
 
 ## Example

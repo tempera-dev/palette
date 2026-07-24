@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## AuditList
 
-> []AuditEvent AuditList(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> AuditEventListResponse AuditList(ctx, tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -29,6 +29,8 @@ import (
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
+	pageSize := int32(56) // int32 | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+	pageToken := "pageToken_example" // string | Opaque continuation token returned by the preceding list request. (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -36,12 +38,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuditAPI.AuditList(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.AuditAPI.AuditList(context.Background(), tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuditAPI.AuditList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AuditList`: []AuditEvent
+	// response from `AuditList`: AuditEventListResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuditAPI.AuditList`: %v\n", resp)
 }
 ```
@@ -64,6 +66,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **pageSize** | **int32** | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. |
+ **pageToken** | **string** | Opaque continuation token returned by the preceding list request. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -71,7 +75,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]AuditEvent**](AuditEvent.md)
+[**AuditEventListResponse**](AuditEventListResponse.md)
 
 ### Authorization
 

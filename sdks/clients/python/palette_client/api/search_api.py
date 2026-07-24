@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from palette_client.models.search_response import SearchResponse
+from palette_client.models.search_span_list_response import SearchSpanListResponse
 
 from palette_client.api_client import ApiClient, RequestSerialized
 from palette_client.api_response import ApiResponse
@@ -52,7 +52,8 @@ class SearchApi:
         status: Optional[StrictStr] = None,
         model: Optional[StrictStr] = None,
         tool: Optional[StrictStr] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -69,7 +70,7 @@ class SearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SearchResponse:
+    ) -> SearchSpanListResponse:
         """search_spans
 
 
@@ -93,8 +94,10 @@ class SearchApi:
         :type model: str
         :param tool:
         :type tool: str
-        :param limit:
-        :type limit: int
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -136,7 +139,8 @@ class SearchApi:
             status=status,
             model=model,
             tool=tool,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -148,7 +152,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResponse",
+            '200': "SearchSpanListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -177,7 +181,8 @@ class SearchApi:
         status: Optional[StrictStr] = None,
         model: Optional[StrictStr] = None,
         tool: Optional[StrictStr] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -194,7 +199,7 @@ class SearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SearchResponse]:
+    ) -> ApiResponse[SearchSpanListResponse]:
         """search_spans
 
 
@@ -218,8 +223,10 @@ class SearchApi:
         :type model: str
         :param tool:
         :type tool: str
-        :param limit:
-        :type limit: int
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -261,7 +268,8 @@ class SearchApi:
             status=status,
             model=model,
             tool=tool,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -273,7 +281,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResponse",
+            '200': "SearchSpanListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -302,7 +310,8 @@ class SearchApi:
         status: Optional[StrictStr] = None,
         model: Optional[StrictStr] = None,
         tool: Optional[StrictStr] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -343,8 +352,10 @@ class SearchApi:
         :type model: str
         :param tool:
         :type tool: str
-        :param limit:
-        :type limit: int
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -386,7 +397,8 @@ class SearchApi:
             status=status,
             model=model,
             tool=tool,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -398,7 +410,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResponse",
+            '200': "SearchSpanListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -422,7 +434,8 @@ class SearchApi:
         status,
         model,
         tool,
-        limit,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -452,45 +465,49 @@ class SearchApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         if q is not None:
-            
+
             _query_params.append(('q', q))
-            
+
         if project_id is not None:
-            
+
             _query_params.append(('project_id', project_id))
-            
+
         if environment_id is not None:
-            
+
             _query_params.append(('environment_id', environment_id))
-            
+
         if trace_id is not None:
-            
+
             _query_params.append(('trace_id', trace_id))
-            
+
         if span_id is not None:
-            
+
             _query_params.append(('span_id', span_id))
-            
+
         if kind is not None:
-            
+
             _query_params.append(('kind', kind))
-            
+
         if status is not None:
-            
+
             _query_params.append(('status', status))
-            
+
         if model is not None:
-            
+
             _query_params.append(('model', model))
-            
+
         if tool is not None:
-            
+
             _query_params.append(('tool', tool))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
+
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -531,5 +548,3 @@ class SearchApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

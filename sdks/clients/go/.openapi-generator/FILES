@@ -47,6 +47,7 @@ docs/ArtifactRef.md
 docs/AuditAPI.md
 docs/AuditAction.md
 docs/AuditEvent.md
+docs/AuditEventListResponse.md
 docs/AuditOutcome.md
 docs/AuthContext.md
 docs/BusMessage.md
@@ -63,8 +64,10 @@ docs/ConnectAPI.md
 docs/ConnectConnectorRequest.md
 docs/ConnectionLink.md
 docs/ConnectionStatus.md
+docs/ConnectorListResponse.md
 docs/ConnectorSkillsResponse.md
 docs/ConnectorTool.md
+docs/ConnectorToolListResponse.md
 docs/ConnectorsAPI.md
 docs/CreateApiKeyHttpRequest.md
 docs/CreateDatasetRequest.md
@@ -87,6 +90,7 @@ docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
+docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsAPI.md
@@ -129,6 +133,7 @@ docs/InvokeConnectorRequest.md
 docs/JudgeAPI.md
 docs/JudgeAuditRecord.md
 docs/JudgeBrokerOutcome.md
+docs/JudgeLedgerListResponse.md
 docs/ListScenariosResponse.md
 docs/MaintenanceWindow.md
 docs/MineScenariosRequest.md
@@ -139,8 +144,6 @@ docs/NativeIngestRequest.md
 docs/OnlineAPI.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
-docs/PageRunSummary.md
-docs/PageRunSummaryItemsInner.md
 docs/PaletteConnectStatus.md
 docs/PaletteConnectStatusResponse.md
 docs/PerturbationKnobs.md
@@ -155,6 +158,7 @@ docs/PromptVersionDiff.md
 docs/PromptVersionListResponse.md
 docs/PromptVersionMetadata.md
 docs/PromptsAPI.md
+docs/ProviderSecretListResponse.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsAPI.md
 docs/PublicJudgeAuditRecord.md
@@ -165,6 +169,7 @@ docs/ReliabilityBin.md
 docs/ReviewAnnotation.md
 docs/ReviewQueue.md
 docs/ReviewTask.md
+docs/ReviewTaskListResponse.md
 docs/ReviewTaskState.md
 docs/ReviewVerdict.md
 docs/ReviewsAPI.md
@@ -186,7 +191,7 @@ docs/ScenariosAPI.md
 docs/ScoreResult.md
 docs/SearchAPI.md
 docs/SearchHit.md
-docs/SearchResponse.md
+docs/SearchSpanListResponse.md
 docs/Signature.md
 docs/SpanIoResponse.md
 docs/SpanIoValue.md
@@ -206,6 +211,7 @@ docs/ToolExecution.md
 docs/Toolkit.md
 docs/TraceIngestedDrainReport.md
 docs/TraceIngestedReconcileReport.md
+docs/TraceListResponse.md
 docs/TraceView.md
 docs/TraceWriteDrainReport.md
 docs/TracesAPI.md
@@ -231,6 +237,7 @@ model_archived_span_row.go
 model_artifact_ref.go
 model_audit_action.go
 model_audit_event.go
+model_audit_event_list_response.go
 model_audit_outcome.go
 model_auth_context.go
 model_bus_message.go
@@ -245,8 +252,10 @@ model_case_output_override_request.go
 model_connect_connector_request.go
 model_connection_link.go
 model_connection_status.go
+model_connector_list_response.go
 model_connector_skills_response.go
 model_connector_tool.go
+model_connector_tool_list_response.go
 model_create_api_key_http_request.go
 model_create_dataset_request.go
 model_create_dataset_version_request.go
@@ -267,6 +276,7 @@ model_diff_line.go
 model_diff_line_kind.go
 model_enqueue_review_task_from_trace_http_request.go
 model_error_response.go
+model_error_status.go
 model_eval_reproducibility.go
 model_eval_result.go
 model_evaluate_alert_request.go
@@ -302,6 +312,7 @@ model_ingest_queue_status.go
 model_invoke_connector_request.go
 model_judge_audit_record.go
 model_judge_broker_outcome.go
+model_judge_ledger_list_response.go
 model_list_scenarios_response.go
 model_maintenance_window.go
 model_mine_scenarios_request.go
@@ -311,8 +322,6 @@ model_money.go
 model_native_ingest_request.go
 model_online_sampling_policy.go
 model_otlp_ingest_outcome.go
-model_page_run_summary.go
-model_page_run_summary_items_inner.go
 model_palette_connect_status.go
 model_palette_connect_status_response.go
 model_perturbation_knobs.go
@@ -326,6 +335,7 @@ model_prompt_version.go
 model_prompt_version_diff.go
 model_prompt_version_list_response.go
 model_prompt_version_metadata.go
+model_provider_secret_list_response.go
 model_provider_secret_metadata.go
 model_public_judge_audit_record.go
 model_publish_ack.go
@@ -335,6 +345,7 @@ model_reliability_bin.go
 model_review_annotation.go
 model_review_queue.go
 model_review_task.go
+model_review_task_list_response.go
 model_review_task_state.go
 model_review_verdict.go
 model_revoked_api_key.go
@@ -353,7 +364,7 @@ model_scenario.go
 model_scenario_cluster.go
 model_score_result.go
 model_search_hit.go
-model_search_response.go
+model_search_span_list_response.go
 model_signature.go
 model_span_io_response.go
 model_span_io_value.go
@@ -372,6 +383,7 @@ model_tool_execution.go
 model_toolkit.go
 model_trace_ingested_drain_report.go
 model_trace_ingested_reconcile_report.go
+model_trace_list_response.go
 model_trace_view.go
 model_trace_write_drain_report.go
 model_usage_summary.go

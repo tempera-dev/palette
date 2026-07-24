@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**next_page_token** | **str** |  | [optional]
 **prompts** | [**List[Prompt]**](Prompt.md) |  |
 
 ## Example

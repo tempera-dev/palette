@@ -1026,6 +1026,7 @@ export interface components {
             tenant_id: components["schemas"]["TenantId"];
         };
         ArchiveQueryResponse: {
+            nextPageToken?: string | null;
             rows: components["schemas"]["ArchivedSpanRow"][];
         };
         ArchivedSpanRow: {
@@ -1083,6 +1084,10 @@ export interface components {
             tenant_id: components["schemas"]["TenantId"];
         };
         AuditEventId: string;
+        AuditEventListResponse: {
+            events: components["schemas"]["AuditEvent"][];
+            nextPageToken?: string | null;
+        };
         /** @enum {string} */
         AuditOutcome: "allowed" | "denied";
         AuthContext: {
@@ -1255,6 +1260,10 @@ export interface components {
             /** @description Toolkit slug this status is for. */
             toolkit: string;
         };
+        ConnectorListResponse: {
+            nextPageToken?: string | null;
+            toolkits: components["schemas"]["Toolkit"][];
+        };
         /** @description Generated prompting scaffold ("skills.md") for a toolkit's tools. */
         ConnectorSkillsResponse: {
             /**
@@ -1288,6 +1297,10 @@ export interface components {
             tags?: string[];
             /** @description Owning toolkit slug (e.g. `github`), when known. */
             toolkit?: string | null;
+        };
+        ConnectorToolListResponse: {
+            nextPageToken?: string | null;
+            tools: components["schemas"]["ConnectorTool"][];
         };
         /**
          * @description A content-addressed Merkle root naming the exact contents of a corpus.
@@ -1437,17 +1450,22 @@ export interface components {
             trace_id: string;
         };
         EnvironmentId: string;
-        /** @description Error envelope returned by every fallible endpoint. */
+        /** @description AIP-193 HTTP/JSON error envelope returned by every fallible endpoint. */
         ErrorResponse: {
-            /** @description Stable machine-readable error code. */
-            error: string;
-            /** @description Human-readable error message. */
-            message: string;
+            error: components["schemas"]["ErrorStatus"];
+        };
+        ErrorStatus: {
             /**
              * Format: int32
-             * @description Deprecated compatibility HTTP status code for older `/v1` clients.
+             * @description HTTP status code corresponding to the canonical RPC status.
              */
-            status: number;
+            code: number;
+            /** @description Machine-readable standard error details. */
+            details: Record<string, never>[];
+            /** @description Developer-facing English problem description. */
+            message: string;
+            /** @description Canonical `google.rpc.Code` enum name. */
+            status: string;
         };
         EvalReproducibility: {
             agent_release_id: components["schemas"]["AgentReleaseId"];
@@ -1747,6 +1765,10 @@ export interface components {
             result: components["schemas"]["ScoreResult"];
         };
         JudgeCallId: string;
+        JudgeLedgerListResponse: {
+            nextPageToken?: string | null;
+            records: components["schemas"]["PublicJudgeAuditRecord"][];
+        };
         ListScenariosResponse: {
             nextPageToken?: string | null;
             scenarios: components["schemas"]["Scenario"][];
@@ -1816,26 +1838,6 @@ export interface components {
             duplicate_raw: number;
             duplicate_spans: number;
         };
-        Page_RunSummary: {
-            items: {
-                /** Format: int64 */
-                duration_ms?: number | null;
-                /** Format: date-time */
-                ended_at?: string | null;
-                first_span_name: string;
-                models: components["schemas"]["ModelRef"][];
-                project_id: components["schemas"]["ProjectId"];
-                release_ids: string[];
-                span_count: number;
-                /** Format: date-time */
-                started_at: string;
-                status: components["schemas"]["SpanStatus"];
-                tenant_id: components["schemas"]["TenantId"];
-                total_cost?: null | components["schemas"]["Money"];
-                trace_id: components["schemas"]["TraceId"];
-            }[];
-            next_cursor?: string | null;
-        };
         /** @enum {string} */
         PaletteConnectStatus: "connected" | "waiting_for_trace" | "waiting_for_eval" | "misconfigured";
         PaletteConnectStatusResponse: {
@@ -1888,6 +1890,7 @@ export interface components {
         };
         PromptId: string;
         PromptListResponse: {
+            nextPageToken?: string | null;
             prompts: components["schemas"]["Prompt"][];
         };
         PromptTemplate: {
@@ -1918,6 +1921,7 @@ export interface components {
         };
         PromptVersionId: string;
         PromptVersionListResponse: {
+            nextPageToken?: string | null;
             versions: components["schemas"]["PromptVersion"][];
         };
         PromptVersionMetadata: {
@@ -1927,6 +1931,10 @@ export interface components {
             message?: string | null;
         };
         ProviderSecretId: string;
+        ProviderSecretListResponse: {
+            nextPageToken?: string | null;
+            providerSecrets: components["schemas"]["ProviderSecretMetadata"][];
+        };
         ProviderSecretMetadata: {
             active: boolean;
             /** Format: date-time */
@@ -2026,6 +2034,10 @@ export interface components {
             updated_at: string;
         };
         ReviewTaskId: string;
+        ReviewTaskListResponse: {
+            nextPageToken?: string | null;
+            tasks: components["schemas"]["ReviewTask"][];
+        };
         /** @enum {string} */
         ReviewTaskState: "open" | "submitted" | "cancelled";
         /** @enum {string} */
@@ -2186,8 +2198,9 @@ export interface components {
             tool: string;
             trace_id: string;
         };
-        SearchResponse: {
+        SearchSpanListResponse: {
             hits: components["schemas"]["SearchHit"][];
+            nextPageToken?: string | null;
         };
         Sha256Hash: string;
         /**
@@ -2335,6 +2348,10 @@ export interface components {
             span_count: number;
             tenant_id: components["schemas"]["TenantId"];
             trace_id: components["schemas"]["TraceId"];
+        };
+        TraceListResponse: {
+            nextPageToken?: string | null;
+            runs: components["schemas"]["RunSummary"][];
         };
         TraceView: {
             spans: components["schemas"]["CanonicalSpan"][];
@@ -2626,7 +2643,8 @@ export interface operations {
                 span_id?: string;
                 kind?: string;
                 status?: string;
-                limit?: number;
+                pageSize?: number;
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -2760,7 +2778,15 @@ export interface operations {
     };
     "audit.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /**
+                 * @description Maximum number of resources to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
+            };
             header?: {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
@@ -2787,7 +2813,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AuditEvent"][];
+                    "application/json": components["schemas"]["AuditEventListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -2961,8 +2987,10 @@ export interface operations {
     "connectors.list": {
         parameters: {
             query?: {
-                /** @description Maximum number of apps to return (page size). */
-                limit?: number;
+                /** @description Maximum number of apps to return. Zero selects the server default. */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -2990,7 +3018,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Toolkit"][];
+                    "application/json": components["schemas"]["ConnectorListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -3330,8 +3358,10 @@ export interface operations {
             query: {
                 /** @description Toolkit slug to list tools for. */
                 toolkit: string;
-                /** @description Maximum number of tools to return (page size). */
-                limit?: number;
+                /** @description Maximum number of tools to return. Zero selects the server default. */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -3359,7 +3389,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ConnectorTool"][];
+                    "application/json": components["schemas"]["ConnectorToolListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -4847,7 +4877,15 @@ export interface operations {
     };
     "judge.listLedger": {
         parameters: {
-            query?: never;
+            query?: {
+                /**
+                 * @description Maximum number of resources to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
+            };
             header?: {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
@@ -4874,7 +4912,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublicJudgeAuditRecord"][];
+                    "application/json": components["schemas"]["JudgeLedgerListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -5058,7 +5096,15 @@ export interface operations {
     };
     "prompts.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /**
+                 * @description Maximum number of resources to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
+            };
             header?: {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
@@ -5331,7 +5377,15 @@ export interface operations {
     };
     "prompts.listVersions": {
         parameters: {
-            query?: never;
+            query?: {
+                /**
+                 * @description Maximum number of resources to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
+            };
             header?: {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
@@ -5479,7 +5533,15 @@ export interface operations {
     };
     "providerSecrets.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /**
+                 * @description Maximum number of resources to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
+            };
             header?: {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
@@ -5506,7 +5568,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProviderSecretMetadata"][];
+                    "application/json": components["schemas"]["ProviderSecretListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -5744,6 +5806,13 @@ export interface operations {
         parameters: {
             query?: {
                 state?: components["schemas"]["ReviewTaskState"];
+                /**
+                 * @description Maximum number of review tasks to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -5773,7 +5842,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ReviewTask"][];
+                    "application/json": components["schemas"]["ReviewTaskListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -6340,7 +6409,8 @@ export interface operations {
                 status?: string;
                 model?: string;
                 tool?: string;
-                limit?: number;
+                pageSize?: number;
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -6366,7 +6436,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SearchResponse"];
+                    "application/json": components["schemas"]["SearchSpanListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */
@@ -6722,8 +6792,8 @@ export interface operations {
                 max_cost_micros?: number;
                 min_latency_ms?: number;
                 max_latency_ms?: number;
-                limit?: number;
-                cursor?: string;
+                pageSize?: number;
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */
@@ -6749,7 +6819,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page_RunSummary"];
+                    "application/json": components["schemas"]["TraceListResponse"];
                 };
             };
             /** @description Invalid request, scope, or filter */

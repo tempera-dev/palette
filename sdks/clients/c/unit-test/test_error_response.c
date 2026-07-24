@@ -16,21 +16,19 @@
 #include "../model/error_response.h"
 error_response_t* instantiate_error_response(int include_optional);
 
+#include "test_error_status.c"
 
 
 error_response_t* instantiate_error_response(int include_optional) {
   error_response_t* error_response = NULL;
   if (include_optional) {
     error_response = error_response_create(
-      "0",
-      "0",
-      56
+       // false, not to have infinite recursion
+      instantiate_error_status(0)
     );
   } else {
     error_response = error_response_create(
-      "0",
-      "0",
-      56
+      NULL
     );
   }
 

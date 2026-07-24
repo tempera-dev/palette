@@ -216,10 +216,24 @@ type ApiJudgeListLedgerRequest struct {
 	ApiService *JudgeAPIService
 	tenantId string
 	projectId string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
+}
+
+// Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiJudgeListLedgerRequest) PageSize(pageSize int32) ApiJudgeListLedgerRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiJudgeListLedgerRequest) PageToken(pageToken string) ApiJudgeListLedgerRequest {
+	r.pageToken = &pageToken
+	return r
 }
 
 // Bearer API token for strict auth
@@ -246,7 +260,7 @@ func (r ApiJudgeListLedgerRequest) XPaletteEnvironmentId(xPaletteEnvironmentId s
 	return r
 }
 
-func (r ApiJudgeListLedgerRequest) Execute() ([]PublicJudgeAuditRecord, *http.Response, error) {
+func (r ApiJudgeListLedgerRequest) Execute() (*JudgeLedgerListResponse, *http.Response, error) {
 	return r.ApiService.JudgeListLedgerExecute(r)
 }
 
@@ -268,13 +282,13 @@ func (a *JudgeAPIService) JudgeListLedger(ctx context.Context, tenantId string, 
 }
 
 // Execute executes the request
-//  @return []PublicJudgeAuditRecord
-func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) ([]PublicJudgeAuditRecord, *http.Response, error) {
+//  @return JudgeLedgerListResponse
+func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) (*JudgeLedgerListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []PublicJudgeAuditRecord
+		localVarReturnValue  *JudgeLedgerListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeListLedger")
@@ -290,6 +304,12 @@ func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) ([
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

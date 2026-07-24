@@ -113,7 +113,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addVersion(utilit
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(addPromptVersionRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -127,7 +127,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addVersion(utilit
         {
             addPromptVersionRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("addPromptVersionRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -276,7 +276,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_create(utility::s
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(createPromptRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -290,7 +290,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_create(utility::s
         {
             createPromptRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createPromptRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -650,7 +650,7 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_get(utility::string_t te
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -693,6 +693,14 @@ pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_list(utility
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
+    if (pageSize)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
+    }
     if (authorization)
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
@@ -790,7 +798,7 @@ pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_list(utility
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -834,6 +842,14 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listV
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
+    if (pageSize)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
+    }
     if (authorization)
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
@@ -936,4 +952,3 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listV
 }
 }
 }
-

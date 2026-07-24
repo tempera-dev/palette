@@ -12,7 +12,7 @@
 /*
  * ArchiveApi.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_ArchiveApi_H_
@@ -37,7 +37,7 @@ using namespace org::openapitools::client::model;
 
 
 
-class  ArchiveApi 
+class  ArchiveApi
 {
 public:
 
@@ -46,10 +46,10 @@ public:
     virtual ~ArchiveApi();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -68,10 +68,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -80,7 +80,8 @@ public:
     /// <param name="spanId"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="kind"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="status"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="limit"> (optional, default to 0)</param>
+    /// <param name="pageSize"> (optional, default to 0)</param>
+    /// <param name="pageToken"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
@@ -93,7 +94,8 @@ public:
         boost::optional<utility::string_t> spanId,
         boost::optional<utility::string_t> kind,
         boost::optional<utility::string_t> status,
-        boost::optional<int32_t> limit,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
@@ -110,4 +112,3 @@ protected:
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ArchiveApi_H_ */
-

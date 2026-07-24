@@ -198,9 +198,9 @@ ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *pro
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -418,9 +418,9 @@ ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, 
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -475,8 +475,8 @@ end:
 
 }
 
-list_t*
-ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+review_task_list_response_t*
+ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -592,6 +592,31 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
         &valueQuery_state)));
         list_addElement(localVarQueryParameters,keyPairQuery_state);
     }
+
+    // query parameters
+    char *keyQuery_pageSize = NULL;
+    char * valueQuery_pageSize = NULL;
+    keyValuePair_t *keyPairQuery_pageSize = 0;
+    if (pageSize)
+    {
+        keyQuery_pageSize = strdup("pageSize");
+        valueQuery_pageSize = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_pageSize, MAX_NUMBER_LENGTH, "%d", *pageSize);
+        keyPairQuery_pageSize = keyValuePair_create(keyQuery_pageSize, valueQuery_pageSize);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageSize);
+    }
+
+    // query parameters
+    char *keyQuery_pageToken = NULL;
+    char * valueQuery_pageToken = NULL;
+    keyValuePair_t *keyPairQuery_pageToken = 0;
+    if (pageToken)
+    {
+        keyQuery_pageToken = strdup("pageToken");
+        valueQuery_pageToken = strdup((pageToken));
+        keyPairQuery_pageToken = keyValuePair_create(keyQuery_pageToken, valueQuery_pageToken);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageToken);
+    }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -624,27 +649,17 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
     //if (apiClient->response_code == 404) {
     //    printf("%s\n","Resource not found");
     //}
-    list_t *elementToReturn = NULL;
+    //nonprimitive not container
+    review_task_list_response_t *elementToReturn = NULL;
     if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
         cJSON *ReviewsAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-        if(!cJSON_IsArray(ReviewsAPIlocalVarJSON)) {
-            return 0;//nonprimitive container
+        elementToReturn = review_task_list_response_parseFromJSON(ReviewsAPIlocalVarJSON);
+        cJSON_Delete(ReviewsAPIlocalVarJSON);
+        if(elementToReturn == NULL) {
+            // return 0;
         }
-        elementToReturn = list_createList();
-        cJSON *VarJSON;
-        cJSON_ArrayForEach(VarJSON, ReviewsAPIlocalVarJSON)
-        {
-            if(!cJSON_IsObject(VarJSON))
-            {
-               // return 0;
-            }
-            char *localVarJSONToChar = cJSON_Print(VarJSON);
-            list_addElement(elementToReturn , localVarJSONToChar);
-        }
-
-        cJSON_Delete( ReviewsAPIlocalVarJSON);
-        cJSON_Delete( VarJSON);
     }
+
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
@@ -653,9 +668,9 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
     }
     list_freeList(localVarQueryParameters);
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     free(localVarToReplace_project_id);
@@ -703,6 +718,30 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *proje
     if(keyPairQuery_state){
         keyValuePair_free(keyPairQuery_state);
         keyPairQuery_state = NULL;
+    }
+    if(keyQuery_pageSize){
+        free(keyQuery_pageSize);
+        keyQuery_pageSize = NULL;
+    }
+    if(valueQuery_pageSize){
+        free(valueQuery_pageSize);
+        valueQuery_pageSize = NULL;
+    }
+    if(keyPairQuery_pageSize){
+        keyValuePair_free(keyPairQuery_pageSize);
+        keyPairQuery_pageSize = NULL;
+    }
+    if(keyQuery_pageToken){
+        free(keyQuery_pageToken);
+        keyQuery_pageToken = NULL;
+    }
+    if(valueQuery_pageToken){
+        free(valueQuery_pageToken);
+        valueQuery_pageToken = NULL;
+    }
+    if(keyPairQuery_pageToken){
+        keyValuePair_free(keyPairQuery_pageToken);
+        keyPairQuery_pageToken = NULL;
     }
     return elementToReturn;
 end:
@@ -899,9 +938,9 @@ ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, cha
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -1134,9 +1173,9 @@ ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -1191,4 +1230,3 @@ end:
     return NULL;
 
 }
-

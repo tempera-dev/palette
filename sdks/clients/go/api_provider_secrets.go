@@ -216,10 +216,24 @@ type ApiProviderSecretsListRequest struct {
 	ApiService *ProviderSecretsAPIService
 	tenantId string
 	projectId string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
+}
+
+// Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiProviderSecretsListRequest) PageSize(pageSize int32) ApiProviderSecretsListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiProviderSecretsListRequest) PageToken(pageToken string) ApiProviderSecretsListRequest {
+	r.pageToken = &pageToken
+	return r
 }
 
 // Bearer API token for strict auth
@@ -246,7 +260,7 @@ func (r ApiProviderSecretsListRequest) XPaletteEnvironmentId(xPaletteEnvironment
 	return r
 }
 
-func (r ApiProviderSecretsListRequest) Execute() ([]ProviderSecretMetadata, *http.Response, error) {
+func (r ApiProviderSecretsListRequest) Execute() (*ProviderSecretListResponse, *http.Response, error) {
 	return r.ApiService.ProviderSecretsListExecute(r)
 }
 
@@ -268,13 +282,13 @@ func (a *ProviderSecretsAPIService) ProviderSecretsList(ctx context.Context, ten
 }
 
 // Execute executes the request
-//  @return []ProviderSecretMetadata
-func (a *ProviderSecretsAPIService) ProviderSecretsListExecute(r ApiProviderSecretsListRequest) ([]ProviderSecretMetadata, *http.Response, error) {
+//  @return ProviderSecretListResponse
+func (a *ProviderSecretsAPIService) ProviderSecretsListExecute(r ApiProviderSecretsListRequest) (*ProviderSecretListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []ProviderSecretMetadata
+		localVarReturnValue  *ProviderSecretListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsList")
@@ -290,6 +304,12 @@ func (a *ProviderSecretsAPIService) ProviderSecretsListExecute(r ApiProviderSecr
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

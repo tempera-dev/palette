@@ -22,10 +22,12 @@ prompt_list_response_t* instantiate_prompt_list_response(int include_optional) {
   prompt_list_response_t* prompt_list_response = NULL;
   if (include_optional) {
     prompt_list_response = prompt_list_response_create(
+      "0",
       list_createList()
     );
   } else {
     prompt_list_response = prompt_list_response_create(
+      "0",
       list_createList()
     );
   }

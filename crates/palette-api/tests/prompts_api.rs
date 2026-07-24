@@ -16,6 +16,7 @@ use palette_prompts::InMemoryPromptRegistry;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
 use serde_json::{Value, json};
+use std::collections::BTreeSet;
 use tower::ServiceExt;
 
 fn build_app() -> (Router, tempfile::TempDir) {
@@ -58,7 +59,9 @@ async fn send(app: &Router, method: &str, uri: &str, body: Option<Value>) -> (St
     let value = if bytes.is_empty() {
         Value::Null
     } else {
-        serde_json::from_slice(&bytes).unwrap_or_else(|err| panic!("{err}"))
+        serde_json::from_slice(&bytes).unwrap_or_else(|_| {
+            Value::String(String::from_utf8(bytes.to_vec()).unwrap_or_else(|err| panic!("{err}")))
+        })
     };
     (status, value)
 }
@@ -68,6 +71,28 @@ fn str_field<'a>(value: &'a Value, pointer: &str) -> &'a str {
         .pointer(pointer)
         .and_then(Value::as_str)
         .unwrap_or_else(|| panic!("missing string at {pointer} in {value}"))
+}
+
+async fn create_prompt(app: &Router, base: &str, name: &str) -> (String, String) {
+    let (status, created) = send(
+        app,
+        "POST",
+        base,
+        Some(json!({
+            "name": name,
+            "template": {
+                "body": format!("system\n{name}"),
+                "variables": [],
+                "tags": ["pagination"]
+            }
+        })),
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK, "create body: {created}");
+    (
+        str_field(&created, "/prompt/prompt_id").to_string(),
+        str_field(&created, "/version/version_id").to_string(),
+    )
 }
 
 #[tokio::test]
@@ -168,6 +193,114 @@ async fn prompts_lifecycle_create_version_list_and_diff() {
 }
 
 #[tokio::test]
+async fn prompt_and_version_lists_traverse_with_request_bound_aip158_tokens() {
+    let (app, _tempdir) = build_app();
+    let base = "/v1/prompts/tenant-a/project-a";
+    let mut created_prompt_ids = BTreeSet::new();
+    let mut first_prompt = None;
+    for name in ["prompt-one", "prompt-two", "prompt-three"] {
+        let created = create_prompt(&app, base, name).await;
+        created_prompt_ids.insert(created.0.clone());
+        first_prompt.get_or_insert(created);
+    }
+
+    let mut listed_prompt_ids = BTreeSet::new();
+    let mut page_token = None;
+    for page_index in 0..3 {
+        let uri = match page_token.as_deref() {
+            Some(token) => format!("{base}?pageSize=1&pageToken={token}"),
+            None => format!("{base}?pageSize=1"),
+        };
+        let (status, body) = send(&app, "GET", &uri, None).await;
+        assert_eq!(status, StatusCode::OK, "prompt page {page_index}: {body}");
+        let prompts = body["prompts"]
+            .as_array()
+            .unwrap_or_else(|| panic!("prompt page array: {body}"));
+        assert_eq!(prompts.len(), 1);
+        listed_prompt_ids.insert(str_field(&prompts[0], "/prompt_id").to_string());
+        page_token = body
+            .get("nextPageToken")
+            .and_then(Value::as_str)
+            .map(str::to_string);
+        if page_index < 2 {
+            let token = page_token
+                .as_deref()
+                .unwrap_or_else(|| panic!("missing prompt page token: {body}"));
+            assert!(token.starts_with("aip158_v1_"));
+            assert!(!token.contains(str_field(&prompts[0], "/prompt_id")));
+        } else {
+            assert!(page_token.is_none(), "final prompt page: {body}");
+        }
+    }
+    assert_eq!(listed_prompt_ids, created_prompt_ids);
+
+    let (status, first_page) = send(&app, "GET", &format!("{base}?pageSize=1"), None).await;
+    assert_eq!(status, StatusCode::OK);
+    let prompt_token = str_field(&first_page, "/nextPageToken").to_string();
+    let (first_prompt_id, initial_version_id) =
+        first_prompt.unwrap_or_else(|| panic!("first prompt fixture"));
+    for uri in [
+        format!("{base}?pageSize=2&pageToken={prompt_token}"),
+        format!("/v1/prompts/tenant-a/project-b?pageSize=1&pageToken={prompt_token}"),
+        format!("{base}/{first_prompt_id}/versions?pageSize=1&pageToken={prompt_token}"),
+        format!("{base}?pageSize=1&pageToken=not-a-token"),
+        format!("{base}?limit=1"),
+        format!("{base}?cursor=legacy"),
+        format!("{base}?page_size=1"),
+        format!("{base}?unknown=value"),
+    ] {
+        let (status, _) = send(&app, "GET", &uri, None).await;
+        assert_eq!(status, StatusCode::BAD_REQUEST, "request must fail: {uri}");
+    }
+
+    let versions_base = format!("{base}/{first_prompt_id}/versions");
+    let mut created_version_ids = BTreeSet::from([initial_version_id]);
+    for number in [2, 3] {
+        let (status, version) = send(
+            &app,
+            "POST",
+            &versions_base,
+            Some(json!({
+                "template": {
+                    "body": format!("version {number}"),
+                    "variables": [],
+                    "tags": ["pagination"]
+                }
+            })),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK, "add version: {version}");
+        created_version_ids.insert(str_field(&version, "/version_id").to_string());
+    }
+
+    let mut listed_version_ids = BTreeSet::new();
+    let mut version_token = None;
+    for page_index in 0..3 {
+        let uri = match version_token.as_deref() {
+            Some(token) => format!("{versions_base}?pageSize=1&pageToken={token}"),
+            None => format!("{versions_base}?pageSize=1"),
+        };
+        let (status, body) = send(&app, "GET", &uri, None).await;
+        assert_eq!(status, StatusCode::OK, "version page {page_index}: {body}");
+        let versions = body["versions"]
+            .as_array()
+            .unwrap_or_else(|| panic!("versions page array: {body}"));
+        assert_eq!(versions.len(), 1);
+        listed_version_ids.insert(str_field(&versions[0], "/version_id").to_string());
+        version_token = body
+            .get("nextPageToken")
+            .and_then(Value::as_str)
+            .map(str::to_string);
+        if page_index < 2 {
+            assert!(version_token.is_some(), "missing version token: {body}");
+        } else {
+            assert!(version_token.is_none(), "final version page: {body}");
+        }
+    }
+    assert_eq!(listed_version_ids, created_version_ids);
+}
+
+#[tokio::test]
 async fn get_unknown_prompt_returns_404() {
     let (app, _tempdir) = build_app();
     let (status, body) = send(
@@ -178,10 +311,10 @@ async fn get_unknown_prompt_returns_404() {
     )
     .await;
     assert_eq!(status, StatusCode::NOT_FOUND, "body: {body}");
-    assert_eq!(body.pointer("/error"), Some(&json!("not_found")));
-    assert_eq!(body.pointer("/status"), Some(&json!(404)));
+    assert_eq!(body.pointer("/error/code"), Some(&json!(404)));
+    assert_eq!(body.pointer("/error/status"), Some(&json!("NOT_FOUND")));
     assert!(
-        body.pointer("/message")
+        body.pointer("/error/message")
             .and_then(|value| value.as_str())
             .is_some()
     );

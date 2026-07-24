@@ -1,7 +1,7 @@
 /*
  * error_response.h
  *
- * Error envelope returned by every fallible endpoint.
+ * AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
  */
 
 #ifndef _error_response_H_
@@ -15,21 +15,18 @@
 
 typedef struct error_response_t error_response_t;
 
+#include "error_status.h"
 
 
 
 typedef struct error_response_t {
-    char *error; // string
-    char *message; // string
-    int status; //numeric
+    struct error_status_t *error; //model
 
     int _library_owned; // Is the library responsible for freeing this object?
 } error_response_t;
 
 __attribute__((deprecated)) error_response_t *error_response_create(
-    char *error,
-    char *message,
-    int status
+    error_status_t *error
 );
 
 void error_response_free(error_response_t *error_response);
@@ -39,4 +36,3 @@ error_response_t *error_response_parseFromJSON(cJSON *error_responseJSON);
 cJSON *error_response_convertToJSON(error_response_t *error_response);
 
 #endif /* _error_response_H_ */
-

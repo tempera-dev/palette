@@ -19,14 +19,9 @@ import (
 // checks if the ErrorResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ErrorResponse{}
 
-// ErrorResponse Error envelope returned by every fallible endpoint.
+// ErrorResponse AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
 type ErrorResponse struct {
-	// Stable machine-readable error code.
-	Error string `json:"error"`
-	// Human-readable error message.
-	Message string `json:"message"`
-	// Deprecated compatibility HTTP status code for older `/v1` clients.
-	Status int32 `json:"status"`
+	Error ErrorStatus `json:"error"`
 }
 
 type _ErrorResponse ErrorResponse
@@ -35,11 +30,9 @@ type _ErrorResponse ErrorResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewErrorResponse(error_ string, message string, status int32) *ErrorResponse {
+func NewErrorResponse(error_ ErrorStatus) *ErrorResponse {
 	this := ErrorResponse{}
 	this.Error = error_
-	this.Message = message
-	this.Status = status
 	return &this
 }
 
@@ -52,9 +45,9 @@ func NewErrorResponseWithDefaults() *ErrorResponse {
 }
 
 // GetError returns the Error field value
-func (o *ErrorResponse) GetError() string {
+func (o *ErrorResponse) GetError() ErrorStatus {
 	if o == nil {
-		var ret string
+		var ret ErrorStatus
 		return ret
 	}
 
@@ -63,7 +56,7 @@ func (o *ErrorResponse) GetError() string {
 
 // GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
-func (o *ErrorResponse) GetErrorOk() (*string, bool) {
+func (o *ErrorResponse) GetErrorOk() (*ErrorStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -71,56 +64,8 @@ func (o *ErrorResponse) GetErrorOk() (*string, bool) {
 }
 
 // SetError sets field value
-func (o *ErrorResponse) SetError(v string) {
+func (o *ErrorResponse) SetError(v ErrorStatus) {
 	o.Error = v
-}
-
-// GetMessage returns the Message field value
-func (o *ErrorResponse) GetMessage() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value
-// and a boolean to check if the value has been set.
-func (o *ErrorResponse) GetMessageOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Message, true
-}
-
-// SetMessage sets field value
-func (o *ErrorResponse) SetMessage(v string) {
-	o.Message = v
-}
-
-// GetStatus returns the Status field value
-func (o *ErrorResponse) GetStatus() int32 {
-	if o == nil {
-		var ret int32
-		return ret
-	}
-
-	return o.Status
-}
-
-// GetStatusOk returns a tuple with the Status field value
-// and a boolean to check if the value has been set.
-func (o *ErrorResponse) GetStatusOk() (*int32, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Status, true
-}
-
-// SetStatus sets field value
-func (o *ErrorResponse) SetStatus(v int32) {
-	o.Status = v
 }
 
 func (o ErrorResponse) MarshalJSON() ([]byte, error) {
@@ -134,8 +79,6 @@ func (o ErrorResponse) MarshalJSON() ([]byte, error) {
 func (o ErrorResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["error"] = o.Error
-	toSerialize["message"] = o.Message
-	toSerialize["status"] = o.Status
 	return toSerialize, nil
 }
 
@@ -145,8 +88,6 @@ func (o *ErrorResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"error",
-		"message",
-		"status",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -213,5 +154,3 @@ func (v *NullableErrorResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

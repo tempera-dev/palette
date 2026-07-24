@@ -17,14 +17,14 @@ type SearchQueryParams = NonNullable<SearchOperation["parameters"]["query"]>;
 type SearchPathParams = SearchOperation["parameters"]["path"];
 
 export type RunSummary = components["schemas"]["RunSummary"];
-export type RunSummaryPage = components["schemas"]["Page_RunSummary"];
+export type RunSummaryPage = components["schemas"]["TraceListResponse"];
 export type Money = components["schemas"]["Money"];
 export type CanonicalSpan = components["schemas"]["CanonicalSpan"];
 export type TraceView = components["schemas"]["TraceView"];
 export type SpanIoResponse = components["schemas"]["SpanIoResponse"];
 export type SpanIoValue = SpanIoResponse["input"];
 export type SearchHit = components["schemas"]["SearchHit"];
-export type SearchResponse = components["schemas"]["SearchResponse"];
+export type SearchResponse = components["schemas"]["SearchSpanListResponse"];
 
 export type DashboardQuery = {
   tenantId: string;
@@ -67,7 +67,7 @@ export type SearchQuery = {
   status?: SearchQueryParams["status"];
   model?: SearchQueryParams["model"];
   tool?: SearchQueryParams["tool"];
-  limit?: SearchQueryParams["limit"];
+  pageSize?: SearchQueryParams["pageSize"];
 };
 
 export type SearchData = {
@@ -109,7 +109,7 @@ export function searchParamsForTraceList(query: DashboardQuery): URLSearchParams
   if (query.environmentId) params.set("environment_id", query.environmentId);
   if (query.traceId) params.set("trace_id", query.traceId);
   applyFilterParams(query, params);
-  params.set("limit", "50");
+  params.set("pageSize", "50");
   return params;
 }
 
@@ -131,7 +131,7 @@ export function searchParamsForSpanSearch(query: SearchQuery): URLSearchParams {
   if (query.status) params.set("status", query.status);
   if (query.model) params.set("model", query.model);
   if (query.tool) params.set("tool", query.tool);
-  if (query.limit !== undefined) params.set("limit", String(query.limit));
+  if (query.pageSize !== undefined) params.set("pageSize", String(query.pageSize));
   return params;
 }
 
@@ -213,7 +213,7 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
     return {
       apiBaseUrl,
       query,
-      runs: { items: [], next_cursor: null },
+      runs: { runs: [] },
       trace: null,
       selectedSpan: null,
       selectedIo: null,
@@ -222,8 +222,8 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
   }
 
   const activeRun = query.traceId
-    ? runs.items.find((run) => run.trace_id === query.traceId) ?? runs.items[0]
-    : runs.items[0];
+    ? runs.runs.find((run) => run.trace_id === query.traceId) ?? runs.runs[0]
+    : runs.runs[0];
   const activeTraceId = query.traceId || activeRun?.trace_id;
   const activeRunMatchesTrace = activeRun !== undefined && activeRun.trace_id === activeTraceId;
   const traceQuery =

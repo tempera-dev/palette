@@ -179,7 +179,7 @@ No authorization required
 
 ## tracesList
 
-> PageRunSummary tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> TraceListResponse tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -213,14 +213,14 @@ public class Example {
         Long maxCostMicros = 56L; // Long |
         Long minLatencyMs = 56L; // Long |
         Long maxLatencyMs = 56L; // Long |
-        Integer limit = 56; // Integer |
-        String cursor = "cursor_example"; // String |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PageRunSummary result = apiInstance.tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            TraceListResponse result = apiInstance.tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TracesApi#tracesList");
@@ -252,8 +252,8 @@ public class Example {
 | **maxCostMicros** | **Long**|  | [optional] |
 | **minLatencyMs** | **Long**|  | [optional] |
 | **maxLatencyMs** | **Long**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
-| **cursor** | **String**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -261,7 +261,7 @@ public class Example {
 
 ### Return type
 
-[**PageRunSummary**](PageRunSummary.md)
+[**TraceListResponse**](TraceListResponse.md)
 
 
 ### Authorization
@@ -283,7 +283,7 @@ No authorization required
 
 ## tracesListWithHttpInfo
 
-> ApiResponse<PageRunSummary> tracesList tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<TraceListResponse> tracesList tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -318,14 +318,14 @@ public class Example {
         Long maxCostMicros = 56L; // Long |
         Long minLatencyMs = 56L; // Long |
         Long maxLatencyMs = 56L; // Long |
-        Integer limit = 56; // Integer |
-        String cursor = "cursor_example"; // String |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PageRunSummary> response = apiInstance.tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<TraceListResponse> response = apiInstance.tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -359,8 +359,8 @@ public class Example {
 | **maxCostMicros** | **Long**|  | [optional] |
 | **minLatencyMs** | **Long**|  | [optional] |
 | **maxLatencyMs** | **Long**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
-| **cursor** | **String**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -368,7 +368,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**PageRunSummary**](PageRunSummary.md)>
+ApiResponse<[**TraceListResponse**](TraceListResponse.md)>
 
 
 ### Authorization

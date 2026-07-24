@@ -12,7 +12,7 @@
 /*
  * PromptVersionListResponse.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_PromptVersionListResponse_H_
@@ -21,6 +21,7 @@
 
 #include "palette-client/ModelBase.h"
 
+#include <cpprest/details/basic_types.h>
 #include "palette-client/model/PromptVersion.h"
 #include <vector>
 
@@ -55,6 +56,11 @@ public:
     /// PromptVersionListResponse members
 
 
+    utility::string_t getNextPageToken() const;
+    bool nextPageTokenIsSet() const;
+    void unsetNextPageToken();
+    void setNextPageToken(const utility::string_t& value);
+
     std::vector<std::shared_ptr<PromptVersion>> getVersions() const;
     bool versionsIsSet() const;
     void unsetVersions();
@@ -62,6 +68,9 @@ public:
 
 
 protected:
+    utility::string_t m_NextPageToken;
+    bool m_NextPageTokenIsSet;
+
     std::vector<std::shared_ptr<PromptVersion>> m_Versions;
     bool m_VersionsIsSet;
 

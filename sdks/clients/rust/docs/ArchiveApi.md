@@ -45,7 +45,7 @@ No authorization required
 
 ## archive_period_query_spans
 
-> models::ArchiveQueryResponse archive_period_query_spans(tenant_id, project_id, environment_id, trace_id, span_id, kind, status, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ArchiveQueryResponse archive_period_query_spans(tenant_id, project_id, environment_id, trace_id, span_id, kind, status, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -60,7 +60,8 @@ Name | Type | Description  | Required | Notes
 **span_id** | Option<**String**> |  |  |
 **kind** | Option<**String**> |  |  |
 **status** | Option<**String**> |  |  |
-**limit** | Option<**i32**> |  |  |
+**page_size** | Option<**i32**> |  |  |
+**page_token** | Option<**String**> |  |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
