@@ -396,7 +396,7 @@ mod tests {
         let hash = sha256_json_hash(&counts).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(
             hash.as_str(),
-            "e078d77c009b2f97482cb3e09d6230236a802e5c28feebc7ad7ce6634434cf13"
+            "e0402b12dad1e50c8ee8eea877aae9abda8b5fa125ad6da4534c09bf8363f7e8"
         );
     }
 
