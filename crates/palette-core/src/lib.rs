@@ -196,6 +196,7 @@ pub enum MoneyError {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Money {
+    #[serde(alias = "amount_micros")]
     pub amount_micros: i64,
     pub currency: Currency,
 }
@@ -248,6 +249,7 @@ pub struct TokenCounts {
     pub input: u64,
     pub output: u64,
     pub reasoning: u64,
+    #[serde(alias = "cache_read")]
     pub cache_read: u64,
 }
 
