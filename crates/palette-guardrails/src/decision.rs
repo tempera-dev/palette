@@ -1,12 +1,12 @@
 //! Enterprise decision/evidence contract for Palette's validation plane.
 //!
-//! A `DecisionRecordV1` is an immutable observation of one important agent
-//! decision. It is intentionally **not** an authorization token: authority is
-//! represented only by references to source-owned evidence. This keeps Palette
-//! useful as the cross-surface validation/audit plane without making an observed
-//! trace a new root of trust.
+//! A [`DecisionRecordV1`] is an immutable observation of one important agent
+//! decision. It is deliberately not an authorization token: source-owned
+//! authority and execution evidence are referenced by digest and must be
+//! verified by the appropriate consumer.
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;
 use thiserror::Error;
 use utoipa::ToSchema;
@@ -270,22 +270,39 @@ pub enum DecisionRecordError {
     UnknownOutcomeMustRemainUnknown,
     #[error("external receipt success requires provider receipt evidence")]
     ExternalReceiptRequired,
+    #[error("disclosed goal does not match goal_digest")]
+    GoalDigestMismatch,
 }
 
 impl DecisionRecordV1 {
-    /// Validate the bounded, digest-first decision contract.
+    /// Validate the bounded, digest-first observation contract.
     ///
-    /// This intentionally validates only the trace observation. It does not
-    /// verify Auth Hub/Risk/provider receipts; those remain source-owned trust
-    /// decisions and are represented here by immutable evidence references.
+    /// This validates the trace envelope only. It does not verify referenced
+    /// Auth Hub, Risk, MCP, or provider receipts.
     pub fn validate(&self) -> Result<(), DecisionRecordError> {
         if self.schema != DECISION_RECORD_SCHEMA_V1 {
             return Err(DecisionRecordError::Invalid("schema"));
         }
+
+        self.validate_identity()?;
+        self.validate_objective()?;
+        self.validate_model_call()?;
+        self.validate_action_and_evidence()?;
+        self.validate_authority()?;
+        self.validate_execution()?;
+        self.validate_governance()?;
+        self.validate_provenance()?;
+        Ok(())
+    }
+
+    fn validate_identity(&self) -> Result<(), DecisionRecordError> {
         validate_identifier(&self.decision_id, "decision_id")?;
         validate_identifier(&self.trace_id, "trace_id")?;
         validate_identifier(&self.session_id, "session_id")?;
-        validate_digest_vec(&self.parent_decision_digests, "parent_decision_digests")?;
+        validate_digest_vec(
+            &self.parent_decision_digests,
+            "parent_decision_digests",
+        )?;
         for (field, value) in [
             ("workspace.organization_id", &self.workspace.organization_id),
             ("workspace.project_id", &self.workspace.project_id),
@@ -294,33 +311,56 @@ impl DecisionRecordV1 {
         ] {
             validate_identifier(value, field)?;
         }
-        validate_digest(&self.initiator.subject_digest, "initiator.subject_digest")?;
+        validate_digest(
+            &self.initiator.subject_digest,
+            "initiator.subject_digest",
+        )?;
         if let Some(version) = &self.initiator.harness_version {
             validate_bounded(version, 256, "initiator.harness_version")?;
         }
+        Ok(())
+    }
+
+    fn validate_objective(&self) -> Result<(), DecisionRecordError> {
         validate_digest(&self.objective.goal_digest, "objective.goal_digest")?;
         if let Some(goal) = &self.objective.goal {
             validate_bounded(goal, DECISION_RECORD_MAX_GOAL_CHARS, "objective.goal")?;
+            let expected = format!("sha256:{:x}", Sha256::digest(goal.as_bytes()));
+            if self.objective.goal_digest != expected {
+                return Err(DecisionRecordError::GoalDigestMismatch);
+            }
         }
         if let Some(task_family) = &self.objective.task_family {
             validate_identifier(task_family, "objective.task_family")?;
         }
-        if let Some(model) = &self.model_call {
-            validate_identifier(&model.provider, "model_call.provider")?;
-            validate_bounded(&model.model, 512, "model_call.model")?;
-            validate_digest(&model.prompt_digest, "model_call.prompt_digest")?;
-            validate_digest(&model.context_digest, "model_call.context_digest")?;
-            validate_digest(&model.response_digest, "model_call.response_digest")?;
-            if let Some(value) = &model.request_digest {
-                validate_digest(value, "model_call.request_digest")?;
-            }
-            if let Some(value) = &model.model_revision {
-                validate_bounded(value, 512, "model_call.model_revision")?;
-            }
-            if model.latency_ms.is_some_and(|value| value > DECISION_RECORD_MAX_LATENCY_MS) {
-                return Err(DecisionRecordError::Invalid("model_call.latency_ms"));
-            }
+        Ok(())
+    }
+
+    fn validate_model_call(&self) -> Result<(), DecisionRecordError> {
+        let Some(model) = &self.model_call else {
+            return Ok(());
+        };
+        validate_identifier(&model.provider, "model_call.provider")?;
+        validate_bounded(&model.model, 512, "model_call.model")?;
+        validate_digest(&model.prompt_digest, "model_call.prompt_digest")?;
+        validate_digest(&model.context_digest, "model_call.context_digest")?;
+        validate_digest(&model.response_digest, "model_call.response_digest")?;
+        if let Some(value) = &model.model_revision {
+            validate_bounded(value, 512, "model_call.model_revision")?;
         }
+        if let Some(value) = &model.request_digest {
+            validate_digest(value, "model_call.request_digest")?;
+        }
+        if model
+            .latency_ms
+            .is_some_and(|value| value > DECISION_RECORD_MAX_LATENCY_MS)
+        {
+            return Err(DecisionRecordError::Invalid("model_call.latency_ms"));
+        }
+        Ok(())
+    }
+
+    fn validate_action_and_evidence(&self) -> Result<(), DecisionRecordError> {
         validate_identifier(&self.proposed_action.kind, "proposed_action.kind")?;
         validate_bounded(
             &self.proposed_action.target,
@@ -342,60 +382,88 @@ impl DecisionRecordV1 {
         validate_digest_vec(&self.evidence_digests, "evidence_digests")?;
         validate_digest_vec(&self.memory_digests, "memory_digests")?;
         validate_digest_vec(&self.retrieval_digests, "retrieval_digests")?;
-        validate_digest_vec(&self.authority.evidence_digests, "authority.evidence_digests")?;
-        let not_evaluated = self.authority.outcome == AuthorityOutcome::NotEvaluated;
-        let source_not_evaluated = self.authority.source == AuthoritySource::NotEvaluated;
-        if not_evaluated != source_not_evaluated {
+        Ok(())
+    }
+
+    fn validate_authority(&self) -> Result<(), DecisionRecordError> {
+        validate_digest_vec(
+            &self.authority.evidence_digests,
+            "authority.evidence_digests",
+        )?;
+        let outcome_unset = self.authority.outcome == AuthorityOutcome::NotEvaluated;
+        let source_unset = self.authority.source == AuthoritySource::NotEvaluated;
+        if outcome_unset != source_unset {
             return Err(DecisionRecordError::InvalidAuthorityPair);
         }
-        if !not_evaluated && self.authority.evidence_digests.is_empty() {
+        if !outcome_unset && self.authority.evidence_digests.is_empty() {
             return Err(DecisionRecordError::AuthorityEvidenceRequired);
         }
-        if let Some(execution) = &self.execution {
-            validate_digest(&execution.attempt_digest, "execution.attempt_digest")?;
-            if execution.latency_ms > DECISION_RECORD_MAX_LATENCY_MS {
-                return Err(DecisionRecordError::Invalid("execution.latency_ms"));
-            }
-            for (field, value) in [
-                ("execution.provider_request_digest", &execution.provider_request_digest),
-                ("execution.provider_receipt_digest", &execution.provider_receipt_digest),
-                ("execution.result_digest", &execution.result_digest),
-                ("execution.side_effect_digest", &execution.side_effect_digest),
-            ] {
-                if let Some(value) = value {
-                    validate_digest(value, field)?;
-                }
-            }
-            if matches!(
-                execution.status,
-                ExecutionStatus::Succeeded | ExecutionStatus::Failed | ExecutionStatus::Cancelled
-            ) && execution.result_digest.is_none()
-            {
-                return Err(DecisionRecordError::TerminalResultRequired);
-            }
-            if execution.status == ExecutionStatus::OutcomeUnknown
-                && execution.success_source != SuccessSource::Unknown
-            {
-                return Err(DecisionRecordError::UnknownOutcomeMustRemainUnknown);
-            }
-            if execution.success_source == SuccessSource::ExternalReceipt
-                && execution.provider_receipt_digest.is_none()
-            {
-                return Err(DecisionRecordError::ExternalReceiptRequired);
+        Ok(())
+    }
+
+    fn validate_execution(&self) -> Result<(), DecisionRecordError> {
+        let Some(execution) = &self.execution else {
+            return Ok(());
+        };
+        validate_digest(&execution.attempt_digest, "execution.attempt_digest")?;
+        if execution.latency_ms > DECISION_RECORD_MAX_LATENCY_MS {
+            return Err(DecisionRecordError::Invalid("execution.latency_ms"));
+        }
+        for (field, value) in [
+            (
+                "execution.provider_request_digest",
+                &execution.provider_request_digest,
+            ),
+            (
+                "execution.provider_receipt_digest",
+                &execution.provider_receipt_digest,
+            ),
+            ("execution.result_digest", &execution.result_digest),
+            (
+                "execution.side_effect_digest",
+                &execution.side_effect_digest,
+            ),
+        ] {
+            if let Some(value) = value {
+                validate_digest(value, field)?;
             }
         }
+        if matches!(
+            execution.status,
+            ExecutionStatus::Succeeded | ExecutionStatus::Failed | ExecutionStatus::Cancelled
+        ) && execution.result_digest.is_none()
+        {
+            return Err(DecisionRecordError::TerminalResultRequired);
+        }
+        if execution.status == ExecutionStatus::OutcomeUnknown
+            && execution.success_source != SuccessSource::Unknown
+        {
+            return Err(DecisionRecordError::UnknownOutcomeMustRemainUnknown);
+        }
+        if execution.success_source == SuccessSource::ExternalReceipt
+            && execution.provider_receipt_digest.is_none()
+        {
+            return Err(DecisionRecordError::ExternalReceiptRequired);
+        }
+        Ok(())
+    }
+
+    fn validate_governance(&self) -> Result<(), DecisionRecordError> {
+        validate_identifier(
+            &self.governance.retention_class,
+            "governance.retention_class",
+        )?;
         validate_classifications(
             &self.governance.data_classifications,
             "governance.data_classifications",
         )?;
-        validate_identifier(&self.governance.retention_class, "governance.retention_class")?;
         validate_unique(&self.governance.allowed_uses, "governance.allowed_uses")?;
         if !self.governance.allowed_uses.contains(&AllowedUse::Audit) {
             return Err(DecisionRecordError::AuditUseRequired);
         }
-        let needs_rights_basis = self.governance.allowed_uses.iter().any(|value| {
+        let needs_rights_basis = self.governance.allowed_uses.iter().any(|use_| {
             matches!(
-                value,
+                use_,
                 AllowedUse::InternalTraining
                     | AllowedUse::CustomerTraining
                     | AllowedUse::ExternalPublish
@@ -407,6 +475,10 @@ impl DecisionRecordV1 {
         if let Some(value) = &self.governance.rights_basis_digest {
             validate_digest(value, "governance.rights_basis_digest")?;
         }
+        Ok(())
+    }
+
+    fn validate_provenance(&self) -> Result<(), DecisionRecordError> {
         if self.provenance.producer != DECISION_RECORD_PRODUCER {
             return Err(DecisionRecordError::Invalid("provenance.producer"));
         }
@@ -420,16 +492,16 @@ impl DecisionRecordV1 {
             256,
             "provenance.normalization_version",
         )?;
-        validate_bounded(&self.provenance.observed_at, 64, "provenance.observed_at")?;
+        validate_bounded(
+            &self.provenance.observed_at,
+            64,
+            "provenance.observed_at",
+        )?;
         Ok(())
     }
 }
 
-/// Compute the only reuse permissions that all required evidence permits.
-///
-/// Rights are deliberately a set intersection, not an ordinal enum: customer
-/// training does not imply internal training (or vice versa), and publication
-/// is an independent permission.
+/// Return only the reuse capabilities permitted by every required source.
 #[must_use]
 pub fn intersect_allowed_uses<'a>(
     policies: impl IntoIterator<Item = &'a [AllowedUse]>,
@@ -526,7 +598,12 @@ mod tests {
         format!("sha256:{}", byte.to_string().repeat(64))
     }
 
+    fn goal_digest(goal: &str) -> String {
+        format!("sha256:{:x}", Sha256::digest(goal.as_bytes()))
+    }
+
     fn record() -> DecisionRecordV1 {
+        let goal = "observe the refund safely";
         DecisionRecordV1 {
             schema: DECISION_RECORD_SCHEMA_V1.into(),
             decision_id: "dec_1".into(),
@@ -546,18 +623,18 @@ mod tests {
                 harness_version: Some("app-server-v1".into()),
             },
             objective: DecisionObjectiveV1 {
-                goal_digest: digest('b'),
-                goal: Some("observe the refund safely".into()),
+                goal_digest: goal_digest(goal),
+                goal: Some(goal.into()),
                 task_family: Some("refund-reconciliation".into()),
             },
             model_call: Some(ModelCallEvidenceV1 {
                 provider: "openai".into(),
                 model: "gpt-test".into(),
-                prompt_digest: digest('c'),
-                context_digest: digest('d'),
-                response_digest: digest('e'),
+                prompt_digest: digest('b'),
+                context_digest: digest('c'),
+                response_digest: digest('d'),
                 model_revision: None,
-                request_digest: Some(digest('f')),
+                request_digest: Some(digest('e')),
                 input_tokens: Some(100),
                 output_tokens: Some(20),
                 reasoning_tokens: None,
@@ -617,8 +694,13 @@ mod tests {
         let record = record();
         assert_eq!(record.validate(), Ok(()));
         assert_eq!(record.authority.source, AuthoritySource::SourceReceipt);
-        // The contract has no boolean that can self-promote an observation into
-        // a grant; consumers must follow the referenced source evidence.
+    }
+
+    #[test]
+    fn disclosed_goal_is_content_bound() {
+        let mut record = record();
+        record.objective.goal = Some("different goal".into());
+        assert_eq!(record.validate(), Err(DecisionRecordError::GoalDigestMismatch));
     }
 
     #[test]
@@ -634,7 +716,9 @@ mod tests {
     #[test]
     fn unknown_outcome_cannot_be_relabelled_as_success() {
         let mut record = record();
-        let execution = record.execution.as_mut().expect("fixture execution");
+        let Some(execution) = record.execution.as_mut() else {
+            panic!("fixture execution missing");
+        };
         execution.status = ExecutionStatus::OutcomeUnknown;
         execution.success_source = SuccessSource::Deterministic;
         assert_eq!(
@@ -646,7 +730,9 @@ mod tests {
     #[test]
     fn external_receipt_reward_requires_receipt_reference() {
         let mut record = record();
-        let execution = record.execution.as_mut().expect("fixture execution");
+        let Some(execution) = record.execution.as_mut() else {
+            panic!("fixture execution missing");
+        };
         execution.success_source = SuccessSource::ExternalReceipt;
         assert_eq!(
             record.validate(),
@@ -660,7 +746,10 @@ mod tests {
     fn training_permission_requires_rights_basis() {
         let mut record = record();
         record.governance.rights_basis_digest = None;
-        assert_eq!(record.validate(), Err(DecisionRecordError::RightsBasisRequired));
+        assert_eq!(
+            record.validate(),
+            Err(DecisionRecordError::RightsBasisRequired)
+        );
     }
 
     #[test]
@@ -684,7 +773,13 @@ mod tests {
     #[test]
     fn audit_cannot_be_removed_from_enterprise_evidence() {
         let mut record = record();
-        record.governance.allowed_uses.retain(|value| *value != AllowedUse::Audit);
-        assert_eq!(record.validate(), Err(DecisionRecordError::AuditUseRequired));
+        record
+            .governance
+            .allowed_uses
+            .retain(|value| *value != AllowedUse::Audit);
+        assert_eq!(
+            record.validate(),
+            Err(DecisionRecordError::AuditUseRequired)
+        );
     }
 }
