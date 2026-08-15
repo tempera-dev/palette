@@ -22,6 +22,8 @@
 //! - the `POST /v1/guardrails/check` HTTP endpoint (which would pull in the
 //!   OpenAPI contract-regen pipeline); this crate stays a pure library.
 
+pub mod decision;
+
 use serde::{Deserialize, Serialize};
 
 /// The action a guardrail recommends for a piece of text.
