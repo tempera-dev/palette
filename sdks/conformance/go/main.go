@@ -42,7 +42,7 @@ func main() {
 	if err != nil {
 		fail("traces.list")
 	}
-	fmt.Printf("  traces.list items=%d\n", len(page.Items))
+	fmt.Printf("  traces.list runs=%d\n", len(page.GetRuns()))
 
 	fmt.Println("PASS: go generated client round-trips against live API")
 }

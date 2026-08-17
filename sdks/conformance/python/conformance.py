@@ -33,11 +33,11 @@ def main() -> int:
         )
         print(f"  createDataset -> {type(created).__name__}")
 
-        # 3. list traces -> typed page response
+        # 3. list traces -> typed TraceListResponse
         page = TracesApi(api).traces_list(TENANT)
-        items = getattr(page, "items", None)
-        assert items is not None, f"traces.list page missing 'items': {page}"
-        print(f"  traces.list -> {type(page).__name__} items={len(items)}")
+        runs = getattr(page, "runs", None)
+        assert runs is not None, f"traces.list response missing 'runs': {page}"
+        print(f"  traces.list -> {type(page).__name__} runs={len(runs)}")
 
     print("PASS: python generated client round-trips against live API")
     return 0

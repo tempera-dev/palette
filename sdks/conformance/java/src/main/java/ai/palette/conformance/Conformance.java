@@ -7,7 +7,7 @@ import ai.palette.client.api.TracesApi;
 import ai.palette.client.model.CreateDatasetRequest;
 import ai.palette.client.model.Dataset;
 import ai.palette.client.model.HealthResponse;
-import ai.palette.client.model.PageRunSummary;
+import ai.palette.client.model.TraceListResponse;
 
 /**
  * Live conformance: drive the GENERATED Java control-plane client against a
@@ -45,11 +45,11 @@ public final class Conformance {
             }
             System.out.println("  createDataset -> ok (" + ds.getName() + ")");
 
-            PageRunSummary page = new TracesApi(client).tracesList(
+            TraceListResponse page = new TracesApi(client).tracesList(
                     tenant, null, null, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, null, null, null, null);
-            int items = page.getItems() == null ? 0 : page.getItems().size();
-            System.out.println("  traces.list items=" + items);
+            int runs = page.getRuns() == null ? 0 : page.getRuns().size();
+            System.out.println("  traces.list runs=" + runs);
 
             System.out.println("PASS: java generated client round-trips against live API");
         } catch (Exception e) {
