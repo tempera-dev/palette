@@ -4441,6 +4441,7 @@ version = "0.1.0"
 dependencies = [
  "regex",
  "serde",
+ "sha2 0.10.9",
  "thiserror 1.0.69",
  "utoipa",
 ]

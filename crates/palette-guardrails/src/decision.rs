@@ -299,10 +299,7 @@ impl DecisionRecordV1 {
         validate_identifier(&self.decision_id, "decision_id")?;
         validate_identifier(&self.trace_id, "trace_id")?;
         validate_identifier(&self.session_id, "session_id")?;
-        validate_digest_vec(
-            &self.parent_decision_digests,
-            "parent_decision_digests",
-        )?;
+        validate_digest_vec(&self.parent_decision_digests, "parent_decision_digests")?;
         for (field, value) in [
             ("workspace.organization_id", &self.workspace.organization_id),
             ("workspace.project_id", &self.workspace.project_id),
@@ -311,10 +308,7 @@ impl DecisionRecordV1 {
         ] {
             validate_identifier(value, field)?;
         }
-        validate_digest(
-            &self.initiator.subject_digest,
-            "initiator.subject_digest",
-        )?;
+        validate_digest(&self.initiator.subject_digest, "initiator.subject_digest")?;
         if let Some(version) = &self.initiator.harness_version {
             validate_bounded(version, 256, "initiator.harness_version")?;
         }
@@ -492,11 +486,7 @@ impl DecisionRecordV1 {
             256,
             "provenance.normalization_version",
         )?;
-        validate_bounded(
-            &self.provenance.observed_at,
-            64,
-            "provenance.observed_at",
-        )?;
+        validate_bounded(&self.provenance.observed_at, 64, "provenance.observed_at")?;
         Ok(())
     }
 }
@@ -700,7 +690,10 @@ mod tests {
     fn disclosed_goal_is_content_bound() {
         let mut record = record();
         record.objective.goal = Some("different goal".into());
-        assert_eq!(record.validate(), Err(DecisionRecordError::GoalDigestMismatch));
+        assert_eq!(
+            record.validate(),
+            Err(DecisionRecordError::GoalDigestMismatch)
+        );
     }
 
     #[test]
@@ -730,15 +723,22 @@ mod tests {
     #[test]
     fn external_receipt_reward_requires_receipt_reference() {
         let mut record = record();
-        let Some(execution) = record.execution.as_mut() else {
-            panic!("fixture execution missing");
-        };
-        execution.success_source = SuccessSource::ExternalReceipt;
+        {
+            let Some(execution) = record.execution.as_mut() else {
+                panic!("fixture execution missing");
+            };
+            execution.success_source = SuccessSource::ExternalReceipt;
+        }
         assert_eq!(
             record.validate(),
             Err(DecisionRecordError::ExternalReceiptRequired)
         );
-        execution.provider_receipt_digest = Some(digest('9'));
+        {
+            let Some(execution) = record.execution.as_mut() else {
+                panic!("fixture execution missing");
+            };
+            execution.provider_receipt_digest = Some(digest('9'));
+        }
         assert_eq!(record.validate(), Ok(()));
     }
 
