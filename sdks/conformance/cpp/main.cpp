@@ -55,7 +55,7 @@ int main() {
         std::cout << "  createDataset -> ok ("
                   << utility::conversions::to_utf8string(ds->getName()) << ")\n";
 
-        // GET /v1/traces/{tenant} -> typed Page_RunSummary
+        // GET /v1/traces/{tenant} -> typed TraceListResponse
         api::TracesApi tracesApi(apiClient);
         auto page = tracesApi.traces_list(
                         utility::conversions::to_string_t(tenant),
@@ -65,7 +65,7 @@ int main() {
                         boost::none, boost::none, boost::none, boost::none,
                         boost::none, boost::none, boost::none)
                         .get();
-        std::cout << "  traces.list items=" << page->getItems().size() << "\n";
+        std::cout << "  traces.list runs=" << page->getRuns().size() << "\n";
 
         std::cout << "PASS: cpp generated client round-trips against live API\n";
         return 0;

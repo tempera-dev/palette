@@ -24,11 +24,11 @@ async function main(): Promise<number> {
   console.log("  createDataset -> ok");
 
   const page = await new TracesApi(config).tracesList({ tenantId });
-  if (!Array.isArray(page.items)) {
-    console.error(`FAIL traces.list missing items: ${JSON.stringify(page)}`);
+  if (!Array.isArray(page.runs)) {
+    console.error(`FAIL traces.list missing runs: ${JSON.stringify(page)}`);
     return 1;
   }
-  console.log(`  traces.list items=${page.items.length}`);
+  console.log(`  traces.list runs=${page.runs.length}`);
 
   console.log("PASS: typescript generated client round-trips against live API");
   return 0;
