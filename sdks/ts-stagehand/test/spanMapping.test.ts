@@ -49,8 +49,9 @@ let tracer: Tracer;
 
 beforeEach(() => {
   exporter = new InMemorySpanExporter();
-  provider = new BasicTracerProvider();
-  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+  provider = new BasicTracerProvider({
+    spanProcessors: [new SimpleSpanProcessor(exporter)],
+  });
   tracer = provider.getTracer("test");
 });
 
@@ -148,7 +149,9 @@ describe("instrumentStagehand span mapping", () => {
     expect(tool.attributes[BrowserAttr.SELECTOR_EXISTED]).toBe(true);
     expect(tool.attributes[BrowserAttr.MATCHED_ELEMENT]).toBe(true);
     // llm.call is a child of the tool.call span.
-    expect(decisions[0]!.parentSpanId).toBe(tool.spanContext().spanId);
+    expect(decisions[0]!.parentSpanContext?.spanId).toBe(
+      tool.spanContext().spanId,
+    );
   });
 
   it("does not emit an llm.call span when no decision is present", async () => {

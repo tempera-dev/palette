@@ -280,31 +280,33 @@ pub mod conventions {
     /// Shape: `{"span_kinds":[...],"attributes":{NAME:value,...},
     /// "defaults":{NAME:value,...},"env":{NAME:value,...}}`.
     pub fn conventions_json() -> String {
-        use serde_json::{Map, Value};
+        use std::collections::BTreeMap;
 
-        let to_object = |pairs: &[(&str, &str)]| -> Value {
-            let mut map = Map::new();
-            for (name, value) in pairs {
-                map.insert((*name).to_string(), Value::String((*value).to_string()));
-            }
-            Value::Object(map)
+        #[derive(serde::Serialize)]
+        struct ConventionsDocument {
+            attributes: BTreeMap<&'static str, &'static str>,
+            defaults: BTreeMap<&'static str, &'static str>,
+            env: BTreeMap<&'static str, &'static str>,
+            span_kinds: Vec<&'static str>,
+        }
+
+        fn sorted_pairs(
+            pairs: &'static [(&'static str, &'static str)],
+        ) -> BTreeMap<&'static str, &'static str> {
+            pairs.iter().copied().collect()
+        }
+
+        // `serde_json::Map` changes ordering when another workspace dependency
+        // enables serde_json's `preserve_order` feature. Explicit BTreeMaps keep
+        // this generated contract byte-stable across unrelated feature changes.
+        let document = ConventionsDocument {
+            attributes: sorted_pairs(attr::ALL),
+            defaults: sorted_pairs(defaults::ALL),
+            env: sorted_pairs(env::ALL),
+            span_kinds: span_kinds(),
         };
 
-        let mut root = Map::new();
-        root.insert(
-            "span_kinds".to_string(),
-            Value::Array(
-                span_kinds()
-                    .into_iter()
-                    .map(|k| Value::String(k.to_string()))
-                    .collect(),
-            ),
-        );
-        root.insert("attributes".to_string(), to_object(attr::ALL));
-        root.insert("defaults".to_string(), to_object(defaults::ALL));
-        root.insert("env".to_string(), to_object(env::ALL));
-
-        match serde_json::to_string_pretty(&Value::Object(root)) {
+        match serde_json::to_string_pretty(&document) {
             Ok(mut json) => {
                 json.push('\n');
                 json
@@ -357,6 +359,24 @@ pub mod conventions {
             assert_eq!(
                 parsed["attributes"]["DISCOVERY_EVIDENCE_CLASS"].as_str(),
                 Some("tempera.discovery.evidence_class")
+            );
+        }
+
+        #[test]
+        fn conventions_json_order_is_dependency_feature_independent() {
+            let json = conventions_json();
+            let position = |key: &str| {
+                json.find(key)
+                    .unwrap_or_else(|| panic!("{key} missing from conventions JSON"))
+            };
+
+            assert!(
+                position("\"attributes\"") < position("\"defaults\"")
+                    && position("\"defaults\"") < position("\"env\"")
+                    && position("\"env\"") < position("\"span_kinds\"")
+            );
+            assert!(
+                position("\"DISCOVERY_BUDGET_CONSUMED\"") < position("\"DISCOVERY_BUDGET_LIMIT\"")
             );
         }
 

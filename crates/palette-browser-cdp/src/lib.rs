@@ -16,7 +16,7 @@
 
 use std::time::Duration;
 
-use chromiumoxide::browser::{Browser, BrowserConfig, HeadlessMode};
+use chromiumoxide::browser::{Browser, BrowserConfig};
 use chromiumoxide::cdp::browser_protocol::page::CaptureScreenshotFormat;
 use chromiumoxide::error::CdpError;
 use chromiumoxide::page::{Page, ScreenshotParams};
@@ -89,7 +89,7 @@ impl CdpConfig {
     /// Build the [`chromiumoxide`] launch config from this driver config.
     fn to_browser_config(&self) -> Result<BrowserConfig, BrowserError> {
         let mut builder = BrowserConfig::builder()
-            .headless_mode(HeadlessMode::New)
+            .new_headless_mode()
             .launch_timeout(self.launch_timeout);
         if self.no_sandbox {
             builder = builder.no_sandbox();
