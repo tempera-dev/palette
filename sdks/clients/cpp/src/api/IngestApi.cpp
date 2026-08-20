@@ -121,6 +121,16 @@ pplx::task<std::shared_ptr<TraceIngestedDrainReport>> IngestApi::ingest_drainTra
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_drainTraceIngested does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -265,6 +275,16 @@ pplx::task<std::shared_ptr<TraceWriteDrainReport>> IngestApi::ingest_drainTraceW
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_drainTraceWrites does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -405,6 +425,16 @@ pplx::task<std::shared_ptr<IngestQueueStatus>> IngestApi::ingest_getQueueStatus(
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_getQueueStatus does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -565,6 +595,16 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_importSource(utilit
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_importSource does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -730,6 +770,16 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_native(std::shared_
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_native does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -875,6 +925,16 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_otlp(utility::s
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_otlp does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -1021,6 +1081,16 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_otlpJsonCollect
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_otlpJsonCollector does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -1162,6 +1232,16 @@ pplx::task<std::shared_ptr<TraceIngestedReconcileReport>> IngestApi::ingest_reco
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_reconcileTrace does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -1307,6 +1387,16 @@ pplx::task<std::shared_ptr<DeadLetterReplayReport>> IngestApi::ingest_replayDead
         throw ApiException(415, utility::conversions::to_string_t("IngestApi->ingest_replayDeadLetter does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)

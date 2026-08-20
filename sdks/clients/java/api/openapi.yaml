@@ -68,8 +68,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
           description: Runtime is accepting requests
+      security: []
       tags:
       - health
+      x-tempera-auth-kind: none
       x-accepts:
       - application/json
   /v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook:
@@ -167,8 +169,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - alerts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -267,8 +276,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - apiKeys
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -375,8 +391,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - apiKeys
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/archive/{tenantId}/{projectId}/spans:
@@ -511,8 +534,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - archive
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/archive/{tenantId}/{projectId}/{traceId}:
@@ -610,8 +640,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - archive
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/audit/{tenantId}/{projectId}:
@@ -715,8 +752,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - audit
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}:
@@ -828,8 +872,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - calibrations
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -914,8 +965,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - connect
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}:
@@ -1023,8 +1081,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/connect:
@@ -1120,8 +1185,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1218,8 +1290,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1318,8 +1397,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/status:
@@ -1417,8 +1503,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/tools:
@@ -1534,8 +1627,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Connector provider not configured
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - connectors
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/datasets/{tenantId}/{projectId}:
@@ -1625,8 +1725,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - datasets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1731,8 +1838,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - datasets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1837,8 +1951,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - datasets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1951,8 +2072,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - evals
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2065,8 +2193,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - evals
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2182,8 +2317,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: No Tempera evaluation release-key trust anchor is configured
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - evalResults
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2299,8 +2441,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: No Tempera evaluation release-key trust anchor is configured
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - evalResults
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2407,8 +2556,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Evidence not found in this tenant/project
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - evalResults
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-accepts:
       - application/json
   /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic:
@@ -2520,8 +2676,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - experiments
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2634,8 +2797,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - experiments
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2726,8 +2896,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - gates
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2832,8 +3009,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - gates
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2933,8 +3117,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Per-project quota exceeded or backpressure
+      security:
+      - tempera_oauth:
+        - trace:write
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3040,8 +3231,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/queue:
@@ -3125,8 +3323,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain:
@@ -3219,8 +3424,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/trace-writes/drain:
@@ -3313,8 +3525,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile:
@@ -3412,8 +3631,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/judge/{tenantId}/{projectId}/evaluate:
@@ -3503,8 +3729,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - judge
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3609,8 +3842,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - eval:run
+      - palette_api_key: []
       tags:
       - judge
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: eval:run
       x-accepts:
       - application/json
   /v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling:
@@ -3708,8 +3948,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - online
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3821,8 +4068,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Per-project quota exceeded or backpressure
+      security:
+      - tempera_oauth:
+        - trace:write
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:write
       x-accepts:
       - application/json
   /v1/prompts/{tenantId}/{projectId}:
@@ -3926,8 +4180,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
     post:
@@ -4016,8 +4277,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4116,8 +4384,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/prompts/{tenantId}/{projectId}/{promptId}/diff:
@@ -4229,8 +4504,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/prompts/{tenantId}/{projectId}/{promptId}/versions:
@@ -4348,8 +4630,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
     post:
@@ -4452,8 +4741,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - prompts
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4558,8 +4854,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - providerSecrets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
     post:
@@ -4648,8 +4951,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - providerSecrets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4748,8 +5058,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - providerSecrets
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/review-queues/{tenantId}/{projectId}:
@@ -4839,8 +5156,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - reviews
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4966,8 +5290,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - reviews
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-accepts:
       - application/json
   /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace:
@@ -5071,8 +5402,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - reviews
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5185,8 +5523,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - reviews
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5307,8 +5652,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - dataset:write
+      - palette_api_key: []
       tags:
       - reviews
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5413,8 +5765,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - scenario:read
+      - palette_api_key: []
       tags:
       - scenarios
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: scenario:read
       x-accepts:
       - application/json
     post:
@@ -5503,8 +5862,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - scenario:write
+      - palette_api_key: []
       tags:
       - scenarios
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: scenario:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5601,8 +5967,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - scenario:read
+      - palette_api_key: []
       tags:
       - scenarios
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: scenario:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5701,8 +6074,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - scenario:read
+      - palette_api_key: []
       tags:
       - scenarios
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: scenario:read
       x-accepts:
       - application/json
   /v1/search/{tenantId}/spans:
@@ -5857,8 +6237,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - search
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/spans/{tenantId}/{traceId}/{spanId}:
@@ -5970,8 +6357,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - spans
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/spans/{tenantId}/{traceId}/{spanId}/io:
@@ -6083,8 +6477,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - spans
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/traces:
@@ -6180,8 +6581,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Per-project quota exceeded or backpressure
+      security:
+      - tempera_oauth:
+        - trace:write
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:write
       x-accepts:
       - application/json
   /v1/traces/native:
@@ -6274,8 +6682,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Per-project quota exceeded or backpressure
+      security:
+      - tempera_oauth:
+        - trace:write
+      - palette_api_key: []
       tags:
       - ingest
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -6463,8 +6878,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - traces
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/traces/{tenantId}/{traceId}:
@@ -6568,8 +6990,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Resource not found
+      security:
+      - tempera_oauth:
+        - trace:read
+      - palette_api_key: []
       tags:
       - traces
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/usage/{tenantId}/{projectId}:
@@ -6653,8 +7082,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Credentials lack the required scope
+      security:
+      - tempera_oauth:
+        - admin
+      - palette_api_key: []
       tags:
       - usage
+      x-tempera-auth-kind: oauthResource
+      x-tempera-auth-audience: palette
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
 components:
@@ -11962,4 +12398,27 @@ components:
           type: string
       required:
       - kind
+  securitySchemes:
+    palette_api_key:
+      description: "Palette product API key scoped to one tenant, project, and environment."
+      in: header
+      name: x-palette-api-key
+      type: apiKey
+    tempera_oauth:
+      description: Auth Hub OAuth bearer token for the `palette` resource audience.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.tempera.dev/oauth/authorize
+          scopes:
+            admin: Administer Palette product resources.
+            dataset:read: Read datasets and their versions.
+            dataset:write: "Create and update datasets, prompts, and reviews."
+            eval:run: "Run evaluations, experiments, gates, and judge operations."
+            pii:unmask: Unmask sensitive trace data with an audited reason.
+            scenario:read: Read and mine replay scenarios.
+            scenario:write: Create replay scenarios.
+            trace:read: "Read traces, spans, search results, and derived state."
+            trace:write: Ingest traces and source data.
+          tokenUrl: https://api.tempera.dev/oauth/token
+      type: oauth2
 

@@ -8,6 +8,11 @@
 use percent_encoding::{AsciiSet, NON_ALPHANUMERIC, utf8_percent_encode};
 use serde_json::{Map, Value};
 use utoipa::OpenApi;
+use utoipa::openapi::extensions::Extensions;
+use utoipa::openapi::security::{
+    ApiKey, ApiKeyValue, AuthorizationCode, Flow, OAuth2, Scopes, SecurityRequirement,
+    SecurityScheme,
+};
 
 #[derive(OpenApi)]
 #[openapi(
@@ -118,11 +123,110 @@ pub fn openapi() -> utoipa::openapi::OpenApi {
     let mut doc = PaletteApi::openapi();
     doc.info.version = env!("CARGO_PKG_VERSION").to_string();
     normalize_operation_ids(&mut doc);
+    apply_auth_contract(&mut doc);
     doc
 }
 
 pub fn openapi_json_pretty() -> Result<String, serde_json::Error> {
-    openapi().to_pretty_json()
+    // `utoipa::Extensions` stores extension keys in a `HashMap`. Replace the
+    // three generated auth entries with one marker before serialization, then
+    // expand that marker in a fixed order. This keeps the established Utoipa
+    // document/schema ordering (and therefore a reviewable diff) while making
+    // exact-source receipts and regen checks byte-stable across processes.
+    let mut doc = openapi();
+    replace_auth_extensions_with_markers(&mut doc);
+    expand_auth_extension_markers(&doc.to_pretty_json()?)
+}
+
+const AUTH_EXTENSION_MARKER: &str = "x-palette-auth-contract-marker";
+const AUTH_MARKER_SEPARATOR: char = '\u{1f}';
+
+fn replace_auth_extensions_with_markers(doc: &mut utoipa::openapi::OpenApi) {
+    for item in doc.paths.paths.values_mut() {
+        for operation in [
+            item.get.as_mut(),
+            item.put.as_mut(),
+            item.post.as_mut(),
+            item.delete.as_mut(),
+            item.options.as_mut(),
+            item.head.as_mut(),
+            item.patch.as_mut(),
+            item.trace.as_mut(),
+        ]
+        .into_iter()
+        .flatten()
+        {
+            let extensions = operation.extensions.get_or_insert_with(Extensions::default);
+            let Some(kind) = extensions
+                .get("x-tempera-auth-kind")
+                .and_then(Value::as_str)
+            else {
+                panic!("Palette operation is missing x-tempera-auth-kind");
+            };
+            let audience = extensions
+                .get("x-tempera-auth-audience")
+                .and_then(Value::as_str)
+                .unwrap_or_default();
+            let scope = extensions
+                .get("x-tempera-required-scope")
+                .and_then(Value::as_str)
+                .unwrap_or_default();
+            let marker = [kind, audience, scope].join(&AUTH_MARKER_SEPARATOR.to_string());
+            extensions.clear();
+            extensions.insert(AUTH_EXTENSION_MARKER.to_string(), Value::String(marker));
+        }
+    }
+}
+
+fn expand_auth_extension_markers(rendered: &str) -> Result<String, serde_json::Error> {
+    let marker_prefix = format!("\"{AUTH_EXTENSION_MARKER}\": ");
+    let mut expanded = String::with_capacity(rendered.len());
+    let mut marker_count = 0_usize;
+    for line in rendered.lines() {
+        let trimmed = line.trim_start();
+        let Some(encoded_with_comma) = trimmed.strip_prefix(&marker_prefix) else {
+            expanded.push_str(line);
+            expanded.push('\n');
+            continue;
+        };
+        let has_comma = encoded_with_comma.ends_with(',');
+        let encoded = encoded_with_comma
+            .strip_suffix(',')
+            .unwrap_or(encoded_with_comma);
+        let marker: String = serde_json::from_str(encoded)?;
+        let values = marker.split(AUTH_MARKER_SEPARATOR).collect::<Vec<_>>();
+        if values.len() != 3 {
+            panic!("invalid Palette auth extension marker");
+        }
+        let indent = &line[..line.len() - trimmed.len()];
+        let kind = serde_json::to_string(values[0])?;
+        let audience = if values[1].is_empty() {
+            "null".to_string()
+        } else {
+            serde_json::to_string(values[1])?
+        };
+        let scope = if values[2].is_empty() {
+            "null".to_string()
+        } else {
+            serde_json::to_string(values[2])?
+        };
+        expanded.push_str(&format!("{indent}\"x-tempera-auth-kind\": {kind},\n"));
+        expanded.push_str(&format!(
+            "{indent}\"x-tempera-auth-audience\": {audience},\n"
+        ));
+        expanded.push_str(&format!(
+            "{indent}\"x-tempera-required-scope\": {scope}{}\n",
+            if has_comma { "," } else { "" }
+        ));
+        marker_count += 1;
+    }
+    if marker_count != 63 {
+        panic!("expected 63 Palette auth extension markers, found {marker_count}");
+    }
+    if !rendered.ends_with('\n') {
+        expanded.pop();
+    }
+    Ok(expanded)
 }
 
 fn normalize_operation_ids(doc: &mut utoipa::openapi::OpenApi) {
@@ -157,6 +261,176 @@ fn normalize_operation_ids(doc: &mut utoipa::openapi::OpenApi) {
             // `{collection}.{method}` (tempera-api-style-guide.md §4).
             operation.operation_id = Some(format!("{}.{}", tag, operation_id));
         }
+    }
+}
+
+/// Stamp the exact runtime authorization contract onto every generated operation.
+///
+/// Palette accepts either an Auth Hub OAuth bearer for the `palette` audience or
+/// its product API key header. The runtime already enforces one exact
+/// [`palette_security::ApiScope`] before doing handler work; keeping that mapping
+/// in the canonical OpenAPI lets the organization SDK and caller-bound Workflows
+/// enforce the same authority before making a network request. Unknown operations
+/// deliberately fail generation instead of silently shipping without a scope.
+fn apply_auth_contract(doc: &mut utoipa::openapi::OpenApi) {
+    let components = doc.components.get_or_insert_default();
+    components.add_security_scheme(
+        "tempera_oauth",
+        SecurityScheme::OAuth2(OAuth2::with_description(
+            [Flow::AuthorizationCode(AuthorizationCode::new(
+                "https://api.tempera.dev/oauth/authorize",
+                "https://api.tempera.dev/oauth/token",
+                palette_oauth_scopes(),
+            ))],
+            "Auth Hub OAuth bearer token for the `palette` resource audience.",
+        )),
+    );
+    components.add_security_scheme(
+        "palette_api_key",
+        SecurityScheme::ApiKey(ApiKey::Header(ApiKeyValue::with_description(
+            "x-palette-api-key",
+            "Palette product API key scoped to one tenant, project, and environment.",
+        ))),
+    );
+
+    for item in doc.paths.paths.values_mut() {
+        for operation in [
+            item.get.as_mut(),
+            item.put.as_mut(),
+            item.post.as_mut(),
+            item.delete.as_mut(),
+            item.options.as_mut(),
+            item.head.as_mut(),
+            item.patch.as_mut(),
+            item.trace.as_mut(),
+        ]
+        .into_iter()
+        .flatten()
+        {
+            let operation_id = operation.operation_id.as_deref().unwrap_or("<missing>");
+            let extensions = operation.extensions.get_or_insert_with(Extensions::default);
+            if operation_id == "health.check" {
+                operation.security = Some(Vec::new());
+                extensions.insert(
+                    "x-tempera-auth-kind".to_string(),
+                    Value::String("none".into()),
+                );
+                extensions.insert("x-tempera-auth-audience".to_string(), Value::Null);
+                extensions.insert("x-tempera-required-scope".to_string(), Value::Null);
+                continue;
+            }
+
+            let Some(scope) = operation_required_scope(operation_id) else {
+                panic!("public Palette operation {operation_id:?} has no authorization scope");
+            };
+            operation.security = Some(vec![
+                SecurityRequirement::new("tempera_oauth", [scope]),
+                SecurityRequirement::new("palette_api_key", std::iter::empty::<String>()),
+            ]);
+            extensions.insert(
+                "x-tempera-auth-kind".to_string(),
+                Value::String("oauthResource".into()),
+            );
+            extensions.insert(
+                "x-tempera-auth-audience".to_string(),
+                Value::String("palette".into()),
+            );
+            extensions.insert(
+                "x-tempera-required-scope".to_string(),
+                Value::String(scope.into()),
+            );
+        }
+    }
+}
+
+fn palette_oauth_scopes() -> Scopes {
+    Scopes::from_iter([
+        ("admin", "Administer Palette product resources."),
+        ("dataset:read", "Read datasets and their versions."),
+        (
+            "dataset:write",
+            "Create and update datasets, prompts, and reviews.",
+        ),
+        (
+            "eval:run",
+            "Run evaluations, experiments, gates, and judge operations.",
+        ),
+        (
+            "pii:unmask",
+            "Unmask sensitive trace data with an audited reason.",
+        ),
+        ("scenario:read", "Read and mine replay scenarios."),
+        ("scenario:write", "Create replay scenarios."),
+        (
+            "trace:read",
+            "Read traces, spans, search results, and derived state.",
+        ),
+        ("trace:write", "Ingest traces and source data."),
+    ])
+}
+
+fn operation_required_scope(operation_id: &str) -> Option<&'static str> {
+    match operation_id {
+        "apiKeys.create"
+        | "apiKeys.revoke"
+        | "audit.list"
+        | "connectors.connect"
+        | "ingest.drainTraceIngested"
+        | "ingest.drainTraceWrites"
+        | "ingest.getQueueStatus"
+        | "ingest.reconcileTrace"
+        | "ingest.replayDeadLetter"
+        | "providerSecrets.create"
+        | "providerSecrets.list"
+        | "providerSecrets.revoke"
+        | "usage.getSummary" => Some("admin"),
+        "datasets.create"
+        | "datasets.createVersion"
+        | "datasets.promoteCaseFromTrace"
+        | "prompts.addVersion"
+        | "prompts.create"
+        | "reviews.createQueue"
+        | "reviews.enqueueTaskFromTrace"
+        | "reviews.listTasks"
+        | "reviews.promoteAnnotation"
+        | "reviews.submitAnnotation" => Some("dataset:write"),
+        "calibrations.run"
+        | "connectors.invokeTool"
+        | "evalResults.getTemperaEvidence"
+        | "evalResults.importTemperaBundle"
+        | "evalResults.recordTemperaDecision"
+        | "evals.runDeterministic"
+        | "evals.runJudge"
+        | "experiments.runDeterministic"
+        | "experiments.runJudge"
+        | "gates.create"
+        | "gates.run"
+        | "judge.evaluate"
+        | "judge.listLedger" => Some("eval:run"),
+        "scenarios.get" | "scenarios.list" | "scenarios.mine" => Some("scenario:read"),
+        "scenarios.create" => Some("scenario:write"),
+        "alerts.evaluate"
+        | "archive.archiveTrace"
+        | "archive.querySpans"
+        | "connect.getStatus"
+        | "connectors.getSkills"
+        | "connectors.list"
+        | "connectors.listTools"
+        | "connectors.status"
+        | "online.decideSampling"
+        | "prompts.diffVersions"
+        | "prompts.get"
+        | "prompts.list"
+        | "prompts.listVersions"
+        | "search.spans"
+        | "spans.get"
+        | "spans.getIo"
+        | "traces.get"
+        | "traces.list" => Some("trace:read"),
+        "ingest.importSource" | "ingest.native" | "ingest.otlp" | "ingest.otlpJsonCollector" => {
+            Some("trace:write")
+        }
+        _ => None,
     }
 }
 
@@ -230,7 +504,11 @@ pub fn operations(doc: &Value) -> Vec<SpecOperation<'_>> {
 
 #[cfg(test)]
 mod tests {
-    use super::{operations, urlencode};
+    use std::collections::BTreeSet;
+
+    use serde_json::json;
+
+    use super::{operation_required_scope, operations, urlencode};
 
     #[test]
     fn passes_unreserved_and_escapes_the_rest() {
@@ -257,6 +535,68 @@ mod tests {
         let unique = ids.len();
         ids.dedup();
         assert_eq!(ids.len(), unique, "duplicate operationId in spec");
+        Ok(())
+    }
+
+    #[test]
+    fn every_non_health_operation_declares_exact_resource_authority()
+    -> Result<(), serde_json::Error> {
+        let doc = serde_json::to_value(super::openapi())?;
+        let ops = operations(&doc);
+        assert_eq!(ops.len(), 63, "unexpected public operation count");
+
+        let oauth = &doc["components"]["securitySchemes"]["tempera_oauth"];
+        assert_eq!(oauth["type"], "oauth2");
+        let supported_scopes = oauth["flows"]["authorizationCode"]["scopes"]
+            .as_object()
+            .unwrap_or_else(|| panic!("tempera_oauth scopes are missing: {oauth}"));
+        assert_eq!(
+            supported_scopes
+                .keys()
+                .map(String::as_str)
+                .collect::<BTreeSet<_>>(),
+            BTreeSet::from([
+                "admin",
+                "dataset:read",
+                "dataset:write",
+                "eval:run",
+                "pii:unmask",
+                "scenario:read",
+                "scenario:write",
+                "trace:read",
+                "trace:write",
+            ])
+        );
+        let api_key = &doc["components"]["securitySchemes"]["palette_api_key"];
+        assert_eq!(api_key["type"], "apiKey");
+        assert_eq!(api_key["in"], "header");
+        assert_eq!(api_key["name"], "x-palette-api-key");
+
+        for op in ops {
+            if op.operation_id == "health.check" {
+                assert_eq!(op.operation["security"], json!([]));
+                assert_eq!(op.operation["x-tempera-auth-kind"], "none");
+                assert!(op.operation["x-tempera-auth-audience"].is_null());
+                assert!(op.operation["x-tempera-required-scope"].is_null());
+                continue;
+            }
+
+            let scope = operation_required_scope(op.operation_id)
+                .unwrap_or_else(|| panic!("{} has no required-scope mapping", op.operation_id));
+            assert!(supported_scopes.contains_key(scope));
+            assert_eq!(op.operation["x-tempera-auth-kind"], "oauthResource");
+            assert_eq!(op.operation["x-tempera-auth-audience"], "palette");
+            assert_eq!(op.operation["x-tempera-required-scope"], scope);
+            assert_eq!(
+                op.operation["security"],
+                json!([
+                    {"tempera_oauth": [scope]},
+                    {"palette_api_key": []},
+                ]),
+                "{} has the wrong security alternatives",
+                op.operation_id
+            );
+        }
         Ok(())
     }
 }

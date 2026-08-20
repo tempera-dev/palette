@@ -102,6 +102,17 @@ pub async fn evals_period_run_deterministic(configuration: &configuration::Confi
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.run_deterministic_eval_request);
 
     let req = req_builder.build()?;
@@ -139,6 +150,17 @@ pub async fn evals_period_run_judge(configuration: &configuration::Configuration
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.run_judge_dataset_eval_request);
 
     let req = req_builder.build()?;

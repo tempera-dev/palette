@@ -34,6 +34,14 @@ contract-sync gate compares both snapshots on every change.
   `ErrorResponse { error: { code, message, status, details } }` -> one typed
   error per SDK. Partial-success drain reports remain domain results and are
   returned with HTTP 200.
+- **Exact resource authority.** Every non-health operation declares
+  `x-tempera-auth-kind: oauthResource`, audience `palette`, and exactly one
+  `x-tempera-required-scope`, plus equivalent OpenAPI security alternatives for
+  a Palette OAuth bearer or `x-palette-api-key`. The OpenAPI generator owns the
+  operation-to-scope table and fails if a protected operation has no reviewed
+  mapping. `/health` is explicitly public. Organization SDK projection also
+  fails closed until every emitted scope is registered by Auth Hub; product
+  metadata cannot invent identity authority downstream.
 - **Typed everything.** No bare `object`/`any` responses; every response is a
   named schema. Discriminated unions use an internal `type` tag (e.g.
   `EvaluatorKind`) so they generate cleanly in strict languages.
@@ -73,6 +81,13 @@ without the complete contract fails the API-shape audit.
 
 Raw OTLP collection endpoints and MCP protocol pagination are protocol-native
 surfaces and are not rewritten by this HTTP API migration.
+
+Palette's seven direct generated clients still reproduce the complete OpenAPI
+surface. The organization aggregate SDK deliberately excludes the two raw OTLP
+collector operations until its shared transport can preserve protobuf bytes,
+compression, raw OTLP/JSON envelopes, and resource-derived routing; those
+exclusions are explicit, owner-bound, migration-documented, and review-dated in
+the aggregate SDK rather than silently dropping the operations.
 
 ### AIP-127 and AIP-193 migration boundary
 

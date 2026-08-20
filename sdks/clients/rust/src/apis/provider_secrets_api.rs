@@ -125,6 +125,17 @@ pub async fn provider_secrets_period_create(configuration: &configuration::Confi
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.create_provider_secret_http_request);
 
     let req = req_builder.build()?;
@@ -168,6 +179,17 @@ pub async fn provider_secrets_period_list(configuration: &configuration::Configu
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -204,6 +226,17 @@ pub async fn provider_secrets_period_revoke(configuration: &configuration::Confi
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

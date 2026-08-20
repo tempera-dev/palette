@@ -69,6 +69,17 @@ pub async fn calibrations_period_run(configuration: &configuration::Configuratio
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.run_calibration_http_request);
 
     let req = req_builder.build()?;

@@ -16,12 +16,15 @@ apiClient_t *apiClient_create() {
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
+    apiClient->apiKeys_palette_api_key = NULL;
+    apiClient->accessToken = NULL;
 
     return apiClient;
 }
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
+, list_t *apiKeys_palette_api_key
 ) {
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     if(basePath){
@@ -42,6 +45,18 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
+    if(apiKeys_palette_api_key!= NULL) {
+        apiClient->apiKeys_palette_api_key = list_createList();
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, apiKeys_palette_api_key) {
+            keyValuePair_t *pair = listEntry->data;
+            keyValuePair_t *pairDup = keyValuePair_create(strdup(pair->key), strdup(pair->value));
+            list_addElement(apiClient->apiKeys_palette_api_key, pairDup);
+        }
+    }else{
+        apiClient->apiKeys_palette_api_key = NULL;
+    }
+    apiClient->accessToken = NULL;
 
     return apiClient;
 }
@@ -53,6 +68,23 @@ void apiClient_free(apiClient_t *apiClient) {
     apiClient->data_callback_func = NULL;
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
+    if(apiClient->apiKeys_palette_api_key) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, apiClient->apiKeys_palette_api_key) {
+            keyValuePair_t *pair = listEntry->data;
+            if(pair->key){
+                free(pair->key);
+            }
+            if(pair->value){
+                free(pair->value);
+            }
+            keyValuePair_free(pair);
+        }
+        list_freeList(apiClient->apiKeys_palette_api_key);
+    }
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
     free(apiClient);
 }
 
@@ -360,6 +392,21 @@ void apiClient_invoke(apiClient_t    *apiClient,
             curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
         }
 
+        // this would only be generated for apiKey authentication
+        if (apiClient->apiKeys_palette_api_key != NULL)
+        {
+        list_ForEach(listEntry, apiClient->apiKeys_palette_api_key) {
+        keyValuePair_t *apiKey = listEntry->data;
+        if((apiKey->key != NULL) &&
+           (apiKey->value != NULL) )
+        {
+            char *headerValueToWrite = assembleHeaderField(
+                apiKey->key, apiKey->value);
+            curl_slist_append(headers, headerValueToWrite);
+            free(headerValueToWrite);
+        }
+        }
+        }
 
         char *targetUrl =
             assembleTargetUrl(apiClient->basePath,
@@ -376,6 +423,13 @@ void apiClient_invoke(apiClient_t    *apiClient,
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
 
+        // this would only be generated for OAuth2 authentication
+        if(apiClient->accessToken != NULL) {
+            // curl_easy_setopt(handle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
+            curl_easy_setopt(handle,
+                             CURLOPT_XOAUTH2_BEARER,
+                             apiClient->accessToken);
+        }
 
         if(bodyParameters != NULL) {
             postData(handle, bodyParameters, bodyParametersLength);

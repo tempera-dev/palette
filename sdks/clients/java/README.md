@@ -416,7 +416,33 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="palette_api_key"></a>
+### palette_api_key
+
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+<a id="tempera_oauth"></a>
+### tempera_oauth
+
+
+- **Type**: OAuth
+- **Flow**: accessCode
+- **Authorization URL**: https://api.tempera.dev/oauth/authorize
+- **Scopes**:
+  - admin: Administer Palette product resources.
+  - dataset:read: Read datasets and their versions.
+  - dataset:write: Create and update datasets, prompts, and reviews.
+  - eval:run: Run evaluations, experiments, gates, and judge operations.
+  - pii:unmask: Unmask sensitive trace data with an audited reason.
+  - scenario:read: Read and mine replay scenarios.
+  - scenario:write: Create replay scenarios.
+  - trace:read: Read traces, spans, search results, and derived state.
+  - trace:write: Ingest traces and source data.
 
 
 ## Recommendation

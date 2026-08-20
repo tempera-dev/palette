@@ -26,6 +26,7 @@ All URIs are relative to *http://localhost*
 import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -33,6 +34,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -76,7 +87,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -105,6 +116,7 @@ import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.ApiResponse;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -112,6 +124,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -157,7 +179,7 @@ ApiResponse<[**ProviderSecretMetadata**](ProviderSecretMetadata.md)>
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -186,6 +208,7 @@ No authorization required
 import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -193,6 +216,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -238,7 +271,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -267,6 +300,7 @@ import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.ApiResponse;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -274,6 +308,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -321,7 +365,7 @@ ApiResponse<[**ProviderSecretListResponse**](ProviderSecretListResponse.md)>
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -350,6 +394,7 @@ No authorization required
 import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -357,6 +402,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -400,7 +455,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -430,6 +485,7 @@ import ai.palette.client.ApiClient;
 import ai.palette.client.ApiException;
 import ai.palette.client.ApiResponse;
 import ai.palette.client.Configuration;
+import ai.palette.client.auth.*;
 import ai.palette.client.models.*;
 import ai.palette.client.api.ProviderSecretsApi;
 
@@ -437,6 +493,16 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
+
+        // Configure OAuth2 access token for authorization: tempera_oauth
+        OAuth tempera_oauth = (OAuth) defaultClient.getAuthentication("tempera_oauth");
+        tempera_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        // Configure API key authorization: palette_api_key
+        ApiKeyAuth palette_api_key = (ApiKeyAuth) defaultClient.getAuthentication("palette_api_key");
+        palette_api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //palette_api_key.setApiKeyPrefix("Token");
 
         ProviderSecretsApi apiInstance = new ProviderSecretsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
@@ -482,7 +548,7 @@ ApiResponse<[**RevokedProviderSecret**](RevokedProviderSecret.md)>
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 

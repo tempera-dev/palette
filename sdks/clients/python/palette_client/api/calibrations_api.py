@@ -422,6 +422,8 @@ class CalibrationsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -438,5 +440,3 @@ class CalibrationsApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

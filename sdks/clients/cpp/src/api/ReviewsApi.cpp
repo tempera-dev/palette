@@ -140,6 +140,16 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createQueue(utility
         throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_createQueue does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -304,6 +314,16 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueTaskFromTrace
         throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_enqueueTaskFromTrace does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -457,6 +477,16 @@ pplx::task<std::shared_ptr<ReviewTaskListResponse>> ReviewsApi::reviews_listTask
         throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_listTasks does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -623,6 +653,16 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteAnnotation(u
         throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_promoteAnnotation does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -788,6 +828,16 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitAnnotati
         throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_submitAnnotation does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)

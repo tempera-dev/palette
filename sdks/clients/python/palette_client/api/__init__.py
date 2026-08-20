@@ -25,4 +25,3 @@ from palette_client.api.search_api import SearchApi
 from palette_client.api.spans_api import SpansApi
 from palette_client.api.traces_api import TracesApi
 from palette_client.api.usage_api import UsageApi
-

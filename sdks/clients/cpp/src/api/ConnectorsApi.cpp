@@ -140,6 +140,16 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connect(ut
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_connect does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -283,6 +293,16 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_getSkills does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -446,6 +466,16 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeTool(
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_invokeTool does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -594,6 +624,16 @@ pplx::task<std::shared_ptr<ConnectorListResponse>> ConnectorsApi::connectors_lis
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_list does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -745,6 +785,16 @@ pplx::task<std::shared_ptr<ConnectorToolListResponse>> ConnectorsApi::connectors
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_listTools does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -888,6 +938,16 @@ pplx::task<std::shared_ptr<ConnectionStatus>> ConnectorsApi::connectors_status(u
         throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_status does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
