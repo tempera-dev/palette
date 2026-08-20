@@ -392,6 +392,8 @@ class ScenariosApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -751,6 +753,8 @@ class ScenariosApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -1095,13 +1099,13 @@ class ScenariosApi:
             _path_params['projectId'] = project_id
         # process the query parameters
         if page_size is not None:
-            
+
             _query_params.append(('pageSize', page_size))
-            
+
         if page_token is not None:
-            
+
             _query_params.append(('pageToken', page_token))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1126,6 +1130,8 @@ class ScenariosApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -1498,6 +1504,8 @@ class ScenariosApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -1514,5 +1522,3 @@ class ScenariosApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 

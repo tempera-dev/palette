@@ -140,6 +140,16 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_create(utility::st
         throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_create does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -281,6 +291,16 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_get(utility::strin
         throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_get does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -429,6 +449,16 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_list(
         throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_list does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)
@@ -592,6 +622,16 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mine(
         throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_mine does not consume any supported media type"));
     }
 
+    // authentication (tempera_oauth) required
+    // oauth2 authentication is added automatically as part of the http_client_config
+    // authentication (palette_api_key) required
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("x-palette-api-key"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = localVarApiKey;
+        }
+    }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=, this](web::http::http_response localVarResponse)

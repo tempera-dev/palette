@@ -382,13 +382,13 @@ class SpansApi:
             _path_params['spanId'] = span_id
         # process the query parameters
         if unmask is not None:
-            
+
             _query_params.append(('unmask', unmask))
-            
+
         if reason is not None:
-            
+
             _query_params.append(('reason', reason))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -413,6 +413,8 @@ class SpansApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -775,13 +777,13 @@ class SpansApi:
             _path_params['spanId'] = span_id
         # process the query parameters
         if unmask is not None:
-            
+
             _query_params.append(('unmask', unmask))
-            
+
         if reason is not None:
-            
+
             _query_params.append(('reason', reason))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -806,6 +808,8 @@ class SpansApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'tempera_oauth',
+            'palette_api_key'
         ]
 
         return self.api_client.param_serialize(
@@ -822,5 +826,3 @@ class SpansApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

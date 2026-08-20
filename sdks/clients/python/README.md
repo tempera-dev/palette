@@ -61,6 +61,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 
 # Enter a context with an instance of the API client
@@ -330,7 +342,31 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="palette_api_key"></a>
+### palette_api_key
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+<a id="tempera_oauth"></a>
+### tempera_oauth
+
+- **Type**: OAuth
+- **Flow**: accessCode
+- **Authorization URL**: https://api.tempera.dev/oauth/authorize
+- **Scopes**:
+ - **admin**: Administer Palette product resources.
+ - **dataset:read**: Read datasets and their versions.
+ - **dataset:write**: Create and update datasets, prompts, and reviews.
+ - **eval:run**: Run evaluations, experiments, gates, and judge operations.
+ - **pii:unmask**: Unmask sensitive trace data with an audited reason.
+ - **scenario:read**: Read and mine replay scenarios.
+ - **scenario:write**: Create replay scenarios.
+ - **trace:read**: Read traces, spans, search results, and derived state.
+ - **trace:write**: Ingest traces and source data.
 
 
 ## Author

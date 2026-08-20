@@ -217,6 +217,13 @@ for lang in "${LANGS[@]}"; do
         src/test/java/ai/palette/client/api/IngestApiTest.java
       ;;
     python)
+      # OpenAPI Generator emits a trailing space in the auth-settings tuple for
+      # every operation that declares OAuth security. All generated Python API
+      # modules are touched by this contract, so normalize that exact generated
+      # tree instead of hand-editing the clients after regeneration.
+      while IFS= read -r -d '' file; do
+        perl -0pi -e 's/[ \t]+$//mg; s/\n+\z/\n/' "$file"
+      done < <(find "$out/palette_client/api" -type f -name '*.py' -print0)
       normalize_generated_text_files "$out" \
         README.md \
         palette_client/api/ingest_api.py \

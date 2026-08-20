@@ -19,6 +19,8 @@ Method | HTTP request | Description
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -33,6 +35,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -75,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -101,6 +115,8 @@ No authorization required
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -114,6 +130,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -156,7 +184,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -182,6 +210,8 @@ No authorization required
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -196,6 +226,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -238,7 +280,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -264,6 +306,8 @@ No authorization required
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -277,6 +321,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -321,7 +377,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -347,6 +403,8 @@ No authorization required
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -360,6 +418,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -406,7 +476,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 
@@ -432,6 +502,8 @@ No authorization required
 
 ### Example
 
+* OAuth Authentication (tempera_oauth):
+* Api Key Authentication (palette_api_key):
 
 ```python
 import palette_client
@@ -445,6 +517,18 @@ configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Configure API key authorization: palette_api_key
+configuration.api_key['palette_api_key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['palette_api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with palette_client.ApiClient(configuration) as api_client:
@@ -487,7 +571,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[tempera_oauth](../README.md#tempera_oauth), [palette_api_key](../README.md#palette_api_key)
 
 ### HTTP request headers
 

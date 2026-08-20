@@ -27,7 +27,11 @@
               }
             }
           }
-        }
+        },
+        "security": [],
+        "x-tempera-auth-kind": "none",
+        "x-tempera-auth-audience": null,
+        "x-tempera-required-scope": null
       }
     },
     "/v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook": {
@@ -164,7 +168,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/api-keys/{tenantId}/{projectId}/{environmentId}": {
@@ -301,7 +318,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke": {
@@ -447,7 +477,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/archive/{tenantId}/{projectId}/spans": {
@@ -623,7 +666,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/archive/{tenantId}/{projectId}/{traceId}": {
@@ -760,7 +816,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/audit/{tenantId}/{projectId}": {
@@ -898,7 +967,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}": {
@@ -1054,7 +1136,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/connect/status/{tenantId}/{projectId}": {
@@ -1172,7 +1267,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}": {
@@ -1320,7 +1428,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}/connect": {
@@ -1458,7 +1579,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}/invoke": {
@@ -1596,7 +1730,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}/skills": {
@@ -1733,7 +1880,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}/status": {
@@ -1870,7 +2030,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/connectors/{tenantId}/{projectId}/tools": {
@@ -2027,7 +2200,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/datasets/{tenantId}/{projectId}": {
@@ -2155,7 +2341,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace": {
@@ -2302,7 +2501,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions": {
@@ -2449,7 +2661,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic": {
@@ -2605,7 +2830,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge": {
@@ -2761,7 +2999,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/eval-results/{tenantId}/{projectId}/tempera/bundles": {
@@ -2929,7 +3180,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/eval-results/{tenantId}/{projectId}/tempera/decisions": {
@@ -3097,7 +3361,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}": {
@@ -3243,7 +3520,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic": {
@@ -3399,7 +3689,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge": {
@@ -3555,7 +3858,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/gates/{tenantId}/{projectId}": {
@@ -3683,7 +3999,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/gates/{tenantId}/{projectId}/{gateId}/run": {
@@ -3830,7 +4159,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/import/{tenantId}/{projectId}/{environmentId}": {
@@ -3971,7 +4313,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:write"
       }
     },
     "/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay": {
@@ -4116,7 +4471,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/ingest/{tenantId}/{projectId}/queue": {
@@ -4234,7 +4602,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain": {
@@ -4361,7 +4742,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/ingest/{tenantId}/{projectId}/trace-writes/drain": {
@@ -4488,7 +4882,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile": {
@@ -4625,7 +5032,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/judge/{tenantId}/{projectId}/evaluate": {
@@ -4753,7 +5173,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/judge/{tenantId}/{projectId}/ledger": {
@@ -4891,7 +5324,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "eval:run"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "eval:run"
       }
     },
     "/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling": {
@@ -5028,7 +5474,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces": {
@@ -5183,7 +5642,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:write"
       }
     },
     "/v1/prompts/{tenantId}/{projectId}": {
@@ -5321,7 +5793,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       },
       "post": {
         "tags": [
@@ -5447,7 +5932,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/prompts/{tenantId}/{projectId}/{promptId}": {
@@ -5584,7 +6082,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/prompts/{tenantId}/{projectId}/{promptId}/diff": {
@@ -5737,7 +6248,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/prompts/{tenantId}/{projectId}/{promptId}/versions": {
@@ -5894,7 +6418,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       },
       "post": {
         "tags": [
@@ -6039,7 +6576,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/provider-secrets/{tenantId}/{projectId}": {
@@ -6177,7 +6727,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       },
       "post": {
         "tags": [
@@ -6303,7 +6866,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke": {
@@ -6440,7 +7016,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     },
     "/v1/review-queues/{tenantId}/{projectId}": {
@@ -6568,7 +7157,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks": {
@@ -6733,7 +7335,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace": {
@@ -6880,7 +7495,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations": {
@@ -7036,7 +7664,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote": {
@@ -7201,7 +7842,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "dataset:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "dataset:write"
       }
     },
     "/v1/scenarios/{tenantId}/{projectId}": {
@@ -7339,7 +7993,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "scenario:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "scenario:read"
       },
       "post": {
         "tags": [
@@ -7465,7 +8132,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "scenario:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "scenario:write"
       }
     },
     "/v1/scenarios/{tenantId}/{projectId}/mine": {
@@ -7603,7 +8283,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "scenario:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "scenario:read"
       }
     },
     "/v1/scenarios/{tenantId}/{projectId}/{scenarioId}": {
@@ -7740,7 +8433,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "scenario:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "scenario:read"
       }
     },
     "/v1/search/{tenantId}/spans": {
@@ -7939,7 +8645,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/spans/{tenantId}/{traceId}/{spanId}": {
@@ -8092,7 +8811,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/spans/{tenantId}/{traceId}/{spanId}/io": {
@@ -8245,7 +8977,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/traces": {
@@ -8385,7 +9130,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:write"
       }
     },
     "/v1/traces/native": {
@@ -8523,7 +9281,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:write"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:write"
       }
     },
     "/v1/traces/{tenantId}": {
@@ -8758,7 +9529,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/traces/{tenantId}/{traceId}": {
@@ -8902,7 +9686,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "trace:read"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "trace:read"
       }
     },
     "/v1/usage/{tenantId}/{projectId}": {
@@ -9020,7 +9817,20 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "tempera_oauth": [
+              "admin"
+            ]
+          },
+          {
+            "palette_api_key": []
+          }
+        ],
+        "x-tempera-auth-kind": "oauthResource",
+        "x-tempera-auth-audience": "palette",
+        "x-tempera-required-scope": "admin"
       }
     }
   },
@@ -14249,6 +15059,35 @@
             "minimum": 0
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "palette_api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-palette-api-key",
+        "description": "Palette product API key scoped to one tenant, project, and environment."
+      },
+      "tempera_oauth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://api.tempera.dev/oauth/authorize",
+            "tokenUrl": "https://api.tempera.dev/oauth/token",
+            "scopes": {
+              "admin": "Administer Palette product resources.",
+              "dataset:read": "Read datasets and their versions.",
+              "dataset:write": "Create and update datasets, prompts, and reviews.",
+              "eval:run": "Run evaluations, experiments, gates, and judge operations.",
+              "pii:unmask": "Unmask sensitive trace data with an audited reason.",
+              "scenario:read": "Read and mine replay scenarios.",
+              "scenario:write": "Create replay scenarios.",
+              "trace:read": "Read traces, spans, search results, and derived state.",
+              "trace:write": "Ingest traces and source data."
+            }
+          }
+        },
+        "description": "Auth Hub OAuth bearer token for the `palette` resource audience."
       }
     }
   },

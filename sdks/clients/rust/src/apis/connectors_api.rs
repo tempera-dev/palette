@@ -220,6 +220,17 @@ pub async fn connectors_period_connect(configuration: &configuration::Configurat
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.connect_connector_request);
 
     let req = req_builder.build()?;
@@ -258,6 +269,17 @@ pub async fn connectors_period_get_skills(configuration: &configuration::Configu
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -294,6 +316,17 @@ pub async fn connectors_period_invoke_tool(configuration: &configuration::Config
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
     req_builder = req_builder.json(&params.invoke_connector_request);
 
     let req = req_builder.build()?;
@@ -337,6 +370,17 @@ pub async fn connectors_period_list(configuration: &configuration::Configuration
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -380,6 +424,17 @@ pub async fn connectors_period_list_tools(configuration: &configuration::Configu
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -417,6 +472,17 @@ pub async fn connectors_period_status(configuration: &configuration::Configurati
     if let Some(param_value) = params.x_palette_environment_id {
         req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    if let Some(ref apikey) = configuration.api_key {
+        let key = apikey.key.clone();
+        let value = match apikey.prefix {
+            Some(ref prefix) => format!("{} {}", prefix, key),
+            None => key,
+        };
+        req_builder = req_builder.header("x-palette-api-key", value);
+    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

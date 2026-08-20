@@ -76,6 +76,15 @@ export class UsageApi extends runtime.BaseAPI {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["admin"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
+        }
+
         const response = await this.request({
             path: `/v1/usage/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',

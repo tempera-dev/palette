@@ -170,6 +170,15 @@ export class PromptsApi extends runtime.BaseAPI {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["dataset:write"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
+        }
+
         const response = await this.request({
             path: `/v1/prompts/{tenantId}/{projectId}/{promptId}/versions`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'POST',
@@ -232,6 +241,15 @@ export class PromptsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["dataset:write"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({
@@ -318,6 +336,15 @@ export class PromptsApi extends runtime.BaseAPI {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
+        }
+
         const response = await this.request({
             path: `/v1/prompts/{tenantId}/{projectId}/{promptId}/diff`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"promptId"}}`, encodeURIComponent(String(requestParameters['promptId']))),
             method: 'GET',
@@ -377,6 +404,15 @@ export class PromptsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({
@@ -439,6 +475,15 @@ export class PromptsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({
@@ -508,6 +553,15 @@ export class PromptsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({

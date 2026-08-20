@@ -16,6 +16,7 @@ Install the following dependencies:
 
 ```sh
 go get github.com/stretchr/testify/assert
+go get golang.org/x/oauth2
 go get golang.org/x/net/context
 ```
 
@@ -316,7 +317,64 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### palette_api_key
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: palette_api_key and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		paletteclient.ContextAPIKeys,
+		map[string]paletteclient.APIKey{
+			"palette_api_key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### tempera_oauth
+
+
+- **Type**: OAuth
+- **Flow**: accessCode
+- **Authorization URL**: https://api.tempera.dev/oauth/authorize
+- **Scopes**:
+ - **admin**: Administer Palette product resources.
+ - **dataset:read**: Read datasets and their versions.
+ - **dataset:write**: Create and update datasets, prompts, and reviews.
+ - **eval:run**: Run evaluations, experiments, gates, and judge operations.
+ - **pii:unmask**: Unmask sensitive trace data with an audited reason.
+ - **scenario:read**: Read and mine replay scenarios.
+ - **scenario:write**: Create replay scenarios.
+ - **trace:read**: Read traces, spans, search results, and derived state.
+ - **trace:write**: Ingest traces and source data.
+
+Example
+
+```go
+auth := context.WithValue(context.Background(), paletteclient.ContextAccessToken, "ACCESSTOKENSTRING")
+r, err := client.Service.Operation(auth, args)
+```
+
+Or via OAuth2 module to automatically refresh tokens and perform user authentication.
+
+```go
+import "golang.org/x/oauth2"
+
+/* Perform OAuth2 round trip request and obtain a token */
+
+tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
+auth := context.WithValue(oauth2.NoContext, paletteclient.ContextOAuth2, tokenSource)
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

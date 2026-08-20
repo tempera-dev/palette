@@ -109,6 +109,15 @@ export class SpansApi extends runtime.BaseAPI {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
+        }
+
         const response = await this.request({
             path: `/v1/spans/{tenantId}/{traceId}/{spanId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))).replace(`{${"spanId"}}`, encodeURIComponent(String(requestParameters['spanId']))),
             method: 'GET',
@@ -176,6 +185,15 @@ export class SpansApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["trace:read"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({

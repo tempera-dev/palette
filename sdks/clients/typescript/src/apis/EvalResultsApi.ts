@@ -115,6 +115,15 @@ export class EvalResultsApi extends runtime.BaseAPI {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["eval:run"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
+        }
+
         const response = await this.request({
             path: `/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"kind"}}`, encodeURIComponent(String(requestParameters['kind']))).replace(`{${"externalId"}}`, encodeURIComponent(String(requestParameters['externalId']))),
             method: 'GET',
@@ -176,6 +185,15 @@ export class EvalResultsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["eval:run"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({
@@ -240,6 +258,15 @@ export class EvalResultsApi extends runtime.BaseAPI {
 
         if (requestParameters['xPaletteEnvironmentId'] != null) {
             headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("tempera_oauth", ["eval:run"]);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-palette-api-key"] = await this.configuration.apiKey("x-palette-api-key"); // palette_api_key authentication
         }
 
         const response = await this.request({
