@@ -1,0 +1,37 @@
+diff -ruN pristine-python/pyproject.toml patched-python/pyproject.toml
+--- pristine-python/pyproject.toml
++++ patched-python/pyproject.toml
+@@ -13 +13 @@
+-python = "^3.8"
++python = ">= 3.10, < 4.0"
+@@ -15 +15 @@
+-urllib3 = ">= 1.25.3, < 3.0.0"
++urllib3 = ">= 2.7.0, < 3.0.0"
+@@ -20 +20 @@
+-pytest = ">= 7.2.1"
++pytest = ">= 9.0.3"
+@@ -21,0 +22 @@
++filelock = ">= 3.20.3"
+diff -ruN pristine-python/requirements.txt patched-python/requirements.txt
+--- pristine-python/requirements.txt
++++ patched-python/requirements.txt
+@@ -1 +1 @@
+-urllib3 >= 1.25.3, < 3.0.0
++urllib3 >= 2.7.0, < 3.0.0
+diff -ruN pristine-python/setup.py patched-python/setup.py
+--- pristine-python/setup.py
++++ patched-python/setup.py
+@@ -25 +25 @@
+-PYTHON_REQUIRES = ">= 3.8"
++PYTHON_REQUIRES = ">= 3.10"
+@@ -27 +27 @@
+-    "urllib3 >= 1.25.3, < 3.0.0",
++    "urllib3 >= 2.7.0, < 3.0.0",
+diff -ruN pristine-python/test-requirements.txt patched-python/test-requirements.txt
+--- pristine-python/test-requirements.txt
++++ patched-python/test-requirements.txt
+@@ -1 +1 @@
+-pytest >= 7.2.1
++pytest >= 9.0.3
+@@ -2,0 +3 @@
++filelock >= 3.20.3

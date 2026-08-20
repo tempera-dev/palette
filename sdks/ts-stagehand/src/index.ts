@@ -53,14 +53,14 @@ async function bootstrapTracer(opts: InstrumentOptions): Promise<Tracer> {
   const { OTLPTraceExporter } = await import(
     "@opentelemetry/exporter-trace-otlp-grpc"
   );
-  const { Resource } = await import("@opentelemetry/resources");
+  const { resourceFromAttributes } = await import("@opentelemetry/resources");
   const { SemanticResourceAttributes } = await import(
     "@opentelemetry/semantic-conventions"
   );
   const { trace } = await import("@opentelemetry/api");
 
   const sdk = new NodeSDK({
-    resource: new Resource({
+    resource: resourceFromAttributes({
       [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
     }),
     traceExporter: new OTLPTraceExporter({ url: endpoint }),

@@ -1,0 +1,103 @@
+name: security-audit
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/security-audit.yml"
+      - "Cargo.lock"
+      - "Cargo.toml"
+      - "scripts/check-rust-security-advisories.py"
+      - "sdks/clients/java/pom.xml"
+      - "sdks/clients/python/**"
+      - "sdks/go/**"
+      - "sdks/ts-stagehand/**"
+      - "sdks/typescript/**"
+      - "web/dashboard/**"
+  merge_group:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    name: Rust advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Rust and cargo-audit
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          cargo install cargo-audit --version 0.22.2 --locked
+      - name: Audit Rust dependency graph and exact exception reachability
+        run: python3 scripts/check-rust-security-advisories.py
+
+  javascript:
+    name: JavaScript advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Audit all committed npm lockfiles
+        run: |
+          npm --prefix web/dashboard audit --audit-level=low
+          npm --prefix sdks/ts-stagehand audit --audit-level=low
+          npm --prefix sdks/typescript audit --audit-level=low
+
+  python:
+    name: Python advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Audit generated Python client requirements
+        run: |
+          python -m pip install pip-audit==2.10.1
+          pip-audit --strict --progress-spinner off \
+            --requirement sdks/clients/python/requirements.txt \
+            --requirement sdks/clients/python/test-requirements.txt
+
+  go:
+    name: Go advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.6"
+          cache-dependency-path: sdks/go/go.sum
+      - name: Audit reachable native Go SDK paths
+        working-directory: sdks/go
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.1.4 -show verbose ./...
+
+  java:
+    name: Java advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.6"
+      - name: Audit the generated Maven dependency graph
+        run: >-
+          go run github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.3.8
+          scan source --verbosity=error
+          --lockfile sdks/clients/java/pom.xml

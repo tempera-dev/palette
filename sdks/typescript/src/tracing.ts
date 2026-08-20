@@ -2,7 +2,7 @@
 
 import { trace, Tracer } from "@opentelemetry/api";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { BatchSpanProcessor, NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { SpanExporter } from "@opentelemetry/sdk-trace-base";
 
@@ -32,7 +32,7 @@ export function init(options: PaletteOptions & { exporter?: SpanExporter } = {})
     // compression: "none" — paletted's OTLP endpoint expects uncompressed protobuf.
     new OTLPTraceExporter({ url: otlpHttpTracesUrl(config), headers, compression: "none" as never });
   const provider = new NodeTracerProvider({
-    resource: new Resource({ "service.name": config.serviceName }),
+    resource: resourceFromAttributes({ "service.name": config.serviceName }),
     spanProcessors: [new BatchSpanProcessor(exporter)],
   });
   provider.register();
