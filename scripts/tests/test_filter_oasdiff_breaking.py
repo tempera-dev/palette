@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
+import tempfile
 from pathlib import Path
 
 
@@ -179,10 +181,44 @@ def test_aip127_allowance_disables_when_contract_digest_changes() -> None:
         FILTER.aip127_migration_active.cache_clear()
 
 
+def filter_exit(text: str) -> int:
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as log:
+        log.write(text)
+        log.flush()
+        original = sys.argv
+        try:
+            sys.argv = [str(SCRIPT), log.name]
+            return FILTER.main()
+        finally:
+            sys.argv = original
+
+
+def test_non_diagnostic_oasdiff_failure_fails_closed() -> None:
+    assert filter_exit("") == 2
+    assert filter_exit("docker: daemon unavailable\n") == 2
+
+
+def test_only_recognized_allowed_diagnostic_passes() -> None:
+    assert filter_exit(block(
+        "response-property-type-changed", "POST /v1/traces/native",
+        "the `error` response's property `type` changed from `string` to `object` for status `429`",
+    )) == 0
+
+
+def test_unexpected_diagnostic_fails() -> None:
+    assert filter_exit(block(
+        "new-required-request-property", "POST /v1/traces/native",
+        "added the new required request property `unrelated`",
+    )) == 1
+
+
 if __name__ == "__main__":
     test_error_blocks_splits_oasdiff_output()
     test_allows_only_reviewed_aip193_error_envelope_changes()
     test_allows_only_reviewed_aip158_wrapper_changes()
     test_allows_only_digest_pinned_aip127_alignment_shapes()
     test_aip127_allowance_disables_when_contract_digest_changes()
+    test_non_diagnostic_oasdiff_failure_fails_closed()
+    test_only_recognized_allowed_diagnostic_passes()
+    test_unexpected_diagnostic_fails()
     print("filter-oasdiff-breaking tests passed")

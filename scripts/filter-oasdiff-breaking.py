@@ -33,7 +33,7 @@ AIP158_ARRAY_WRAPPER_OPERATIONS = {
 # snapshot. Any later contract edit changes the digest and disables every
 # AIP-127 allowance below.
 AIP127_MIGRATION_SPEC_SHA256 = (
-    "136074a04219ea2bb96a70674afdbad4eec142c971f7c100ae0ab9db212fc5b7"
+    "2d71fbbf94e31d38386a08f6dcde201d9b8f046cf0d4a9624da9c7a2a4b2aa46"
 )
 AIP127_EVALUATOR_KIND_OPERATIONS = {
     "POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic",
@@ -167,6 +167,12 @@ def main() -> int:
         return 2
     text = Path(sys.argv[1]).read_text(encoding="utf-8")
     blocks = error_blocks(text)
+    if not blocks:
+        print(
+            "oasdiff exited nonzero without recognized breaking-change diagnostics",
+            file=sys.stderr,
+        )
+        return 2
     unexpected = [block for block in blocks if not is_allowed_alignment_break(block)]
     if unexpected:
         print("Unexpected OpenAPI breaking changes:", file=sys.stderr)
@@ -174,10 +180,7 @@ def main() -> int:
             print(block, file=sys.stderr)
             print(file=sys.stderr)
         return 1
-    if blocks:
-        print(f"Allowed {len(blocks)} intentional pre-1.0 contract alignment breaks.")
-    else:
-        print("No OpenAPI breaking changes detected.")
+    print(f"Allowed {len(blocks)} intentional pre-1.0 contract alignment breaks.")
     return 0
 
 
