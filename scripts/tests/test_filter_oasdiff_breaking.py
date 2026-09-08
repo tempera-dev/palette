@@ -258,6 +258,8 @@ def test_canonical_error_migration_requires_exact_pair_and_exact_shapes() -> Non
             FILTER.CANONICAL_ERROR_MIGRATION_TARGET_SHA256 = FILTER.sha256(target_path)
             pairs = FILTER.reviewed_canonical_error_pairs(base_path, target_path)
             assert pairs == {("GET /v1/reviewed", "400")}
+            health = block("api-path-removed-without-deprecation", "GET /health", "api path removed without deprecation")
+            assert filter_exit(health, base_path, target_path) == 0
             allowed = block("response-property-became-optional", "GET /v1/reviewed", "the response property `error/details` became optional for the status `400`")
             assert FILTER.is_allowed_alignment_break(allowed, pairs)
             assert not FILTER.is_allowed_alignment_break(block("response-property-became-optional", "GET /v1/unreviewed", "the response property `error/details` became optional for the status `400`"), pairs)
@@ -265,13 +267,16 @@ def test_canonical_error_migration_requires_exact_pair_and_exact_shapes() -> Non
             assert not FILTER.is_allowed_alignment_break(block("response-property-became-optional", "GET /v1/reviewed", "the response property `error/other` became optional for the status `400`"), pairs)
             assert not FILTER.is_allowed_alignment_break(block("response-property-enum-value-added", "GET /v1/reviewed", "added the new `UNREVIEWED` enum value to the `error/status` response property for the response status `400`"), pairs)
             assert not FILTER.is_allowed_alignment_break(block("new-required-request-property", "GET /v1/reviewed", "added the new required request property `unrelated`"), pairs)
-            assert FILTER.is_allowed_alignment_break(block("api-path-removed-without-deprecation", "GET /health", "api path removed without deprecation"), pairs)
+            assert FILTER.is_allowed_alignment_break(health, pairs)
             assert not FILTER.is_allowed_alignment_break(block("api-path-removed-without-deprecation", "GET /unrelated", "api path removed without deprecation"), pairs)
             base_path.write_text("{}", encoding="utf-8")
-            assert not FILTER.reviewed_canonical_error_pairs(base_path, target_path)
+            assert FILTER.reviewed_canonical_error_pairs(base_path, target_path) is None
+            assert filter_exit(health, base_path, target_path) == 1
             base_path.write_text(__import__("json").dumps(base), encoding="utf-8")
             target_path.write_text("{}", encoding="utf-8")
-            assert not FILTER.reviewed_canonical_error_pairs(base_path, target_path)
+            assert FILTER.reviewed_canonical_error_pairs(base_path, target_path) is None
+            assert filter_exit(health, base_path, target_path) == 1
+            assert filter_exit(health, Path(directory) / "missing.json", target_path) == 1
         finally:
             FILTER.CANONICAL_ERROR_MIGRATION_BASE_SHA256 = old_base
             FILTER.CANONICAL_ERROR_MIGRATION_TARGET_SHA256 = old_target

@@ -76,7 +76,10 @@ jobs:
             /specs/base-spec.json /specs/new-spec.json --fail-on ERR | tee /tmp/oasdiff-breaking.txt
           status=${PIPESTATUS[0]}
           set -e
-          if [ "$status" -ne 0 ]; then
+          if [ "$status" -eq 1 ]; then
             python3 scripts/filter-oasdiff-breaking.py \
               /tmp/oasdiff-breaking.txt /tmp/base-spec.json /tmp/new-spec.json
+          elif [ "$status" -ne 0 ]; then
+            echo "ERROR: oasdiff failed with unexpected exit status ${status}" >&2
+            exit "$status"
           fi

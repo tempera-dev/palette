@@ -97,18 +97,18 @@ def has_ref(value: object, ref: str) -> bool:
     return ref in json.dumps(value, sort_keys=True, separators=(",", ":"))
 
 
-def reviewed_canonical_error_pairs(base_spec: Path, new_spec: Path) -> set[tuple[str, str]]:
-    """Return only reviewed error response operation/status pairs, or none."""
+def reviewed_canonical_error_pairs(base_spec: Path, new_spec: Path) -> set[tuple[str, str]] | None:
+    """Return reviewed error response pairs only for the exact snapshot pair."""
     try:
         if (
             sha256(base_spec) != CANONICAL_ERROR_MIGRATION_BASE_SHA256
             or sha256(new_spec) != CANONICAL_ERROR_MIGRATION_TARGET_SHA256
         ):
-            return set()
+            return None
         base = json.loads(base_spec.read_text(encoding="utf-8"))
         new = json.loads(new_spec.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
-        return set()
+        return None
 
     pairs: set[tuple[str, str]] = set()
     for path, base_item in base.get("paths", {}).items():
@@ -125,7 +125,7 @@ def reviewed_canonical_error_pairs(base_spec: Path, new_spec: Path) -> set[tuple
                     and has_ref(new_response, "#/components/responses/Error")
                 ):
                     pairs.add((f"{method.upper()} {path}", str(status)))
-    return pairs
+    return pairs or None
 
 
 def error_blocks(text: str) -> list[str]:
@@ -191,8 +191,10 @@ def is_aip127_alignment_break(block: str, operation: str | None) -> bool:
 
 
 def is_canonical_error_migration_break(
-    block: str, pairs: set[tuple[str, str]],
+    block: str, pairs: set[tuple[str, str]] | None,
 ) -> bool:
+    if not pairs:
+        return False
     operation = api_operation(block)
     if operation == "GET /health" and "[api-path-removed-without-deprecation]" in block:
         return has_exact_detail(block, re.compile(r"api path removed without deprecation"))
@@ -200,14 +202,14 @@ def is_canonical_error_migration_break(
         return False
 
     optional = re.compile(
-        r"the response property `error/details` became optional for the status `([1-5]\d\d)`"
+        r"the response property `error/details` became optional for the status `([45]\d\d)`"
     )
     code_format = re.compile(
-        r"the `error/code` response's property `format` changed from `int32` to `none` for status `([1-5]\d\d)`"
+        r"the `error/code` response's property `format` changed from `int32` to `none` for status `([45]\d\d)`"
     )
     enum_added = re.compile(
         r"added the new `([A-Z_]+)` enum value to the `error/status` response property "
-        r"for the response status `([1-5]\d\d)`"
+        r"for the response status `([45]\d\d)`"
     )
     for line in block.splitlines():
         detail = line.strip()
