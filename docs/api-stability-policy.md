@@ -35,6 +35,18 @@ migrations; it is not a general bypass for breaking changes. The AIP-127
 exception is additionally pinned to the SHA-256 digest of the reviewed
 migration spec, so any subsequent contract edit disables that exception.
 
+The canonical-contract migration has one separate, snapshot-paired exception:
+the reviewed legacy `ErrorResponse`/`ErrorStatus` snapshot may move to the
+canonical shared `Status` response only when **both** the old and new OpenAPI
+files match their reviewed SHA-256 digests. It permits only the observed
+`error/details`, `error/code`, and sixteen canonical `error/status` enum
+diagnostics on response operation/status pairs derived from those snapshots,
+plus removal of `GET /health` as `/healthz` becomes the canonical health path.
+It does not permit request, success-response, business-schema, or arbitrary
+error changes. External `/health` callers must migrate to `/healthz`; no
+runtime alias is retained. Any change to either snapshot disables this
+exception and must pass ordinary compatibility review.
+
 ## Stability guarantee for `/v1`
 
 While the API is at `/v1`:

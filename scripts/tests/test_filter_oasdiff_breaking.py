@@ -191,13 +191,14 @@ def test_aip127_allowance_disables_when_contract_digest_changes() -> None:
         FILTER.aip127_migration_active.cache_clear()
 
 
-def filter_exit(text: str) -> int:
+def filter_exit(text: str, base_spec: Path | None = None, new_spec: Path | None = None) -> int:
     with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as log:
         log.write(text)
         log.flush()
+        current = Path(__file__).resolve().parents[2] / "contracts/openapi/palette.openapi.json"
         original = sys.argv
         try:
-            sys.argv = [str(SCRIPT), log.name]
+            sys.argv = [str(SCRIPT), log.name, str(base_spec or current), str(new_spec or current)]
             return FILTER.main()
         finally:
             sys.argv = original
@@ -222,6 +223,60 @@ def test_unexpected_diagnostic_fails() -> None:
     )) == 1
 
 
+def test_canonical_error_migration_requires_exact_pair_and_exact_shapes() -> None:
+    base = {
+        "paths": {
+            "/v1/reviewed": {
+                "get": {
+                    "responses": {
+                        "400": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    target = {
+        "paths": {
+            "/v1/reviewed": {
+                "get": {"responses": {"400": {"$ref": "#/components/responses/Error"}}}
+            }
+        }
+    }
+    with tempfile.TemporaryDirectory() as directory:
+        base_path, target_path = Path(directory) / "base.json", Path(directory) / "target.json"
+        base_path.write_text(__import__("json").dumps(base), encoding="utf-8")
+        target_path.write_text(__import__("json").dumps(target), encoding="utf-8")
+        old_base, old_target = FILTER.CANONICAL_ERROR_MIGRATION_BASE_SHA256, FILTER.CANONICAL_ERROR_MIGRATION_TARGET_SHA256
+        try:
+            FILTER.CANONICAL_ERROR_MIGRATION_BASE_SHA256 = FILTER.sha256(base_path)
+            FILTER.CANONICAL_ERROR_MIGRATION_TARGET_SHA256 = FILTER.sha256(target_path)
+            pairs = FILTER.reviewed_canonical_error_pairs(base_path, target_path)
+            assert pairs == {("GET /v1/reviewed", "400")}
+            allowed = block("response-property-became-optional", "GET /v1/reviewed", "the response property `error/details` became optional for the status `400`")
+            assert FILTER.is_allowed_alignment_break(allowed, pairs)
+            assert not FILTER.is_allowed_alignment_break(block("response-property-became-optional", "GET /v1/unreviewed", "the response property `error/details` became optional for the status `400`"), pairs)
+            assert not FILTER.is_allowed_alignment_break(block("response-property-became-optional", "GET /v1/reviewed", "the response property `error/details` became optional for the status `200`"), pairs)
+            assert not FILTER.is_allowed_alignment_break(block("response-property-became-optional", "GET /v1/reviewed", "the response property `error/other` became optional for the status `400`"), pairs)
+            assert not FILTER.is_allowed_alignment_break(block("response-property-enum-value-added", "GET /v1/reviewed", "added the new `UNREVIEWED` enum value to the `error/status` response property for the response status `400`"), pairs)
+            assert not FILTER.is_allowed_alignment_break(block("new-required-request-property", "GET /v1/reviewed", "added the new required request property `unrelated`"), pairs)
+            assert FILTER.is_allowed_alignment_break(block("api-path-removed-without-deprecation", "GET /health", "api path removed without deprecation"), pairs)
+            assert not FILTER.is_allowed_alignment_break(block("api-path-removed-without-deprecation", "GET /unrelated", "api path removed without deprecation"), pairs)
+            base_path.write_text("{}", encoding="utf-8")
+            assert not FILTER.reviewed_canonical_error_pairs(base_path, target_path)
+            base_path.write_text(__import__("json").dumps(base), encoding="utf-8")
+            target_path.write_text("{}", encoding="utf-8")
+            assert not FILTER.reviewed_canonical_error_pairs(base_path, target_path)
+        finally:
+            FILTER.CANONICAL_ERROR_MIGRATION_BASE_SHA256 = old_base
+            FILTER.CANONICAL_ERROR_MIGRATION_TARGET_SHA256 = old_target
+
+
 if __name__ == "__main__":
     test_error_blocks_splits_oasdiff_output()
     test_allows_only_reviewed_aip193_error_envelope_changes()
@@ -231,4 +286,5 @@ if __name__ == "__main__":
     test_non_diagnostic_oasdiff_failure_fails_closed()
     test_only_recognized_allowed_diagnostic_passes()
     test_unexpected_diagnostic_fails()
+    test_canonical_error_migration_requires_exact_pair_and_exact_shapes()
     print("filter-oasdiff-breaking tests passed")

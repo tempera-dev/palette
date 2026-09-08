@@ -77,5 +77,6 @@ jobs:
           status=${PIPESTATUS[0]}
           set -e
           if [ "$status" -ne 0 ]; then
-            python3 scripts/filter-oasdiff-breaking.py /tmp/oasdiff-breaking.txt
+            python3 scripts/filter-oasdiff-breaking.py \
+              /tmp/oasdiff-breaking.txt /tmp/base-spec.json /tmp/new-spec.json
           fi
