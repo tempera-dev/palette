@@ -16,19 +16,19 @@
 import * as runtime from '../runtime';
 import type {
   DatasetEvalReport,
-  ErrorResponse,
   RunDeterministicEvalRequest,
   RunJudgeDatasetEvalRequest,
+  Status,
 } from '../models/index';
 import {
     DatasetEvalReportFromJSON,
     DatasetEvalReportToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     RunDeterministicEvalRequestFromJSON,
     RunDeterministicEvalRequestToJSON,
     RunJudgeDatasetEvalRequestFromJSON,
     RunJudgeDatasetEvalRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface EvalsRunDeterministicRequest {

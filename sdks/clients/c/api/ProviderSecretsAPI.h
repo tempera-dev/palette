@@ -6,10 +6,10 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/create_provider_secret_http_request.h"
-#include "../model/error_response.h"
 #include "../model/provider_secret_list_response.h"
 #include "../model/provider_secret_metadata.h"
 #include "../model/revoked_provider_secret.h"
+#include "../model/status.h"
 
 
 provider_secret_metadata_t*

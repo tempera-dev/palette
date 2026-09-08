@@ -23,10 +23,10 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/CreateProviderSecretHttpRequest.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/ProviderSecretListResponse.h"
 #include "palette-client/model/ProviderSecretMetadata.h"
 #include "palette-client/model/RevokedProviderSecret.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

@@ -1,7 +1,7 @@
 /*
  * native_ingest_request.h
  *
- * 
+ *
  */
 
 #ifndef _native_ingest_request_H_
@@ -79,4 +79,3 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
 cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_ingest_request);
 
 #endif /* _native_ingest_request_H_ */
-

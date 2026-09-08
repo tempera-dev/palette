@@ -120,7 +120,7 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
         goto end;
     }
 
-    
+
     if(!cJSON_IsBool(connected))
     {
     goto end; //Bool
@@ -131,7 +131,7 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
     if (cJSON_IsNull(connected_account_id)) {
         connected_account_id = NULL;
     }
-    if (connected_account_id) { 
+    if (connected_account_id) {
     if(!cJSON_IsString(connected_account_id) && !cJSON_IsNull(connected_account_id))
     {
     goto end; //String
@@ -147,7 +147,7 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(status))
     {
     goto end; //String
@@ -162,7 +162,7 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(toolkit))
     {
     goto end; //String

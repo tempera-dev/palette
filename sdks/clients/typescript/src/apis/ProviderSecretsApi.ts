@@ -16,22 +16,22 @@
 import * as runtime from '../runtime';
 import type {
   CreateProviderSecretHttpRequest,
-  ErrorResponse,
   ProviderSecretListResponse,
   ProviderSecretMetadata,
   RevokedProviderSecret,
+  Status,
 } from '../models/index';
 import {
     CreateProviderSecretHttpRequestFromJSON,
     CreateProviderSecretHttpRequestToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ProviderSecretListResponseFromJSON,
     ProviderSecretListResponseToJSON,
     ProviderSecretMetadataFromJSON,
     ProviderSecretMetadataToJSON,
     RevokedProviderSecretFromJSON,
     RevokedProviderSecretToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ProviderSecretsCreateRequest {

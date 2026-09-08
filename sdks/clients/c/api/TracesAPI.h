@@ -5,7 +5,7 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
+#include "../model/status.h"
 #include "../model/trace_list_response.h"
 #include "../model/trace_view.h"
 

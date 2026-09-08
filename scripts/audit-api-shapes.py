@@ -4,12 +4,15 @@
 Enforces the conventions that keep the API/MCP/CLI/SDKs nice and in-sync:
   - every operation has a unique dotted resource.operation operationId
   - every operation has exactly one resource tag
-  - every operation documents a uniform error body (ApiErrorBody) for failures
+  - every operation documents a uniform error body for failures, referencing the
+    one shared `#/components/responses/Error` (the google.rpc.Status envelope
+    every Tempera producer publishes)
   - success responses reference a NAMED schema (no anonymous/inline objects)
   - public collection/search operations expose complete AIP-158 pagination
     (pageSize/pageToken/nextPageToken), with no migration exceptions
   - migrated operations reject legacy limit/cursor aliases
-  - the shared error schema has the core AIP-193 HTTP/JSON envelope
+  - the shared error response resolves to the canonical AIP-193 `Status`
+    envelope
   - ordinary JSON schema fields are lowerCamel, with zero migration debt
 Exit 1 on any violation.
 """
@@ -23,7 +26,9 @@ import sys
 from pathlib import Path
 from typing import Any, TextIO
 
-DEFAULT_SPEC = "sdks/openapi/palette-api.json"
+DEFAULT_SPEC = "contracts/openapi/palette.openapi.json"
+# The one shared google.rpc.Status response every Tempera producer publishes.
+SHARED_ERROR_RESPONSE = "#/components/responses/Error"
 # Canonical AIP scheme (tempera-api-style-guide.md §4): `{collection}.{method}`,
 # lower-camel collection, dot, lower-camel standard-method-or-custom-verb.
 OPERATION_ID = re.compile(r"^[A-Za-z][A-Za-z0-9]*\.[a-z][A-Za-z0-9]*$")
@@ -89,22 +94,19 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
         responses = op.get("responses", {})
         # Health is the only allowed exception to the error-body rule.
         if oid != "health.check":
-            err_codes = [c for c in responses if c.startswith(("4", "5"))]
+            err_codes = [
+                c for c in responses if c == "default" or c.startswith(("4", "5"))
+            ]
             if not err_codes:
                 violations.append(f"{where}: no documented 4xx/5xx error response")
             for code in err_codes:
-                ref = (
-                    responses[code]
-                    .get("content", {})
-                    .get("application/json", {})
-                    .get("schema", {})
-                    .get("$ref", "")
-                )
-                if not ref.endswith("/ErrorResponse") and not ref.endswith(
-                    "/ApiErrorBody"
-                ):
+                # Every failure is the one shared google.rpc.Status response
+                # component, not a per-operation copy of its schema.
+                ref = responses[code].get("$ref", "")
+                if ref != SHARED_ERROR_RESPONSE:
                     violations.append(
-                        f"{where}: error {code} body is not the shared error schema (got {ref or 'none'})"
+                        f"{where}: error {code} is not {SHARED_ERROR_RESPONSE} "
+                        f"(got {ref or 'an inline response'})"
                     )
 
         # Success response must reference a named schema (no inline/anonymous object).
@@ -131,20 +133,24 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
             violations.append(f"operationId '{oid}' is duplicated: {wheres}")
 
     schemas = spec["components"]["schemas"]
-    error_response = schemas.get("ErrorResponse", {})
-    error_ref = (
-        error_response.get("properties", {}).get("error", {}).get("$ref", "")
+    error_response = spec["components"].get("responses", {}).get("Error", {})
+    error_schema_ref = (
+        error_response.get("content", {})
+        .get("application/json", {})
+        .get("schema", {})
+        .get("$ref", "")
     )
-    if not error_ref.endswith("/ErrorStatus"):
+    if not error_schema_ref.endswith("/Status"):
         violations.append(
-            "AIP-193 ErrorResponse.error must reference ErrorStatus"
+            "AIP-193 components.responses.Error must reference the Status schema"
         )
-    error_status = schemas.get("ErrorStatus", {})
+    status = schemas.get("Status", {})
+    error_status = status.get("properties", {}).get("error", {})
     error_status_properties = set(error_status.get("properties", {}))
     expected_error_status = {"code", "message", "status", "details"}
     if not expected_error_status.issubset(error_status_properties):
         violations.append(
-            "AIP-193 ErrorStatus lacks "
+            "AIP-193 Status.error lacks "
             f"{sorted(expected_error_status - error_status_properties)}"
         )
     details_items = (
@@ -152,7 +158,7 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
     )
     if details_items.get("type") != "object":
         violations.append(
-            "AIP-193 ErrorStatus.details must contain standard detail objects"
+            "AIP-193 Status.error.details must contain standard detail objects"
         )
 
     aip127_debt_by_schema: dict[str, list[str]] = {}

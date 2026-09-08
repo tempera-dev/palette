@@ -34,7 +34,7 @@ int main() {
     auto apiClient = std::make_shared<api::ApiClient>(config);
 
     try {
-        // GET /health -> typed HealthResponse
+        // GET /healthz -> typed HealthResponse
         api::HealthApi healthApi(apiClient);
         auto health = healthApi.health_check().get();
         if (!health->isOk()) {

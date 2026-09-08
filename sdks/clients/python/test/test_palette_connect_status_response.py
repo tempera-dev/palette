@@ -43,7 +43,7 @@ class TestPaletteConnectStatusResponse(unittest.TestCase):
                 tenant_id = '',
                 totals = {
                     'key' : palette_client.models.usage_total.UsageTotal(
-                        quantity = 56, 
+                        quantity = 56,
                         unit = '', )
                     },
                 usage_configured = True
@@ -58,7 +58,7 @@ class TestPaletteConnectStatusResponse(unittest.TestCase):
                 tenant_id = '',
                 totals = {
                     'key' : palette_client.models.usage_total.UsageTotal(
-                        quantity = 56, 
+                        quantity = 56,
                         unit = '', )
                     },
                 usage_configured = True,

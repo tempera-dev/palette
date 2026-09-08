@@ -64,8 +64,6 @@ docs/DeadLetterReplayReport.md
 docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
-docs/ErrorResponse.md
-docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsApi.md
@@ -177,6 +175,8 @@ docs/SpanIoValueOneOf3.md
 docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
+docs/Status.md
+docs/StatusError.md
 docs/SubmitReviewAnnotationHttpRequest.md
 docs/TemperaEvidenceReceipt.md
 docs/TemperaEvidenceSummary.md
@@ -279,8 +279,6 @@ palette_client/models/dead_letter_replay_report.py
 palette_client/models/diff_line.py
 palette_client/models/diff_line_kind.py
 palette_client/models/enqueue_review_task_from_trace_http_request.py
-palette_client/models/error_response.py
-palette_client/models/error_status.py
 palette_client/models/eval_reproducibility.py
 palette_client/models/eval_result.py
 palette_client/models/evaluate_alert_request.py
@@ -378,6 +376,8 @@ palette_client/models/span_io_value_one_of2.py
 palette_client/models/span_io_value_one_of3.py
 palette_client/models/span_status.py
 palette_client/models/statistical_test.py
+palette_client/models/status.py
+palette_client/models/status_error.py
 palette_client/models/submit_review_annotation_http_request.py
 palette_client/models/tempera_evidence_receipt.py
 palette_client/models/tempera_evidence_summary.py
@@ -462,8 +462,6 @@ test/test_dead_letter_replay_report.py
 test/test_diff_line.py
 test/test_diff_line_kind.py
 test/test_enqueue_review_task_from_trace_http_request.py
-test/test_error_response.py
-test/test_error_status.py
 test/test_eval_reproducibility.py
 test/test_eval_result.py
 test/test_eval_results_api.py
@@ -575,6 +573,8 @@ test/test_span_io_value_one_of3.py
 test/test_span_status.py
 test/test_spans_api.py
 test/test_statistical_test.py
+test/test_status.py
+test/test_status_error.py
 test/test_submit_review_annotation_http_request.py
 test/test_tempera_evidence_receipt.py
 test/test_tempera_evidence_summary.py

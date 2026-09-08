@@ -258,7 +258,7 @@ async fn wait_for_health(http_url: &str) -> anyhow::Result<()> {
     let client = reqwest::Client::new();
     let deadline = tokio::time::Instant::now() + Duration::from_secs(20);
     loop {
-        if let Ok(response) = client.get(format!("{http_url}/health")).send().await
+        if let Ok(response) = client.get(format!("{http_url}/healthz")).send().await
             && response.status().is_success()
         {
             return Ok(());

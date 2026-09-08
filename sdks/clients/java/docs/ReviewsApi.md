@@ -91,9 +91,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a human review queue |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## reviewsCreateQueueWithHttpInfo
 
@@ -172,9 +173,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a human review queue |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## reviewsEnqueueTaskFromTrace
@@ -253,10 +255,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Enqueue a review task from a trace |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## reviewsEnqueueTaskFromTraceWithHttpInfo
 
@@ -337,10 +340,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Enqueue a review task from a trace |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## reviewsListTasks
@@ -423,10 +427,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List review tasks |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## reviewsListTasksWithHttpInfo
 
@@ -511,10 +516,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List review tasks |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## reviewsPromoteAnnotation
@@ -597,10 +603,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Promote a review annotation to a dataset case |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## reviewsPromoteAnnotationWithHttpInfo
 
@@ -685,10 +692,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Promote a review annotation to a dataset case |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## reviewsSubmitAnnotation
@@ -769,10 +777,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Submit a review annotation |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## reviewsSubmitAnnotationWithHttpInfo
 
@@ -855,7 +864,8 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Submit a review annotation |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

@@ -1,14 +1,14 @@
 # Palette SDKs
 
 Every SDK, the MCP server, the CLI, and the docs derive from **one** artifact:
-[`sdks/openapi/palette-api.json`](openapi/palette-api.json), generated from the
+[`contracts/openapi/palette.openapi.json`](../contracts/openapi/palette.openapi.json), generated from the
 Rust API handlers. This is what makes drift structurally impossible.
 
 ```
 crates/palette-api handlers  (#[utoipa::path] + ToSchema on the real types)
             │  cargo run --example dump_openapi
             ▼
-   sdks/openapi/palette-api.json   ← THE single source of truth
+   contracts/openapi/palette.openapi.json   ← THE single source of truth
    ├── sdks/clients/<lang>/   7 generated control-plane clients (Layer 1)
    ├── /mcp tools             one tool per operationId
    ├── palette api <op>        CLI generic invoker

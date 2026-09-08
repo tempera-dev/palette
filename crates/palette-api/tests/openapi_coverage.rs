@@ -183,8 +183,8 @@ async fn documented_v1_operation_count_matches_router() {
 fn health_is_documented() {
     let spec = palette_api::openapi::openapi();
     assert!(
-        spec.paths.paths.contains_key("/health"),
-        "/health must be documented",
+        spec.paths.paths.contains_key("/healthz"),
+        "/healthz must be documented",
     );
 }
 

@@ -51,9 +51,9 @@ jobs:
       - name: Deploy
         if: steps.guard.outputs.skip != 'true'
         run: flyctl deploy --remote-only
-      - name: Smoke check /health
+      - name: Smoke check /healthz
         if: steps.guard.outputs.skip != 'true'
         continue-on-error: true
         run: |
           url="$(flyctl status --json | python3 -c 'import json,sys;print(json.load(sys.stdin)["Hostname"])')"
-          curl -fsS "https://${url}/health" && echo "health ok"
+          curl -fsS "https://${url}/healthz" && echo "health ok"

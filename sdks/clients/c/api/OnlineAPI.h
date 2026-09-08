@@ -5,9 +5,9 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
 #include "../model/online_sampling_policy.h"
 #include "../model/sampling_decision.h"
+#include "../model/status.h"
 
 
 sampling_decision_t*

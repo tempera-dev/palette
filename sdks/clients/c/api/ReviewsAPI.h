@@ -8,13 +8,13 @@
 #include "../model/create_review_queue_http_request.h"
 #include "../model/dataset_case.h"
 #include "../model/enqueue_review_task_from_trace_http_request.h"
-#include "../model/error_response.h"
 #include "../model/promote_review_annotation_http_request.h"
 #include "../model/review_annotation.h"
 #include "../model/review_queue.h"
 #include "../model/review_task.h"
 #include "../model/review_task_list_response.h"
 #include "../model/review_task_state.h"
+#include "../model/status.h"
 #include "../model/submit_review_annotation_http_request.h"
 
 // Enum  for ReviewsAPI_reviewsListTasks

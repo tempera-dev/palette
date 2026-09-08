@@ -62,10 +62,11 @@ pub struct ArchivePeriodQuerySpansParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ArchivePeriodArchiveTraceError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -73,9 +74,10 @@ pub enum ArchivePeriodArchiveTraceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ArchivePeriodQuerySpansError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 

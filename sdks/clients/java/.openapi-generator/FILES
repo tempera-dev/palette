@@ -66,8 +66,6 @@ docs/DeadLetterReplayReport.md
 docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
-docs/ErrorResponse.md
-docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsApi.md
@@ -179,6 +177,8 @@ docs/SpanIoValueOneOf3.md
 docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
+docs/Status.md
+docs/StatusError.md
 docs/SubmitReviewAnnotationHttpRequest.md
 docs/TemperaEvidenceReceipt.md
 docs/TemperaEvidenceSummary.md
@@ -292,8 +292,6 @@ src/main/java/ai/palette/client/model/DeadLetterReplayReport.java
 src/main/java/ai/palette/client/model/DiffLine.java
 src/main/java/ai/palette/client/model/DiffLineKind.java
 src/main/java/ai/palette/client/model/EnqueueReviewTaskFromTraceHttpRequest.java
-src/main/java/ai/palette/client/model/ErrorResponse.java
-src/main/java/ai/palette/client/model/ErrorStatus.java
 src/main/java/ai/palette/client/model/EvalReproducibility.java
 src/main/java/ai/palette/client/model/EvalResult.java
 src/main/java/ai/palette/client/model/EvaluateAlertRequest.java
@@ -391,6 +389,8 @@ src/main/java/ai/palette/client/model/SpanIoValueOneOf2.java
 src/main/java/ai/palette/client/model/SpanIoValueOneOf3.java
 src/main/java/ai/palette/client/model/SpanStatus.java
 src/main/java/ai/palette/client/model/StatisticalTest.java
+src/main/java/ai/palette/client/model/Status.java
+src/main/java/ai/palette/client/model/StatusError.java
 src/main/java/ai/palette/client/model/SubmitReviewAnnotationHttpRequest.java
 src/main/java/ai/palette/client/model/TemperaEvidenceReceipt.java
 src/main/java/ai/palette/client/model/TemperaEvidenceSummary.java
@@ -483,8 +483,6 @@ src/test/java/ai/palette/client/model/DeadLetterTest.java
 src/test/java/ai/palette/client/model/DiffLineKindTest.java
 src/test/java/ai/palette/client/model/DiffLineTest.java
 src/test/java/ai/palette/client/model/EnqueueReviewTaskFromTraceHttpRequestTest.java
-src/test/java/ai/palette/client/model/ErrorResponseTest.java
-src/test/java/ai/palette/client/model/ErrorStatusTest.java
 src/test/java/ai/palette/client/model/EvalReproducibilityTest.java
 src/test/java/ai/palette/client/model/EvalResultTest.java
 src/test/java/ai/palette/client/model/EvaluateAlertRequestTest.java
@@ -582,6 +580,8 @@ src/test/java/ai/palette/client/model/SpanIoValueOneOfTest.java
 src/test/java/ai/palette/client/model/SpanIoValueTest.java
 src/test/java/ai/palette/client/model/SpanStatusTest.java
 src/test/java/ai/palette/client/model/StatisticalTestTest.java
+src/test/java/ai/palette/client/model/StatusErrorTest.java
+src/test/java/ai/palette/client/model/StatusTest.java
 src/test/java/ai/palette/client/model/SubmitReviewAnnotationHttpRequestTest.java
 src/test/java/ai/palette/client/model/TemperaEvidenceReceiptTest.java
 src/test/java/ai/palette/client/model/TemperaEvidenceSummaryTest.java

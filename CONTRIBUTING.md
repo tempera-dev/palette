@@ -82,7 +82,7 @@ A PR cannot merge until **every** required CI gate passes. The gates (under
 | `gate2-proof-contract` | the clean-clone-to-browser proof template and proof-artifact fixtures |
 | `container-images` | multi-arch GHCR image build/publish for `paletted`, dashboard, and demo runners |
 
-The **single-source-of-truth contract** — `sdks/openapi/palette-api.json` →
+The **single-source-of-truth contract** — `contracts/openapi/palette.openapi.json` →
 7 SDK clients → MCP tools → CLI → docs (and `sdks/semconv/conventions.json` for
 span kinds/attributes) — must regenerate to **zero drift**. Run the full local
 check before you push:
@@ -126,7 +126,7 @@ the per-component test plan and the "how to verify it's running" commands, and
 ## The one rule: the OpenAPI contract is the single source of truth
 
 The HTTP API, the 7 SDK clients, the MCP tools, the CLI, and the docs are **all
-generated from one artifact** — `sdks/openapi/palette-api.json`, which is itself
+generated from one artifact** — `contracts/openapi/palette.openapi.json`, which is itself
 generated from the Rust handlers in `crates/palette-api`. Never hand-edit a
 generated client, the spec snapshot, or `sdks/semconv/conventions.json`.
 

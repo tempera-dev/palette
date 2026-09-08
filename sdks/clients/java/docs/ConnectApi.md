@@ -81,9 +81,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Palette product connection status for account-console setup |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## connectGetStatusWithHttpInfo
 
@@ -160,6 +161,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Palette product connection status for account-console setup |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

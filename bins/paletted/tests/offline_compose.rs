@@ -105,7 +105,7 @@ fn smoke_compose_script_keeps_runtime_loop_local() {
     for local_probe in [
         "api_url=\"http://127.0.0.1:$host_http_port\"",
         "dashboard_url=\"http://127.0.0.1:$host_dashboard_port\"",
-        "wait_url \"$api_url/health\" \"paletted\"",
+        "wait_url \"$api_url/healthz\" \"paletted\"",
         "wait_url \"$dashboard_url/?tenant=demo&project=demo&environment=local\" \"dashboard\"",
     ] {
         assert!(

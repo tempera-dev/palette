@@ -170,7 +170,7 @@ product repositories.
 | `bins/palettectl` | CLI, smoke commands, and fixtures. |
 | `crates/*` | Rust libraries: schema, ingest, storage, bus, API, MCP, evals, replay, auth, datasets, gates, stats, review, audit. |
 | `web/dashboard` | Next.js dashboard generated against the read-API snapshot. |
-| `sdks/openapi`, `sdks/clients/*` | Generated OpenAPI contract and clients — do not hand-edit. |
+| `contracts/openapi`, `sdks/clients/*` | The published OpenAPI contract and the clients generated from it — do not hand-edit. |
 | `migrations/{sqlite,postgres,clickhouse}` | Durable schema contracts. |
 | `scripts/*` | Contract drift checks, SDK regen, smoke gates. |
 

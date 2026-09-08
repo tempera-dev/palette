@@ -76,10 +76,11 @@ pub struct EvalResultsPeriodRecordTemperaDecisionParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum EvalResultsPeriodGetTemperaEvidenceError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -87,13 +88,14 @@ pub enum EvalResultsPeriodGetTemperaEvidenceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum EvalResultsPeriodImportTemperaBundleError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status409(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status422(models::ErrorResponse),
-    Status503(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status409(models::Status),
+    Status413(models::Status),
+    Status422(models::Status),
+    Status503(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -101,13 +103,14 @@ pub enum EvalResultsPeriodImportTemperaBundleError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum EvalResultsPeriodRecordTemperaDecisionError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status409(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status422(models::ErrorResponse),
-    Status503(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status409(models::Status),
+    Status413(models::Status),
+    Status422(models::Status),
+    Status503(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 

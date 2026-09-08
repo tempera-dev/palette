@@ -19,8 +19,8 @@ import ai.palette.client.Pair;
 
 import ai.palette.client.model.ApiKeyCreatedResponse;
 import ai.palette.client.model.CreateApiKeyHttpRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.RevokedApiKey;
+import ai.palette.client.model.Status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -8,7 +8,7 @@ impossible to drift. One contract, generated outward.
 ```
 crates/palette-api handlers  ──#[utoipa::path] + ToSchema on the REAL types──┐
                                                                             v
-                                       sdks/openapi/palette-api.json  (OpenAPI 3.1)
+                                       contracts/openapi/palette.openapi.json  (OpenAPI 3.1)
         +------------------+------------------+------------------+-----------------+
         v                  v                  v                  v                 v
   7 SDK clients        /mcp tools          palette CLI         docs site      conformance

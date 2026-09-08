@@ -16,22 +16,22 @@
 import * as runtime from '../runtime';
 import type {
   CreateGateRequest,
-  ErrorResponse,
   GateDefinition,
   GateRunReport,
   RunGateRequest,
+  Status,
 } from '../models/index';
 import {
     CreateGateRequestFromJSON,
     CreateGateRequestToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     GateDefinitionFromJSON,
     GateDefinitionToJSON,
     GateRunReportFromJSON,
     GateRunReportToJSON,
     RunGateRequestFromJSON,
     RunGateRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface GatesCreateRequest {

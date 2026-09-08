@@ -19,7 +19,7 @@ import ai.palette.client.Pair;
 
 import ai.palette.client.model.ArchiveManifest;
 import ai.palette.client.model.ArchiveQueryResponse;
-import ai.palette.client.model.ErrorResponse;
+import ai.palette.client.model.Status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

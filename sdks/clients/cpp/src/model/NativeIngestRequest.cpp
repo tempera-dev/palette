@@ -63,98 +63,98 @@ web::json::value NativeIngestRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_AttributesIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("attributes"))] = ModelBase::toJson(m_Attributes);
     }
     if(m_AuthContextIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("authContext"))] = ModelBase::toJson(m_AuthContext);
     }
     if(m_CostIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("cost"))] = ModelBase::toJson(m_Cost);
     }
     if(m_EndTimeIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("endTime"))] = ModelBase::toJson(m_EndTime);
     }
     if(m_IdempotencyKeyIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("idempotencyKey"))] = ModelBase::toJson(m_IdempotencyKey);
     }
     if(m_InputIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("input"))] = ModelBase::toJson(m_Input);
     }
     if(m_KindIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
     if(m_ModelIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("model"))] = ModelBase::toJson(m_Model);
     }
     if(m_NameIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
     if(m_OutputIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("output"))] = ModelBase::toJson(m_Output);
     }
     if(m_ParentSpanIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("parentSpanId"))] = ModelBase::toJson(m_ParentSpanId);
     }
     if(m_RedactionClassIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("redactionClass"))] = ModelBase::toJson(m_RedactionClass);
     }
     if(m_ScopeIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("scope"))] = ModelBase::toJson(m_Scope);
     }
     if(m_SeqIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("seq"))] = ModelBase::toJson(m_Seq);
     }
     if(m_SpanIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
     if(m_StartTimeIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("startTime"))] = ModelBase::toJson(m_StartTime);
     }
     if(m_StatusIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
     if(m_TokensIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("tokens"))] = ModelBase::toJson(m_Tokens);
     }
     if(m_TraceIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
@@ -172,7 +172,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setAttributes;
             ok &= ModelBase::fromJson(fieldValue, refVal_setAttributes);
             setAttributes(refVal_setAttributes);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("authContext"))))
@@ -183,7 +183,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<AuthContext> refVal_setAuthContext;
             ok &= ModelBase::fromJson(fieldValue, refVal_setAuthContext);
             setAuthContext(refVal_setAuthContext);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("cost"))))
@@ -194,7 +194,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<Money> refVal_setCost;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCost);
             setCost(refVal_setCost);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("endTime"))))
@@ -205,7 +205,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::datetime refVal_setEndTime;
             ok &= ModelBase::fromJson(fieldValue, refVal_setEndTime);
             setEndTime(refVal_setEndTime);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("idempotencyKey"))))
@@ -216,7 +216,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setIdempotencyKey;
             ok &= ModelBase::fromJson(fieldValue, refVal_setIdempotencyKey);
             setIdempotencyKey(refVal_setIdempotencyKey);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("input"))))
@@ -227,7 +227,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<AnyType> refVal_setInput;
             ok &= ModelBase::fromJson(fieldValue, refVal_setInput);
             setInput(refVal_setInput);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("kind"))))
@@ -238,7 +238,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setKind;
             ok &= ModelBase::fromJson(fieldValue, refVal_setKind);
             setKind(refVal_setKind);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("model"))))
@@ -249,7 +249,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<ModelRef> refVal_setModel;
             ok &= ModelBase::fromJson(fieldValue, refVal_setModel);
             setModel(refVal_setModel);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("name"))))
@@ -260,7 +260,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("output"))))
@@ -271,7 +271,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<AnyType> refVal_setOutput;
             ok &= ModelBase::fromJson(fieldValue, refVal_setOutput);
             setOutput(refVal_setOutput);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("parentSpanId"))))
@@ -282,7 +282,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setParentSpanId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setParentSpanId);
             setParentSpanId(refVal_setParentSpanId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("redactionClass"))))
@@ -293,7 +293,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<RedactionClass> refVal_setRedactionClass;
             ok &= ModelBase::fromJson(fieldValue, refVal_setRedactionClass);
             setRedactionClass(refVal_setRedactionClass);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("scope"))))
@@ -304,7 +304,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<TenantScope> refVal_setScope;
             ok &= ModelBase::fromJson(fieldValue, refVal_setScope);
             setScope(refVal_setScope);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("seq"))))
@@ -315,7 +315,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             int64_t refVal_setSeq;
             ok &= ModelBase::fromJson(fieldValue, refVal_setSeq);
             setSeq(refVal_setSeq);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
@@ -326,7 +326,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setSpanId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setSpanId);
             setSpanId(refVal_setSpanId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("startTime"))))
@@ -337,7 +337,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::datetime refVal_setStartTime;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStartTime);
             setStartTime(refVal_setStartTime);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("status"))))
@@ -348,7 +348,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<SpanStatus> refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("tokens"))))
@@ -359,7 +359,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             std::shared_ptr<TokenCounts> refVal_setTokens;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTokens);
             setTokens(refVal_setTokens);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
@@ -370,7 +370,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             utility::string_t refVal_setTraceId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTraceId);
             setTraceId(refVal_setTraceId);
-            
+
         }
     }
     return ok;
@@ -991,5 +991,3 @@ void NativeIngestRequest::unsetTraceId()
 }
 }
 }
-
-

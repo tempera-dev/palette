@@ -104,7 +104,7 @@ Class | Method | HTTP request | Description
 *ExperimentsAPI* | [**ExperimentsRunJudge**](docs/ExperimentsAPI.md#experimentsrunjudge) | **Post** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |
 *GatesAPI* | [**GatesCreate**](docs/GatesAPI.md#gatescreate) | **Post** /v1/gates/{tenantId}/{projectId} |
 *GatesAPI* | [**GatesRun**](docs/GatesAPI.md#gatesrun) | **Post** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthAPI* | [**HealthCheck**](docs/HealthAPI.md#healthcheck) | **Get** /health |
+*HealthAPI* | [**HealthCheck**](docs/HealthAPI.md#healthcheck) | **Get** /healthz |
 *IngestAPI* | [**IngestDrainTraceIngested**](docs/IngestAPI.md#ingestdraintraceingested) | **Post** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestAPI* | [**IngestDrainTraceWrites**](docs/IngestAPI.md#ingestdraintracewrites) | **Post** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
 *IngestAPI* | [**IngestGetQueueStatus**](docs/IngestAPI.md#ingestgetqueuestatus) | **Get** /v1/ingest/{tenantId}/{projectId}/queue |
@@ -197,8 +197,6 @@ Class | Method | HTTP request | Description
  - [DiffLine](docs/DiffLine.md)
  - [DiffLineKind](docs/DiffLineKind.md)
  - [EnqueueReviewTaskFromTraceHttpRequest](docs/EnqueueReviewTaskFromTraceHttpRequest.md)
- - [ErrorResponse](docs/ErrorResponse.md)
- - [ErrorStatus](docs/ErrorStatus.md)
  - [EvalReproducibility](docs/EvalReproducibility.md)
  - [EvalResult](docs/EvalResult.md)
  - [EvaluateAlertRequest](docs/EvaluateAlertRequest.md)
@@ -296,6 +294,8 @@ Class | Method | HTTP request | Description
  - [SpanIoValueOneOf3](docs/SpanIoValueOneOf3.md)
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
+ - [Status](docs/Status.md)
+ - [StatusError](docs/StatusError.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
  - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
  - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
@@ -316,7 +316,39 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### paletteApiKey
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: paletteApiKey and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		paletteclient.ContextAPIKeys,
+		map[string]paletteclient.APIKey{
+			"paletteApiKey": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### paletteBearer
+
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```go
+auth := context.WithValue(context.Background(), paletteclient.ContextAccessToken, "BEARER_TOKEN_STRING")
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

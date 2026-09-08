@@ -22,7 +22,7 @@
 
 #include "palette-client/ApiClient.h"
 
-#include "palette-client/model/ErrorResponse.h"
+#include "palette-client/model/Status.h"
 #include "palette-client/model/TraceListResponse.h"
 #include "palette-client/model/TraceView.h"
 #include <cpprest/details/basic_types.h>

@@ -23,8 +23,8 @@ import ai.palette.client.model.ConnectionStatus;
 import ai.palette.client.model.ConnectorListResponse;
 import ai.palette.client.model.ConnectorSkillsResponse;
 import ai.palette.client.model.ConnectorToolListResponse;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.InvokeConnectorRequest;
+import ai.palette.client.model.Status;
 import ai.palette.client.model.ToolExecution;
 
 import com.fasterxml.jackson.core.type.TypeReference;

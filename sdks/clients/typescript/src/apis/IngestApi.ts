@@ -16,12 +16,12 @@
 import * as runtime from '../runtime';
 import type {
   DeadLetterReplayReport,
-  ErrorResponse,
   ImportSourceHttpRequest,
   IngestOutcome,
   IngestQueueStatus,
   NativeIngestRequest,
   OtlpIngestOutcome,
+  Status,
   TraceIngestedDrainReport,
   TraceIngestedReconcileReport,
   TraceWriteDrainReport,
@@ -29,8 +29,6 @@ import type {
 import {
     DeadLetterReplayReportFromJSON,
     DeadLetterReplayReportToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ImportSourceHttpRequestFromJSON,
     ImportSourceHttpRequestToJSON,
     IngestOutcomeFromJSON,
@@ -41,6 +39,8 @@ import {
     NativeIngestRequestToJSON,
     OtlpIngestOutcomeFromJSON,
     OtlpIngestOutcomeToJSON,
+    StatusFromJSON,
+    StatusToJSON,
     TraceIngestedDrainReportFromJSON,
     TraceIngestedDrainReportToJSON,
     TraceIngestedReconcileReportFromJSON,

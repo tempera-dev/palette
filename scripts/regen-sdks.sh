@@ -2,7 +2,7 @@
 # Regenerate the OpenAPI spec and every control-plane SDK from it.
 #
 # This is the heart of the zero-drift guarantee: ONE spec
-# (sdks/openapi/palette-api.json) is generated from the Rust handlers, and every
+# (contracts/openapi/palette.openapi.json) is generated from the Rust handlers, and every
 # Layer-1 client is generated from that spec. Run after any API change, then
 # commit the result. CI runs `--check` to fail on drift.
 #
@@ -24,7 +24,7 @@ trap cleanup EXIT
 # Pin the generator for reproducible output.
 GENERATOR_IMAGE="openapitools/openapi-generator-cli:v7.11.0"
 GENERATOR_JAR="${PALETTE_OPENAPI_GENERATOR_JAR:-}"
-SPEC="sdks/openapi/palette-api.json"
+SPEC="contracts/openapi/palette.openapi.json"
 LANGS=(rust python typescript go java c cpp)
 
 CHECK_MODE=0
@@ -117,6 +117,25 @@ normalize_aip_migration_text_files() {
   done < <(find "$out" -type f -print0)
 }
 
+# The canonical contract standard adds these generated component models in every
+# language. OpenAPI Generator emits whitespace in several of their templates;
+# normalize it as part of regeneration so the committed generated surface is
+# reproducible and passes `git diff --check`.
+normalize_contract_standard_model_files() {
+  local out="$1"
+  local file basename
+  while IFS= read -r -d '' file; do
+    basename="$(basename "$file" | tr '[:upper:]' '[:lower:]')"
+    case "$basename" in
+      *canonical_span*|*canonicalspan*|\
+      *native_ingest_request*|*nativeingestrequest*|\
+      *status*)
+        perl -0pi -e 's/[ \t]+$//mg; s/\n+\z/\n/' "$file"
+        ;;
+    esac
+  done < <(find "$out" -type f -print0)
+}
+
 # Optional release version for the generated clients (default keeps configs' 0.1.0).
 VERSION="${PALETTE_SDK_VERSION:-}"
 version_props=()
@@ -128,6 +147,7 @@ echo "==> Regenerating OpenAPI spec from palette-api handlers"
 tmp_spec="$(mktemp "${TMPDIR:-/tmp}/palette-openapi.XXXXXX")"
 cleanup_paths+=("$tmp_spec")
 cargo run -q -p palette-api --example dump_openapi > "$tmp_spec"
+mkdir -p "$(dirname "$SPEC")"
 mv "$tmp_spec" "$SPEC"
 # Keep the dashboard snapshot identical to the canonical spec.
 cp "$SPEC" web/dashboard/openapi/palette-read-api.json
@@ -188,6 +208,7 @@ for lang in "${LANGS[@]}"; do
   # every language. Normalize their generator-emitted trailing spaces so a
   # clean regen and `git diff --check` remain reproducible.
   normalize_aip_migration_text_files "$out"
+  normalize_contract_standard_model_files "$out"
   case "$lang" in
     c)
       normalize_generated_text_files "$out" \
@@ -214,13 +235,15 @@ for lang in "${LANGS[@]}"; do
         docs/IngestApi.md \
         src/main/java/ai/palette/client/api/IngestApi.java \
         src/main/java/ai/palette/client/model/AuditAction.java \
+        src/main/java/ai/palette/client/model/NativeIngestRequest.java \
         src/test/java/ai/palette/client/api/IngestApiTest.java
       ;;
     python)
       normalize_generated_text_files "$out" \
         README.md \
         palette_client/api/ingest_api.py \
-        docs/IngestApi.md
+        docs/IngestApi.md \
+        test/test_trace_view.py
       ;;
     rust)
       normalize_generated_text_files "$out" \

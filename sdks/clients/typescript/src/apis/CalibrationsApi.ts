@@ -16,16 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   CalibrationReport,
-  ErrorResponse,
   RunCalibrationHttpRequest,
+  Status,
 } from '../models/index';
 import {
     CalibrationReportFromJSON,
     CalibrationReportToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     RunCalibrationHttpRequestFromJSON,
     RunCalibrationHttpRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface CalibrationsRunRequest {

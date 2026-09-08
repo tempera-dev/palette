@@ -117,7 +117,7 @@ Class | Method | HTTP request | Description
 *ExperimentsApi* | [**experiments_run_judge**](docs/ExperimentsApi.md#experiments_run_judge) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |
 *GatesApi* | [**gates_create**](docs/GatesApi.md#gates_create) | **POST** /v1/gates/{tenantId}/{projectId} |
 *GatesApi* | [**gates_run**](docs/GatesApi.md#gates_run) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthApi* | [**health_check**](docs/HealthApi.md#health_check) | **GET** /health |
+*HealthApi* | [**health_check**](docs/HealthApi.md#health_check) | **GET** /healthz |
 *IngestApi* | [**ingest_drain_trace_ingested**](docs/IngestApi.md#ingest_drain_trace_ingested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestApi* | [**ingest_drain_trace_writes**](docs/IngestApi.md#ingest_drain_trace_writes) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
 *IngestApi* | [**ingest_get_queue_status**](docs/IngestApi.md#ingest_get_queue_status) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
@@ -210,8 +210,6 @@ Class | Method | HTTP request | Description
  - [DiffLine](docs/DiffLine.md)
  - [DiffLineKind](docs/DiffLineKind.md)
  - [EnqueueReviewTaskFromTraceHttpRequest](docs/EnqueueReviewTaskFromTraceHttpRequest.md)
- - [ErrorResponse](docs/ErrorResponse.md)
- - [ErrorStatus](docs/ErrorStatus.md)
  - [EvalReproducibility](docs/EvalReproducibility.md)
  - [EvalResult](docs/EvalResult.md)
  - [EvaluateAlertRequest](docs/EvaluateAlertRequest.md)
@@ -309,6 +307,8 @@ Class | Method | HTTP request | Description
  - [SpanIoValueOneOf3](docs/SpanIoValueOneOf3.md)
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
+ - [Status](docs/Status.md)
+ - [StatusError](docs/StatusError.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
  - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
  - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
@@ -330,7 +330,19 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="paletteApiKey"></a>
+### paletteApiKey
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+<a id="paletteBearer"></a>
+### paletteBearer
+
+- **Type**: Bearer authentication
 
 
 ## Author

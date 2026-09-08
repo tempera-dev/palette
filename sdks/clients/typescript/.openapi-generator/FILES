@@ -81,8 +81,6 @@ src/models/DeadLetterReplayReport.ts
 src/models/DiffLine.ts
 src/models/DiffLineKind.ts
 src/models/EnqueueReviewTaskFromTraceHttpRequest.ts
-src/models/ErrorResponse.ts
-src/models/ErrorStatus.ts
 src/models/EvalReproducibility.ts
 src/models/EvalResult.ts
 src/models/EvaluateAlertRequest.ts
@@ -180,6 +178,8 @@ src/models/SpanIoValueOneOf2.ts
 src/models/SpanIoValueOneOf3.ts
 src/models/SpanStatus.ts
 src/models/StatisticalTest.ts
+src/models/Status.ts
+src/models/StatusError.ts
 src/models/SubmitReviewAnnotationHttpRequest.ts
 src/models/TemperaEvidenceReceipt.ts
 src/models/TemperaEvidenceSummary.ts

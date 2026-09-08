@@ -7,7 +7,7 @@
 #include "../include/binary.h"
 #include "../model/archive_manifest.h"
 #include "../model/archive_query_response.h"
-#include "../model/error_response.h"
+#include "../model/status.h"
 
 
 archive_manifest_t*

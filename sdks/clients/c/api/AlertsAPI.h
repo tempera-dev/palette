@@ -6,8 +6,8 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/alert_decision.h"
-#include "../model/error_response.h"
 #include "../model/evaluate_alert_request.h"
+#include "../model/status.h"
 
 
 alert_decision_t*

@@ -26,7 +26,7 @@ def seed_temp_repo(repo: Path, generated: str) -> Path:
     shutil.copy2(SCRIPT, script)
     script.chmod(0o755)
 
-    spec = repo / "sdks" / "openapi" / "palette-api.json"
+    spec = repo / "contracts" / "openapi" / "palette.openapi.json"
     dashboard = repo / "web" / "dashboard" / "openapi" / "palette-read-api.json"
     spec.parent.mkdir(parents=True)
     dashboard.parent.mkdir(parents=True)

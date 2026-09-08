@@ -57,9 +57,10 @@ pub struct GatesPeriodRunParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GatesPeriodCreateError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -67,10 +68,11 @@ pub enum GatesPeriodCreateError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GatesPeriodRunError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 

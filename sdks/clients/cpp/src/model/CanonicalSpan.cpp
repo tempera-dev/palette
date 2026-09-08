@@ -70,113 +70,113 @@ web::json::value CanonicalSpan::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_AttributesIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("attributes"))] = ModelBase::toJson(m_Attributes);
     }
     if(m_CostIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("cost"))] = ModelBase::toJson(m_Cost);
     }
     if(m_EndTimeIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("endTime"))] = ModelBase::toJson(m_EndTime);
     }
     if(m_EnvironmentIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
     if(m_InputRefIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("inputRef"))] = ModelBase::toJson(m_InputRef);
     }
     if(m_KindIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
     if(m_ModelIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("model"))] = ModelBase::toJson(m_Model);
     }
     if(m_NameIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
     if(m_NormalizerVersionIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("normalizerVersion"))] = ModelBase::toJson(m_NormalizerVersion);
     }
     if(m_OutputRefIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("outputRef"))] = ModelBase::toJson(m_OutputRef);
     }
     if(m_ParentSpanIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("parentSpanId"))] = ModelBase::toJson(m_ParentSpanId);
     }
     if(m_ProjectIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_RawRefIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("rawRef"))] = ModelBase::toJson(m_RawRef);
     }
     if(m_SchemaVersionIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("schemaVersion"))] = ModelBase::toJson(m_SchemaVersion);
     }
     if(m_SeqIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("seq"))] = ModelBase::toJson(m_Seq);
     }
     if(m_SpanIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
     if(m_StartTimeIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("startTime"))] = ModelBase::toJson(m_StartTime);
     }
     if(m_StatusIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
     if(m_TenantIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TokensIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("tokens"))] = ModelBase::toJson(m_Tokens);
     }
     if(m_TraceIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
     if(m_UnmappedAttrsIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("unmappedAttrs"))] = ModelBase::toJson(m_UnmappedAttrs);
     }
 
@@ -194,7 +194,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setAttributes;
             ok &= ModelBase::fromJson(fieldValue, refVal_setAttributes);
             setAttributes(refVal_setAttributes);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("cost"))))
@@ -205,7 +205,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<Money> refVal_setCost;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCost);
             setCost(refVal_setCost);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("endTime"))))
@@ -216,7 +216,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::datetime refVal_setEndTime;
             ok &= ModelBase::fromJson(fieldValue, refVal_setEndTime);
             setEndTime(refVal_setEndTime);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
@@ -227,7 +227,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setEnvironmentId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setEnvironmentId);
             setEnvironmentId(refVal_setEnvironmentId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("inputRef"))))
@@ -238,7 +238,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<ArtifactRef> refVal_setInputRef;
             ok &= ModelBase::fromJson(fieldValue, refVal_setInputRef);
             setInputRef(refVal_setInputRef);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("kind"))))
@@ -249,7 +249,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setKind;
             ok &= ModelBase::fromJson(fieldValue, refVal_setKind);
             setKind(refVal_setKind);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("model"))))
@@ -260,7 +260,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<ModelRef> refVal_setModel;
             ok &= ModelBase::fromJson(fieldValue, refVal_setModel);
             setModel(refVal_setModel);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("name"))))
@@ -271,7 +271,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("normalizerVersion"))))
@@ -282,7 +282,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setNormalizerVersion;
             ok &= ModelBase::fromJson(fieldValue, refVal_setNormalizerVersion);
             setNormalizerVersion(refVal_setNormalizerVersion);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("outputRef"))))
@@ -293,7 +293,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<ArtifactRef> refVal_setOutputRef;
             ok &= ModelBase::fromJson(fieldValue, refVal_setOutputRef);
             setOutputRef(refVal_setOutputRef);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("parentSpanId"))))
@@ -304,7 +304,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setParentSpanId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setParentSpanId);
             setParentSpanId(refVal_setParentSpanId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
@@ -315,7 +315,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setProjectId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setProjectId);
             setProjectId(refVal_setProjectId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("rawRef"))))
@@ -326,7 +326,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<ArtifactRef> refVal_setRawRef;
             ok &= ModelBase::fromJson(fieldValue, refVal_setRawRef);
             setRawRef(refVal_setRawRef);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("schemaVersion"))))
@@ -337,7 +337,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             int32_t refVal_setSchemaVersion;
             ok &= ModelBase::fromJson(fieldValue, refVal_setSchemaVersion);
             setSchemaVersion(refVal_setSchemaVersion);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("seq"))))
@@ -348,7 +348,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             int64_t refVal_setSeq;
             ok &= ModelBase::fromJson(fieldValue, refVal_setSeq);
             setSeq(refVal_setSeq);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
@@ -359,7 +359,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setSpanId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setSpanId);
             setSpanId(refVal_setSpanId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("startTime"))))
@@ -370,7 +370,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::datetime refVal_setStartTime;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStartTime);
             setStartTime(refVal_setStartTime);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("status"))))
@@ -381,7 +381,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<SpanStatus> refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
@@ -392,7 +392,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setTenantId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTenantId);
             setTenantId(refVal_setTenantId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("tokens"))))
@@ -403,7 +403,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<TokenCounts> refVal_setTokens;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTokens);
             setTokens(refVal_setTokens);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
@@ -414,7 +414,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             utility::string_t refVal_setTraceId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTraceId);
             setTraceId(refVal_setTraceId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("unmappedAttrs"))))
@@ -425,7 +425,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             std::shared_ptr<AnyType> refVal_setUnmappedAttrs;
             ok &= ModelBase::fromJson(fieldValue, refVal_setUnmappedAttrs);
             setUnmappedAttrs(refVal_setUnmappedAttrs);
-            
+
         }
     }
     return ok;
@@ -1138,5 +1138,3 @@ void CanonicalSpan::unsetUnmappedAttrs()
 }
 }
 }
-
-

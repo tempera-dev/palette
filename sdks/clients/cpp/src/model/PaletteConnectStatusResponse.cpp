@@ -49,43 +49,43 @@ web::json::value PaletteConnectStatusResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_FirstEvalRunIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("firstEvalRun"))] = ModelBase::toJson(m_FirstEvalRun);
     }
     if(m_FirstTraceReceivedIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("firstTraceReceived"))] = ModelBase::toJson(m_FirstTraceReceived);
     }
     if(m_OkIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("ok"))] = ModelBase::toJson(m_Ok);
     }
     if(m_ProjectIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_StatusIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
     if(m_TenantIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TotalsIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("totals"))] = ModelBase::toJson(m_Totals);
     }
     if(m_UsageConfiguredIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("usageConfigured"))] = ModelBase::toJson(m_UsageConfigured);
     }
 
@@ -103,7 +103,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             bool refVal_setFirstEvalRun;
             ok &= ModelBase::fromJson(fieldValue, refVal_setFirstEvalRun);
             setFirstEvalRun(refVal_setFirstEvalRun);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("firstTraceReceived"))))
@@ -114,7 +114,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             bool refVal_setFirstTraceReceived;
             ok &= ModelBase::fromJson(fieldValue, refVal_setFirstTraceReceived);
             setFirstTraceReceived(refVal_setFirstTraceReceived);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("ok"))))
@@ -125,7 +125,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             bool refVal_setOk;
             ok &= ModelBase::fromJson(fieldValue, refVal_setOk);
             setOk(refVal_setOk);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
@@ -136,7 +136,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             utility::string_t refVal_setProjectId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setProjectId);
             setProjectId(refVal_setProjectId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("status"))))
@@ -147,7 +147,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             std::shared_ptr<PaletteConnectStatus> refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
@@ -158,7 +158,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             utility::string_t refVal_setTenantId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTenantId);
             setTenantId(refVal_setTenantId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("totals"))))
@@ -169,7 +169,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             std::map<utility::string_t, std::shared_ptr<UsageTotal>> refVal_setTotals;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTotals);
             setTotals(refVal_setTotals);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("usageConfigured"))))
@@ -180,7 +180,7 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             bool refVal_setUsageConfigured;
             ok &= ModelBase::fromJson(fieldValue, refVal_setUsageConfigured);
             setUsageConfigured(refVal_setUsageConfigured);
-            
+
         }
     }
     return ok;
@@ -457,5 +457,3 @@ void PaletteConnectStatusResponse::unsetUsageConfigured()
 }
 }
 }
-
-

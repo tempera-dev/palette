@@ -106,8 +106,6 @@ from palette_client.models.dead_letter_replay_report import DeadLetterReplayRepo
 from palette_client.models.diff_line import DiffLine
 from palette_client.models.diff_line_kind import DiffLineKind
 from palette_client.models.enqueue_review_task_from_trace_http_request import EnqueueReviewTaskFromTraceHttpRequest
-from palette_client.models.error_response import ErrorResponse
-from palette_client.models.error_status import ErrorStatus
 from palette_client.models.eval_reproducibility import EvalReproducibility
 from palette_client.models.eval_result import EvalResult
 from palette_client.models.evaluate_alert_request import EvaluateAlertRequest
@@ -205,6 +203,8 @@ from palette_client.models.span_io_value_one_of2 import SpanIoValueOneOf2
 from palette_client.models.span_io_value_one_of3 import SpanIoValueOneOf3
 from palette_client.models.span_status import SpanStatus
 from palette_client.models.statistical_test import StatisticalTest
+from palette_client.models.status import Status
+from palette_client.models.status_error import StatusError
 from palette_client.models.submit_review_annotation_http_request import SubmitReviewAnnotationHttpRequest
 from palette_client.models.tempera_evidence_receipt import TemperaEvidenceReceipt
 from palette_client.models.tempera_evidence_summary import TemperaEvidenceSummary

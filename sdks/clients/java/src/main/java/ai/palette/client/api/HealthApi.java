@@ -142,7 +142,7 @@ public class HealthApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/health";
+    String localVarPath = "/healthz";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

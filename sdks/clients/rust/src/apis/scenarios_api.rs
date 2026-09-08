@@ -95,9 +95,10 @@ pub struct ScenariosPeriodMineParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ScenariosPeriodCreateError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -105,10 +106,11 @@ pub enum ScenariosPeriodCreateError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ScenariosPeriodGetError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -116,9 +118,10 @@ pub enum ScenariosPeriodGetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ScenariosPeriodListError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -126,10 +129,11 @@ pub enum ScenariosPeriodListError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ScenariosPeriodMineError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 

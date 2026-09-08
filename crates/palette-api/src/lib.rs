@@ -658,7 +658,7 @@ impl ApiState {
 }
 
 /// Number of distinct `/v1/...` HTTP operations (method + path pairs) registered
-/// in [`router`]. This excludes the non-versioned `/health` and `/openapi.json`
+/// in [`router`]. This excludes the non-versioned `/healthz` and `/openapi.json`
 /// routes. It MUST equal the count of documented `/v1` operations in the OpenAPI
 /// spec; the `openapi_coverage` integration test enforces this both ways.
 ///
@@ -675,7 +675,7 @@ pub fn v1_route_count() -> usize {
 
 pub fn router(state: ApiState) -> Router {
     let router = Router::new()
-        .route("/health", get(health))
+        .route("/healthz", get(health))
         .route("/openapi.json", get(openapi_json))
         .route("/v1/traces/native", post(ingest_native))
         .route("/v1/traces", post(ingest_otlp_json_collector))
@@ -888,7 +888,7 @@ pub fn router(state: ApiState) -> Router {
 
 #[utoipa::path(
     get,
-    path = "/health",
+    path = "/healthz",
     tag = "health",
     operation_id = "check",
     responses(
@@ -899,8 +899,12 @@ async fn health() -> Json<HealthResponse> {
     Json(HealthResponse { ok: true })
 }
 
-async fn openapi_json() -> Json<utoipa::openapi::OpenApi> {
-    Json(openapi::openapi())
+/// Serve the same document the repository publishes at
+/// `contracts/openapi/palette.openapi.json`, contract-standard extensions and
+/// shared error envelope included, so the running service and the committed
+/// contract cannot disagree.
+async fn openapi_json() -> Json<serde_json::Value> {
+    Json(openapi::openapi_value())
 }
 
 #[utoipa::path(

@@ -104,7 +104,7 @@ cargo build -q -p paletted -p palettectl
   --trace-write-drain-interval-ms 25 \
   --trace-ingested-drain-interval-ms 25 &
 server_pid="$!"
-wait_url "$api_url/health" "paletted"
+wait_url "$api_url/healthz" "paletted"
 
 http_smoke="$("$root/target/debug/palettectl" smoke \
   --http-url "$api_url" \

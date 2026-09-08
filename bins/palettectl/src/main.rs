@@ -2599,7 +2599,7 @@ struct ResolvedOperation {
 /// Find the operation with the given `operationId` in the OpenAPI document.
 ///
 /// `spec` is the OpenAPI document serialized to JSON (e.g. from
-/// `palette_api::openapi::openapi()`). Returns the HTTP method (uppercased) and
+/// `palette_api::openapi::openapi_value()`). Returns the HTTP method (uppercased) and
 /// the path template (e.g. `/v1/traces/{tenantId}`).
 fn resolve_operation(
     spec: &serde_json::Value,
@@ -2699,8 +2699,7 @@ async fn run_api_call(
     params: &[String],
     body: Option<String>,
 ) -> anyhow::Result<()> {
-    let spec =
-        serde_json::to_value(palette_api::openapi::openapi()).context("serialize OpenAPI spec")?;
+    let spec = palette_api::openapi::openapi_value();
     let op = resolve_operation(&spec, operation_id)?;
     let parsed = parse_params(params)?;
     let (path, query) = fill_path_template(&op.path_template, &parsed)?;
@@ -3874,7 +3873,7 @@ mod tests {
     use super::*;
 
     fn spec() -> anyhow::Result<serde_json::Value> {
-        serde_json::to_value(palette_api::openapi::openapi()).context("serialize spec")
+        Ok(palette_api::openapi::openapi_value())
     }
 
     #[test]

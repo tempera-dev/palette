@@ -35,7 +35,7 @@ primary_region = "sjc"
 
 # Public HTTPS surface on 443 -> 8080: the HTTP API, OTLP/HTTP ingest
 # (operationId ingestOtlp), and the MCP endpoint (/mcp) all ride this port.
-# `/health` is unauthenticated, so the Fly health check passes under strict auth.
+# `/healthz` is unauthenticated, so the Fly health check passes under strict auth.
 #
 # Note: OTLP *gRPC* (:4317) is intentionally NOT exposed publicly. Seed/ingest
 # over HTTPS, or run an exporter from inside the machine via `fly ssh console`.
@@ -53,7 +53,7 @@ primary_region = "sjc"
     timeout = "3s"
     grace_period = "15s"
     method = "get"
-    path = "/health"
+    path = "/healthz"
 
 [[vm]]
   size = "shared-cpu-1x"

@@ -99,9 +99,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Drain pending trace-ingested events, including retry and dead-letter outcomes |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestDrainTraceIngestedWithHttpInfo
 
@@ -180,9 +181,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Drain pending trace-ingested events, including retry and dead-letter outcomes |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestDrainTraceWrites
@@ -259,9 +261,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Drain pending trace writes, including retry and dead-letter outcomes |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestDrainTraceWritesWithHttpInfo
 
@@ -340,9 +343,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Drain pending trace writes, including retry and dead-letter outcomes |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestGetQueueStatus
@@ -417,9 +421,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Get ingest queue status |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestGetQueueStatusWithHttpInfo
 
@@ -496,9 +501,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Get ingest queue status |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestImportSource
@@ -575,11 +581,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Normalize an imported source document into canonical spans |  -  |
-| **400** | Invalid request, scope, or unknown source |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestImportSourceWithHttpInfo
 
@@ -658,11 +665,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Normalize an imported source document into canonical spans |  -  |
-| **400** | Invalid request, scope, or unknown source |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestNative
@@ -737,11 +745,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest native canonical spans |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestNativeWithHttpInfo
 
@@ -818,11 +827,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest native canonical spans |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestOtlp
@@ -901,11 +911,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest OTLP/HTTP protobuf traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestOtlpWithHttpInfo
 
@@ -986,11 +996,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest OTLP/HTTP protobuf traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestOtlpJsonCollector
@@ -1065,11 +1075,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest collector-style OTLP/HTTP JSON traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestOtlpJsonCollectorWithHttpInfo
 
@@ -1146,11 +1157,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Ingest collector-style OTLP/HTTP JSON traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **413** | Payload or attribute cardinality too large |  -  |
-| **429** | Per-project quota exceeded or backpressure |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **413** | A google.rpc.Status error envelope. |  -  |
+| **429** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestReconcileTrace
@@ -1227,10 +1239,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Reconcile a trace-ingested record |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestReconcileTraceWithHttpInfo
 
@@ -1309,10 +1322,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Reconcile a trace-ingested record |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## ingestReplayDeadLetter
@@ -1391,10 +1405,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Replay a dead-letter message |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## ingestReplayDeadLetterWithHttpInfo
 
@@ -1475,7 +1490,8 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Replay a dead-letter message |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

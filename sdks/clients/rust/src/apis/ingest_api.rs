@@ -179,9 +179,10 @@ pub struct IngestPeriodReplayDeadLetterParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodDrainTraceIngestedError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -189,9 +190,10 @@ pub enum IngestPeriodDrainTraceIngestedError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodDrainTraceWritesError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -199,9 +201,10 @@ pub enum IngestPeriodDrainTraceWritesError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodGetQueueStatusError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -209,11 +212,12 @@ pub enum IngestPeriodGetQueueStatusError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodImportSourceError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status429(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status413(models::Status),
+    Status429(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -221,11 +225,12 @@ pub enum IngestPeriodImportSourceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodNativeError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status429(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status413(models::Status),
+    Status429(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -233,11 +238,11 @@ pub enum IngestPeriodNativeError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodOtlpError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status429(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status413(models::Status),
+    Status429(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -245,11 +250,12 @@ pub enum IngestPeriodOtlpError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodOtlpJsonCollectorError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status429(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status413(models::Status),
+    Status429(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -257,10 +263,11 @@ pub enum IngestPeriodOtlpJsonCollectorError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodReconcileTraceError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 
@@ -268,10 +275,11 @@ pub enum IngestPeriodReconcileTraceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodReplayDeadLetterError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status404(models::Status),
+    DefaultResponse(models::Status),
     UnknownValue(serde_json::Value),
 }
 

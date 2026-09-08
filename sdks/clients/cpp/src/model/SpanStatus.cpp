@@ -121,5 +121,3 @@ void SpanStatus::setValue(SpanStatus::eSpanStatus const value)
 }
 }
 }
-
-

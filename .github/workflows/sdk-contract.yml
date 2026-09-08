@@ -37,6 +37,11 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Install Go for generated-client conformance compilation
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.25.x"
+
       - name: API stability policy matches contract gates
         run: python3 scripts/check-api-stability-policy.py
 
@@ -52,21 +57,40 @@ jobs:
       - name: API shape consistency audit
         run: python3 scripts/audit-api-shapes.py
 
+      - name: Compile Go generated-client conformance
+        working-directory: sdks/conformance/go
+        run: go test ./...
+
       - name: Contract-sync checker self-test
         run: |
           python3 -m py_compile scripts/tests/test_check_contract_sync.py
           python3 scripts/tests/test_check_contract_sync.py
+          python3 -m py_compile scripts/tests/test_filter_oasdiff_breaking.py
+          python3 scripts/tests/test_filter_oasdiff_breaking.py
 
       - name: Additive-only contract policy (oasdiff)
         run: |
           cargo run -q -p palette-api --example dump_openapi > /tmp/new-spec.json
-          git show "origin/${{ github.base_ref || 'main' }}:sdks/openapi/palette-api.json" \
-            > /tmp/base-spec.json || echo '{}' > /tmp/base-spec.json
+          base_ref="origin/${{ github.base_ref || 'main' }}"
+          canonical_path="contracts/openapi/palette.openapi.json"
+          legacy_path="sdks/openapi/palette-api.json"
+          if git cat-file -e "${base_ref}:${canonical_path}" 2>/dev/null; then
+            git show "${base_ref}:${canonical_path}" > /tmp/base-spec.json
+          elif git cat-file -e "${base_ref}:${legacy_path}" 2>/dev/null; then
+            git show "${base_ref}:${legacy_path}" > /tmp/base-spec.json
+          else
+            echo "ERROR: ${base_ref} has neither ${canonical_path} nor ${legacy_path}" >&2
+            exit 1
+          fi
           set +e
           docker run --rm -v /tmp:/specs tufin/oasdiff breaking \
             /specs/base-spec.json /specs/new-spec.json --fail-on ERR | tee /tmp/oasdiff-breaking.txt
           status=${PIPESTATUS[0]}
           set -e
-          if [ "$status" -ne 0 ]; then
-            python3 scripts/filter-oasdiff-breaking.py /tmp/oasdiff-breaking.txt
+          if [ "$status" -eq 1 ]; then
+            python3 scripts/filter-oasdiff-breaking.py \
+              /tmp/oasdiff-breaking.txt /tmp/base-spec.json /tmp/new-spec.json
+          elif [ "$status" -ne 0 ]; then
+            echo "ERROR: oasdiff failed with unexpected exit status ${status}" >&2
+            exit "$status"
           fi

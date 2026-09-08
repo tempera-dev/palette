@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   PaletteConnectStatusResponse,
+  Status,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     PaletteConnectStatusResponseFromJSON,
     PaletteConnectStatusResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ConnectGetStatusRequest {

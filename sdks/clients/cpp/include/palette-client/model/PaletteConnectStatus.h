@@ -12,7 +12,7 @@
 /*
  * PaletteConnectStatus.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_PaletteConnectStatus_H_

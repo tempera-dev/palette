@@ -14,10 +14,10 @@
 package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.JudgeBrokerOutcome;
 import ai.palette.client.model.JudgeLedgerListResponse;
 import ai.palette.client.model.RunJudgeEvalHttpRequest;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

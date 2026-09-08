@@ -2,7 +2,7 @@
 //!
 //! This exposes **every** `/v1` API operation as an MCP tool, kept in sync with
 //! the API *by construction*: the tool catalog is derived at runtime from
-//! [`palette_api::openapi::openapi()`], and `tools/call` dispatches through the
+//! [`palette_api::openapi::openapi_value()`], and `tools/call` dispatches through the
 //! real [`palette_api::router`] via `oneshot`. There is no hand-maintained mirror
 //! of the routes, so a new `/v1` route automatically becomes a new MCP tool and
 //! cannot drift from the HTTP surface.
@@ -94,9 +94,9 @@ fn tools() -> &'static [ToolSpec] {
 /// are bundled under `components` in each tool's input/output schema so refs
 /// resolve.
 fn build_tools() -> Vec<ToolSpec> {
-    let spec = palette_api::openapi::openapi();
-    // Serialize once; treat the spec as plain JSON from here on.
-    let doc: Value = serde_json::to_value(&spec).unwrap_or(Value::Null);
+    // The MCP catalog must use the same canonical document served by
+    // `/openapi.json` and used to generate committed SDKs.
+    let doc = palette_api::openapi::openapi_value();
 
     // Component schemas, bundled into input/output schemas so their refs resolve.
     let component_schemas = doc
@@ -1199,7 +1199,7 @@ mod tests {
     /// fails CI instead of silently mis-annotating (or never matching).
     #[test]
     fn classification_sets_reference_real_post_operations() {
-        let doc = serde_json::to_value(palette_api::openapi::openapi()).unwrap_or(Value::Null);
+        let doc = palette_api::openapi::openapi_value();
         let post_ops: std::collections::BTreeSet<String> = palette_api::openapi::operations(&doc)
             .into_iter()
             .filter(|op| op.method.eq_ignore_ascii_case("post"))

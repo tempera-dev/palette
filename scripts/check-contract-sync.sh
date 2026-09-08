@@ -20,8 +20,8 @@ tmp_spec="$(mktemp "${TMPDIR:-/tmp}/palette-openapi-check.XXXXXX")"
 trap 'rm -f "$tmp_spec"' EXIT
 cargo run -q -p palette-api --example dump_openapi > "$tmp_spec" || fail=1
 if [ "$fail" -eq 0 ]; then
-  if ! cmp -s "$tmp_spec" sdks/openapi/palette-api.json; then
-    echo "sdks/openapi/palette-api.json is stale; run scripts/regen-sdks.sh" >&2
+  if ! cmp -s "$tmp_spec" contracts/openapi/palette.openapi.json; then
+    echo "contracts/openapi/palette.openapi.json is stale; run scripts/regen-sdks.sh" >&2
     fail=1
   fi
   if ! cmp -s "$tmp_spec" web/dashboard/openapi/palette-read-api.json; then

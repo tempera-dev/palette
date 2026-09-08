@@ -62,7 +62,7 @@ examples).
 ## The one rule: regenerate from the contract
 
 The HTTP API, the 7 SDK clients, the MCP tools, the CLI, and the docs are all
-generated from `sdks/openapi/palette-api.json`. If you change a `/v1` endpoint,
+generated from `contracts/openapi/palette.openapi.json`. If you change a `/v1` endpoint,
 request/response type, span kind, or attribute, regenerate in the same change:
 
 ```sh

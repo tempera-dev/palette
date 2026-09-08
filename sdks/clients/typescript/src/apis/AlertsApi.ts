@@ -16,16 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   AlertDecision,
-  ErrorResponse,
   EvaluateAlertRequest,
+  Status,
 } from '../models/index';
 import {
     AlertDecisionFromJSON,
     AlertDecisionToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     EvaluateAlertRequestFromJSON,
     EvaluateAlertRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface AlertsEvaluateRequest {

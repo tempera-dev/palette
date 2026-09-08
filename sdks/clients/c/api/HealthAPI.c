@@ -22,7 +22,7 @@ HealthAPI_healthCheck(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/health");
+    char *localVarPath = strdup("/healthz");
 
 
 

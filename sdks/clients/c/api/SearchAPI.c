@@ -238,15 +238,19 @@ SearchAPI_searchSpans(apiClient_t *apiClient, char *tenantId, char *q, char *pro
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     search_span_list_response_t *elementToReturn = NULL;

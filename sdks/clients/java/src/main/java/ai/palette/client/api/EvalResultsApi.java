@@ -17,8 +17,8 @@ import ai.palette.client.ApiException;
 import ai.palette.client.ApiResponse;
 import ai.palette.client.Pair;
 
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ImportTemperaEvidenceRequest;
+import ai.palette.client.model.Status;
 import ai.palette.client.model.TemperaEvidenceReceipt;
 
 import com.fasterxml.jackson.core.type.TypeReference;

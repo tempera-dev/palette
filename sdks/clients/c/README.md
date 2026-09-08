@@ -91,7 +91,7 @@ Category | Method | HTTP request | Description
 *ExperimentsAPI* | [**ExperimentsAPI_experimentsRunJudge**](docs/ExperimentsAPI.md#ExperimentsAPI_experimentsRunJudge) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |
 *GatesAPI* | [**GatesAPI_gatesCreate**](docs/GatesAPI.md#GatesAPI_gatesCreate) | **POST** /v1/gates/{tenantId}/{projectId} |
 *GatesAPI* | [**GatesAPI_gatesRun**](docs/GatesAPI.md#GatesAPI_gatesRun) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthAPI* | [**HealthAPI_healthCheck**](docs/HealthAPI.md#HealthAPI_healthCheck) | **GET** /health |
+*HealthAPI* | [**HealthAPI_healthCheck**](docs/HealthAPI.md#HealthAPI_healthCheck) | **GET** /healthz |
 *IngestAPI* | [**IngestAPI_ingestDrainTraceIngested**](docs/IngestAPI.md#IngestAPI_ingestDrainTraceIngested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestAPI* | [**IngestAPI_ingestDrainTraceWrites**](docs/IngestAPI.md#IngestAPI_ingestDrainTraceWrites) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
 *IngestAPI* | [**IngestAPI_ingestGetQueueStatus**](docs/IngestAPI.md#IngestAPI_ingestGetQueueStatus) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
@@ -184,8 +184,6 @@ Category | Method | HTTP request | Description
  - [diff_line_t](docs/diff_line.md)
  - [diff_line_kind_t](docs/diff_line_kind.md)
  - [enqueue_review_task_from_trace_http_request_t](docs/enqueue_review_task_from_trace_http_request.md)
- - [error_response_t](docs/error_response.md)
- - [error_status_t](docs/error_status.md)
  - [eval_reproducibility_t](docs/eval_reproducibility.md)
  - [eval_result_t](docs/eval_result.md)
  - [evaluate_alert_request_t](docs/evaluate_alert_request.md)
@@ -283,6 +281,8 @@ Category | Method | HTTP request | Description
  - [span_io_value_one_of_3_t](docs/span_io_value_one_of_3.md)
  - [span_status_t](docs/span_status.md)
  - [statistical_test_t](docs/statistical_test.md)
+ - [status_t](docs/status.md)
+ - [status_error_t](docs/status_error.md)
  - [submit_review_annotation_http_request_t](docs/submit_review_annotation_http_request.md)
  - [tempera_evidence_receipt_t](docs/tempera_evidence_receipt.md)
  - [tempera_evidence_summary_t](docs/tempera_evidence_summary.md)
@@ -303,7 +303,19 @@ Category | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### paletteApiKey
+
+- **Type**: API key
+
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+### paletteBearer
+
+
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Author

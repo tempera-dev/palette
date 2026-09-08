@@ -22,9 +22,9 @@
 
 #include "palette-client/ApiClient.h"
 
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/OnlineSamplingPolicy.h"
 #include "palette-client/model/SamplingDecision.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

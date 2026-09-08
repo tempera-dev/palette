@@ -185,5 +185,3 @@ class CanonicalSpan(BaseModel):
             "unmappedAttrs": obj.get("unmappedAttrs")
         })
         return _obj
-
-

@@ -25,13 +25,13 @@
 #include "palette-client/model/CreateReviewQueueHttpRequest.h"
 #include "palette-client/model/DatasetCase.h"
 #include "palette-client/model/EnqueueReviewTaskFromTraceHttpRequest.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/PromoteReviewAnnotationHttpRequest.h"
 #include "palette-client/model/ReviewAnnotation.h"
 #include "palette-client/model/ReviewQueue.h"
 #include "palette-client/model/ReviewTask.h"
 #include "palette-client/model/ReviewTaskListResponse.h"
 #include "palette-client/model/ReviewTaskState.h"
+#include "palette-client/model/Status.h"
 #include "palette-client/model/SubmitReviewAnnotationHttpRequest.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>

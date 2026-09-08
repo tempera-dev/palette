@@ -1,7 +1,7 @@
 /*
  * ingest_queue_status.h
  *
- * 
+ *
  */
 
 #ifndef _ingest_queue_status_H_
@@ -46,4 +46,3 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
 cJSON *ingest_queue_status_convertToJSON(ingest_queue_status_t *ingest_queue_status);
 
 #endif /* _ingest_queue_status_H_ */
-

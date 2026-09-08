@@ -607,7 +607,7 @@ run_before_deadline "Gate 2 prerequisite preflight" preflight_prerequisites
 run_before_deadline "clean previous Gate 2 state" clean_start
 run_before_deadline "Gate 2 port preflight" preflight_ports
 run_before_deadline "compose startup ($startup_mode)" compose "${startup_args[@]}"
-wait_url "$api_url/health" "paletted"
+wait_url "$api_url/healthz" "paletted"
 wait_url "$dashboard_base_url/?tenant=demo&project=demo&environment=local" "dashboard"
 
 run_before_deadline "five-line OTEL snippet" compose_run_tool \

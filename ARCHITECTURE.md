@@ -204,7 +204,7 @@ drift. What is **[built]** today vs **[planned]** is marked.
 | --- | --- | --- | --- | --- | --- |
 | **`paletted` server** (+ `palettectl`) | Rust workspace, multi-stage `cargo-chef` Dockerfile | multi-arch GHCR image (`container-images` workflow); also a raw binary | git SHA tag per build; semver tag at release | OSS: `docker compose up`. Hosted: Rust cells (§3.2). | [built] |
 | **Dashboard** | `web/dashboard` (Next.js) consuming the generated TS client | GHCR image (`container-images`); Vercel deploy for hosted | git SHA / release tag | OSS: compose service on `:3000`. Hosted: Vercel (§3.2). | [built] |
-| **Docs site** | renders the committed `sdks/openapi/palette-api.json` | static site / hosted docs | tracks the spec version | published from `main`; the committed spec is the source so docs never drift | [planned site; spec is built] |
+| **Docs site** | renders the committed `contracts/openapi/palette.openapi.json` | static site / hosted docs | tracks the spec version | published from `main`; the committed spec is the source so docs never drift | [planned site; spec is built] |
 | **7 generated SDK clients** (`sdks/clients/*`: py, ts, go, java, c, cpp, …) | OpenAPI spec via `scripts/regen-sdks.sh` (+ reproducible C/C++ patches) | committed in-repo; published to each language registry (PyPI / npm / pkg.go.dev / Maven, etc.) by `scripts/publish-sdk.sh` | spec/contract version; per-language package version | `pip`/`npm`/`go get`/Maven by users; `sdk-contract` CI blocks any drift from the spec | clients [built]; registry publish [planned] |
 | **Native Rust SDK** (`sdks/rust`) | hand-written, `tracing`/OTel layers; **excluded** from the cargo workspace | crates.io package | semver | `cargo add palette` (accelerator, not the adoption gate, §1 #2, §15) | [built in-repo; crates.io publish planned] |
 | **MCP server** (`palette-mcp`) | every `/v1` operation resolved from the spec at runtime, + composite recipes + RSI tools (§21) | served by `paletted` at `POST /mcp`; local stdio via `paletted mcp --stdio` | tracks the spec (operations resolved at runtime → auto-in-sync) | **stdio** for local clients (Claude Code/Cursor/Codex) and **streamable-HTTP + OAuth 2.1** for hosted (§21). | streamable-HTTP [built]; stdio tools/list smoke [built] |
@@ -2005,7 +2005,7 @@ docs-walkthrough check:
 - **Framework-integration guides** — LangChain / LangGraph, Temporal, browser-use,
   OpenInference/OpenLLMetry exporters (§21.5).
 - **API & MCP-tool reference** — the `/v1` API reference and the MCP-tool reference,
-  **generated from the contract** (`sdks/openapi/palette-api.json`), never hand-written.
+  **generated from the contract** (`contracts/openapi/palette.openapi.json`), never hand-written.
 - **Self-host + ops runbooks** — install/upgrade, backup/restore, SLO dashboards,
   incident response.
 - **Docs-site build/publish/versioning** — how the docs site is built, published,
@@ -3219,7 +3219,7 @@ e2e — OTLP HTTP **and** gRPC trace becomes queryable and searchable.
 *Verify it's running:* `[built]`
 
 ```bash
-curl -fsS http://127.0.0.1:8080/health
+curl -fsS http://127.0.0.1:8080/healthz
 cargo run -q -p palettectl -- smoke --http-url http://127.0.0.1:8080            # OTLP round-trip + query lag
 cargo run -q -p palettectl -- ingest-outage-fixture --data-dir /tmp/palette-io  # no silent drop
 ```
@@ -3365,7 +3365,7 @@ lag, DLQ age, query p95; a load run produces the §16 numbers.
 context follows *only* the published docs (quickstart + the §21.5b Claude-Code/Codex
 MCP setup + SDK/framework guides + generated API/MCP reference) and reaches **first
 scored failure** within the §15 DX SLO; the generated `/v1` + MCP-tool reference is
-asserted in sync with `sdks/openapi/palette-api.json` (the `sdk-contract` discipline).
+asserted in sync with `contracts/openapi/palette.openapi.json` (the `sdk-contract` discipline).
 *Verify:* `[planned]` a scripted docs-walkthrough (fresh container, docs-only
 instructions) ending in a scored failing case visible in the dashboard; ties to the
 §24.3 "Docs complete" row.
@@ -3470,7 +3470,7 @@ its single source without a gate going red.** The three drift surfaces of §1 #2
 
 1. **Contract drift — `spec → 7 SDKs → MCP → CLI → docs`** (the `sdk-contract`
    gate / `scripts/check-contract-sync.sh`, §22.2). The Rust `#[utoipa::path]`
-   handlers in `palette-api` (Mixing Board) generate `sdks/openapi/palette-api.json`
+   handlers in `palette-api` (Mixing Board) generate `contracts/openapi/palette.openapi.json`
    via `cargo xtask regen-spec`; that spec then generates the 7 clients
    (`scripts/regen-sdks.sh`). `check-contract-sync.sh` proves, in one command:
    spec == served routes (`openapi_coverage`), spec == all 7 regenerated clients
@@ -3742,7 +3742,7 @@ to §18 milestones, §19 Bar-for-Done, §20/§21 phase items, and §22 tests.
 
 | Capability | Binary done-criterion | Verified-by | Status |
 | --- | --- | --- | --- |
-| Columnar store wired | `paletted --trace-store clickhouse` boots and serves traces | `cargo run -p paletted -- --trace-store clickhouse && curl /health` `[planned]`; `storage-backends` gate (compose integration test) | planned |
+| Columnar store wired | `paletted --trace-store clickhouse` boots and serves traces | `cargo run -p paletted -- --trace-store clickhouse && curl /healthz` `[planned]`; `storage-backends` gate (compose integration test) | planned |
 | Scale: filtered search p95 | 10M-span seeded filtered search **p95 < 1s** in CI | `cargo bench -p palette-bench` `[planned]`; `palette-bench` load report (`backend` bench gate, §23.10) | planned |
 | Zero-SDK OTLP queryable | a stock OTel exporter trace (no Palette SDK) becomes queryable under the §16 ingest→queryable SLO | §22.1 Ingest e2e; `gate1-live-smoke` | partial (built: SDK round-trip and `palettectl ingest test` env block; env-var distro planned) |
 | Datasets read-API + UI | browse datasets/versions/cases via `GET /v1/datasets…` and the dashboard | Playwright e2e §20.4 #2.x `[planned]`; `sdk-contract` + `frontend` | planned (create-only POST today) |

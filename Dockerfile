@@ -45,7 +45,7 @@ EXPOSE 8080 4317
 ENV PALETTE_TRACE_WRITE_DRAIN_INTERVAL_MS=250
 ENV PALETTE_TRACE_INGESTED_DRAIN_INTERVAL_MS=250
 HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=12 \
-  CMD curl -fsS http://127.0.0.1:8080/health || exit 1
+  CMD curl -fsS http://127.0.0.1:8080/healthz || exit 1
 ENTRYPOINT ["paletted"]
 CMD ["--addr", "0.0.0.0:8080", "--otlp-grpc-addr", "0.0.0.0:4317", "--data-dir", "/data"]
 

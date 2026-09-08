@@ -38,6 +38,11 @@ def load_module():
     return module
 
 
+def error_response() -> dict:
+    """The one shared google.rpc.Status response every failure references."""
+    return {"$ref": "#/components/responses/Error"}
+
+
 def json_response(schema: str) -> dict:
     return {
         "description": schema,
@@ -53,7 +58,7 @@ def valid_contract_spec() -> dict:
     return {
         "openapi": "3.0.3",
         "paths": {
-            "/health": {
+            "/healthz": {
                 "get": {
                     "tags": ["health"],
                     "operationId": "health.check",
@@ -78,7 +83,7 @@ def valid_contract_spec() -> dict:
                     ],
                     "responses": {
                         "200": json_response("TraceListResponse"),
-                        "400": json_response("ApiErrorBody"),
+                        "400": error_response(),
                     },
                 },
                 "post": {
@@ -86,36 +91,42 @@ def valid_contract_spec() -> dict:
                     "operationId": "traces.create",
                     "responses": {
                         "201": json_response("CreateTraceResponse"),
-                        "400": json_response("ErrorResponse"),
-                        "422": json_response("ErrorResponse"),
+                        "400": error_response(),
+                        "422": error_response(),
                     },
                 },
             },
         },
         "components": {
+            "responses": {
+                "Error": {
+                    "description": "A google.rpc.Status error envelope.",
+                    "content": {
+                        "application/json": {
+                            "schema": {"$ref": "#/components/schemas/Status"}
+                        }
+                    },
+                }
+            },
             "schemas": {
-                "ApiErrorBody": {},
                 "CreateTraceResponse": {},
                 "DrainPartialSuccess": {},
-                "ErrorResponse": {
+                "HealthResponse": {},
+                "Status": {
                     "properties": {
                         "error": {
-                            "$ref": "#/components/schemas/ErrorStatus"
+                            "properties": {
+                                "code": {"type": "integer"},
+                                "message": {"type": "string"},
+                                "status": {"type": "string"},
+                                "details": {
+                                    "type": "array",
+                                    "items": {"type": "object"},
+                                },
+                            }
                         }
                     }
                 },
-                "ErrorStatus": {
-                    "properties": {
-                        "code": {"type": "integer"},
-                        "message": {"type": "string"},
-                        "status": {"type": "string"},
-                        "details": {
-                            "type": "array",
-                            "items": {"type": "object"},
-                        },
-                    }
-                },
-                "HealthResponse": {},
                 "TraceListResponse": {
                     "properties": {
                         "items": {"type": "array"},
@@ -135,7 +146,7 @@ def violations_for(spec: dict) -> list[str]:
 def test_import_has_no_cli_side_effects() -> None:
     module = load_module()
 
-    assert module.DEFAULT_SPEC == "sdks/openapi/palette-api.json"
+    assert module.DEFAULT_SPEC == "contracts/openapi/palette.openapi.json"
     assert hasattr(module, "audit_spec")
     assert hasattr(module, "main")
 
@@ -149,7 +160,7 @@ def test_accepts_contract_shapes_required_for_drift_gate() -> None:
     assert result.violations == []
     assert result.operation_count == 3
     assert result.unique_operation_id_count == 3
-    assert result.schema_count == 7
+    assert result.schema_count == 5
     assert result.aip127_debt_field_count == 0
 
 
@@ -201,8 +212,8 @@ def test_rejects_non_shared_error_and_inline_success_shapes() -> None:
     violations = violations_for(spec)
 
     assert (
-        "GET /v1/traces: error 400 body is not the shared error schema "
-        "(got #/components/schemas/ProblemDetails)"
+        "GET /v1/traces: error 400 is not #/components/responses/Error "
+        "(got an inline response)"
     ) in violations
     assert (
         "GET /v1/traces: success 200 uses an inline anonymous object (name it)"
@@ -218,8 +229,8 @@ def test_rejects_partial_success_body_at_http_error_status() -> None:
     violations = violations_for(spec)
 
     assert (
-        "POST /v1/traces: error 422 body is not the shared error schema "
-        "(got #/components/schemas/DrainPartialSuccess)"
+        "POST /v1/traces: error 422 is not #/components/responses/Error "
+        "(got an inline response)"
     ) in violations
 
 
@@ -314,13 +325,15 @@ def test_rejects_legacy_aliases_after_a_collection_is_migrated() -> None:
 
 def test_rejects_aip193_envelope_drift() -> None:
     spec = valid_contract_spec()
-    del spec["components"]["schemas"]["ErrorStatus"]["properties"]["details"]
+    del spec["components"]["schemas"]["Status"]["properties"]["error"]["properties"][
+        "details"
+    ]
 
     violations = violations_for(spec)
 
-    assert "AIP-193 ErrorStatus lacks ['details']" in violations
+    assert "AIP-193 Status.error lacks ['details']" in violations
     assert (
-        "AIP-193 ErrorStatus.details must contain standard detail objects"
+        "AIP-193 Status.error.details must contain standard detail objects"
         in violations
     )
 
@@ -352,7 +365,7 @@ def test_main_reports_failure_for_cli_gate() -> None:
         code = module.main([str(spec_path)], stream=stdout)
 
     assert code == 1
-    assert "audited 3 operations, 3 unique operationIds, 7 schemas" in stdout.getvalue()
+    assert "audited 3 operations, 3 unique operationIds, 5 schemas" in stdout.getvalue()
     assert "CONSISTENCY VIOLATIONS" in stdout.getvalue()
     assert "collection op 'traces.list' lacks pagination params" in stdout.getvalue()
 

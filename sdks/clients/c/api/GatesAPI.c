@@ -128,15 +128,19 @@ GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenantId, char *projectId, cr
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     gate_definition_t *elementToReturn = NULL;
@@ -344,19 +348,23 @@ GatesAPI_gatesRun(apiClient_t *apiClient, char *tenantId, char *projectId, char 
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     gate_run_report_t *elementToReturn = NULL;

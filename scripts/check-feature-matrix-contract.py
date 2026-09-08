@@ -21,7 +21,7 @@ DOC_TOKENS = {
     ],
     "contract and engine stay open": [
         "The **contract and the engine are open.**",
-        "sdks/openapi/palette-api.json",
+        "contracts/openapi/palette.openapi.json",
         "crates/palette-schema",
         "sdks/semconv",
         "self-hostable `paletted` server",

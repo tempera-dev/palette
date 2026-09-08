@@ -124,10 +124,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionLink",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -218,10 +218,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionLink",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -312,10 +312,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionLink",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -496,10 +496,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorSkillsResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -590,10 +590,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorSkillsResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -684,10 +684,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorSkillsResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -857,10 +857,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ToolExecution",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -951,10 +951,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ToolExecution",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1045,10 +1045,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ToolExecution",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1233,10 +1233,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1331,10 +1331,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1429,10 +1429,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1615,10 +1615,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorToolListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1717,10 +1717,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorToolListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1819,10 +1819,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectorToolListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2002,10 +2002,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2096,10 +2096,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2190,10 +2190,10 @@ class ConnectorsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '501': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,

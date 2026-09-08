@@ -102,5 +102,3 @@ class IngestQueueStatus(BaseModel):
             "traceWriteDepth": obj.get("traceWriteDepth")
         })
         return _obj
-
-

@@ -10,8 +10,8 @@
 #include "../model/dataset.h"
 #include "../model/dataset_case.h"
 #include "../model/dataset_version_snapshot.h"
-#include "../model/error_response.h"
 #include "../model/promote_trace_case_request.h"
+#include "../model/status.h"
 
 
 dataset_t*

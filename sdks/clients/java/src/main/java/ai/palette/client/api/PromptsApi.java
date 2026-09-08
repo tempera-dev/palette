@@ -20,12 +20,12 @@ import ai.palette.client.Pair;
 import ai.palette.client.model.AddPromptVersionRequest;
 import ai.palette.client.model.CreatePromptRequest;
 import ai.palette.client.model.CreatedPrompt;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.Prompt;
 import ai.palette.client.model.PromptListResponse;
 import ai.palette.client.model.PromptVersion;
 import ai.palette.client.model.PromptVersionDiff;
 import ai.palette.client.model.PromptVersionListResponse;
+import ai.palette.client.model.Status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

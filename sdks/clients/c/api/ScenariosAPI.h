@@ -6,11 +6,11 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/create_scenario_request.h"
-#include "../model/error_response.h"
 #include "../model/list_scenarios_response.h"
 #include "../model/mine_scenarios_request.h"
 #include "../model/mine_scenarios_response.h"
 #include "../model/scenario.h"
+#include "../model/status.h"
 
 
 scenario_t*

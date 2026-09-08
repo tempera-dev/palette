@@ -5,10 +5,10 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
 #include "../model/experiment_run_report.h"
 #include "../model/run_experiment_request.h"
 #include "../model/run_judge_experiment_request.h"
+#include "../model/status.h"
 
 
 experiment_run_report_t*

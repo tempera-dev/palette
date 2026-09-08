@@ -141,19 +141,23 @@ EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenan
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid evidence kind or identifier");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Evidence not found in this tenant/project");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     tempera_evidence_receipt_t *elementToReturn = NULL;
@@ -346,31 +350,35 @@ EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tena
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Malformed, non-canonical, unsafe, or signature-invalid evidence");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope or the evidence key is not trusted");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 409) {
-    //    printf("%s\n","The external id already binds different content");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 413) {
-    //    printf("%s\n","Evidence exceeds the request limit");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 422) {
-    //    printf("%s\n","Request body does not match the schema");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 503) {
-    //    printf("%s\n","No Tempera evaluation release-key trust anchor is configured");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     tempera_evidence_receipt_t *elementToReturn = NULL;
@@ -566,31 +574,35 @@ EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *te
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Malformed, non-canonical, unsafe, or signature-invalid evidence");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope or the evidence key is not trusted");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 409) {
-    //    printf("%s\n","The external id already binds different content");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 413) {
-    //    printf("%s\n","Evidence exceeds the request limit");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 422) {
-    //    printf("%s\n","Request body does not match the schema");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 503) {
-    //    printf("%s\n","No Tempera evaluation release-key trust anchor is configured");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     tempera_evidence_receipt_t *elementToReturn = NULL;

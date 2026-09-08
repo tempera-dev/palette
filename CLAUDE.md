@@ -7,7 +7,7 @@ file keeps the non-negotiable contract-generation rule close to Claude Code.
 
 The HTTP API, the 7 SDK clients (`sdks/clients/*`), the MCP tools (`/mcp`), the
 CLI (`palette api`), and the docs are ALL generated from one artifact —
-`sdks/openapi/palette-api.json`, generated from the Rust handlers in
+`contracts/openapi/palette.openapi.json`, generated from the Rust handlers in
 `crates/palette-api`. Span kinds + attribute keys come from one source too
 (`crates/palette-schema` `conventions` module → `sdks/semconv/conventions.json`).
 

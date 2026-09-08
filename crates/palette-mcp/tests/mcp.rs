@@ -92,8 +92,7 @@ fn build_state() -> (ApiState, tempfile::TempDir) {
 
 /// Set of `/v1` operationIds documented in the spec.
 fn spec_v1_operation_ids() -> BTreeSet<String> {
-    let spec = palette_api::openapi::openapi();
-    let doc: Value = serde_json::to_value(&spec).expect("serialize spec");
+    let doc = palette_api::openapi::openapi_value();
     let mut ids = BTreeSet::new();
     let paths = doc
         .get("paths")
@@ -119,8 +118,7 @@ fn spec_v1_operation_ids() -> BTreeSet<String> {
 
 /// Map of `/v1` operationId -> upper-case HTTP method, from the spec.
 fn spec_op_methods() -> BTreeMap<String, String> {
-    let spec = palette_api::openapi::openapi();
-    let doc: Value = serde_json::to_value(&spec).expect("serialize spec");
+    let doc = palette_api::openapi::openapi_value();
     let mut map = BTreeMap::new();
     let paths = doc
         .get("paths")
@@ -1165,7 +1163,7 @@ async fn mcp_reachable_in_merged_app() {
     let health = unwrap(
         Request::builder()
             .method("GET")
-            .uri("/health")
+            .uri("/healthz")
             .body(Body::empty()),
     );
     let health_resp = unwrap(app.oneshot(health).await);

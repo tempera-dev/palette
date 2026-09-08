@@ -15,9 +15,9 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.DatasetEvalReport;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.RunDeterministicEvalRequest;
 import ai.palette.client.model.RunJudgeDatasetEvalRequest;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

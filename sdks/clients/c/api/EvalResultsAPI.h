@@ -5,8 +5,8 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
 #include "../model/import_tempera_evidence_request.h"
+#include "../model/status.h"
 #include "../model/tempera_evidence_receipt.h"
 
 

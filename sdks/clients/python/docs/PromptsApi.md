@@ -89,10 +89,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Append an immutable prompt version |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**404** | Resource not found |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**404** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -171,9 +172,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Create a prompt and its initial version |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -255,10 +257,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Line diff between two prompt versions |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**404** | Resource not found |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**404** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -336,10 +339,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Get a prompt&#39;s metadata |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**404** | Resource not found |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**404** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -419,9 +423,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | List prompts in a project |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -503,9 +508,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | List a prompt&#39;s versions oldest-first |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**404** | Resource not found |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**404** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

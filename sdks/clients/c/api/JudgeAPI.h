@@ -5,10 +5,10 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
 #include "../model/judge_broker_outcome.h"
 #include "../model/judge_ledger_list_response.h"
 #include "../model/run_judge_eval_http_request.h"
+#include "../model/status.h"
 
 
 judge_broker_outcome_t*

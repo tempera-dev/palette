@@ -85,10 +85,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Read a scoped external evidence receipt |  -  |
-**400** | Invalid evidence kind or identifier |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**404** | Evidence not found in this tenant/project |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**404** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -167,13 +168,14 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Idempotently store a verified official Tempera result bundle |  -  |
-**400** | Malformed, non-canonical, unsafe, or signature-invalid evidence |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope or the evidence key is not trusted |  -  |
-**409** | The external id already binds different content |  -  |
-**413** | Evidence exceeds the request limit |  -  |
-**422** | Request body does not match the schema |  -  |
-**503** | No Tempera evaluation release-key trust anchor is configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**409** | A google.rpc.Status error envelope. |  -  |
+**413** | A google.rpc.Status error envelope. |  -  |
+**422** | A google.rpc.Status error envelope. |  -  |
+**503** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -252,12 +254,13 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Idempotently store a verified preregistered Tempera A/B decision |  -  |
-**400** | Malformed, non-canonical, unsafe, or signature-invalid evidence |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope or the evidence key is not trusted |  -  |
-**409** | The external id already binds different content |  -  |
-**413** | Evidence exceeds the request limit |  -  |
-**422** | Request body does not match the schema |  -  |
-**503** | No Tempera evaluation release-key trust anchor is configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**409** | A google.rpc.Status error envelope. |  -  |
+**413** | A google.rpc.Status error envelope. |  -  |
+**422** | A google.rpc.Status error envelope. |  -  |
+**503** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

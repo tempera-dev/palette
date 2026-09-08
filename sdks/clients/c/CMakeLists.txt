@@ -100,8 +100,6 @@ set(SRCS
     model/diff_line.c
     model/diff_line_kind.c
     model/enqueue_review_task_from_trace_http_request.c
-    model/error_response.c
-    model/error_status.c
     model/eval_reproducibility.c
     model/eval_result.c
     model/evaluate_alert_request.c
@@ -199,6 +197,8 @@ set(SRCS
     model/span_io_value_one_of_3.c
     model/span_status.c
     model/statistical_test.c
+    model/status.c
+    model/status_error.c
     model/submit_review_annotation_http_request.c
     model/tempera_evidence_receipt.c
     model/tempera_evidence_summary.c
@@ -302,8 +302,6 @@ set(HDRS
     model/diff_line.h
     model/diff_line_kind.h
     model/enqueue_review_task_from_trace_http_request.h
-    model/error_response.h
-    model/error_status.h
     model/eval_reproducibility.h
     model/eval_result.h
     model/evaluate_alert_request.h
@@ -401,6 +399,8 @@ set(HDRS
     model/span_io_value_one_of_3.h
     model/span_status.h
     model/statistical_test.h
+    model/status.h
+    model/status_error.h
     model/submit_review_annotation_http_request.h
     model/tempera_evidence_receipt.h
     model/tempera_evidence_summary.h

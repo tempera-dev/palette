@@ -15,13 +15,13 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
+  Status,
   TraceListResponse,
   TraceView,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
     TraceListResponseFromJSON,
     TraceListResponseToJSON,
     TraceViewFromJSON,

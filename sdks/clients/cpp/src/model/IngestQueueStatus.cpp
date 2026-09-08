@@ -46,33 +46,33 @@ web::json::value IngestQueueStatus::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_DeadLettersIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("deadLetters"))] = ModelBase::toJson(m_DeadLetters);
     }
     if(m_ProjectIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_TenantIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TotalDepthIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("totalDepth"))] = ModelBase::toJson(m_TotalDepth);
     }
     if(m_TraceIngestedDepthIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("traceIngestedDepth"))] = ModelBase::toJson(m_TraceIngestedDepth);
     }
     if(m_TraceWriteDepthIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("traceWriteDepth"))] = ModelBase::toJson(m_TraceWriteDepth);
     }
 
@@ -90,7 +90,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             std::vector<std::shared_ptr<DeadLetter>> refVal_setDeadLetters;
             ok &= ModelBase::fromJson(fieldValue, refVal_setDeadLetters);
             setDeadLetters(refVal_setDeadLetters);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
@@ -101,7 +101,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             utility::string_t refVal_setProjectId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setProjectId);
             setProjectId(refVal_setProjectId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
@@ -112,7 +112,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             utility::string_t refVal_setTenantId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTenantId);
             setTenantId(refVal_setTenantId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("totalDepth"))))
@@ -123,7 +123,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             int32_t refVal_setTotalDepth;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTotalDepth);
             setTotalDepth(refVal_setTotalDepth);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("traceIngestedDepth"))))
@@ -134,7 +134,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             int32_t refVal_setTraceIngestedDepth;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTraceIngestedDepth);
             setTraceIngestedDepth(refVal_setTraceIngestedDepth);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("traceWriteDepth"))))
@@ -145,7 +145,7 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             int32_t refVal_setTraceWriteDepth;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTraceWriteDepth);
             setTraceWriteDepth(refVal_setTraceWriteDepth);
-            
+
         }
     }
     return ok;
@@ -361,5 +361,3 @@ void IngestQueueStatus::unsetTraceWriteDepth()
 }
 }
 }
-
-

@@ -43,23 +43,23 @@ web::json::value ConnectionStatus::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_ConnectedIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("connected"))] = ModelBase::toJson(m_Connected);
     }
     if(m_ConnectedAccountIdIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("connectedAccountId"))] = ModelBase::toJson(m_ConnectedAccountId);
     }
     if(m_StatusIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
     if(m_ToolkitIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("toolkit"))] = ModelBase::toJson(m_Toolkit);
     }
 
@@ -77,7 +77,7 @@ bool ConnectionStatus::fromJson(const web::json::value& val)
             bool refVal_setConnected;
             ok &= ModelBase::fromJson(fieldValue, refVal_setConnected);
             setConnected(refVal_setConnected);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("connectedAccountId"))))
@@ -88,7 +88,7 @@ bool ConnectionStatus::fromJson(const web::json::value& val)
             utility::string_t refVal_setConnectedAccountId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setConnectedAccountId);
             setConnectedAccountId(refVal_setConnectedAccountId);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("status"))))
@@ -99,7 +99,7 @@ bool ConnectionStatus::fromJson(const web::json::value& val)
             utility::string_t refVal_setStatus;
             ok &= ModelBase::fromJson(fieldValue, refVal_setStatus);
             setStatus(refVal_setStatus);
-            
+
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("toolkit"))))
@@ -110,7 +110,7 @@ bool ConnectionStatus::fromJson(const web::json::value& val)
             utility::string_t refVal_setToolkit;
             ok &= ModelBase::fromJson(fieldValue, refVal_setToolkit);
             setToolkit(refVal_setToolkit);
-            
+
         }
     }
     return ok;
@@ -266,5 +266,3 @@ void ConnectionStatus::unsetToolkit()
 }
 }
 }
-
-

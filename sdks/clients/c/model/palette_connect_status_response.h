@@ -1,7 +1,7 @@
 /*
  * palette_connect_status_response.h
  *
- * 
+ *
  */
 
 #ifndef _palette_connect_status_response_H_
@@ -51,4 +51,3 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
 cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_response_t *palette_connect_status_response);
 
 #endif /* _palette_connect_status_response_H_ */
-

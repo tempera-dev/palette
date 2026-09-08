@@ -166,8 +166,8 @@ Class | Method | HTTP request | Description
 *GatesApi* | [**gatesCreateWithHttpInfo**](docs/GatesApi.md#gatesCreateWithHttpInfo) | **POST** /v1/gates/{tenantId}/{projectId} |
 *GatesApi* | [**gatesRun**](docs/GatesApi.md#gatesRun) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
 *GatesApi* | [**gatesRunWithHttpInfo**](docs/GatesApi.md#gatesRunWithHttpInfo) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthApi* | [**healthCheck**](docs/HealthApi.md#healthCheck) | **GET** /health |
-*HealthApi* | [**healthCheckWithHttpInfo**](docs/HealthApi.md#healthCheckWithHttpInfo) | **GET** /health |
+*HealthApi* | [**healthCheck**](docs/HealthApi.md#healthCheck) | **GET** /healthz |
+*HealthApi* | [**healthCheckWithHttpInfo**](docs/HealthApi.md#healthCheckWithHttpInfo) | **GET** /healthz |
 *IngestApi* | [**ingestDrainTraceIngested**](docs/IngestApi.md#ingestDrainTraceIngested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestApi* | [**ingestDrainTraceIngestedWithHttpInfo**](docs/IngestApi.md#ingestDrainTraceIngestedWithHttpInfo) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestApi* | [**ingestDrainTraceWrites**](docs/IngestApi.md#ingestDrainTraceWrites) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
@@ -296,8 +296,6 @@ Class | Method | HTTP request | Description
  - [DiffLine](docs/DiffLine.md)
  - [DiffLineKind](docs/DiffLineKind.md)
  - [EnqueueReviewTaskFromTraceHttpRequest](docs/EnqueueReviewTaskFromTraceHttpRequest.md)
- - [ErrorResponse](docs/ErrorResponse.md)
- - [ErrorStatus](docs/ErrorStatus.md)
  - [EvalReproducibility](docs/EvalReproducibility.md)
  - [EvalResult](docs/EvalResult.md)
  - [EvaluateAlertRequest](docs/EvaluateAlertRequest.md)
@@ -395,6 +393,8 @@ Class | Method | HTTP request | Description
  - [SpanIoValueOneOf3](docs/SpanIoValueOneOf3.md)
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
+ - [Status](docs/Status.md)
+ - [StatusError](docs/StatusError.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
  - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
  - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
@@ -416,7 +416,21 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="paletteApiKey"></a>
+### paletteApiKey
+
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+<a id="paletteBearer"></a>
+### paletteBearer
+
+
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Recommendation

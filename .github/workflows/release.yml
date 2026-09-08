@@ -86,7 +86,7 @@ jobs:
           prev="$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || echo '')"
           cargo run -q -p palette-api --example dump_openapi > /tmp/new.json
           if [ -n "$prev" ]; then
-            git show "$prev:sdks/openapi/palette-api.json" > /tmp/old.json || echo '{}' > /tmp/old.json
+            git show "$prev:contracts/openapi/palette.openapi.json" > /tmp/old.json || echo '{}' > /tmp/old.json
             docker run --rm -v /tmp:/s tufin/oasdiff changelog /s/old.json /s/new.json > /tmp/changelog.md || true
           fi
           gh release create "${GITHUB_REF_NAME}" --notes-file /tmp/changelog.md --title "${GITHUB_REF_NAME}" || \

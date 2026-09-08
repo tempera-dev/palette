@@ -40,7 +40,7 @@ pplx::task<std::shared_ptr<HealthResponse>> HealthApi::health_check() const
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/health");
+    utility::string_t localVarPath = utility::conversions::to_string_t("/healthz");
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );

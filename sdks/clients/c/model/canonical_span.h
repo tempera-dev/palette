@@ -1,7 +1,7 @@
 /*
  * canonical_span.h
  *
- * 
+ *
  */
 
 #ifndef _canonical_span_H_
@@ -83,4 +83,3 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON);
 cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span);
 
 #endif /* _canonical_span_H_ */
-

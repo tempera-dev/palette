@@ -25,7 +25,7 @@ pub enum HealthPeriodCheckError {
 
 pub async fn health_period_check(configuration: &configuration::Configuration) -> Result<models::HealthResponse, Error<HealthPeriodCheckError>> {
 
-    let uri_str = format!("{}/health", configuration.base_path);
+    let uri_str = format!("{}/healthz", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

@@ -35,7 +35,7 @@ export class HealthApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/health`,
+            path: `/healthz`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

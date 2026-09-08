@@ -53,7 +53,7 @@ DOC_TOKENS = {
         "VERCEL_PROJECT_ID",
     ],
     "post-deploy smoke": [
-        "curl -fsS https://palette-api.fly.dev/health",
+        "curl -fsS https://palette-api.fly.dev/healthz",
         "cargo run -q -p palettectl",
         "PLAYWRIGHT_BASE_URL",
         "npm run test:e2e",

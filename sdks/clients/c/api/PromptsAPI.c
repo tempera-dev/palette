@@ -140,19 +140,23 @@ PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenantId, char *proje
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     prompt_version_t *elementToReturn = NULL;
@@ -349,15 +353,19 @@ PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenantId, char *projectId
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     created_prompt_t *elementToReturn = NULL;
@@ -578,19 +586,23 @@ PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenantId, char *pro
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     prompt_version_diff_t *elementToReturn = NULL;
@@ -807,19 +819,23 @@ PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenantId, char *projectId, c
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     prompt_t *elementToReturn = NULL;
@@ -1025,15 +1041,19 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenantId, char *projectId, 
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     prompt_list_response_t *elementToReturn = NULL;
@@ -1274,19 +1294,23 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenantId, char *pro
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     prompt_version_list_response_t *elementToReturn = NULL;

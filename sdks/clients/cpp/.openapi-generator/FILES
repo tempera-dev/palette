@@ -90,8 +90,6 @@ include/palette-client/model/DeadLetterReplayReport.h
 include/palette-client/model/DiffLine.h
 include/palette-client/model/DiffLineKind.h
 include/palette-client/model/EnqueueReviewTaskFromTraceHttpRequest.h
-include/palette-client/model/ErrorResponse.h
-include/palette-client/model/ErrorStatus.h
 include/palette-client/model/EvalReproducibility.h
 include/palette-client/model/EvalResult.h
 include/palette-client/model/EvaluateAlertRequest.h
@@ -189,6 +187,8 @@ include/palette-client/model/SpanIoValue_oneOf_2.h
 include/palette-client/model/SpanIoValue_oneOf_3.h
 include/palette-client/model/SpanStatus.h
 include/palette-client/model/StatisticalTest.h
+include/palette-client/model/Status.h
+include/palette-client/model/Status_error.h
 include/palette-client/model/SubmitReviewAnnotationHttpRequest.h
 include/palette-client/model/TemperaEvidenceReceipt.h
 include/palette-client/model/TemperaEvidenceSummary.h
@@ -290,8 +290,6 @@ src/model/DeadLetterReplayReport.cpp
 src/model/DiffLine.cpp
 src/model/DiffLineKind.cpp
 src/model/EnqueueReviewTaskFromTraceHttpRequest.cpp
-src/model/ErrorResponse.cpp
-src/model/ErrorStatus.cpp
 src/model/EvalReproducibility.cpp
 src/model/EvalResult.cpp
 src/model/EvaluateAlertRequest.cpp
@@ -389,6 +387,8 @@ src/model/SpanIoValue_oneOf_2.cpp
 src/model/SpanIoValue_oneOf_3.cpp
 src/model/SpanStatus.cpp
 src/model/StatisticalTest.cpp
+src/model/Status.cpp
+src/model/Status_error.cpp
 src/model/SubmitReviewAnnotationHttpRequest.cpp
 src/model/TemperaEvidenceReceipt.cpp
 src/model/TemperaEvidenceSummary.cpp

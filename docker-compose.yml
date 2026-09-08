@@ -83,7 +83,7 @@ services:
     volumes:
       - palette-data:/data
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/healthz"]
       interval: 5s
       timeout: 3s
       retries: 30

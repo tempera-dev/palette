@@ -127,8 +127,6 @@ docs/dead_letter_replay_report.md
 docs/diff_line.md
 docs/diff_line_kind.md
 docs/enqueue_review_task_from_trace_http_request.md
-docs/error_response.md
-docs/error_status.md
 docs/eval_reproducibility.md
 docs/eval_result.md
 docs/evaluate_alert_request.md
@@ -226,6 +224,8 @@ docs/span_io_value_one_of_2.md
 docs/span_io_value_one_of_3.md
 docs/span_status.md
 docs/statistical_test.md
+docs/status.md
+docs/status_error.md
 docs/submit_review_annotation_http_request.md
 docs/tempera_evidence_receipt.md
 docs/tempera_evidence_summary.md
@@ -355,10 +355,6 @@ model/diff_line_kind.c
 model/diff_line_kind.h
 model/enqueue_review_task_from_trace_http_request.c
 model/enqueue_review_task_from_trace_http_request.h
-model/error_response.c
-model/error_response.h
-model/error_status.c
-model/error_status.h
 model/eval_reproducibility.c
 model/eval_reproducibility.h
 model/eval_result.c
@@ -555,6 +551,10 @@ model/span_status.c
 model/span_status.h
 model/statistical_test.c
 model/statistical_test.h
+model/status.c
+model/status.h
+model/status_error.c
+model/status_error.h
 model/submit_review_annotation_http_request.c
 model/submit_review_annotation_http_request.h
 model/tempera_evidence_receipt.c
@@ -644,8 +644,6 @@ unit-test/test_dead_letter_replay_report.c
 unit-test/test_diff_line.c
 unit-test/test_diff_line_kind.c
 unit-test/test_enqueue_review_task_from_trace_http_request.c
-unit-test/test_error_response.c
-unit-test/test_error_status.c
 unit-test/test_eval_reproducibility.c
 unit-test/test_eval_result.c
 unit-test/test_evaluate_alert_request.c
@@ -743,6 +741,8 @@ unit-test/test_span_io_value_one_of_2.c
 unit-test/test_span_io_value_one_of_3.c
 unit-test/test_span_status.c
 unit-test/test_statistical_test.c
+unit-test/test_status.c
+unit-test/test_status_error.c
 unit-test/test_submit_review_annotation_http_request.c
 unit-test/test_tempera_evidence_receipt.c
 unit-test/test_tempera_evidence_summary.c

@@ -20,13 +20,13 @@ import ai.palette.client.Pair;
 import ai.palette.client.model.CreateReviewQueueHttpRequest;
 import ai.palette.client.model.DatasetCase;
 import ai.palette.client.model.EnqueueReviewTaskFromTraceHttpRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.PromoteReviewAnnotationHttpRequest;
 import ai.palette.client.model.ReviewAnnotation;
 import ai.palette.client.model.ReviewQueue;
 import ai.palette.client.model.ReviewTask;
 import ai.palette.client.model.ReviewTaskListResponse;
 import ai.palette.client.model.ReviewTaskState;
+import ai.palette.client.model.Status;
 import ai.palette.client.model.SubmitReviewAnnotationHttpRequest;
 
 import com.fasterxml.jackson.core.type.TypeReference;

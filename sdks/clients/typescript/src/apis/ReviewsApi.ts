@@ -18,13 +18,13 @@ import type {
   CreateReviewQueueHttpRequest,
   DatasetCase,
   EnqueueReviewTaskFromTraceHttpRequest,
-  ErrorResponse,
   PromoteReviewAnnotationHttpRequest,
   ReviewAnnotation,
   ReviewQueue,
   ReviewTask,
   ReviewTaskListResponse,
   ReviewTaskState,
+  Status,
   SubmitReviewAnnotationHttpRequest,
 } from '../models/index';
 import {
@@ -34,8 +34,6 @@ import {
     DatasetCaseToJSON,
     EnqueueReviewTaskFromTraceHttpRequestFromJSON,
     EnqueueReviewTaskFromTraceHttpRequestToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     PromoteReviewAnnotationHttpRequestFromJSON,
     PromoteReviewAnnotationHttpRequestToJSON,
     ReviewAnnotationFromJSON,
@@ -48,6 +46,8 @@ import {
     ReviewTaskListResponseToJSON,
     ReviewTaskStateFromJSON,
     ReviewTaskStateToJSON,
+    StatusFromJSON,
+    StatusToJSON,
     SubmitReviewAnnotationHttpRequestFromJSON,
     SubmitReviewAnnotationHttpRequestToJSON,
 } from '../models/index';

@@ -12,7 +12,7 @@
 /*
  * NativeIngestRequest.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_NativeIngestRequest_H_

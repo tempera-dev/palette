@@ -89,8 +89,6 @@ docs/DeadLetterReplayReport.md
 docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
-docs/ErrorResponse.md
-docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsAPI.md
@@ -202,6 +200,8 @@ docs/SpanIoValueOneOf3.md
 docs/SpanStatus.md
 docs/SpansAPI.md
 docs/StatisticalTest.md
+docs/Status.md
+docs/StatusError.md
 docs/SubmitReviewAnnotationHttpRequest.md
 docs/TemperaEvidenceReceipt.md
 docs/TemperaEvidenceSummary.md
@@ -275,8 +275,6 @@ model_dead_letter_replay_report.go
 model_diff_line.go
 model_diff_line_kind.go
 model_enqueue_review_task_from_trace_http_request.go
-model_error_response.go
-model_error_status.go
 model_eval_reproducibility.go
 model_eval_result.go
 model_evaluate_alert_request.go
@@ -374,6 +372,8 @@ model_span_io_value_one_of_2.go
 model_span_io_value_one_of_3.go
 model_span_status.go
 model_statistical_test_.go
+model_status.go
+model_status_error.go
 model_submit_review_annotation_http_request.go
 model_tempera_evidence_receipt.go
 model_tempera_evidence_summary.go

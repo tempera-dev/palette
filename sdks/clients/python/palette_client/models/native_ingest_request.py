@@ -183,5 +183,3 @@ class NativeIngestRequest(BaseModel):
             "traceId": obj.get("traceId")
         })
         return _obj
-
-

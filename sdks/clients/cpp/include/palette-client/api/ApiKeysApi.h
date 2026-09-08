@@ -24,8 +24,8 @@
 
 #include "palette-client/model/ApiKeyCreatedResponse.h"
 #include "palette-client/model/CreateApiKeyHttpRequest.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/RevokedApiKey.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
