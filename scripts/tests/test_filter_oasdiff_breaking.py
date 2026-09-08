@@ -117,6 +117,13 @@ def test_allows_only_reviewed_aip158_wrapper_changes() -> None:
 
 
 def test_allows_only_digest_pinned_aip127_alignment_shapes() -> None:
+    original = FILTER.AIP127_MIGRATION_SPEC_SHA256
+    FILTER.AIP127_MIGRATION_SPEC_SHA256 = (
+        __import__("hashlib").sha256(
+            (Path(__file__).resolve().parents[2] / "contracts/openapi/palette.openapi.json").read_bytes()
+        ).hexdigest()
+    )
+    FILTER.aip127_migration_active.cache_clear()
     assert FILTER.aip127_migration_active()
     assert FILTER.is_allowed_alignment_break(
         block(
@@ -162,6 +169,9 @@ def test_allows_only_digest_pinned_aip127_alignment_shapes() -> None:
             "from the `kind` request property `oneOf` list",
         )
     )
+    FILTER.AIP127_MIGRATION_SPEC_SHA256 = original
+    FILTER.aip127_migration_active.cache_clear()
+    assert not FILTER.aip127_migration_active()
 
 
 def test_aip127_allowance_disables_when_contract_digest_changes() -> None:

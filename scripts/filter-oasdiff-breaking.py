@@ -33,7 +33,7 @@ AIP158_ARRAY_WRAPPER_OPERATIONS = {
 # snapshot. Any later contract edit changes the digest and disables every
 # AIP-127 allowance below.
 AIP127_MIGRATION_SPEC_SHA256 = (
-    "2d71fbbf94e31d38386a08f6dcde201d9b8f046cf0d4a9624da9c7a2a4b2aa46"
+    "136074a04219ea2bb96a70674afdbad4eec142c971f7c100ae0ab9db212fc5b7"
 )
 AIP127_EVALUATOR_KIND_OPERATIONS = {
     "POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic",
