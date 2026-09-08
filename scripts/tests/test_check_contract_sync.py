@@ -109,7 +109,7 @@ def run_contract_check(
         bin_dir = temp_dir / "bin"
         log = temp_dir / "calls.log"
         seed_fake_bin(bin_dir)
-        spec = temp_dir / "repo" / "sdks" / "openapi" / "palette-api.json"
+        spec = temp_dir / "repo" / "contracts" / "openapi" / "palette.openapi.json"
         dashboard = temp_dir / "repo" / "web" / "dashboard" / "openapi" / "palette-read-api.json"
         spec.parent.mkdir(parents=True)
         dashboard.parent.mkdir(parents=True)
