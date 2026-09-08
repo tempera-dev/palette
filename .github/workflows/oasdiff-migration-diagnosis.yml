@@ -1,0 +1,33 @@
+name: oasdiff migration diagnosis
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/oasdiff-migration-diagnosis.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Compare exact legacy and canonical contract blobs
+        run: |
+          git show "origin/${{ github.base_ref || 'main' }}:sdks/openapi/palette-api.json" > /tmp/base.json
+          cp contracts/openapi/palette.openapi.json /tmp/new.json
+          set +e
+          docker run --rm -v /tmp:/specs tufin/oasdiff breaking /specs/base.json /specs/new.json --fail-on ERR \
+            | tee /tmp/oasdiff-breaking.txt
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "oasdiff_exit=${status}" >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oasdiff-migration-diagnosis
+          path: /tmp/oasdiff-breaking.txt
+          retention-days: 1
