@@ -72,7 +72,6 @@ set(SRCS
     model/calibration_policy.c
     model/calibration_report.c
     model/canonical_span.c
-    model/canonical_span_output_ref.c
     model/case_experiment_score.c
     model/case_output_override_request.c
     model/connect_connector_request.c
@@ -101,8 +100,6 @@ set(SRCS
     model/diff_line.c
     model/diff_line_kind.c
     model/enqueue_review_task_from_trace_http_request.c
-    model/error_response.c
-    model/error_status.c
     model/eval_reproducibility.c
     model/eval_result.c
     model/evaluate_alert_request.c
@@ -146,10 +143,6 @@ set(SRCS
     model/model_ref.c
     model/money.c
     model/native_ingest_request.c
-    model/native_ingest_request_cost.c
-    model/native_ingest_request_model.c
-    model/native_ingest_request_parent_span_id.c
-    model/native_ingest_request_tokens.c
     model/online_sampling_policy.c
     model/otlp_ingest_outcome.c
     model/palette_connect_status.c
@@ -281,7 +274,6 @@ set(HDRS
     model/calibration_policy.h
     model/calibration_report.h
     model/canonical_span.h
-    model/canonical_span_output_ref.h
     model/case_experiment_score.h
     model/case_output_override_request.h
     model/connect_connector_request.h
@@ -310,8 +302,6 @@ set(HDRS
     model/diff_line.h
     model/diff_line_kind.h
     model/enqueue_review_task_from_trace_http_request.h
-    model/error_response.h
-    model/error_status.h
     model/eval_reproducibility.h
     model/eval_result.h
     model/evaluate_alert_request.h
@@ -355,10 +345,6 @@ set(HDRS
     model/model_ref.h
     model/money.h
     model/native_ingest_request.h
-    model/native_ingest_request_cost.h
-    model/native_ingest_request_model.h
-    model/native_ingest_request_parent_span_id.h
-    model/native_ingest_request_tokens.h
     model/online_sampling_policy.h
     model/otlp_ingest_outcome.h
     model/palette_connect_status.h

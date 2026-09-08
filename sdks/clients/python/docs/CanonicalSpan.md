@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **model** | [**ModelRef**](ModelRef.md) |  | [optional]
 **name** | **str** |  |
 **normalizer_version** | **str** |  |
-**output_ref** | [**CanonicalSpanOutputRef**](CanonicalSpanOutputRef.md) |  | [optional]
+**output_ref** | [**ArtifactRef**](ArtifactRef.md) |  | [optional]
 **parent_span_id** | **str** |  | [optional]
 **project_id** | **str** |  |
 **raw_ref** | [**ArtifactRef**](ArtifactRef.md) |  |

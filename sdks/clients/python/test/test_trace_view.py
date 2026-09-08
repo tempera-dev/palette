@@ -37,7 +37,9 @@ class TestTraceView(unittest.TestCase):
             return TraceView(
                 spans = [
                     palette_client.models.canonical_span.CanonicalSpan(
-                        attributes = { },
+                        attributes = {
+                            'key' : null
+                            },
                         cost = palette_client.models.money.Money(
                             amount_micros = 56,
                             currency = 'USD', ),
@@ -56,16 +58,16 @@ class TestTraceView(unittest.TestCase):
                             provider = '', ),
                         name = '',
                         normalizer_version = '',
-                        output_ref = null,
-                        parent_span_id = '',
-                        project_id = '',
-                        raw_ref = palette_client.models.artifact_ref.ArtifactRef(
+                        output_ref = palette_client.models.artifact_ref.ArtifactRef(
                             artifact_id = '',
                             mime_type = '',
                             redaction_class = 'public',
                             sha256 = '',
                             size_bytes = 0,
                             uri = '', ),
+                        parent_span_id = '',
+                        project_id = '',
+                        raw_ref = ,
                         schema_version = 0,
                         seq = 0,
                         span_id = '',
@@ -87,7 +89,9 @@ class TestTraceView(unittest.TestCase):
             return TraceView(
                 spans = [
                     palette_client.models.canonical_span.CanonicalSpan(
-                        attributes = { },
+                        attributes = {
+                            'key' : null
+                            },
                         cost = palette_client.models.money.Money(
                             amount_micros = 56,
                             currency = 'USD', ),
@@ -106,16 +110,16 @@ class TestTraceView(unittest.TestCase):
                             provider = '', ),
                         name = '',
                         normalizer_version = '',
-                        output_ref = null,
-                        parent_span_id = '',
-                        project_id = '',
-                        raw_ref = palette_client.models.artifact_ref.ArtifactRef(
+                        output_ref = palette_client.models.artifact_ref.ArtifactRef(
                             artifact_id = '',
                             mime_type = '',
                             redaction_class = 'public',
                             sha256 = '',
                             size_bytes = 0,
                             uri = '', ),
+                        parent_span_id = '',
+                        project_id = '',
+                        raw_ref = ,
                         schema_version = 0,
                         seq = 0,
                         span_id = '',

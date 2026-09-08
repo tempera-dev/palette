@@ -238,11 +238,11 @@ pub enum IngestPeriodNativeError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum IngestPeriodOtlpError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status413(models::ErrorResponse),
-    Status429(models::ErrorResponse),
+    Status400(models::Status),
+    Status401(models::Status),
+    Status403(models::Status),
+    Status413(models::Status),
+    Status429(models::Status),
     UnknownValue(serde_json::Value),
 }
 

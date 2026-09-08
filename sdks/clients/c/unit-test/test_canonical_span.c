@@ -19,7 +19,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional);
 #include "test_money.c"
 #include "test_artifact_ref.c"
 #include "test_model_ref.c"
-#include "test_canonical_span_output_ref.c"
+#include "test_artifact_ref.c"
 #include "test_artifact_ref.c"
 #include "test_token_counts.c"
 
@@ -40,7 +40,8 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       instantiate_model_ref(0),
       "0",
       "0",
-      null,
+       // false, not to have infinite recursion
+      instantiate_artifact_ref(0),
       "0",
       "0",
        // false, not to have infinite recursion
@@ -67,7 +68,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       NULL,
       "0",
       "0",
-      null,
+      NULL,
       "0",
       "0",
       NULL,

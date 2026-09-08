@@ -22,13 +22,12 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from palette_client.models.auth_context import AuthContext
-from palette_client.models.native_ingest_request_cost import NativeIngestRequestCost
-from palette_client.models.native_ingest_request_model import NativeIngestRequestModel
-from palette_client.models.native_ingest_request_parent_span_id import NativeIngestRequestParentSpanId
-from palette_client.models.native_ingest_request_tokens import NativeIngestRequestTokens
+from palette_client.models.model_ref import ModelRef
+from palette_client.models.money import Money
 from palette_client.models.redaction_class import RedactionClass
 from palette_client.models.span_status import SpanStatus
 from palette_client.models.tenant_scope import TenantScope
+from palette_client.models.token_counts import TokenCounts
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -38,22 +37,22 @@ class NativeIngestRequest(BaseModel):
     """ # noqa: E501
     attributes: Dict[str, Any]
     auth_context: Optional[AuthContext] = Field(default=None, alias="authContext")
-    cost: Optional[NativeIngestRequestCost] = None
+    cost: Optional[Money] = None
     end_time: Optional[datetime] = Field(default=None, alias="endTime")
     idempotency_key: Optional[StrictStr] = Field(default=None, alias="idempotencyKey")
     input: Optional[Any] = None
     kind: StrictStr = Field(description="Canonical agent span kind such as agent.run or llm.call")
-    model: Optional[NativeIngestRequestModel] = None
+    model: Optional[ModelRef] = None
     name: StrictStr
     output: Optional[Any] = None
-    parent_span_id: Optional[NativeIngestRequestParentSpanId] = Field(default=None, alias="parentSpanId")
+    parent_span_id: Optional[StrictStr] = Field(default=None, alias="parentSpanId")
     redaction_class: RedactionClass = Field(alias="redactionClass")
     scope: TenantScope
     seq: Annotated[int, Field(strict=True, ge=0)]
     span_id: StrictStr = Field(alias="spanId")
     start_time: Optional[datetime] = Field(default=None, alias="startTime")
     status: SpanStatus
-    tokens: Optional[NativeIngestRequestTokens] = None
+    tokens: Optional[TokenCounts] = None
     trace_id: StrictStr = Field(alias="traceId")
     __properties: ClassVar[List[str]] = ["attributes", "authContext", "cost", "endTime", "idempotencyKey", "input", "kind", "model", "name", "output", "parentSpanId", "redactionClass", "scope", "seq", "spanId", "startTime", "status", "tokens", "traceId"]
 
@@ -105,9 +104,6 @@ class NativeIngestRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of model
         if self.model:
             _dict['model'] = self.model.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of parent_span_id
-        if self.parent_span_id:
-            _dict['parentSpanId'] = self.parent_span_id.to_dict()
         # override the default output from pydantic by calling `to_dict()` of scope
         if self.scope:
             _dict['scope'] = self.scope.to_dict()
@@ -144,11 +140,6 @@ class NativeIngestRequest(BaseModel):
         if self.output is None and "output" in self.model_fields_set:
             _dict['output'] = None
 
-        # set to None if parent_span_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.parent_span_id is None and "parent_span_id" in self.model_fields_set:
-            _dict['parentSpanId'] = None
-
         # set to None if start_time (nullable) is None
         # and model_fields_set contains the field
         if self.start_time is None and "start_time" in self.model_fields_set:
@@ -173,24 +164,22 @@ class NativeIngestRequest(BaseModel):
         _obj = cls.model_validate({
             "attributes": obj.get("attributes"),
             "authContext": AuthContext.from_dict(obj["authContext"]) if obj.get("authContext") is not None else None,
-            "cost": NativeIngestRequestCost.from_dict(obj["cost"]) if obj.get("cost") is not None else None,
+            "cost": Money.from_dict(obj["cost"]) if obj.get("cost") is not None else None,
             "endTime": obj.get("endTime"),
             "idempotencyKey": obj.get("idempotencyKey"),
             "input": obj.get("input"),
             "kind": obj.get("kind"),
-            "model": NativeIngestRequestModel.from_dict(obj["model"]) if obj.get("model") is not None else None,
+            "model": ModelRef.from_dict(obj["model"]) if obj.get("model") is not None else None,
             "name": obj.get("name"),
             "output": obj.get("output"),
-            "parentSpanId": NativeIngestRequestParentSpanId.from_dict(obj["parentSpanId"]) if obj.get("parentSpanId") is not None else None,
+            "parentSpanId": obj.get("parentSpanId"),
             "redactionClass": obj.get("redactionClass"),
             "scope": TenantScope.from_dict(obj["scope"]) if obj.get("scope") is not None else None,
             "seq": obj.get("seq"),
             "spanId": obj.get("spanId"),
             "startTime": obj.get("startTime"),
             "status": obj.get("status"),
-            "tokens": NativeIngestRequestTokens.from_dict(obj["tokens"]) if obj.get("tokens") is not None else None,
+            "tokens": TokenCounts.from_dict(obj["tokens"]) if obj.get("tokens") is not None else None,
             "traceId": obj.get("traceId")
         })
         return _obj
-
-

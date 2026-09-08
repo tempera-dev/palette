@@ -35,42 +35,54 @@ class TestNativeIngestRequest(unittest.TestCase):
         model = NativeIngestRequest()
         if include_optional:
             return NativeIngestRequest(
-                attributes = { },
+                attributes = {
+                    'key' : null
+                    },
                 auth_context = palette_client.models.auth_context.AuthContext(
-                    api_key_id = '', 
+                    api_key_id = '',
                     scopes = [
                         ''
                         ], ),
-                cost = None,
+                cost = palette_client.models.money.Money(
+                    amount_micros = 56,
+                    currency = 'USD', ),
                 end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 idempotency_key = '',
                 input = None,
                 kind = '',
-                model = None,
+                model = palette_client.models.model_ref.ModelRef(
+                    name = '',
+                    provider = '', ),
                 name = '',
                 output = None,
-                parent_span_id = None,
+                parent_span_id = '',
                 redaction_class = 'public',
                 scope = palette_client.models.tenant_scope.TenantScope(
-                    environment_id = '', 
-                    project_id = '', 
+                    environment_id = '',
+                    project_id = '',
                     tenant_id = '', ),
                 seq = 0,
                 span_id = '',
                 start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 status = 'ok',
-                tokens = None,
+                tokens = palette_client.models.token_counts.TokenCounts(
+                    cache_read = 0,
+                    input = 0,
+                    output = 0,
+                    reasoning = 0, ),
                 trace_id = ''
             )
         else:
             return NativeIngestRequest(
-                attributes = { },
+                attributes = {
+                    'key' : null
+                    },
                 kind = '',
                 name = '',
                 redaction_class = 'public',
                 scope = palette_client.models.tenant_scope.TenantScope(
-                    environment_id = '', 
-                    project_id = '', 
+                    environment_id = '',
+                    project_id = '',
                     tenant_id = '', ),
                 seq = 0,
                 span_id = '',

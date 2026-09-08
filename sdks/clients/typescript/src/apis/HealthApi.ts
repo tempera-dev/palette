@@ -16,13 +16,10 @@
 import * as runtime from '../runtime';
 import type {
   HealthResponse,
-  Status,
 } from '../models/index';
 import {
     HealthResponseFromJSON,
     HealthResponseToJSON,
-    StatusFromJSON,
-    StatusToJSON,
 } from '../models/index';
 
 /**
@@ -38,7 +35,7 @@ export class HealthApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/health`,
+            path: `/healthz`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

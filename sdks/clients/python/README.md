@@ -117,7 +117,7 @@ Class | Method | HTTP request | Description
 *ExperimentsApi* | [**experiments_run_judge**](docs/ExperimentsApi.md#experiments_run_judge) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |
 *GatesApi* | [**gates_create**](docs/GatesApi.md#gates_create) | **POST** /v1/gates/{tenantId}/{projectId} |
 *GatesApi* | [**gates_run**](docs/GatesApi.md#gates_run) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthApi* | [**health_check**](docs/HealthApi.md#health_check) | **GET** /health |
+*HealthApi* | [**health_check**](docs/HealthApi.md#health_check) | **GET** /healthz |
 *IngestApi* | [**ingest_drain_trace_ingested**](docs/IngestApi.md#ingest_drain_trace_ingested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestApi* | [**ingest_drain_trace_writes**](docs/IngestApi.md#ingest_drain_trace_writes) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
 *IngestApi* | [**ingest_get_queue_status**](docs/IngestApi.md#ingest_get_queue_status) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
@@ -182,7 +182,6 @@ Class | Method | HTTP request | Description
  - [CalibrationPolicy](docs/CalibrationPolicy.md)
  - [CalibrationReport](docs/CalibrationReport.md)
  - [CanonicalSpan](docs/CanonicalSpan.md)
- - [CanonicalSpanOutputRef](docs/CanonicalSpanOutputRef.md)
  - [CaseExperimentScore](docs/CaseExperimentScore.md)
  - [CaseOutputOverrideRequest](docs/CaseOutputOverrideRequest.md)
  - [ConnectConnectorRequest](docs/ConnectConnectorRequest.md)
@@ -211,8 +210,6 @@ Class | Method | HTTP request | Description
  - [DiffLine](docs/DiffLine.md)
  - [DiffLineKind](docs/DiffLineKind.md)
  - [EnqueueReviewTaskFromTraceHttpRequest](docs/EnqueueReviewTaskFromTraceHttpRequest.md)
- - [ErrorResponse](docs/ErrorResponse.md)
- - [ErrorStatus](docs/ErrorStatus.md)
  - [EvalReproducibility](docs/EvalReproducibility.md)
  - [EvalResult](docs/EvalResult.md)
  - [EvaluateAlertRequest](docs/EvaluateAlertRequest.md)
@@ -256,10 +253,6 @@ Class | Method | HTTP request | Description
  - [ModelRef](docs/ModelRef.md)
  - [Money](docs/Money.md)
  - [NativeIngestRequest](docs/NativeIngestRequest.md)
- - [NativeIngestRequestCost](docs/NativeIngestRequestCost.md)
- - [NativeIngestRequestModel](docs/NativeIngestRequestModel.md)
- - [NativeIngestRequestParentSpanId](docs/NativeIngestRequestParentSpanId.md)
- - [NativeIngestRequestTokens](docs/NativeIngestRequestTokens.md)
  - [OnlineSamplingPolicy](docs/OnlineSamplingPolicy.md)
  - [OtlpIngestOutcome](docs/OtlpIngestOutcome.md)
  - [PaletteConnectStatus](docs/PaletteConnectStatus.md)

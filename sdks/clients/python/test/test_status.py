@@ -35,11 +35,15 @@ class TestStatus(unittest.TestCase):
         model = Status()
         if include_optional:
             return Status(
-                error = { }
+                error = {
+                    'key' : null
+                    }
             )
         else:
             return Status(
-                error = { },
+                error = {
+                    'key' : null
+                    },
         )
         """
 

@@ -23,7 +23,6 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/DeadLetterReplayReport.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/ImportSourceHttpRequest.h"
 #include "palette-client/model/IngestOutcome.h"
 #include "palette-client/model/IngestQueueStatus.h"

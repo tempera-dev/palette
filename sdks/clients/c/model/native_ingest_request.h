@@ -1,7 +1,7 @@
 /*
  * native_ingest_request.h
  *
- * 
+ *
  */
 
 #ifndef _native_ingest_request_H_
@@ -17,35 +17,34 @@ typedef struct native_ingest_request_t native_ingest_request_t;
 
 #include "any_type.h"
 #include "auth_context.h"
-#include "native_ingest_request_cost.h"
-#include "native_ingest_request_model.h"
-#include "native_ingest_request_parent_span_id.h"
-#include "native_ingest_request_tokens.h"
+#include "model_ref.h"
+#include "money.h"
 #include "redaction_class.h"
 #include "span_status.h"
 #include "tenant_scope.h"
+#include "token_counts.h"
 
 
 
 typedef struct native_ingest_request_t {
     list_t* attributes; //map
     struct auth_context_t *auth_context; //model
-    struct native_ingest_request_cost_t *cost; //model
+    struct money_t *cost; //model
     char *end_time; //date time
     char *idempotency_key; // string
     any_type_t *input; // custom
     char *kind; // string
-    struct native_ingest_request_model_t *model; //model
+    struct model_ref_t *model; //model
     char *name; // string
     any_type_t *output; // custom
-    struct native_ingest_request_parent_span_id_t *parent_span_id; //model
+    char *parent_span_id; // string
     palette_api_redaction_class__e redaction_class; //referenced enum
     struct tenant_scope_t *scope; //model
     long seq; //numeric
     char *span_id; // string
     char *start_time; //date time
     palette_api_span_status__e status; //referenced enum
-    struct native_ingest_request_tokens_t *tokens; //model
+    struct token_counts_t *tokens; //model
     char *trace_id; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
@@ -54,22 +53,22 @@ typedef struct native_ingest_request_t {
 __attribute__((deprecated)) native_ingest_request_t *native_ingest_request_create(
     list_t* attributes,
     auth_context_t *auth_context,
-    native_ingest_request_cost_t *cost,
+    money_t *cost,
     char *end_time,
     char *idempotency_key,
     any_type_t *input,
     char *kind,
-    native_ingest_request_model_t *model,
+    model_ref_t *model,
     char *name,
     any_type_t *output,
-    native_ingest_request_parent_span_id_t *parent_span_id,
+    char *parent_span_id,
     palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
     palette_api_span_status__e status,
-    native_ingest_request_tokens_t *tokens,
+    token_counts_t *tokens,
     char *trace_id
 );
 
@@ -80,4 +79,3 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
 cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_ingest_request);
 
 #endif /* _native_ingest_request_H_ */
-

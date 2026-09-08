@@ -20,13 +20,12 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.palette.client.model.AuthContext;
-import ai.palette.client.model.NativeIngestRequestCost;
-import ai.palette.client.model.NativeIngestRequestModel;
-import ai.palette.client.model.NativeIngestRequestParentSpanId;
-import ai.palette.client.model.NativeIngestRequestTokens;
+import ai.palette.client.model.ModelRef;
+import ai.palette.client.model.Money;
 import ai.palette.client.model.RedactionClass;
 import ai.palette.client.model.SpanStatus;
 import ai.palette.client.model.TenantScope;
+import ai.palette.client.model.TokenCounts;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -78,7 +77,7 @@ public class NativeIngestRequest {
   private JsonNullable<AuthContext> authContext = JsonNullable.<AuthContext>undefined();
 
   public static final String JSON_PROPERTY_COST = "cost";
-  private JsonNullable<NativeIngestRequestCost> cost = JsonNullable.<NativeIngestRequestCost>undefined();
+  private JsonNullable<Money> cost = JsonNullable.<Money>undefined();
 
   public static final String JSON_PROPERTY_END_TIME = "endTime";
   private JsonNullable<OffsetDateTime> endTime = JsonNullable.<OffsetDateTime>undefined();
@@ -95,7 +94,7 @@ public class NativeIngestRequest {
   private String kind;
 
   public static final String JSON_PROPERTY_MODEL = "model";
-  private JsonNullable<NativeIngestRequestModel> model = JsonNullable.<NativeIngestRequestModel>undefined();
+  private JsonNullable<ModelRef> model = JsonNullable.<ModelRef>undefined();
 
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
@@ -105,7 +104,8 @@ public class NativeIngestRequest {
   private JsonNullable<Object> output = JsonNullable.<Object>of(null);
 
   public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parentSpanId";
-  private JsonNullable<NativeIngestRequestParentSpanId> parentSpanId = JsonNullable.<NativeIngestRequestParentSpanId>undefined();
+  @javax.annotation.Nullable
+  private String parentSpanId;
 
   public static final String JSON_PROPERTY_REDACTION_CLASS = "redactionClass";
   @javax.annotation.Nonnull
@@ -131,7 +131,7 @@ public class NativeIngestRequest {
   private SpanStatus status;
 
   public static final String JSON_PROPERTY_TOKENS = "tokens";
-  private JsonNullable<NativeIngestRequestTokens> tokens = JsonNullable.<NativeIngestRequestTokens>undefined();
+  private JsonNullable<TokenCounts> tokens = JsonNullable.<TokenCounts>undefined();
 
   public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
@@ -204,8 +204,8 @@ public class NativeIngestRequest {
   }
 
 
-  public NativeIngestRequest cost(@javax.annotation.Nullable NativeIngestRequestCost cost) {
-    this.cost = JsonNullable.<NativeIngestRequestCost>of(cost);
+  public NativeIngestRequest cost(@javax.annotation.Nullable Money cost) {
+    this.cost = JsonNullable.<Money>of(cost);
     return this;
   }
 
@@ -215,24 +215,24 @@ public class NativeIngestRequest {
    */
   @javax.annotation.Nullable
   @JsonIgnore
-  public NativeIngestRequestCost getCost() {
+  public Money getCost() {
         return cost.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_COST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<NativeIngestRequestCost> getCost_JsonNullable() {
+  public JsonNullable<Money> getCost_JsonNullable() {
     return cost;
   }
 
   @JsonProperty(JSON_PROPERTY_COST)
-  public void setCost_JsonNullable(JsonNullable<NativeIngestRequestCost> cost) {
+  public void setCost_JsonNullable(JsonNullable<Money> cost) {
     this.cost = cost;
   }
 
-  public void setCost(@javax.annotation.Nullable NativeIngestRequestCost cost) {
-    this.cost = JsonNullable.<NativeIngestRequestCost>of(cost);
+  public void setCost(@javax.annotation.Nullable Money cost) {
+    this.cost = JsonNullable.<Money>of(cost);
   }
 
 
@@ -348,8 +348,8 @@ public class NativeIngestRequest {
   }
 
 
-  public NativeIngestRequest model(@javax.annotation.Nullable NativeIngestRequestModel model) {
-    this.model = JsonNullable.<NativeIngestRequestModel>of(model);
+  public NativeIngestRequest model(@javax.annotation.Nullable ModelRef model) {
+    this.model = JsonNullable.<ModelRef>of(model);
     return this;
   }
 
@@ -359,24 +359,24 @@ public class NativeIngestRequest {
    */
   @javax.annotation.Nullable
   @JsonIgnore
-  public NativeIngestRequestModel getModel() {
+  public ModelRef getModel() {
         return model.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<NativeIngestRequestModel> getModel_JsonNullable() {
+  public JsonNullable<ModelRef> getModel_JsonNullable() {
     return model;
   }
 
   @JsonProperty(JSON_PROPERTY_MODEL)
-  public void setModel_JsonNullable(JsonNullable<NativeIngestRequestModel> model) {
+  public void setModel_JsonNullable(JsonNullable<ModelRef> model) {
     this.model = model;
   }
 
-  public void setModel(@javax.annotation.Nullable NativeIngestRequestModel model) {
-    this.model = JsonNullable.<NativeIngestRequestModel>of(model);
+  public void setModel(@javax.annotation.Nullable ModelRef model) {
+    this.model = JsonNullable.<ModelRef>of(model);
   }
 
 
@@ -436,8 +436,8 @@ public class NativeIngestRequest {
   }
 
 
-  public NativeIngestRequest parentSpanId(@javax.annotation.Nullable NativeIngestRequestParentSpanId parentSpanId) {
-    this.parentSpanId = JsonNullable.<NativeIngestRequestParentSpanId>of(parentSpanId);
+  public NativeIngestRequest parentSpanId(@javax.annotation.Nullable String parentSpanId) {
+    this.parentSpanId = parentSpanId;
     return this;
   }
 
@@ -446,25 +446,17 @@ public class NativeIngestRequest {
    * @return parentSpanId
    */
   @javax.annotation.Nullable
-  @JsonIgnore
-  public NativeIngestRequestParentSpanId getParentSpanId() {
-        return parentSpanId.orElse(null);
-  }
-
   @JsonProperty(JSON_PROPERTY_PARENT_SPAN_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<NativeIngestRequestParentSpanId> getParentSpanId_JsonNullable() {
+  public String getParentSpanId() {
     return parentSpanId;
   }
 
-  @JsonProperty(JSON_PROPERTY_PARENT_SPAN_ID)
-  public void setParentSpanId_JsonNullable(JsonNullable<NativeIngestRequestParentSpanId> parentSpanId) {
-    this.parentSpanId = parentSpanId;
-  }
 
-  public void setParentSpanId(@javax.annotation.Nullable NativeIngestRequestParentSpanId parentSpanId) {
-    this.parentSpanId = JsonNullable.<NativeIngestRequestParentSpanId>of(parentSpanId);
+  @JsonProperty(JSON_PROPERTY_PARENT_SPAN_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setParentSpanId(@javax.annotation.Nullable String parentSpanId) {
+    this.parentSpanId = parentSpanId;
   }
 
 
@@ -621,8 +613,8 @@ public class NativeIngestRequest {
   }
 
 
-  public NativeIngestRequest tokens(@javax.annotation.Nullable NativeIngestRequestTokens tokens) {
-    this.tokens = JsonNullable.<NativeIngestRequestTokens>of(tokens);
+  public NativeIngestRequest tokens(@javax.annotation.Nullable TokenCounts tokens) {
+    this.tokens = JsonNullable.<TokenCounts>of(tokens);
     return this;
   }
 
@@ -632,24 +624,24 @@ public class NativeIngestRequest {
    */
   @javax.annotation.Nullable
   @JsonIgnore
-  public NativeIngestRequestTokens getTokens() {
+  public TokenCounts getTokens() {
         return tokens.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_TOKENS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<NativeIngestRequestTokens> getTokens_JsonNullable() {
+  public JsonNullable<TokenCounts> getTokens_JsonNullable() {
     return tokens;
   }
 
   @JsonProperty(JSON_PROPERTY_TOKENS)
-  public void setTokens_JsonNullable(JsonNullable<NativeIngestRequestTokens> tokens) {
+  public void setTokens_JsonNullable(JsonNullable<TokenCounts> tokens) {
     this.tokens = tokens;
   }
 
-  public void setTokens(@javax.annotation.Nullable NativeIngestRequestTokens tokens) {
-    this.tokens = JsonNullable.<NativeIngestRequestTokens>of(tokens);
+  public void setTokens(@javax.annotation.Nullable TokenCounts tokens) {
+    this.tokens = JsonNullable.<TokenCounts>of(tokens);
   }
 
 
@@ -699,7 +691,7 @@ public class NativeIngestRequest {
         equalsNullable(this.model, nativeIngestRequest.model) &&
         Objects.equals(this.name, nativeIngestRequest.name) &&
         equalsNullable(this.output, nativeIngestRequest.output) &&
-        equalsNullable(this.parentSpanId, nativeIngestRequest.parentSpanId) &&
+        Objects.equals(this.parentSpanId, nativeIngestRequest.parentSpanId) &&
         Objects.equals(this.redactionClass, nativeIngestRequest.redactionClass) &&
         Objects.equals(this.scope, nativeIngestRequest.scope) &&
         Objects.equals(this.seq, nativeIngestRequest.seq) &&
@@ -716,7 +708,7 @@ public class NativeIngestRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributes, hashCodeNullable(authContext), hashCodeNullable(cost), hashCodeNullable(endTime), idempotencyKey, hashCodeNullable(input), kind, hashCodeNullable(model), name, hashCodeNullable(output), hashCodeNullable(parentSpanId), redactionClass, scope, seq, spanId, hashCodeNullable(startTime), status, hashCodeNullable(tokens), traceId);
+    return Objects.hash(attributes, hashCodeNullable(authContext), hashCodeNullable(cost), hashCodeNullable(endTime), idempotencyKey, hashCodeNullable(input), kind, hashCodeNullable(model), name, hashCodeNullable(output), parentSpanId, redactionClass, scope, seq, spanId, hashCodeNullable(startTime), status, hashCodeNullable(tokens), traceId);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -852,7 +844,7 @@ public class NativeIngestRequest {
 
     // add `parentSpanId` to the URL query string
     if (getParentSpanId() != null) {
-      joiner.add(getParentSpanId().toUrlQueryString(prefix + "parentSpanId" + suffix));
+      joiner.add(String.format("%sparentSpanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `redactionClass` to the URL query string

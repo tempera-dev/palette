@@ -22,7 +22,7 @@ HealthAPI_healthCheck(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/health");
+    char *localVarPath = strdup("/healthz");
 
 
 
@@ -42,10 +42,6 @@ HealthAPI_healthCheck(apiClient_t *apiClient)
     // uncomment below to debug the error response
     //if (apiClient->response_code == 200) {
     //    printf("%s\n","Runtime is accepting requests");
-    //}
-    // uncomment below to debug the error response
-    //if (apiClient->response_code == 0) {
-    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     health_response_t *elementToReturn = NULL;

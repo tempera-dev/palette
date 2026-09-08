@@ -15,7 +15,7 @@ static canonical_span_t *canonical_span_create_internal(
     model_ref_t *model,
     char *name,
     char *normalizer_version,
-    canonical_span_output_ref_t *output_ref,
+    artifact_ref_t *output_ref,
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
@@ -70,7 +70,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     model_ref_t *model,
     char *name,
     char *normalizer_version,
-    canonical_span_output_ref_t *output_ref,
+    artifact_ref_t *output_ref,
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
@@ -162,7 +162,7 @@ void canonical_span_free(canonical_span_t *canonical_span) {
         canonical_span->normalizer_version = NULL;
     }
     if (canonical_span->output_ref) {
-        canonical_span_output_ref_free(canonical_span->output_ref);
+        artifact_ref_free(canonical_span->output_ref);
         canonical_span->output_ref = NULL;
     }
     if (canonical_span->parent_span_id) {
@@ -309,7 +309,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
 
     // canonical_span->output_ref
     if(canonical_span->output_ref) {
-    cJSON *output_ref_local_JSON = canonical_span_output_ref_convertToJSON(canonical_span->output_ref);
+    cJSON *output_ref_local_JSON = artifact_ref_convertToJSON(canonical_span->output_ref);
     if(output_ref_local_JSON == NULL) {
     goto fail; //model
     }
@@ -470,7 +470,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     model_ref_t *model_local_nonprim = NULL;
 
     // define the local variable for canonical_span->output_ref
-    canonical_span_output_ref_t *output_ref_local_nonprim = NULL;
+    artifact_ref_t *output_ref_local_nonprim = NULL;
 
     // define the local variable for canonical_span->raw_ref
     artifact_ref_t *raw_ref_local_nonprim = NULL;
@@ -493,7 +493,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     cJSON *attributes_local_map = NULL;
     if(!cJSON_IsObject(attributes) && !cJSON_IsNull(attributes))
     {
@@ -515,7 +515,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(cost)) {
         cost = NULL;
     }
-    if (cost) { 
+    if (cost) {
     cost_local_nonprim = money_parseFromJSON(cost); //nonprimitive
     }
 
@@ -524,7 +524,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(end_time)) {
         end_time = NULL;
     }
-    if (end_time) { 
+    if (end_time) {
     if(!cJSON_IsString(end_time) && !cJSON_IsNull(end_time))
     {
     goto end; //DateTime
@@ -540,7 +540,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(environment_id))
     {
     goto end; //String
@@ -551,7 +551,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(input_ref)) {
         input_ref = NULL;
     }
-    if (input_ref) { 
+    if (input_ref) {
     input_ref_local_nonprim = artifact_ref_parseFromJSON(input_ref); //nonprimitive
     }
 
@@ -564,7 +564,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(kind))
     {
     goto end; //String
@@ -575,7 +575,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(model)) {
         model = NULL;
     }
-    if (model) { 
+    if (model) {
     model_local_nonprim = model_ref_parseFromJSON(model); //nonprimitive
     }
 
@@ -588,7 +588,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(name))
     {
     goto end; //String
@@ -603,7 +603,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(normalizer_version))
     {
     goto end; //String
@@ -614,8 +614,8 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(output_ref)) {
         output_ref = NULL;
     }
-    if (output_ref) { 
-    output_ref_local_nonprim = canonical_span_output_ref_parseFromJSON(output_ref); //nonprimitive
+    if (output_ref) {
+    output_ref_local_nonprim = artifact_ref_parseFromJSON(output_ref); //nonprimitive
     }
 
     // canonical_span->parent_span_id
@@ -623,7 +623,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(parent_span_id)) {
         parent_span_id = NULL;
     }
-    if (parent_span_id) { 
+    if (parent_span_id) {
     if(!cJSON_IsString(parent_span_id) && !cJSON_IsNull(parent_span_id))
     {
     goto end; //String
@@ -639,7 +639,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(project_id))
     {
     goto end; //String
@@ -654,7 +654,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     raw_ref_local_nonprim = artifact_ref_parseFromJSON(raw_ref); //nonprimitive
 
     // canonical_span->schema_version
@@ -666,7 +666,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsNumber(schema_version))
     {
     goto end; //Numeric
@@ -681,7 +681,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsNumber(seq))
     {
     goto end; //Numeric
@@ -696,7 +696,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(span_id))
     {
     goto end; //String
@@ -711,7 +711,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(start_time) && !cJSON_IsNull(start_time))
     {
     goto end; //DateTime
@@ -726,7 +726,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     status_local_nonprim = span_status_parseFromJSON(status); //custom
 
     // canonical_span->tenant_id
@@ -738,7 +738,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(tenant_id))
     {
     goto end; //String
@@ -749,7 +749,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     if (cJSON_IsNull(tokens)) {
         tokens = NULL;
     }
-    if (tokens) { 
+    if (tokens) {
     tokens_local_nonprim = token_counts_parseFromJSON(tokens); //nonprimitive
     }
 
@@ -762,7 +762,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(trace_id))
     {
     goto end; //String
@@ -777,7 +777,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         goto end;
     }
 
-    
+
     unmapped_attrs_local_nonprim = _parseFromJSON(unmapped_attrs); //custom
 
 
@@ -833,7 +833,7 @@ end:
         model_local_nonprim = NULL;
     }
     if (output_ref_local_nonprim) {
-        canonical_span_output_ref_free(output_ref_local_nonprim);
+        artifact_ref_free(output_ref_local_nonprim);
         output_ref_local_nonprim = NULL;
     }
     if (raw_ref_local_nonprim) {

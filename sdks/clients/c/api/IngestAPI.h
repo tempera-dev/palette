@@ -6,7 +6,6 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/dead_letter_replay_report.h"
-#include "../model/error_response.h"
 #include "../model/import_source_http_request.h"
 #include "../model/ingest_outcome.h"
 #include "../model/ingest_queue_status.h"

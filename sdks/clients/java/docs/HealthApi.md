@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**healthCheck**](HealthApi.md#healthCheck) | **GET** /health |  |
-| [**healthCheckWithHttpInfo**](HealthApi.md#healthCheckWithHttpInfo) | **GET** /health |  |
+| [**healthCheck**](HealthApi.md#healthCheck) | **GET** /healthz |  |
+| [**healthCheckWithHttpInfo**](HealthApi.md#healthCheckWithHttpInfo) | **GET** /healthz |  |
 
 
 
@@ -67,7 +67,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Runtime is accepting requests |  -  |
-| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## healthCheckWithHttpInfo
 
@@ -130,4 +129,3 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Runtime is accepting requests |  -  |
-| **0** | A google.rpc.Status error envelope. |  -  |

@@ -6,22 +6,22 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Attributes** | **map[string]interface{}** |  |
 **AuthContext** | Pointer to [**NullableAuthContext**](AuthContext.md) |  | [optional]
-**Cost** | Pointer to [**NullableNativeIngestRequestCost**](NativeIngestRequestCost.md) |  | [optional]
+**Cost** | Pointer to [**NullableMoney**](Money.md) |  | [optional]
 **EndTime** | Pointer to **NullableTime** |  | [optional]
 **IdempotencyKey** | Pointer to **string** |  | [optional]
 **Input** | Pointer to **interface{}** |  | [optional]
 **Kind** | **string** | Canonical agent span kind such as agent.run or llm.call |
-**Model** | Pointer to [**NullableNativeIngestRequestModel**](NativeIngestRequestModel.md) |  | [optional]
+**Model** | Pointer to [**NullableModelRef**](ModelRef.md) |  | [optional]
 **Name** | **string** |  |
 **Output** | Pointer to **interface{}** |  | [optional]
-**ParentSpanId** | Pointer to [**NullableNativeIngestRequestParentSpanId**](NativeIngestRequestParentSpanId.md) |  | [optional]
+**ParentSpanId** | Pointer to **string** |  | [optional]
 **RedactionClass** | [**RedactionClass**](RedactionClass.md) |  |
 **Scope** | [**TenantScope**](TenantScope.md) |  |
 **Seq** | **int64** |  |
 **SpanId** | **string** |  |
 **StartTime** | Pointer to **NullableTime** |  | [optional]
 **Status** | [**SpanStatus**](SpanStatus.md) |  |
-**Tokens** | Pointer to [**NullableNativeIngestRequestTokens**](NativeIngestRequestTokens.md) |  | [optional]
+**Tokens** | Pointer to [**NullableTokenCounts**](TokenCounts.md) |  | [optional]
 **TraceId** | **string** |  |
 
 ## Methods
@@ -100,20 +100,20 @@ HasAuthContext returns a boolean if a field has been set.
 UnsetAuthContext ensures that no value is present for AuthContext, not even an explicit nil
 ### GetCost
 
-`func (o *NativeIngestRequest) GetCost() NativeIngestRequestCost`
+`func (o *NativeIngestRequest) GetCost() Money`
 
 GetCost returns the Cost field if non-nil, zero value otherwise.
 
 ### GetCostOk
 
-`func (o *NativeIngestRequest) GetCostOk() (*NativeIngestRequestCost, bool)`
+`func (o *NativeIngestRequest) GetCostOk() (*Money, bool)`
 
 GetCostOk returns a tuple with the Cost field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCost
 
-`func (o *NativeIngestRequest) SetCost(v NativeIngestRequestCost)`
+`func (o *NativeIngestRequest) SetCost(v Money)`
 
 SetCost sets Cost field to given value.
 
@@ -250,20 +250,20 @@ SetKind sets Kind field to given value.
 
 ### GetModel
 
-`func (o *NativeIngestRequest) GetModel() NativeIngestRequestModel`
+`func (o *NativeIngestRequest) GetModel() ModelRef`
 
 GetModel returns the Model field if non-nil, zero value otherwise.
 
 ### GetModelOk
 
-`func (o *NativeIngestRequest) GetModelOk() (*NativeIngestRequestModel, bool)`
+`func (o *NativeIngestRequest) GetModelOk() (*ModelRef, bool)`
 
 GetModelOk returns a tuple with the Model field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModel
 
-`func (o *NativeIngestRequest) SetModel(v NativeIngestRequestModel)`
+`func (o *NativeIngestRequest) SetModel(v ModelRef)`
 
 SetModel sets Model field to given value.
 
@@ -340,20 +340,20 @@ HasOutput returns a boolean if a field has been set.
 UnsetOutput ensures that no value is present for Output, not even an explicit nil
 ### GetParentSpanId
 
-`func (o *NativeIngestRequest) GetParentSpanId() NativeIngestRequestParentSpanId`
+`func (o *NativeIngestRequest) GetParentSpanId() string`
 
 GetParentSpanId returns the ParentSpanId field if non-nil, zero value otherwise.
 
 ### GetParentSpanIdOk
 
-`func (o *NativeIngestRequest) GetParentSpanIdOk() (*NativeIngestRequestParentSpanId, bool)`
+`func (o *NativeIngestRequest) GetParentSpanIdOk() (*string, bool)`
 
 GetParentSpanIdOk returns a tuple with the ParentSpanId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetParentSpanId
 
-`func (o *NativeIngestRequest) SetParentSpanId(v NativeIngestRequestParentSpanId)`
+`func (o *NativeIngestRequest) SetParentSpanId(v string)`
 
 SetParentSpanId sets ParentSpanId field to given value.
 
@@ -363,16 +363,6 @@ SetParentSpanId sets ParentSpanId field to given value.
 
 HasParentSpanId returns a boolean if a field has been set.
 
-### SetParentSpanIdNil
-
-`func (o *NativeIngestRequest) SetParentSpanIdNil(b bool)`
-
- SetParentSpanIdNil sets the value for ParentSpanId to be an explicit nil
-
-### UnsetParentSpanId
-`func (o *NativeIngestRequest) UnsetParentSpanId()`
-
-UnsetParentSpanId ensures that no value is present for ParentSpanId, not even an explicit nil
 ### GetRedactionClass
 
 `func (o *NativeIngestRequest) GetRedactionClass() RedactionClass`
@@ -510,20 +500,20 @@ SetStatus sets Status field to given value.
 
 ### GetTokens
 
-`func (o *NativeIngestRequest) GetTokens() NativeIngestRequestTokens`
+`func (o *NativeIngestRequest) GetTokens() TokenCounts`
 
 GetTokens returns the Tokens field if non-nil, zero value otherwise.
 
 ### GetTokensOk
 
-`func (o *NativeIngestRequest) GetTokensOk() (*NativeIngestRequestTokens, bool)`
+`func (o *NativeIngestRequest) GetTokensOk() (*TokenCounts, bool)`
 
 GetTokensOk returns a tuple with the Tokens field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTokens
 
-`func (o *NativeIngestRequest) SetTokens(v NativeIngestRequestTokens)`
+`func (o *NativeIngestRequest) SetTokens(v TokenCounts)`
 
 SetTokens sets Tokens field to given value.
 

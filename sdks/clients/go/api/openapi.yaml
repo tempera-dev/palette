@@ -58,7 +58,7 @@ tags:
 - description: Composio-backed third-party tool connectors
   name: connectors
 paths:
-  /health:
+  /healthz:
     get:
       operationId: health.check
       responses:
@@ -68,8 +68,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
           description: Runtime is accepting requests
-        default:
-          $ref: '#/components/responses/Error'
       tags:
       - health
   /v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook:
@@ -3340,35 +3338,15 @@ paths:
                 $ref: '#/components/schemas/OtlpIngestOutcome'
           description: Ingest OTLP/HTTP protobuf traces
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Payload or attribute cardinality too large
+          $ref: '#/components/responses/Error'
         "429":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Per-project quota exceeded or backpressure
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
   /v1/prompts/{tenantId}/{projectId}:
@@ -6789,8 +6767,7 @@ components:
         status: ok
       properties:
         attributes:
-          additionalProperties: true
-          type: object
+          additionalProperties: {}
         cost:
           $ref: '#/components/schemas/Money'
         endTime:
@@ -6811,7 +6788,7 @@ components:
         normalizerVersion:
           type: string
         outputRef:
-          $ref: '#/components/schemas/CanonicalSpan_outputRef'
+          $ref: '#/components/schemas/ArtifactRef'
         parentSpanId:
           type: string
         projectId:
@@ -7728,50 +7705,6 @@ components:
       - traceId
     EnvironmentId:
       type: string
-    ErrorResponse:
-      description: AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
-      example:
-        error:
-          code: 5
-          details:
-          - "{}"
-          - "{}"
-          message: message
-          status: status
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorStatus'
-      required:
-      - error
-    ErrorStatus:
-      example:
-        code: 5
-        details:
-        - "{}"
-        - "{}"
-        message: message
-        status: status
-      properties:
-        code:
-          description: HTTP status code corresponding to the canonical RPC status.
-          format: int32
-          type: integer
-        details:
-          description: Machine-readable standard error details.
-          items:
-            type: object
-          type: array
-        message:
-          description: Developer-facing English problem description.
-          type: string
-        status:
-          description: Canonical `google.rpc.Code` enum name.
-          type: string
-      required:
-      - code
-      - details
-      - message
-      - status
     EvalReproducibility:
       example:
         judgeSeed: 0
@@ -8849,7 +8782,7 @@ components:
           currency: USD
         idempotencyKey: idempotencyKey
         kind: kind
-        parentSpanId: null
+        parentSpanId: parentSpanId
         output: ""
         spanId: spanId
         input: ""
@@ -8874,12 +8807,11 @@ components:
         status: ok
       properties:
         attributes:
-          additionalProperties: true
-          type: object
+          additionalProperties: {}
         authContext:
           $ref: '#/components/schemas/AuthContext'
         cost:
-          $ref: '#/components/schemas/NativeIngestRequest_cost'
+          $ref: '#/components/schemas/Money'
         endTime:
           format: date-time
           nullable: true
@@ -8891,12 +8823,12 @@ components:
           description: Canonical agent span kind such as agent.run or llm.call
           type: string
         model:
-          $ref: '#/components/schemas/NativeIngestRequest_model'
+          $ref: '#/components/schemas/ModelRef'
         name:
           type: string
         output: {}
         parentSpanId:
-          $ref: '#/components/schemas/NativeIngestRequest_parentSpanId'
+          type: string
         redactionClass:
           $ref: '#/components/schemas/RedactionClass'
         scope:
@@ -8914,7 +8846,7 @@ components:
         status:
           $ref: '#/components/schemas/SpanStatus'
         tokens:
-          $ref: '#/components/schemas/NativeIngestRequest_tokens'
+          $ref: '#/components/schemas/TokenCounts'
         traceId:
           type: string
       required:
@@ -11032,10 +10964,6 @@ components:
       - acceptedSpans
       - duplicateRaw
       - duplicateSpans
-    CanonicalSpan_outputRef:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/ArtifactRef'
     EvaluatorKind_oneOf:
       example:
         type: exact_match
@@ -11180,22 +11108,6 @@ components:
           type: string
       required:
       - type
-    NativeIngestRequest_cost:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/Money'
-    NativeIngestRequest_model:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/ModelRef'
-    NativeIngestRequest_parentSpanId:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/SpanId'
-    NativeIngestRequest_tokens:
-      nullable: true
-      oneOf:
-      - $ref: '#/components/schemas/TokenCounts'
     SpanIoValue_oneOf:
       example:
         kind: inline
@@ -11240,7 +11152,7 @@ components:
       required:
       - kind
     Status_error:
-      additionalProperties: true
+      additionalProperties: {}
       example:
         code: 0
         requestId: requestId
@@ -11257,7 +11169,7 @@ components:
           description: Structured error details. Present but empty when there are
             none.
           items:
-            additionalProperties: true
+            additionalProperties: {}
         message:
           description: A developer-facing description that is safe to log and safe
             to show.

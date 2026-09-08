@@ -78,7 +78,6 @@ from palette_client.models.calibration_label import CalibrationLabel
 from palette_client.models.calibration_policy import CalibrationPolicy
 from palette_client.models.calibration_report import CalibrationReport
 from palette_client.models.canonical_span import CanonicalSpan
-from palette_client.models.canonical_span_output_ref import CanonicalSpanOutputRef
 from palette_client.models.case_experiment_score import CaseExperimentScore
 from palette_client.models.case_output_override_request import CaseOutputOverrideRequest
 from palette_client.models.connect_connector_request import ConnectConnectorRequest
@@ -107,8 +106,6 @@ from palette_client.models.dead_letter_replay_report import DeadLetterReplayRepo
 from palette_client.models.diff_line import DiffLine
 from palette_client.models.diff_line_kind import DiffLineKind
 from palette_client.models.enqueue_review_task_from_trace_http_request import EnqueueReviewTaskFromTraceHttpRequest
-from palette_client.models.error_response import ErrorResponse
-from palette_client.models.error_status import ErrorStatus
 from palette_client.models.eval_reproducibility import EvalReproducibility
 from palette_client.models.eval_result import EvalResult
 from palette_client.models.evaluate_alert_request import EvaluateAlertRequest
@@ -152,10 +149,6 @@ from palette_client.models.mine_scenarios_response import MineScenariosResponse
 from palette_client.models.model_ref import ModelRef
 from palette_client.models.money import Money
 from palette_client.models.native_ingest_request import NativeIngestRequest
-from palette_client.models.native_ingest_request_cost import NativeIngestRequestCost
-from palette_client.models.native_ingest_request_model import NativeIngestRequestModel
-from palette_client.models.native_ingest_request_parent_span_id import NativeIngestRequestParentSpanId
-from palette_client.models.native_ingest_request_tokens import NativeIngestRequestTokens
 from palette_client.models.online_sampling_policy import OnlineSamplingPolicy
 from palette_client.models.otlp_ingest_outcome import OtlpIngestOutcome
 from palette_client.models.palette_connect_status import PaletteConnectStatus

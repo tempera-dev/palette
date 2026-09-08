@@ -12,7 +12,7 @@
 /*
  * CanonicalSpan.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_CanonicalSpan_H_
@@ -22,7 +22,6 @@
 
 #include "palette-client/ModelBase.h"
 
-#include "palette-client/model/CanonicalSpan_outputRef.h"
 #include "palette-client/model/ArtifactRef.h"
 #include "palette-client/model/SpanStatus.h"
 #include <cpprest/details/basic_types.h>
@@ -40,7 +39,6 @@ namespace model {
 class Money;
 class ArtifactRef;
 class ModelRef;
-class CanonicalSpan_outputRef;
 class TokenCounts;
 
 
@@ -115,10 +113,10 @@ public:
     void unsetNormalizerVersion();
     void setNormalizerVersion(const utility::string_t& value);
 
-    std::shared_ptr<CanonicalSpan_outputRef> getOutputRef() const;
+    std::shared_ptr<ArtifactRef> getOutputRef() const;
     bool outputRefIsSet() const;
     void unsetOutputRef();
-    void setOutputRef(const std::shared_ptr<CanonicalSpan_outputRef>& value);
+    void setOutputRef(const std::shared_ptr<ArtifactRef>& value);
 
     utility::string_t getParentSpanId() const;
     bool parentSpanIdIsSet() const;
@@ -209,7 +207,7 @@ protected:
     utility::string_t m_NormalizerVersion;
     bool m_NormalizerVersionIsSet;
 
-    std::shared_ptr<CanonicalSpan_outputRef> m_OutputRef;
+    std::shared_ptr<ArtifactRef> m_OutputRef;
     bool m_OutputRefIsSet;
 
     utility::string_t m_ParentSpanId;

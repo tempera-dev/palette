@@ -18,7 +18,6 @@ import ai.palette.client.ApiResponse;
 import ai.palette.client.Pair;
 
 import ai.palette.client.model.DeadLetterReplayReport;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ImportSourceHttpRequest;
 import ai.palette.client.model.IngestOutcome;
 import ai.palette.client.model.IngestQueueStatus;

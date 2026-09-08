@@ -91,7 +91,7 @@ Category | Method | HTTP request | Description
 *ExperimentsAPI* | [**ExperimentsAPI_experimentsRunJudge**](docs/ExperimentsAPI.md#ExperimentsAPI_experimentsRunJudge) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |
 *GatesAPI* | [**GatesAPI_gatesCreate**](docs/GatesAPI.md#GatesAPI_gatesCreate) | **POST** /v1/gates/{tenantId}/{projectId} |
 *GatesAPI* | [**GatesAPI_gatesRun**](docs/GatesAPI.md#GatesAPI_gatesRun) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
-*HealthAPI* | [**HealthAPI_healthCheck**](docs/HealthAPI.md#HealthAPI_healthCheck) | **GET** /health |
+*HealthAPI* | [**HealthAPI_healthCheck**](docs/HealthAPI.md#HealthAPI_healthCheck) | **GET** /healthz |
 *IngestAPI* | [**IngestAPI_ingestDrainTraceIngested**](docs/IngestAPI.md#IngestAPI_ingestDrainTraceIngested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
 *IngestAPI* | [**IngestAPI_ingestDrainTraceWrites**](docs/IngestAPI.md#IngestAPI_ingestDrainTraceWrites) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
 *IngestAPI* | [**IngestAPI_ingestGetQueueStatus**](docs/IngestAPI.md#IngestAPI_ingestGetQueueStatus) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
@@ -156,7 +156,6 @@ Category | Method | HTTP request | Description
  - [calibration_policy_t](docs/calibration_policy.md)
  - [calibration_report_t](docs/calibration_report.md)
  - [canonical_span_t](docs/canonical_span.md)
- - [canonical_span_output_ref_t](docs/canonical_span_output_ref.md)
  - [case_experiment_score_t](docs/case_experiment_score.md)
  - [case_output_override_request_t](docs/case_output_override_request.md)
  - [connect_connector_request_t](docs/connect_connector_request.md)
@@ -185,8 +184,6 @@ Category | Method | HTTP request | Description
  - [diff_line_t](docs/diff_line.md)
  - [diff_line_kind_t](docs/diff_line_kind.md)
  - [enqueue_review_task_from_trace_http_request_t](docs/enqueue_review_task_from_trace_http_request.md)
- - [error_response_t](docs/error_response.md)
- - [error_status_t](docs/error_status.md)
  - [eval_reproducibility_t](docs/eval_reproducibility.md)
  - [eval_result_t](docs/eval_result.md)
  - [evaluate_alert_request_t](docs/evaluate_alert_request.md)
@@ -230,10 +227,6 @@ Category | Method | HTTP request | Description
  - [model_ref_t](docs/model_ref.md)
  - [money_t](docs/money.md)
  - [native_ingest_request_t](docs/native_ingest_request.md)
- - [native_ingest_request_cost_t](docs/native_ingest_request_cost.md)
- - [native_ingest_request_model_t](docs/native_ingest_request_model.md)
- - [native_ingest_request_parent_span_id_t](docs/native_ingest_request_parent_span_id.md)
- - [native_ingest_request_tokens_t](docs/native_ingest_request_tokens.md)
  - [online_sampling_policy_t](docs/online_sampling_policy.md)
  - [otlp_ingest_outcome_t](docs/otlp_ingest_outcome.md)
  - [palette_connect_status_t](docs/palette_connect_status.md)

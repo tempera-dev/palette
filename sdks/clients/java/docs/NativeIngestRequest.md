@@ -9,20 +9,20 @@
 |------------ | ------------- | ------------- | -------------|
 |**attributes** | **Map&lt;String, Object&gt;** |  |  |
 |**authContext** | [**AuthContext**](AuthContext.md) |  |  [optional] |
-|**cost** | [**NativeIngestRequestCost**](NativeIngestRequestCost.md) |  |  [optional] |
+|**cost** | [**Money**](Money.md) |  |  [optional] |
 |**endTime** | **OffsetDateTime** |  |  [optional] |
 |**idempotencyKey** | **String** |  |  [optional] |
 |**input** | **Object** |  |  [optional] |
 |**kind** | **String** | Canonical agent span kind such as agent.run or llm.call |  |
-|**model** | [**NativeIngestRequestModel**](NativeIngestRequestModel.md) |  |  [optional] |
+|**model** | [**ModelRef**](ModelRef.md) |  |  [optional] |
 |**name** | **String** |  |  |
 |**output** | **Object** |  |  [optional] |
-|**parentSpanId** | [**NativeIngestRequestParentSpanId**](NativeIngestRequestParentSpanId.md) |  |  [optional] |
+|**parentSpanId** | **String** |  |  [optional] |
 |**redactionClass** | **RedactionClass** |  |  |
 |**scope** | [**TenantScope**](TenantScope.md) |  |  |
 |**seq** | **Long** |  |  |
 |**spanId** | **String** |  |  |
 |**startTime** | **OffsetDateTime** |  |  [optional] |
 |**status** | **SpanStatus** |  |  |
-|**tokens** | [**NativeIngestRequestTokens**](NativeIngestRequestTokens.md) |  |  [optional] |
+|**tokens** | [**TokenCounts**](TokenCounts.md) |  |  [optional] |
 |**traceId** | **String** |  |  |

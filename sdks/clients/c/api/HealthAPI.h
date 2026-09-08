@@ -6,7 +6,6 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/health_response.h"
-#include "../model/status.h"
 
 
 health_response_t*

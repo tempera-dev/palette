@@ -16,7 +16,6 @@
 import * as runtime from '../runtime';
 import type {
   DeadLetterReplayReport,
-  ErrorResponse,
   ImportSourceHttpRequest,
   IngestOutcome,
   IngestQueueStatus,
@@ -30,8 +29,6 @@ import type {
 import {
     DeadLetterReplayReportFromJSON,
     DeadLetterReplayReportToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ImportSourceHttpRequestFromJSON,
     ImportSourceHttpRequestToJSON,
     IngestOutcomeFromJSON,

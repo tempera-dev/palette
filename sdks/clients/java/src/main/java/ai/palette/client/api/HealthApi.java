@@ -18,7 +18,6 @@ import ai.palette.client.ApiResponse;
 import ai.palette.client.Pair;
 
 import ai.palette.client.model.HealthResponse;
-import ai.palette.client.model.Status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -143,7 +142,7 @@ public class HealthApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/health";
+    String localVarPath = "/healthz";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

@@ -15,7 +15,6 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.DeadLetterReplayReport;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ImportSourceHttpRequest;
 import ai.palette.client.model.IngestOutcome;
 import ai.palette.client.model.IngestQueueStatus;

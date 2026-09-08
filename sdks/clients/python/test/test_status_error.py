@@ -37,7 +37,9 @@ class TestStatusError(unittest.TestCase):
             return StatusError(
                 code = 56,
                 details = [
-                    { }
+                    {
+                        'key' : null
+                        }
                     ],
                 message = '',
                 request_id = '',

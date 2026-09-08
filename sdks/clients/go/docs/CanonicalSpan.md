@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **Model** | Pointer to [**NullableModelRef**](ModelRef.md) |  | [optional]
 **Name** | **string** |  |
 **NormalizerVersion** | **string** |  |
-**OutputRef** | Pointer to [**NullableCanonicalSpanOutputRef**](CanonicalSpanOutputRef.md) |  | [optional]
+**OutputRef** | Pointer to [**NullableArtifactRef**](ArtifactRef.md) |  | [optional]
 **ParentSpanId** | Pointer to **string** |  | [optional]
 **ProjectId** | **string** |  |
 **RawRef** | [**ArtifactRef**](ArtifactRef.md) |  |
@@ -288,20 +288,20 @@ SetNormalizerVersion sets NormalizerVersion field to given value.
 
 ### GetOutputRef
 
-`func (o *CanonicalSpan) GetOutputRef() CanonicalSpanOutputRef`
+`func (o *CanonicalSpan) GetOutputRef() ArtifactRef`
 
 GetOutputRef returns the OutputRef field if non-nil, zero value otherwise.
 
 ### GetOutputRefOk
 
-`func (o *CanonicalSpan) GetOutputRefOk() (*CanonicalSpanOutputRef, bool)`
+`func (o *CanonicalSpan) GetOutputRefOk() (*ArtifactRef, bool)`
 
 GetOutputRefOk returns a tuple with the OutputRef field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOutputRef
 
-`func (o *CanonicalSpan) SetOutputRef(v CanonicalSpanOutputRef)`
+`func (o *CanonicalSpan) SetOutputRef(v ArtifactRef)`
 
 SetOutputRef sets OutputRef field to given value.
 

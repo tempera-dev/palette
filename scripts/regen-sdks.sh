@@ -127,11 +127,8 @@ normalize_contract_standard_model_files() {
   while IFS= read -r -d '' file; do
     basename="$(basename "$file" | tr '[:upper:]' '[:lower:]')"
     case "$basename" in
-      *canonical_span*output_ref*|*canonicalspan*outputref*|\
-      *native_ingest_request*cost*|*nativeingestrequest*cost*|\
-      *native_ingest_request*model*|*nativeingestrequest*model*|\
-      *native_ingest_request*parent_span_id*|*nativeingestrequest*parentspanid*|\
-      *native_ingest_request*tokens*|*nativeingestrequest*tokens*|\
+      *canonical_span*|*canonicalspan*|\
+      *native_ingest_request*|*nativeingestrequest*|\
       *status*)
         perl -0pi -e 's/[ \t]+$//mg; s/\n+\z/\n/' "$file"
         ;;

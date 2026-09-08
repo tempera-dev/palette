@@ -32,7 +32,7 @@ type CanonicalSpan struct {
 	Model NullableModelRef `json:"model,omitempty"`
 	Name string `json:"name"`
 	NormalizerVersion string `json:"normalizerVersion"`
-	OutputRef NullableCanonicalSpanOutputRef `json:"outputRef,omitempty"`
+	OutputRef NullableArtifactRef `json:"outputRef,omitempty"`
 	ParentSpanId *string `json:"parentSpanId,omitempty"`
 	ProjectId string `json:"projectId"`
 	RawRef ArtifactRef `json:"rawRef"`
@@ -370,9 +370,9 @@ func (o *CanonicalSpan) SetNormalizerVersion(v string) {
 }
 
 // GetOutputRef returns the OutputRef field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CanonicalSpan) GetOutputRef() CanonicalSpanOutputRef {
+func (o *CanonicalSpan) GetOutputRef() ArtifactRef {
 	if o == nil || IsNil(o.OutputRef.Get()) {
-		var ret CanonicalSpanOutputRef
+		var ret ArtifactRef
 		return ret
 	}
 	return *o.OutputRef.Get()
@@ -381,7 +381,7 @@ func (o *CanonicalSpan) GetOutputRef() CanonicalSpanOutputRef {
 // GetOutputRefOk returns a tuple with the OutputRef field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CanonicalSpan) GetOutputRefOk() (*CanonicalSpanOutputRef, bool) {
+func (o *CanonicalSpan) GetOutputRefOk() (*ArtifactRef, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -397,8 +397,8 @@ func (o *CanonicalSpan) HasOutputRef() bool {
 	return false
 }
 
-// SetOutputRef gets a reference to the given NullableCanonicalSpanOutputRef and assigns it to the OutputRef field.
-func (o *CanonicalSpan) SetOutputRef(v CanonicalSpanOutputRef) {
+// SetOutputRef gets a reference to the given NullableArtifactRef and assigns it to the OutputRef field.
+func (o *CanonicalSpan) SetOutputRef(v ArtifactRef) {
 	o.OutputRef.Set(&v)
 }
 // SetOutputRefNil sets the value for OutputRef to be an explicit nil
@@ -864,5 +864,3 @@ func (v *NullableCanonicalSpan) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

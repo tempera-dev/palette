@@ -16,7 +16,7 @@
 |**model** | [**ModelRef**](ModelRef.md) |  |  [optional] |
 |**name** | **String** |  |  |
 |**normalizerVersion** | **String** |  |  |
-|**outputRef** | [**CanonicalSpanOutputRef**](CanonicalSpanOutputRef.md) |  |  [optional] |
+|**outputRef** | [**ArtifactRef**](ArtifactRef.md) |  |  [optional] |
 |**parentSpanId** | **String** |  |  [optional] |
 |**projectId** | **String** |  |  |
 |**rawRef** | [**ArtifactRef**](ArtifactRef.md) |  |  |
