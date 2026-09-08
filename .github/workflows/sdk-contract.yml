@@ -60,8 +60,17 @@ jobs:
       - name: Additive-only contract policy (oasdiff)
         run: |
           cargo run -q -p palette-api --example dump_openapi > /tmp/new-spec.json
-          git show "origin/${{ github.base_ref || 'main' }}:contracts/openapi/palette.openapi.json" \
-            > /tmp/base-spec.json || echo '{}' > /tmp/base-spec.json
+          base_ref="origin/${{ github.base_ref || 'main' }}"
+          canonical_path="contracts/openapi/palette.openapi.json"
+          legacy_path="sdks/openapi/palette-api.json"
+          if git cat-file -e "${base_ref}:${canonical_path}" 2>/dev/null; then
+            git show "${base_ref}:${canonical_path}" > /tmp/base-spec.json
+          elif git cat-file -e "${base_ref}:${legacy_path}" 2>/dev/null; then
+            git show "${base_ref}:${legacy_path}" > /tmp/base-spec.json
+          else
+            echo "ERROR: ${base_ref} has neither ${canonical_path} nor ${legacy_path}" >&2
+            exit 1
+          fi
           set +e
           docker run --rm -v /tmp:/specs tufin/oasdiff breaking \
             /specs/base-spec.json /specs/new-spec.json --fail-on ERR | tee /tmp/oasdiff-breaking.txt
