@@ -16,10 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   HealthResponse,
+  Status,
 } from '../models/index';
 import {
     HealthResponseFromJSON,
     HealthResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 /**

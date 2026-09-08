@@ -46,8 +46,7 @@ fn success_schema<'a>(spec: &'a Value, operation: &'a Value) -> &'a Value {
 
 #[test]
 fn every_public_collection_has_a_complete_aip158_contract() {
-    let spec = serde_json::to_value(palette_api::openapi::openapi())
-        .unwrap_or_else(|error| panic!("{error}"));
+    let spec = palette_api::openapi::openapi_value();
     let operations = operations_by_id(&spec);
     let migrated = [
         "archive.querySpans",
@@ -91,8 +90,7 @@ fn every_public_collection_has_a_complete_aip158_contract() {
 
 #[test]
 fn migration_debt_is_zero_and_protocol_native_exceptions_are_exact() {
-    let spec = serde_json::to_value(palette_api::openapi::openapi())
-        .unwrap_or_else(|error| panic!("{error}"));
+    let spec = palette_api::openapi::openapi_value();
     let operations = operations_by_id(&spec);
     for operation_id in ["ingest.otlp", "ingest.otlpJsonCollector"] {
         let parameters = parameter_names(

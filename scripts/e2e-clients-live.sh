@@ -27,7 +27,7 @@ cargo build -q -p paletted
 ./target/debug/paletted --addr "127.0.0.1:$PORT" --otlp-grpc-addr "127.0.0.1:$GRPC_PORT" \
   --data-dir "$data_dir" --auth-mode local >"$log" 2>&1 &
 pid=$!
-for _ in $(seq 1 60); do curl -fsS "$PALETTE_BASE_URL/health" >/dev/null 2>&1 && { ready=1; break; }; sleep 0.5; done
+for _ in $(seq 1 60); do curl -fsS "$PALETTE_BASE_URL/healthz" >/dev/null 2>&1 && { ready=1; break; }; sleep 0.5; done
 [ -n "${ready:-}" ] || { echo "paletted not healthy"; cat "$log"; exit 1; }
 echo "    paletted live on $PALETTE_BASE_URL"
 

@@ -28,8 +28,8 @@
 #include "palette-client/model/ConnectorListResponse.h"
 #include "palette-client/model/ConnectorSkillsResponse.h"
 #include "palette-client/model/ConnectorToolListResponse.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/InvokeConnectorRequest.h"
+#include "palette-client/model/Status.h"
 #include "palette-client/model/ToolExecution.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>

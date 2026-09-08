@@ -15,7 +15,7 @@ static canonical_span_t *canonical_span_create_internal(
     model_ref_t *model,
     char *name,
     char *normalizer_version,
-    artifact_ref_t *output_ref,
+    canonical_span_output_ref_t *output_ref,
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
@@ -70,7 +70,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     model_ref_t *model,
     char *name,
     char *normalizer_version,
-    artifact_ref_t *output_ref,
+    canonical_span_output_ref_t *output_ref,
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
@@ -162,7 +162,7 @@ void canonical_span_free(canonical_span_t *canonical_span) {
         canonical_span->normalizer_version = NULL;
     }
     if (canonical_span->output_ref) {
-        artifact_ref_free(canonical_span->output_ref);
+        canonical_span_output_ref_free(canonical_span->output_ref);
         canonical_span->output_ref = NULL;
     }
     if (canonical_span->parent_span_id) {
@@ -309,7 +309,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
 
     // canonical_span->output_ref
     if(canonical_span->output_ref) {
-    cJSON *output_ref_local_JSON = artifact_ref_convertToJSON(canonical_span->output_ref);
+    cJSON *output_ref_local_JSON = canonical_span_output_ref_convertToJSON(canonical_span->output_ref);
     if(output_ref_local_JSON == NULL) {
     goto fail; //model
     }
@@ -470,7 +470,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     model_ref_t *model_local_nonprim = NULL;
 
     // define the local variable for canonical_span->output_ref
-    artifact_ref_t *output_ref_local_nonprim = NULL;
+    canonical_span_output_ref_t *output_ref_local_nonprim = NULL;
 
     // define the local variable for canonical_span->raw_ref
     artifact_ref_t *raw_ref_local_nonprim = NULL;
@@ -615,7 +615,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         output_ref = NULL;
     }
     if (output_ref) { 
-    output_ref_local_nonprim = artifact_ref_parseFromJSON(output_ref); //nonprimitive
+    output_ref_local_nonprim = canonical_span_output_ref_parseFromJSON(output_ref); //nonprimitive
     }
 
     // canonical_span->parent_span_id
@@ -833,7 +833,7 @@ end:
         model_local_nonprim = NULL;
     }
     if (output_ref_local_nonprim) {
-        artifact_ref_free(output_ref_local_nonprim);
+        canonical_span_output_ref_free(output_ref_local_nonprim);
         output_ref_local_nonprim = NULL;
     }
     if (raw_ref_local_nonprim) {

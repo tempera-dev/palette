@@ -68,6 +68,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
           description: Runtime is accepting requests
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - health
       x-accepts:
@@ -150,25 +152,18 @@ paths:
                 $ref: '#/components/schemas/AlertDecision'
           description: Evaluate an alert policy for a trace
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - alerts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -250,25 +245,18 @@ paths:
                 $ref: '#/components/schemas/ApiKeyCreatedResponse'
           description: Create a scoped API key
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - apiKeys
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -352,31 +340,20 @@ paths:
                 $ref: '#/components/schemas/RevokedApiKey'
           description: Revoke an API key
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - apiKeys
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/archive/{tenantId}/{projectId}/spans:
@@ -494,25 +471,18 @@ paths:
                 $ref: '#/components/schemas/ArchiveQueryResponse'
           description: Query archived spans
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - archive
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/archive/{tenantId}/{projectId}/{traceId}:
@@ -587,31 +557,20 @@ paths:
                 $ref: '#/components/schemas/ArchiveManifest'
           description: Archive a trace to object storage
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - archive
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/audit/{tenantId}/{projectId}:
@@ -698,25 +657,18 @@ paths:
                 $ref: '#/components/schemas/AuditEventListResponse'
           description: List audit events
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - audit
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}:
@@ -805,31 +757,20 @@ paths:
                 $ref: '#/components/schemas/CalibrationReport'
           description: Run a calibration over an eval report
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - calibrations
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -897,25 +838,18 @@ paths:
                 $ref: '#/components/schemas/PaletteConnectStatusResponse'
           description: Palette product connection status for account-console setup
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connect
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}:
@@ -1000,31 +934,20 @@ paths:
                 $ref: '#/components/schemas/ConnectorListResponse'
           description: List connectable third-party apps (catalog)
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/connect:
@@ -1097,31 +1020,20 @@ paths:
                 $ref: '#/components/schemas/ConnectionLink'
           description: One-time login link to authorize the app
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1195,31 +1107,20 @@ paths:
                 $ref: '#/components/schemas/ToolExecution'
           description: Execute a connector tool and return its result envelope
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1295,31 +1196,20 @@ paths:
                 $ref: '#/components/schemas/ConnectorSkillsResponse'
           description: Generated prompting scaffold (skill cards) for a toolkit
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/status:
@@ -1394,31 +1284,20 @@ paths:
                 $ref: '#/components/schemas/ConnectionStatus'
           description: Connection status of a toolkit for this project
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/connectors/{tenantId}/{projectId}/tools:
@@ -1511,31 +1390,20 @@ paths:
                 $ref: '#/components/schemas/ConnectorToolListResponse'
           description: List a toolkit's executable tools with input schemas
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Connector provider not configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - connectors
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/datasets/{tenantId}/{projectId}:
@@ -1608,25 +1476,18 @@ paths:
                 $ref: '#/components/schemas/Dataset'
           description: Create a dataset
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - datasets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1708,31 +1569,20 @@ paths:
                 $ref: '#/components/schemas/DatasetCase'
           description: Promote a trace span to a dataset case
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - datasets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1814,31 +1664,20 @@ paths:
                 $ref: '#/components/schemas/DatasetVersionSnapshot'
           description: Create a dataset version snapshot
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - datasets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -1928,31 +1767,20 @@ paths:
                 $ref: '#/components/schemas/DatasetEvalReport'
           description: Run a deterministic dataset evaluation
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - evals
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2042,31 +1870,20 @@ paths:
                 $ref: '#/components/schemas/DatasetEvalReport'
           description: Run a judge dataset evaluation
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - evals
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2140,50 +1957,26 @@ paths:
                 $ref: '#/components/schemas/TemperaEvidenceReceipt'
           description: Idempotently store a verified official Tempera result bundle
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Malformed, non-canonical, unsafe, or signature-invalid evidence"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope or the evidence key is
-            not trusted
+          $ref: '#/components/responses/Error'
         "409":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: The external id already binds different content
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Evidence exceeds the request limit
+          $ref: '#/components/responses/Error'
         "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Request body does not match the schema
+          $ref: '#/components/responses/Error'
         "503":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: No Tempera evaluation release-key trust anchor is configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - evalResults
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2257,50 +2050,26 @@ paths:
                 $ref: '#/components/schemas/TemperaEvidenceReceipt'
           description: Idempotently store a verified preregistered Tempera A/B decision
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Malformed, non-canonical, unsafe, or signature-invalid evidence"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope or the evidence key is
-            not trusted
+          $ref: '#/components/responses/Error'
         "409":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: The external id already binds different content
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Evidence exceeds the request limit
+          $ref: '#/components/responses/Error'
         "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Request body does not match the schema
+          $ref: '#/components/responses/Error'
         "503":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: No Tempera evaluation release-key trust anchor is configured
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - evalResults
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2384,31 +2153,20 @@ paths:
                 $ref: '#/components/schemas/TemperaEvidenceReceipt'
           description: Read a scoped external evidence receipt
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Invalid evidence kind or identifier
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Evidence not found in this tenant/project
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - evalResults
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-accepts:
       - application/json
   /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic:
@@ -2497,31 +2255,20 @@ paths:
                 $ref: '#/components/schemas/ExperimentRunReport'
           description: Run a deterministic experiment
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - experiments
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2611,31 +2358,20 @@ paths:
                 $ref: '#/components/schemas/ExperimentRunReport'
           description: Run a judge experiment
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - experiments
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2709,25 +2445,18 @@ paths:
                 $ref: '#/components/schemas/GateDefinition'
           description: Create a release gate
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - gates
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2809,31 +2538,20 @@ paths:
                 $ref: '#/components/schemas/GateRunReport'
           description: Run a gate against an experiment
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - gates
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -2904,37 +2622,22 @@ paths:
                 $ref: '#/components/schemas/IngestOutcome'
           description: Normalize an imported source document into canonical spans
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or unknown source"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Payload or attribute cardinality too large
+          $ref: '#/components/responses/Error'
         "429":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Per-project quota exceeded or backpressure
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3017,31 +2720,20 @@ paths:
                 $ref: '#/components/schemas/DeadLetterReplayReport'
           description: Replay a dead-letter message
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/queue:
@@ -3108,25 +2800,18 @@ paths:
                 $ref: '#/components/schemas/IngestQueueStatus'
           description: Get ingest queue status
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain:
@@ -3202,25 +2887,18 @@ paths:
           description: "Drain pending trace-ingested events, including retry and dead-letter\
             \ outcomes"
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/trace-writes/drain:
@@ -3296,25 +2974,18 @@ paths:
           description: "Drain pending trace writes, including retry and dead-letter\
             \ outcomes"
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile:
@@ -3389,31 +3060,20 @@ paths:
                 $ref: '#/components/schemas/TraceIngestedReconcileReport'
           description: Reconcile a trace-ingested record
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/judge/{tenantId}/{projectId}/evaluate:
@@ -3486,25 +3146,18 @@ paths:
                 $ref: '#/components/schemas/JudgeBrokerOutcome'
           description: Run an ad-hoc judge evaluation
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - judge
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3592,25 +3245,18 @@ paths:
                 $ref: '#/components/schemas/JudgeLedgerListResponse'
           description: List judge ledger audit records
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - judge
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: eval:run
       x-accepts:
       - application/json
   /v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling:
@@ -3691,25 +3337,18 @@ paths:
                 $ref: '#/components/schemas/SamplingDecision'
           description: Decide online sampling for a trace
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - online
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -3909,25 +3548,18 @@ paths:
                 $ref: '#/components/schemas/PromptListResponse'
           description: List prompts in a project
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
     post:
@@ -3999,25 +3631,18 @@ paths:
                 $ref: '#/components/schemas/CreatedPrompt'
           description: Create a prompt and its initial version
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4093,31 +3718,20 @@ paths:
                 $ref: '#/components/schemas/Prompt'
           description: Get a prompt's metadata
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/prompts/{tenantId}/{projectId}/{promptId}/diff:
@@ -4206,31 +3820,20 @@ paths:
                 $ref: '#/components/schemas/PromptVersionDiff'
           description: Line diff between two prompt versions
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/prompts/{tenantId}/{projectId}/{promptId}/versions:
@@ -4325,31 +3928,20 @@ paths:
                 $ref: '#/components/schemas/PromptVersionListResponse'
           description: List a prompt's versions oldest-first
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
     post:
@@ -4429,31 +4021,20 @@ paths:
                 $ref: '#/components/schemas/PromptVersion'
           description: Append an immutable prompt version
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - prompts
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4541,25 +4122,18 @@ paths:
                 $ref: '#/components/schemas/ProviderSecretListResponse'
           description: List provider secret metadata
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - providerSecrets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
     post:
@@ -4631,25 +4205,18 @@ paths:
                 $ref: '#/components/schemas/ProviderSecretMetadata'
           description: Store an encrypted provider secret
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - providerSecrets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4725,31 +4292,20 @@ paths:
                 $ref: '#/components/schemas/RevokedProviderSecret'
           description: Revoke a provider secret
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - providerSecrets
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
   /v1/review-queues/{tenantId}/{projectId}:
@@ -4822,25 +4378,18 @@ paths:
                 $ref: '#/components/schemas/ReviewQueue'
           description: Create a human review queue
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - reviews
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -4943,31 +4492,20 @@ paths:
                 $ref: '#/components/schemas/ReviewTaskListResponse'
           description: List review tasks
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - reviews
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-accepts:
       - application/json
   /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace:
@@ -5048,31 +4586,20 @@ paths:
                 $ref: '#/components/schemas/ReviewTask'
           description: Enqueue a review task from a trace
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - reviews
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5162,31 +4689,20 @@ paths:
                 $ref: '#/components/schemas/ReviewAnnotation'
           description: Submit a review annotation
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - reviews
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5284,31 +4800,20 @@ paths:
                 $ref: '#/components/schemas/DatasetCase'
           description: Promote a review annotation to a dataset case
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - reviews
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: dataset:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5396,25 +4901,18 @@ paths:
                 $ref: '#/components/schemas/ListScenariosResponse'
           description: List scenarios
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - scenarios
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: scenario:read
       x-accepts:
       - application/json
     post:
@@ -5486,25 +4984,18 @@ paths:
                 $ref: '#/components/schemas/Scenario'
           description: Create a scenario
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - scenarios
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: scenario:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5578,31 +5069,20 @@ paths:
                 $ref: '#/components/schemas/MineScenariosResponse'
           description: Mine scenario clusters from traces
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - scenarios
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: scenario:read
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -5678,31 +5158,20 @@ paths:
                 $ref: '#/components/schemas/Scenario'
           description: Get a scenario
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - scenarios
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: scenario:read
       x-accepts:
       - application/json
   /v1/search/{tenantId}/spans:
@@ -5840,25 +5309,18 @@ paths:
                 $ref: '#/components/schemas/SearchSpanListResponse'
           description: Search spans
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - search
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/spans/{tenantId}/{traceId}/{spanId}:
@@ -5947,31 +5409,20 @@ paths:
                 $ref: '#/components/schemas/CanonicalSpan'
           description: Get a canonical span
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - spans
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/spans/{tenantId}/{traceId}/{spanId}/io:
@@ -6060,31 +5511,20 @@ paths:
                 $ref: '#/components/schemas/SpanIoResponse'
           description: Get span input/output metadata
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - spans
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/traces:
@@ -6151,37 +5591,22 @@ paths:
                 $ref: '#/components/schemas/OtlpIngestOutcome'
           description: Ingest collector-style OTLP/HTTP JSON traces
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Payload or attribute cardinality too large
+          $ref: '#/components/responses/Error'
         "429":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Per-project quota exceeded or backpressure
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:write
       x-accepts:
       - application/json
   /v1/traces/native:
@@ -6245,37 +5670,22 @@ paths:
                 $ref: '#/components/schemas/IngestOutcome'
           description: Ingest native canonical spans
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Payload or attribute cardinality too large
+          $ref: '#/components/responses/Error'
         "429":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Per-project quota exceeded or backpressure
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - ingest
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:write
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -6446,25 +5856,18 @@ paths:
                 $ref: '#/components/schemas/TraceListResponse'
           description: List trace run summaries
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - traces
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/traces/{tenantId}/{traceId}:
@@ -6545,31 +5948,20 @@ paths:
                 $ref: '#/components/schemas/TraceView'
           description: Get a canonical trace
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Resource not found
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - traces
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: trace:read
       x-accepts:
       - application/json
   /v1/usage/{tenantId}/{projectId}:
@@ -6636,28 +6028,28 @@ paths:
                 $ref: '#/components/schemas/UsageSummary'
           description: Get usage summary
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: "Invalid request, scope, or filter"
+          $ref: '#/components/responses/Error'
         "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Missing or invalid credentials
+          $ref: '#/components/responses/Error'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Credentials lack the required scope
+          $ref: '#/components/responses/Error'
+        default:
+          $ref: '#/components/responses/Error'
       tags:
       - usage
+      x-tempera-auth-audience: palette
+      x-tempera-auth-kind: oauthResource
+      x-tempera-required-scope: admin
       x-accepts:
       - application/json
 components:
+  responses:
+    Error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Status'
+      description: A google.rpc.Status error envelope.
   schemas:
     AddPromptVersionRequest:
       description: "Request body for `addPromptVersion`: a new immutable template\
@@ -7552,7 +6944,8 @@ components:
         status: ok
       properties:
         attributes:
-          additionalProperties: {}
+          additionalProperties: true
+          type: object
         cost:
           $ref: '#/components/schemas/Money'
         endTime:
@@ -7573,7 +6966,7 @@ components:
         normalizerVersion:
           type: string
         outputRef:
-          $ref: '#/components/schemas/ArtifactRef'
+          $ref: '#/components/schemas/CanonicalSpan_outputRef'
         parentSpanId:
           type: string
         projectId:
@@ -8494,7 +7887,7 @@ components:
       description: AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
       example:
         error:
-          code: 0
+          code: 5
           details:
           - "{}"
           - "{}"
@@ -8507,7 +7900,7 @@ components:
       - error
     ErrorStatus:
       example:
-        code: 0
+        code: 5
         details:
         - "{}"
         - "{}"
@@ -9611,7 +9004,7 @@ components:
           currency: USD
         idempotencyKey: idempotencyKey
         kind: kind
-        parentSpanId: parentSpanId
+        parentSpanId: null
         output: ""
         spanId: spanId
         input: ""
@@ -9636,11 +9029,12 @@ components:
         status: ok
       properties:
         attributes:
-          additionalProperties: {}
+          additionalProperties: true
+          type: object
         authContext:
           $ref: '#/components/schemas/AuthContext'
         cost:
-          $ref: '#/components/schemas/Money'
+          $ref: '#/components/schemas/NativeIngestRequest_cost'
         endTime:
           format: date-time
           nullable: true
@@ -9652,12 +9046,12 @@ components:
           description: Canonical agent span kind such as agent.run or llm.call
           type: string
         model:
-          $ref: '#/components/schemas/ModelRef'
+          $ref: '#/components/schemas/NativeIngestRequest_model'
         name:
           type: string
         output: {}
         parentSpanId:
-          type: string
+          $ref: '#/components/schemas/NativeIngestRequest_parentSpanId'
         redactionClass:
           $ref: '#/components/schemas/RedactionClass'
         scope:
@@ -9675,7 +9069,7 @@ components:
         status:
           $ref: '#/components/schemas/SpanStatus'
         tokens:
-          $ref: '#/components/schemas/TokenCounts'
+          $ref: '#/components/schemas/NativeIngestRequest_tokens'
         traceId:
           type: string
       required:
@@ -11148,6 +10542,24 @@ components:
       - clustered_paired_t
       - sequential_e_value
       type: string
+    Status:
+      additionalProperties: {}
+      description: The google.rpc.Status error envelope required of every Tempera
+        API (AIP-193).
+      example:
+        error:
+          code: 0
+          requestId: requestId
+          details:
+          - key: ""
+          - key: ""
+          message: message
+          status: CANCELLED
+      properties:
+        error:
+          $ref: '#/components/schemas/Status_error'
+      required:
+      - error
     SubmitReviewAnnotationHttpRequest:
       example:
         reviewerId: reviewerId
@@ -11775,6 +11187,10 @@ components:
       - acceptedSpans
       - duplicateRaw
       - duplicateSpans
+    CanonicalSpan_outputRef:
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/ArtifactRef'
     EvaluatorKind_oneOf:
       example:
         type: exact_match
@@ -11919,6 +11335,22 @@ components:
           type: string
       required:
       - type
+    NativeIngestRequest_cost:
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/Money'
+    NativeIngestRequest_model:
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/ModelRef'
+    NativeIngestRequest_parentSpanId:
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/SpanId'
+    NativeIngestRequest_tokens:
+      nullable: true
+      oneOf:
+      - $ref: '#/components/schemas/TokenCounts'
     SpanIoValue_oneOf:
       example:
         kind: inline
@@ -11962,4 +11394,68 @@ components:
           type: string
       required:
       - kind
+    Status_error:
+      additionalProperties: true
+      example:
+        code: 0
+        requestId: requestId
+        details:
+        - key: ""
+        - key: ""
+        message: message
+        status: CANCELLED
+      properties:
+        code:
+          description: "The HTTP status code, repeated in the body so the envelope\
+            \ is self-describing."
+        details:
+          description: Structured error details. Present but empty when there are
+            none.
+          items:
+            additionalProperties: true
+        message:
+          description: A developer-facing description that is safe to log and safe
+            to show.
+        requestId:
+          description: "The server-assigned request identifier, mirrored from the\
+            \ x-request-id response header."
+        status:
+          description: "The canonical google.rpc.Code name, for example INVALID_ARGUMENT."
+          enum:
+          - CANCELLED
+          - UNKNOWN
+          - INVALID_ARGUMENT
+          - DEADLINE_EXCEEDED
+          - NOT_FOUND
+          - ALREADY_EXISTS
+          - PERMISSION_DENIED
+          - UNAUTHENTICATED
+          - RESOURCE_EXHAUSTED
+          - FAILED_PRECONDITION
+          - ABORTED
+          - OUT_OF_RANGE
+          - UNIMPLEMENTED
+          - INTERNAL
+          - UNAVAILABLE
+          - DATA_LOSS
+      required:
+      - code
+      - message
+      - status
+  securitySchemes:
+    paletteApiKey:
+      description: "The same secret as the bearer, for callers that cannot set Authorization.\
+        \ Under strict auth the request must also carry x-palette-tenant-id, x-palette-project-id,\
+        \ and x-palette-environment-id unless the token's own claims supply them."
+      in: header
+      name: x-palette-api-key
+      type: apiKey
+    paletteBearer:
+      description: "A Palette API key (bt_…), an OAuth 2.1 access token (bao_…), or\
+        \ a Tempera control-plane token whose audience is `palette`."
+      scheme: bearer
+      type: http
+x-tempera-protocol-routes:
+- /healthz
+- "/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces"
 

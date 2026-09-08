@@ -17,18 +17,18 @@ import * as runtime from '../runtime';
 import type {
   ApiKeyCreatedResponse,
   CreateApiKeyHttpRequest,
-  ErrorResponse,
   RevokedApiKey,
+  Status,
 } from '../models/index';
 import {
     ApiKeyCreatedResponseFromJSON,
     ApiKeyCreatedResponseToJSON,
     CreateApiKeyHttpRequestFromJSON,
     CreateApiKeyHttpRequestToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     RevokedApiKeyFromJSON,
     RevokedApiKeyToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ApiKeysCreateRequest {

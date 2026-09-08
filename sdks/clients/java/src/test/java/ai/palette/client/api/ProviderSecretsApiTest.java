@@ -15,10 +15,10 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.CreateProviderSecretHttpRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ProviderSecretListResponse;
 import ai.palette.client.model.ProviderSecretMetadata;
 import ai.palette.client.model.RevokedProviderSecret;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

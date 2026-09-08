@@ -31,7 +31,7 @@ paletted_pid=$!
 
 echo "==> Waiting for health"
 for _ in $(seq 1 60); do
-  if curl -fsS "http://127.0.0.1:$PORT/health" >/dev/null 2>&1; then ready=1; break; fi
+  if curl -fsS "http://127.0.0.1:$PORT/healthz" >/dev/null 2>&1; then ready=1; break; fi
   sleep 0.5
 done
 if [ -z "${ready:-}" ]; then echo "paletted did not become healthy:" >&2; cat "$log" >&2; exit 1; fi

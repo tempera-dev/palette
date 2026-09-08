@@ -6,7 +6,7 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/audit_event_list_response.h"
-#include "../model/error_response.h"
+#include "../model/status.h"
 
 
 audit_event_list_response_t*

@@ -21,7 +21,7 @@ trap cleanup EXIT
 pid=$!
 
 for _ in $(seq 1 60); do
-  curl -fsS "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 && { ready=1; break; }
+  curl -fsS "http://127.0.0.1:$PORT/healthz" >/dev/null 2>&1 && { ready=1; break; }
   sleep 0.5
 done
 [ -n "${ready:-}" ] || { echo "paletted not healthy"; cat "$log"; exit 1; }

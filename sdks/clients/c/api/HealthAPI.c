@@ -43,6 +43,10 @@ HealthAPI_healthCheck(apiClient_t *apiClient)
     //if (apiClient->response_code == 200) {
     //    printf("%s\n","Runtime is accepting requests");
     //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
     //nonprimitive not container
     health_response_t *elementToReturn = NULL;
     if(apiClient->response_code >= 200 && apiClient->response_code < 300) {

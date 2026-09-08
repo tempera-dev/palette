@@ -89,9 +89,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a scenario |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## scenariosCreateWithHttpInfo
 
@@ -170,9 +171,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a scenario |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## scenariosGet
@@ -249,10 +251,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Get a scenario |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## scenariosGetWithHttpInfo
 
@@ -331,10 +334,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Get a scenario |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## scenariosList
@@ -413,9 +417,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List scenarios |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## scenariosListWithHttpInfo
 
@@ -496,9 +501,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List scenarios |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## scenariosMine
@@ -575,10 +581,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Mine scenario clusters from traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## scenariosMineWithHttpInfo
 
@@ -657,7 +664,8 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Mine scenario clusters from traces |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

@@ -67,6 +67,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Runtime is accepting requests |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## healthCheckWithHttpInfo
 
@@ -129,3 +130,4 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Runtime is accepting requests |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

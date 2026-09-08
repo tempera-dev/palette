@@ -14,6 +14,7 @@
 package ai.palette.client.model;
 
 import ai.palette.client.model.ArtifactRef;
+import ai.palette.client.model.CanonicalSpanOutputRef;
 import ai.palette.client.model.ModelRef;
 import ai.palette.client.model.Money;
 import ai.palette.client.model.SpanStatus;

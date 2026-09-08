@@ -290,7 +290,7 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("outputRef")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<ArtifactRef> refVal_setOutputRef;
+            std::shared_ptr<CanonicalSpan_outputRef> refVal_setOutputRef;
             ok &= ModelBase::fromJson(fieldValue, refVal_setOutputRef);
             setOutputRef(refVal_setOutputRef);
             
@@ -593,7 +593,7 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("outputRef"))))
     {
-        std::shared_ptr<ArtifactRef> refVal_setOutputRef;
+        std::shared_ptr<CanonicalSpan_outputRef> refVal_setOutputRef;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("outputRef"))), refVal_setOutputRef );
         setOutputRef(refVal_setOutputRef);
     }
@@ -862,13 +862,13 @@ void CanonicalSpan::unsetNormalizerVersion()
 {
     m_NormalizerVersionIsSet = false;
 }
-std::shared_ptr<ArtifactRef> CanonicalSpan::getOutputRef() const
+std::shared_ptr<CanonicalSpan_outputRef> CanonicalSpan::getOutputRef() const
 {
     return m_OutputRef;
 }
 
 
-void CanonicalSpan::setOutputRef(const std::shared_ptr<ArtifactRef>& value)
+void CanonicalSpan::setOutputRef(const std::shared_ptr<CanonicalSpan_outputRef>& value)
 {
     m_OutputRef = value;
     m_OutputRefIsSet = true;

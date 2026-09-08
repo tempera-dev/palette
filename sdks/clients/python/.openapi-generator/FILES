@@ -33,6 +33,7 @@ docs/CalibrationPolicy.md
 docs/CalibrationReport.md
 docs/CalibrationsApi.md
 docs/CanonicalSpan.md
+docs/CanonicalSpanOutputRef.md
 docs/CaseExperimentScore.md
 docs/CaseOutputOverrideRequest.md
 docs/ConnectApi.md
@@ -116,6 +117,10 @@ docs/MineScenariosResponse.md
 docs/ModelRef.md
 docs/Money.md
 docs/NativeIngestRequest.md
+docs/NativeIngestRequestCost.md
+docs/NativeIngestRequestModel.md
+docs/NativeIngestRequestParentSpanId.md
+docs/NativeIngestRequestTokens.md
 docs/OnlineApi.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
@@ -177,6 +182,8 @@ docs/SpanIoValueOneOf3.md
 docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
+docs/Status.md
+docs/StatusError.md
 docs/SubmitReviewAnnotationHttpRequest.md
 docs/TemperaEvidenceReceipt.md
 docs/TemperaEvidenceSummary.md
@@ -251,6 +258,7 @@ palette_client/models/calibration_label.py
 palette_client/models/calibration_policy.py
 palette_client/models/calibration_report.py
 palette_client/models/canonical_span.py
+palette_client/models/canonical_span_output_ref.py
 palette_client/models/case_experiment_score.py
 palette_client/models/case_output_override_request.py
 palette_client/models/connect_connector_request.py
@@ -324,6 +332,10 @@ palette_client/models/mine_scenarios_response.py
 palette_client/models/model_ref.py
 palette_client/models/money.py
 palette_client/models/native_ingest_request.py
+palette_client/models/native_ingest_request_cost.py
+palette_client/models/native_ingest_request_model.py
+palette_client/models/native_ingest_request_parent_span_id.py
+palette_client/models/native_ingest_request_tokens.py
 palette_client/models/online_sampling_policy.py
 palette_client/models/otlp_ingest_outcome.py
 palette_client/models/palette_connect_status.py
@@ -378,6 +390,8 @@ palette_client/models/span_io_value_one_of2.py
 palette_client/models/span_io_value_one_of3.py
 palette_client/models/span_status.py
 palette_client/models/statistical_test.py
+palette_client/models/status.py
+palette_client/models/status_error.py
 palette_client/models/submit_review_annotation_http_request.py
 palette_client/models/tempera_evidence_receipt.py
 palette_client/models/tempera_evidence_summary.py
@@ -431,6 +445,7 @@ test/test_calibration_policy.py
 test/test_calibration_report.py
 test/test_calibrations_api.py
 test/test_canonical_span.py
+test/test_canonical_span_output_ref.py
 test/test_case_experiment_score.py
 test/test_case_output_override_request.py
 test/test_connect_api.py
@@ -514,6 +529,10 @@ test/test_mine_scenarios_response.py
 test/test_model_ref.py
 test/test_money.py
 test/test_native_ingest_request.py
+test/test_native_ingest_request_cost.py
+test/test_native_ingest_request_model.py
+test/test_native_ingest_request_parent_span_id.py
+test/test_native_ingest_request_tokens.py
 test/test_online_api.py
 test/test_online_sampling_policy.py
 test/test_otlp_ingest_outcome.py
@@ -575,6 +594,8 @@ test/test_span_io_value_one_of3.py
 test/test_span_status.py
 test/test_spans_api.py
 test/test_statistical_test.py
+test/test_status.py
+test/test_status_error.py
 test/test_submit_review_annotation_http_request.py
 test/test_tempera_evidence_receipt.py
 test/test_tempera_evidence_summary.py

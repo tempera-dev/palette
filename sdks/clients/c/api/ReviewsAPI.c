@@ -171,15 +171,19 @@ ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenantId, char *proj
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     review_queue_t *elementToReturn = NULL;
@@ -387,19 +391,23 @@ ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenantId, c
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     review_task_t *elementToReturn = NULL;
@@ -635,19 +643,23 @@ ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenantId, char *projec
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     review_task_list_response_t *elementToReturn = NULL;
@@ -907,19 +919,23 @@ ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenantId, char
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     dataset_case_t *elementToReturn = NULL;
@@ -1142,19 +1158,23 @@ ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenantId, char 
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
-    //    printf("%s\n","Invalid request, scope, or filter");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 401) {
-    //    printf("%s\n","Missing or invalid credentials");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
-    //    printf("%s\n","Credentials lack the required scope");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 404) {
-    //    printf("%s\n","Resource not found");
+    //    printf("%s\n","A google.rpc.Status error envelope.");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 0) {
+    //    printf("%s\n","A google.rpc.Status error envelope.");
     //}
     //nonprimitive not container
     review_annotation_t *elementToReturn = NULL;

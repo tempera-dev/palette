@@ -72,6 +72,7 @@ set(SRCS
     model/calibration_policy.c
     model/calibration_report.c
     model/canonical_span.c
+    model/canonical_span_output_ref.c
     model/case_experiment_score.c
     model/case_output_override_request.c
     model/connect_connector_request.c
@@ -145,6 +146,10 @@ set(SRCS
     model/model_ref.c
     model/money.c
     model/native_ingest_request.c
+    model/native_ingest_request_cost.c
+    model/native_ingest_request_model.c
+    model/native_ingest_request_parent_span_id.c
+    model/native_ingest_request_tokens.c
     model/online_sampling_policy.c
     model/otlp_ingest_outcome.c
     model/palette_connect_status.c
@@ -199,6 +204,8 @@ set(SRCS
     model/span_io_value_one_of_3.c
     model/span_status.c
     model/statistical_test.c
+    model/status.c
+    model/status_error.c
     model/submit_review_annotation_http_request.c
     model/tempera_evidence_receipt.c
     model/tempera_evidence_summary.c
@@ -274,6 +281,7 @@ set(HDRS
     model/calibration_policy.h
     model/calibration_report.h
     model/canonical_span.h
+    model/canonical_span_output_ref.h
     model/case_experiment_score.h
     model/case_output_override_request.h
     model/connect_connector_request.h
@@ -347,6 +355,10 @@ set(HDRS
     model/model_ref.h
     model/money.h
     model/native_ingest_request.h
+    model/native_ingest_request_cost.h
+    model/native_ingest_request_model.h
+    model/native_ingest_request_parent_span_id.h
+    model/native_ingest_request_tokens.h
     model/online_sampling_policy.h
     model/otlp_ingest_outcome.h
     model/palette_connect_status.h
@@ -401,6 +413,8 @@ set(HDRS
     model/span_io_value_one_of_3.h
     model/span_status.h
     model/statistical_test.h
+    model/status.h
+    model/status_error.h
     model/submit_review_annotation_http_request.h
     model/tempera_evidence_receipt.h
     model/tempera_evidence_summary.h

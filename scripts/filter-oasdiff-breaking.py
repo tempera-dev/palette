@@ -64,7 +64,7 @@ AIP193_REMOVED_TOP_LEVEL_FIELD = re.compile(
 
 @functools.lru_cache(maxsize=1)
 def aip127_migration_active() -> bool:
-    contract = Path(__file__).resolve().parents[1] / "sdks/openapi/palette-api.json"
+    contract = Path(__file__).resolve().parents[1] / "contracts/openapi/palette.openapi.json"
     try:
         digest = hashlib.sha256(contract.read_bytes()).hexdigest()
     except OSError:

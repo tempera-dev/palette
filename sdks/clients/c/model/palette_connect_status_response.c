@@ -198,7 +198,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsBool(first_eval_run))
     {
     goto end; //Bool
@@ -213,7 +213,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsBool(first_trace_received))
     {
     goto end; //Bool
@@ -228,7 +228,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsBool(ok))
     {
     goto end; //Bool
@@ -243,7 +243,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(project_id))
     {
     goto end; //String
@@ -258,7 +258,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     status_local_nonprim = palette_connect_status_parseFromJSON(status); //custom
 
     // palette_connect_status_response->tenant_id
@@ -270,7 +270,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(tenant_id))
     {
     goto end; //String
@@ -285,7 +285,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     cJSON *totals_local_map = NULL;
     if(!cJSON_IsObject(totals) && !cJSON_IsNull(totals))
     {
@@ -311,7 +311,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
         goto end;
     }
 
-    
+
     if(!cJSON_IsBool(usage_configured))
     {
     goto end; //Bool

@@ -3,12 +3,12 @@
 This document defines the stability guarantees and deprecation process for the
 Palette HTTP API. It satisfies requirement **R11.5** (`/v1` API is stable and
 versioned) and complements the OpenAPI spec
-(`sdks/openapi/palette-api.json`) and `CONTRIBUTING.md`.
+(`contracts/openapi/palette.openapi.json`) and `CONTRIBUTING.md`.
 
 ## The contract is the single source of truth
 
 Every `/v1` endpoint, request/response type, MCP tool, CLI command, and SDK
-client is generated from one artifact: `sdks/openapi/palette-api.json` (itself
+client is generated from one artifact: `contracts/openapi/palette.openapi.json` (itself
 generated from the Rust handlers in `crates/palette-api`). The drift gate
 (`scripts/check-contract-sync.sh`) and `oasdiff` in
 `.github/workflows/sdk-contract.yml` block any change that is not regenerated

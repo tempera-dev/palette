@@ -29,7 +29,7 @@ SSO, managed cells, and enterprise governance sit outside the Apache-2.0 core.
 - `web/dashboard` is the Next.js dashboard. It consumes generated OpenAPI types
   from `web/dashboard/openapi/palette-read-api.json` and
   `web/dashboard/lib/generated/api-types.ts`.
-- `sdks/openapi/palette-api.json`, `sdks/clients/*`, `sdks/{python,typescript,rust}`,
+- `contracts/openapi/palette.openapi.json`, `sdks/clients/*`, `sdks/{python,typescript,rust}`,
   and `sdks/semconv` are the API/SDK contract surface. Generated client output is
   intentionally committed when the contract changes.
 - `migrations/{sqlite,postgres,clickhouse}` are durable schema contracts. The

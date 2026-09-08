@@ -27,6 +27,13 @@ import {
     TokenCountsToJSON,
     TokenCountsToJSONTyped,
 } from './TokenCounts';
+import type { CanonicalSpanOutputRef } from './CanonicalSpanOutputRef';
+import {
+    CanonicalSpanOutputRefFromJSON,
+    CanonicalSpanOutputRefFromJSONTyped,
+    CanonicalSpanOutputRefToJSON,
+    CanonicalSpanOutputRefToJSONTyped,
+} from './CanonicalSpanOutputRef';
 import type { ModelRef } from './ModelRef';
 import {
     ModelRefFromJSON,
@@ -111,10 +118,10 @@ export interface CanonicalSpan {
     normalizerVersion: string;
     /**
      * 
-     * @type {ArtifactRef}
+     * @type {CanonicalSpanOutputRef}
      * @memberof CanonicalSpan
      */
-    outputRef?: ArtifactRef | null;
+    outputRef?: CanonicalSpanOutputRef | null;
     /**
      * 
      * @type {string}
@@ -232,7 +239,7 @@ export function CanonicalSpanFromJSONTyped(json: any, ignoreDiscriminator: boole
         'model': json['model'] == null ? undefined : ModelRefFromJSON(json['model']),
         'name': json['name'],
         'normalizerVersion': json['normalizerVersion'],
-        'outputRef': json['outputRef'] == null ? undefined : ArtifactRefFromJSON(json['outputRef']),
+        'outputRef': json['outputRef'] == null ? undefined : CanonicalSpanOutputRefFromJSON(json['outputRef']),
         'parentSpanId': json['parentSpanId'] == null ? undefined : json['parentSpanId'],
         'projectId': json['projectId'],
         'rawRef': ArtifactRefFromJSON(json['rawRef']),
@@ -268,7 +275,7 @@ export function CanonicalSpanToJSONTyped(value?: CanonicalSpan | null, ignoreDis
         'model': ModelRefToJSON(value['model']),
         'name': value['name'],
         'normalizerVersion': value['normalizerVersion'],
-        'outputRef': ArtifactRefToJSON(value['outputRef']),
+        'outputRef': CanonicalSpanOutputRefToJSON(value['outputRef']),
         'parentSpanId': value['parentSpanId'],
         'projectId': value['projectId'],
         'rawRef': ArtifactRefToJSON(value['rawRef']),

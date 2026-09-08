@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   ArchiveManifest,
   ArchiveQueryResponse,
-  ErrorResponse,
+  Status,
 } from '../models/index';
 import {
     ArchiveManifestFromJSON,
     ArchiveManifestToJSON,
     ArchiveQueryResponseFromJSON,
     ArchiveQueryResponseToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ArchiveArchiveTraceRequest {

@@ -18,12 +18,12 @@ import type {
   AddPromptVersionRequest,
   CreatePromptRequest,
   CreatedPrompt,
-  ErrorResponse,
   Prompt,
   PromptListResponse,
   PromptVersion,
   PromptVersionDiff,
   PromptVersionListResponse,
+  Status,
 } from '../models/index';
 import {
     AddPromptVersionRequestFromJSON,
@@ -32,8 +32,6 @@ import {
     CreatePromptRequestToJSON,
     CreatedPromptFromJSON,
     CreatedPromptToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     PromptFromJSON,
     PromptToJSON,
     PromptListResponseFromJSON,
@@ -44,6 +42,8 @@ import {
     PromptVersionDiffToJSON,
     PromptVersionListResponseFromJSON,
     PromptVersionListResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface PromptsAddVersionRequest {

@@ -1,7 +1,7 @@
 /*
  * span_status.h
  *
- * 
+ *
  */
 
 #ifndef _span_status_H_
@@ -29,4 +29,3 @@ cJSON *span_status_convertToJSON(palette_api_span_status__e span_status);
 palette_api_span_status__e span_status_parseFromJSON(cJSON *span_statusJSON);
 
 #endif /* _span_status_H_ */
-

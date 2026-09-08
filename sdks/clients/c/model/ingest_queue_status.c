@@ -165,7 +165,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     cJSON *dead_letters_local_nonprimitive = NULL;
     if(!cJSON_IsArray(dead_letters)){
         goto end; //nonprimitive container
@@ -192,7 +192,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(project_id))
     {
     goto end; //String
@@ -207,7 +207,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     if(!cJSON_IsString(tenant_id))
     {
     goto end; //String
@@ -222,7 +222,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     if(!cJSON_IsNumber(total_depth))
     {
     goto end; //Numeric
@@ -237,7 +237,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     if(!cJSON_IsNumber(trace_ingested_depth))
     {
     goto end; //Numeric
@@ -252,7 +252,7 @@ ingest_queue_status_t *ingest_queue_status_parseFromJSON(cJSON *ingest_queue_sta
         goto end;
     }
 
-    
+
     if(!cJSON_IsNumber(trace_write_depth))
     {
     goto end; //Numeric

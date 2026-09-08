@@ -125,5 +125,3 @@ void PaletteConnectStatus::setValue(PaletteConnectStatus::ePaletteConnectStatus 
 }
 }
 }
-
-

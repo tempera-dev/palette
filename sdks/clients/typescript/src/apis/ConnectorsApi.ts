@@ -21,8 +21,8 @@ import type {
   ConnectorListResponse,
   ConnectorSkillsResponse,
   ConnectorToolListResponse,
-  ErrorResponse,
   InvokeConnectorRequest,
+  Status,
   ToolExecution,
 } from '../models/index';
 import {
@@ -38,10 +38,10 @@ import {
     ConnectorSkillsResponseToJSON,
     ConnectorToolListResponseFromJSON,
     ConnectorToolListResponseToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     InvokeConnectorRequestFromJSON,
     InvokeConnectorRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
     ToolExecutionFromJSON,
     ToolExecutionToJSON,
 } from '../models/index';

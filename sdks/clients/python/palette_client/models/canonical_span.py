@@ -22,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from palette_client.models.artifact_ref import ArtifactRef
+from palette_client.models.canonical_span_output_ref import CanonicalSpanOutputRef
 from palette_client.models.model_ref import ModelRef
 from palette_client.models.money import Money
 from palette_client.models.span_status import SpanStatus
@@ -42,7 +43,7 @@ class CanonicalSpan(BaseModel):
     model: Optional[ModelRef] = None
     name: StrictStr
     normalizer_version: StrictStr = Field(alias="normalizerVersion")
-    output_ref: Optional[ArtifactRef] = Field(default=None, alias="outputRef")
+    output_ref: Optional[CanonicalSpanOutputRef] = Field(default=None, alias="outputRef")
     parent_span_id: Optional[StrictStr] = Field(default=None, alias="parentSpanId")
     project_id: StrictStr = Field(alias="projectId")
     raw_ref: ArtifactRef = Field(alias="rawRef")
@@ -170,7 +171,7 @@ class CanonicalSpan(BaseModel):
             "model": ModelRef.from_dict(obj["model"]) if obj.get("model") is not None else None,
             "name": obj.get("name"),
             "normalizerVersion": obj.get("normalizerVersion"),
-            "outputRef": ArtifactRef.from_dict(obj["outputRef"]) if obj.get("outputRef") is not None else None,
+            "outputRef": CanonicalSpanOutputRef.from_dict(obj["outputRef"]) if obj.get("outputRef") is not None else None,
             "parentSpanId": obj.get("parentSpanId"),
             "projectId": obj.get("projectId"),
             "rawRef": ArtifactRef.from_dict(obj["rawRef"]) if obj.get("rawRef") is not None else None,

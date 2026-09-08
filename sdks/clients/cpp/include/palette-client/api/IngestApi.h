@@ -29,6 +29,7 @@
 #include "palette-client/model/IngestQueueStatus.h"
 #include "palette-client/model/NativeIngestRequest.h"
 #include "palette-client/model/OtlpIngestOutcome.h"
+#include "palette-client/model/Status.h"
 #include "palette-client/model/TraceIngestedDrainReport.h"
 #include "palette-client/model/TraceIngestedReconcileReport.h"
 #include "palette-client/model/TraceWriteDrainReport.h"

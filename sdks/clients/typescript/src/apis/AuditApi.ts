@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   AuditEventListResponse,
-  ErrorResponse,
+  Status,
 } from '../models/index';
 import {
     AuditEventListResponseFromJSON,
     AuditEventListResponseToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface AuditListRequest {

@@ -15,7 +15,7 @@ POLICY_TOKENS = {
     "stable /v1 contract": [
         "/v1",
         "OpenAPI",
-        "sdks/openapi/palette-api.json",
+        "contracts/openapi/palette.openapi.json",
         "crates/palette-api",
         "scripts/check-contract-sync.sh",
         ".github/workflows/sdk-contract.yml",

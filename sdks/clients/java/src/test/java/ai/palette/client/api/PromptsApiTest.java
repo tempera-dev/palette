@@ -17,12 +17,12 @@ import ai.palette.client.ApiException;
 import ai.palette.client.model.AddPromptVersionRequest;
 import ai.palette.client.model.CreatePromptRequest;
 import ai.palette.client.model.CreatedPrompt;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.Prompt;
 import ai.palette.client.model.PromptListResponse;
 import ai.palette.client.model.PromptVersion;
 import ai.palette.client.model.PromptVersionDiff;
 import ai.palette.client.model.PromptVersionListResponse;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

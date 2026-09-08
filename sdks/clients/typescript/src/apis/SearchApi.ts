@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   SearchSpanListResponse,
+  Status,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     SearchSpanListResponseFromJSON,
     SearchSpanListResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface SearchSpansRequest {

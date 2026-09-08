@@ -87,9 +87,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a dataset |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## datasetsCreateWithHttpInfo
 
@@ -168,9 +169,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a dataset |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## datasetsCreateVersion
@@ -249,10 +251,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a dataset version snapshot |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## datasetsCreateVersionWithHttpInfo
 
@@ -333,10 +336,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Create a dataset version snapshot |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 
 ## datasetsPromoteCaseFromTrace
@@ -415,10 +419,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Promote a trace span to a dataset case |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |
 
 ## datasetsPromoteCaseFromTraceWithHttpInfo
 
@@ -499,7 +504,8 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Promote a trace span to a dataset case |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **404** | Resource not found |  -  |
+| **400** | A google.rpc.Status error envelope. |  -  |
+| **401** | A google.rpc.Status error envelope. |  -  |
+| **403** | A google.rpc.Status error envelope. |  -  |
+| **404** | A google.rpc.Status error envelope. |  -  |
+| **0** | A google.rpc.Status error envelope. |  -  |

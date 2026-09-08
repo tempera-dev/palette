@@ -35,9 +35,7 @@ class TestCanonicalSpan(unittest.TestCase):
         model = CanonicalSpan()
         if include_optional:
             return CanonicalSpan(
-                attributes = {
-                    'key' : null
-                    },
+                attributes = { },
                 cost = palette_client.models.money.Money(
                     amount_micros = 56, 
                     currency = 'USD', ),
@@ -56,13 +54,7 @@ class TestCanonicalSpan(unittest.TestCase):
                     provider = '', ),
                 name = '',
                 normalizer_version = '',
-                output_ref = palette_client.models.artifact_ref.ArtifactRef(
-                    artifact_id = '', 
-                    mime_type = '', 
-                    redaction_class = 'public', 
-                    sha256 = '', 
-                    size_bytes = 0, 
-                    uri = '', ),
+                output_ref = None,
                 parent_span_id = '',
                 project_id = '',
                 raw_ref = palette_client.models.artifact_ref.ArtifactRef(
@@ -88,9 +80,7 @@ class TestCanonicalSpan(unittest.TestCase):
             )
         else:
             return CanonicalSpan(
-                attributes = {
-                    'key' : null
-                    },
+                attributes = { },
                 environment_id = '',
                 kind = '',
                 name = '',

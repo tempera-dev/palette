@@ -22,10 +22,10 @@
 
 #include "palette-client/ApiClient.h"
 
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/ExperimentRunReport.h"
 #include "palette-client/model/RunExperimentRequest.h"
 #include "palette-client/model/RunJudgeExperimentRequest.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

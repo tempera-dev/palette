@@ -24,23 +24,23 @@ var _ MappedNullable = &NativeIngestRequest{}
 type NativeIngestRequest struct {
 	Attributes map[string]interface{} `json:"attributes"`
 	AuthContext NullableAuthContext `json:"authContext,omitempty"`
-	Cost NullableMoney `json:"cost,omitempty"`
+	Cost NullableNativeIngestRequestCost `json:"cost,omitempty"`
 	EndTime NullableTime `json:"endTime,omitempty"`
 	IdempotencyKey *string `json:"idempotencyKey,omitempty"`
 	Input interface{} `json:"input,omitempty"`
 	// Canonical agent span kind such as agent.run or llm.call
 	Kind string `json:"kind"`
-	Model NullableModelRef `json:"model,omitempty"`
+	Model NullableNativeIngestRequestModel `json:"model,omitempty"`
 	Name string `json:"name"`
 	Output interface{} `json:"output,omitempty"`
-	ParentSpanId *string `json:"parentSpanId,omitempty"`
+	ParentSpanId NullableNativeIngestRequestParentSpanId `json:"parentSpanId,omitempty"`
 	RedactionClass RedactionClass `json:"redactionClass"`
 	Scope TenantScope `json:"scope"`
 	Seq int64 `json:"seq"`
 	SpanId string `json:"spanId"`
 	StartTime NullableTime `json:"startTime,omitempty"`
 	Status SpanStatus `json:"status"`
-	Tokens NullableTokenCounts `json:"tokens,omitempty"`
+	Tokens NullableNativeIngestRequestTokens `json:"tokens,omitempty"`
 	TraceId string `json:"traceId"`
 }
 
@@ -139,9 +139,9 @@ func (o *NativeIngestRequest) UnsetAuthContext() {
 }
 
 // GetCost returns the Cost field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NativeIngestRequest) GetCost() Money {
+func (o *NativeIngestRequest) GetCost() NativeIngestRequestCost {
 	if o == nil || IsNil(o.Cost.Get()) {
-		var ret Money
+		var ret NativeIngestRequestCost
 		return ret
 	}
 	return *o.Cost.Get()
@@ -150,7 +150,7 @@ func (o *NativeIngestRequest) GetCost() Money {
 // GetCostOk returns a tuple with the Cost field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NativeIngestRequest) GetCostOk() (*Money, bool) {
+func (o *NativeIngestRequest) GetCostOk() (*NativeIngestRequestCost, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -166,8 +166,8 @@ func (o *NativeIngestRequest) HasCost() bool {
 	return false
 }
 
-// SetCost gets a reference to the given NullableMoney and assigns it to the Cost field.
-func (o *NativeIngestRequest) SetCost(v Money) {
+// SetCost gets a reference to the given NullableNativeIngestRequestCost and assigns it to the Cost field.
+func (o *NativeIngestRequest) SetCost(v NativeIngestRequestCost) {
 	o.Cost.Set(&v)
 }
 // SetCostNil sets the value for Cost to be an explicit nil
@@ -312,9 +312,9 @@ func (o *NativeIngestRequest) SetKind(v string) {
 }
 
 // GetModel returns the Model field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NativeIngestRequest) GetModel() ModelRef {
+func (o *NativeIngestRequest) GetModel() NativeIngestRequestModel {
 	if o == nil || IsNil(o.Model.Get()) {
-		var ret ModelRef
+		var ret NativeIngestRequestModel
 		return ret
 	}
 	return *o.Model.Get()
@@ -323,7 +323,7 @@ func (o *NativeIngestRequest) GetModel() ModelRef {
 // GetModelOk returns a tuple with the Model field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NativeIngestRequest) GetModelOk() (*ModelRef, bool) {
+func (o *NativeIngestRequest) GetModelOk() (*NativeIngestRequestModel, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -339,8 +339,8 @@ func (o *NativeIngestRequest) HasModel() bool {
 	return false
 }
 
-// SetModel gets a reference to the given NullableModelRef and assigns it to the Model field.
-func (o *NativeIngestRequest) SetModel(v ModelRef) {
+// SetModel gets a reference to the given NullableNativeIngestRequestModel and assigns it to the Model field.
+func (o *NativeIngestRequest) SetModel(v NativeIngestRequestModel) {
 	o.Model.Set(&v)
 }
 // SetModelNil sets the value for Model to be an explicit nil
@@ -410,36 +410,46 @@ func (o *NativeIngestRequest) SetOutput(v interface{}) {
 	o.Output = v
 }
 
-// GetParentSpanId returns the ParentSpanId field value if set, zero value otherwise.
-func (o *NativeIngestRequest) GetParentSpanId() string {
-	if o == nil || IsNil(o.ParentSpanId) {
-		var ret string
+// GetParentSpanId returns the ParentSpanId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *NativeIngestRequest) GetParentSpanId() NativeIngestRequestParentSpanId {
+	if o == nil || IsNil(o.ParentSpanId.Get()) {
+		var ret NativeIngestRequestParentSpanId
 		return ret
 	}
-	return *o.ParentSpanId
+	return *o.ParentSpanId.Get()
 }
 
 // GetParentSpanIdOk returns a tuple with the ParentSpanId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NativeIngestRequest) GetParentSpanIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ParentSpanId) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *NativeIngestRequest) GetParentSpanIdOk() (*NativeIngestRequestParentSpanId, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ParentSpanId, true
+	return o.ParentSpanId.Get(), o.ParentSpanId.IsSet()
 }
 
 // HasParentSpanId returns a boolean if a field has been set.
 func (o *NativeIngestRequest) HasParentSpanId() bool {
-	if o != nil && !IsNil(o.ParentSpanId) {
+	if o != nil && o.ParentSpanId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetParentSpanId gets a reference to the given string and assigns it to the ParentSpanId field.
-func (o *NativeIngestRequest) SetParentSpanId(v string) {
-	o.ParentSpanId = &v
+// SetParentSpanId gets a reference to the given NullableNativeIngestRequestParentSpanId and assigns it to the ParentSpanId field.
+func (o *NativeIngestRequest) SetParentSpanId(v NativeIngestRequestParentSpanId) {
+	o.ParentSpanId.Set(&v)
+}
+// SetParentSpanIdNil sets the value for ParentSpanId to be an explicit nil
+func (o *NativeIngestRequest) SetParentSpanIdNil() {
+	o.ParentSpanId.Set(nil)
+}
+
+// UnsetParentSpanId ensures that no value is present for ParentSpanId, not even an explicit nil
+func (o *NativeIngestRequest) UnsetParentSpanId() {
+	o.ParentSpanId.Unset()
 }
 
 // GetRedactionClass returns the RedactionClass field value
@@ -605,9 +615,9 @@ func (o *NativeIngestRequest) SetStatus(v SpanStatus) {
 }
 
 // GetTokens returns the Tokens field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NativeIngestRequest) GetTokens() TokenCounts {
+func (o *NativeIngestRequest) GetTokens() NativeIngestRequestTokens {
 	if o == nil || IsNil(o.Tokens.Get()) {
-		var ret TokenCounts
+		var ret NativeIngestRequestTokens
 		return ret
 	}
 	return *o.Tokens.Get()
@@ -616,7 +626,7 @@ func (o *NativeIngestRequest) GetTokens() TokenCounts {
 // GetTokensOk returns a tuple with the Tokens field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NativeIngestRequest) GetTokensOk() (*TokenCounts, bool) {
+func (o *NativeIngestRequest) GetTokensOk() (*NativeIngestRequestTokens, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -632,8 +642,8 @@ func (o *NativeIngestRequest) HasTokens() bool {
 	return false
 }
 
-// SetTokens gets a reference to the given NullableTokenCounts and assigns it to the Tokens field.
-func (o *NativeIngestRequest) SetTokens(v TokenCounts) {
+// SetTokens gets a reference to the given NullableNativeIngestRequestTokens and assigns it to the Tokens field.
+func (o *NativeIngestRequest) SetTokens(v NativeIngestRequestTokens) {
 	o.Tokens.Set(&v)
 }
 // SetTokensNil sets the value for Tokens to be an explicit nil
@@ -704,8 +714,8 @@ func (o NativeIngestRequest) ToMap() (map[string]interface{}, error) {
 	if o.Output != nil {
 		toSerialize["output"] = o.Output
 	}
-	if !IsNil(o.ParentSpanId) {
-		toSerialize["parentSpanId"] = o.ParentSpanId
+	if o.ParentSpanId.IsSet() {
+		toSerialize["parentSpanId"] = o.ParentSpanId.Get()
 	}
 	toSerialize["redactionClass"] = o.RedactionClass
 	toSerialize["scope"] = o.Scope

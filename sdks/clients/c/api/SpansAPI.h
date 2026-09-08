@@ -6,8 +6,8 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/canonical_span.h"
-#include "../model/error_response.h"
 #include "../model/span_io_response.h"
+#include "../model/status.h"
 
 
 canonical_span_t*

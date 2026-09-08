@@ -33,7 +33,7 @@ pub struct CanonicalSpan {
     #[serde(rename = "normalizerVersion")]
     pub normalizer_version: String,
     #[serde(rename = "outputRef", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub output_ref: Option<Option<Box<models::ArtifactRef>>>,
+    pub output_ref: Option<Option<Box<models::CanonicalSpanOutputRef>>>,
     #[serde(rename = "parentSpanId", skip_serializing_if = "Option::is_none")]
     pub parent_span_id: Option<String>,
     #[serde(rename = "projectId")]

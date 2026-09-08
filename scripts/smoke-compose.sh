@@ -96,7 +96,7 @@ first_trace_id() {
 trap on_exit EXIT
 
 compose up -d --build paletted dashboard
-wait_url "$api_url/health" "paletted"
+wait_url "$api_url/healthz" "paletted"
 
 compose run --rm palettectl
 compose run --rm otel-python-smoke

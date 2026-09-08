@@ -18,11 +18,11 @@ import ai.palette.client.ApiResponse;
 import ai.palette.client.Pair;
 
 import ai.palette.client.model.CreateScenarioRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ListScenariosResponse;
 import ai.palette.client.model.MineScenariosRequest;
 import ai.palette.client.model.MineScenariosResponse;
 import ai.palette.client.model.Scenario;
+import ai.palette.client.model.Status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

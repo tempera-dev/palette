@@ -60,7 +60,7 @@ jobs:
       - name: Additive-only contract policy (oasdiff)
         run: |
           cargo run -q -p palette-api --example dump_openapi > /tmp/new-spec.json
-          git show "origin/${{ github.base_ref || 'main' }}:sdks/openapi/palette-api.json" \
+          git show "origin/${{ github.base_ref || 'main' }}:contracts/openapi/palette.openapi.json" \
             > /tmp/base-spec.json || echo '{}' > /tmp/base-spec.json
           set +e
           docker run --rm -v /tmp:/specs tufin/oasdiff breaking \

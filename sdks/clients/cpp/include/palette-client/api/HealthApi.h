@@ -23,6 +23,7 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/HealthResponse.h"
+#include "palette-client/model/Status.h"
 #include <boost/optional.hpp>
 
 namespace org {

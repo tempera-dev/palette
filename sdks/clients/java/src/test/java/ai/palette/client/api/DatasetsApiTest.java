@@ -19,8 +19,8 @@ import ai.palette.client.model.CreateDatasetVersionRequest;
 import ai.palette.client.model.Dataset;
 import ai.palette.client.model.DatasetCase;
 import ai.palette.client.model.DatasetVersionSnapshot;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.PromoteTraceCaseRequest;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

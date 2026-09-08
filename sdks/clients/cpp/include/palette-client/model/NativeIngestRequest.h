@@ -22,16 +22,17 @@
 
 #include "palette-client/ModelBase.h"
 
+#include "palette-client/model/NativeIngestRequest_cost.h"
 #include "palette-client/model/RedactionClass.h"
+#include "palette-client/model/NativeIngestRequest_tokens.h"
+#include "palette-client/model/NativeIngestRequest_model.h"
 #include "palette-client/model/SpanStatus.h"
 #include <cpprest/details/basic_types.h>
-#include "palette-client/model/Money.h"
 #include "palette-client/AnyType.h"
-#include "palette-client/model/ModelRef.h"
 #include "palette-client/model/TenantScope.h"
 #include <map>
-#include "palette-client/model/TokenCounts.h"
 #include "palette-client/model/AuthContext.h"
+#include "palette-client/model/NativeIngestRequest_parentSpanId.h"
 
 namespace org {
 namespace openapitools {
@@ -39,10 +40,10 @@ namespace client {
 namespace model {
 
 class AuthContext;
-class Money;
-class ModelRef;
+class NativeIngestRequest_cost;
+class NativeIngestRequest_model;
 class TenantScope;
-class TokenCounts;
+class NativeIngestRequest_tokens;
 
 
 class  NativeIngestRequest
@@ -78,10 +79,10 @@ public:
     void unsetAuthContext();
     void setAuthContext(const std::shared_ptr<AuthContext>& value);
 
-    std::shared_ptr<Money> getCost() const;
+    std::shared_ptr<NativeIngestRequest_cost> getCost() const;
     bool costIsSet() const;
     void unsetCost();
-    void setCost(const std::shared_ptr<Money>& value);
+    void setCost(const std::shared_ptr<NativeIngestRequest_cost>& value);
 
     utility::datetime getEndTime() const;
     bool endTimeIsSet() const;
@@ -106,10 +107,10 @@ public:
     void unsetKind();
     void setKind(const utility::string_t& value);
 
-    std::shared_ptr<ModelRef> getModel() const;
+    std::shared_ptr<NativeIngestRequest_model> getModel() const;
     bool modelIsSet() const;
     void unsetModel();
-    void setModel(const std::shared_ptr<ModelRef>& value);
+    void setModel(const std::shared_ptr<NativeIngestRequest_model>& value);
 
     utility::string_t getName() const;
     bool nameIsSet() const;
@@ -121,10 +122,10 @@ public:
     void unsetOutput();
     void setOutput(const std::shared_ptr<AnyType>& value);
 
-    utility::string_t getParentSpanId() const;
+    std::shared_ptr<NativeIngestRequest_parentSpanId> getParentSpanId() const;
     bool parentSpanIdIsSet() const;
     void unsetParentSpanId();
-    void setParentSpanId(const utility::string_t& value);
+    void setParentSpanId(const std::shared_ptr<NativeIngestRequest_parentSpanId>& value);
 
     std::shared_ptr<RedactionClass> getRedactionClass() const;
     bool redactionClassIsSet() const;
@@ -156,10 +157,10 @@ public:
     void unsetStatus();
     void setStatus(const std::shared_ptr<SpanStatus>& value);
 
-    std::shared_ptr<TokenCounts> getTokens() const;
+    std::shared_ptr<NativeIngestRequest_tokens> getTokens() const;
     bool tokensIsSet() const;
     void unsetTokens();
-    void setTokens(const std::shared_ptr<TokenCounts>& value);
+    void setTokens(const std::shared_ptr<NativeIngestRequest_tokens>& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
@@ -174,7 +175,7 @@ protected:
     std::shared_ptr<AuthContext> m_AuthContext;
     bool m_AuthContextIsSet;
 
-    std::shared_ptr<Money> m_Cost;
+    std::shared_ptr<NativeIngestRequest_cost> m_Cost;
     bool m_CostIsSet;
 
     utility::datetime m_EndTime;
@@ -189,7 +190,7 @@ protected:
     utility::string_t m_Kind;
     bool m_KindIsSet;
 
-    std::shared_ptr<ModelRef> m_Model;
+    std::shared_ptr<NativeIngestRequest_model> m_Model;
     bool m_ModelIsSet;
 
     utility::string_t m_Name;
@@ -198,7 +199,7 @@ protected:
     std::shared_ptr<AnyType> m_Output;
     bool m_OutputIsSet;
 
-    utility::string_t m_ParentSpanId;
+    std::shared_ptr<NativeIngestRequest_parentSpanId> m_ParentSpanId;
     bool m_ParentSpanIdIsSet;
 
     std::shared_ptr<RedactionClass> m_RedactionClass;
@@ -219,7 +220,7 @@ protected:
     std::shared_ptr<SpanStatus> m_Status;
     bool m_StatusIsSet;
 
-    std::shared_ptr<TokenCounts> m_Tokens;
+    std::shared_ptr<NativeIngestRequest_tokens> m_Tokens;
     bool m_TokensIsSet;
 
     utility::string_t m_TraceId;

@@ -80,8 +80,8 @@ def main() -> int:
         errors.append("deploy-backend must source only the Fly deploy token from GitHub secrets")
     if "flyctl deploy --remote-only" not in workflow:
         errors.append("deploy-backend must keep Fly remote deploy as the deploy command")
-    if 'curl -fsS "https://${url}/health"' not in workflow:
-        errors.append("deploy-backend must keep the post-deploy /health smoke check")
+    if 'curl -fsS "https://${url}/healthz"' not in workflow:
+        errors.append("deploy-backend must keep the post-deploy /healthz smoke check")
 
     for lineno, line in enumerate(lines, start=1):
         stripped = code_line(line).strip()

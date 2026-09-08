@@ -162,7 +162,7 @@
   "managed_agents": {
     "destination": "AGENTS.md#managed",
     "output_mode": "100644",
-    "output_sha256": "a674a4d1342b9bcf522ab5236d6999221214a618f725eabb4af03fc8d3503ce0",
+    "output_sha256": "e6ffa0f9b0c68355c32570fa517ab7c50bf712773156dd1e20fee1cb6eedd494",
     "source_blob_sha": "86478f75a87b5f46668686e3ff690e6170465d08",
     "source_mode": "100644",
     "source_path": "agent-kit/managed-agents.md",

@@ -16,7 +16,7 @@ the durability promise.
 ## What "open core" means here
 
 The **contract and the engine are open.** The OpenAPI contract
-(`sdks/openapi/palette-api.json`), the canonical schema/semantic conventions
+(`contracts/openapi/palette.openapi.json`), the canonical schema/semantic conventions
 (`crates/palette-schema`, `sdks/semconv`), and the self-hostable `paletted` server
 are all Apache-2.0 and will stay that way. Commercial offerings are *operational
 convenience* (hosting, scale connectors, support) layered on the same contract —

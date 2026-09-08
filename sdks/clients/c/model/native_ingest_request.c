@@ -8,22 +8,22 @@
 static native_ingest_request_t *native_ingest_request_create_internal(
     list_t* attributes,
     auth_context_t *auth_context,
-    money_t *cost,
+    native_ingest_request_cost_t *cost,
     char *end_time,
     char *idempotency_key,
     any_type_t *input,
     char *kind,
-    model_ref_t *model,
+    native_ingest_request_model_t *model,
     char *name,
     any_type_t *output,
-    char *parent_span_id,
+    native_ingest_request_parent_span_id_t *parent_span_id,
     palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
     palette_api_span_status__e status,
-    token_counts_t *tokens,
+    native_ingest_request_tokens_t *tokens,
     char *trace_id
     ) {
     native_ingest_request_t *native_ingest_request_local_var = malloc(sizeof(native_ingest_request_t));
@@ -57,22 +57,22 @@ static native_ingest_request_t *native_ingest_request_create_internal(
 __attribute__((deprecated)) native_ingest_request_t *native_ingest_request_create(
     list_t* attributes,
     auth_context_t *auth_context,
-    money_t *cost,
+    native_ingest_request_cost_t *cost,
     char *end_time,
     char *idempotency_key,
     any_type_t *input,
     char *kind,
-    model_ref_t *model,
+    native_ingest_request_model_t *model,
     char *name,
     any_type_t *output,
-    char *parent_span_id,
+    native_ingest_request_parent_span_id_t *parent_span_id,
     palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
     palette_api_span_status__e status,
-    token_counts_t *tokens,
+    native_ingest_request_tokens_t *tokens,
     char *trace_id
     ) {
     return native_ingest_request_create_internal (
@@ -122,7 +122,7 @@ void native_ingest_request_free(native_ingest_request_t *native_ingest_request) 
         native_ingest_request->auth_context = NULL;
     }
     if (native_ingest_request->cost) {
-        money_free(native_ingest_request->cost);
+        native_ingest_request_cost_free(native_ingest_request->cost);
         native_ingest_request->cost = NULL;
     }
     if (native_ingest_request->end_time) {
@@ -142,7 +142,7 @@ void native_ingest_request_free(native_ingest_request_t *native_ingest_request) 
         native_ingest_request->kind = NULL;
     }
     if (native_ingest_request->model) {
-        model_ref_free(native_ingest_request->model);
+        native_ingest_request_model_free(native_ingest_request->model);
         native_ingest_request->model = NULL;
     }
     if (native_ingest_request->name) {
@@ -154,7 +154,7 @@ void native_ingest_request_free(native_ingest_request_t *native_ingest_request) 
         native_ingest_request->output = NULL;
     }
     if (native_ingest_request->parent_span_id) {
-        free(native_ingest_request->parent_span_id);
+        native_ingest_request_parent_span_id_free(native_ingest_request->parent_span_id);
         native_ingest_request->parent_span_id = NULL;
     }
     if (native_ingest_request->scope) {
@@ -170,7 +170,7 @@ void native_ingest_request_free(native_ingest_request_t *native_ingest_request) 
         native_ingest_request->start_time = NULL;
     }
     if (native_ingest_request->tokens) {
-        token_counts_free(native_ingest_request->tokens);
+        native_ingest_request_tokens_free(native_ingest_request->tokens);
         native_ingest_request->tokens = NULL;
     }
     if (native_ingest_request->trace_id) {
@@ -215,7 +215,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->cost
     if(native_ingest_request->cost) {
-    cJSON *cost_local_JSON = money_convertToJSON(native_ingest_request->cost);
+    cJSON *cost_local_JSON = native_ingest_request_cost_convertToJSON(native_ingest_request->cost);
     if(cost_local_JSON == NULL) {
     goto fail; //model
     }
@@ -266,7 +266,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->model
     if(native_ingest_request->model) {
-    cJSON *model_local_JSON = model_ref_convertToJSON(native_ingest_request->model);
+    cJSON *model_local_JSON = native_ingest_request_model_convertToJSON(native_ingest_request->model);
     if(model_local_JSON == NULL) {
     goto fail; //model
     }
@@ -301,8 +301,13 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->parent_span_id
     if(native_ingest_request->parent_span_id) {
-    if(cJSON_AddStringToObject(item, "parentSpanId", native_ingest_request->parent_span_id) == NULL) {
-    goto fail; //String
+    cJSON *parent_span_id_local_JSON = native_ingest_request_parent_span_id_convertToJSON(native_ingest_request->parent_span_id);
+    if(parent_span_id_local_JSON == NULL) {
+    goto fail; //model
+    }
+    cJSON_AddItemToObject(item, "parentSpanId", parent_span_id_local_JSON);
+    if(item->child == NULL) {
+    goto fail;
     }
     }
 
@@ -377,7 +382,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
     // native_ingest_request->tokens
     if(native_ingest_request->tokens) {
-    cJSON *tokens_local_JSON = token_counts_convertToJSON(native_ingest_request->tokens);
+    cJSON *tokens_local_JSON = native_ingest_request_tokens_convertToJSON(native_ingest_request->tokens);
     if(tokens_local_JSON == NULL) {
     goto fail; //model
     }
@@ -415,16 +420,19 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     auth_context_t *auth_context_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->cost
-    money_t *cost_local_nonprim = NULL;
+    native_ingest_request_cost_t *cost_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->input
     _t *input_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->model
-    model_ref_t *model_local_nonprim = NULL;
+    native_ingest_request_model_t *model_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->output
     _t *output_local_nonprim = NULL;
+
+    // define the local variable for native_ingest_request->parent_span_id
+    native_ingest_request_parent_span_id_t *parent_span_id_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->redaction_class
     palette_api_redaction_class__e redaction_class_local_nonprim = 0;
@@ -436,7 +444,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     palette_api_span_status__e status_local_nonprim = 0;
 
     // define the local variable for native_ingest_request->tokens
-    token_counts_t *tokens_local_nonprim = NULL;
+    native_ingest_request_tokens_t *tokens_local_nonprim = NULL;
 
     // native_ingest_request->attributes
     cJSON *attributes = cJSON_GetObjectItemCaseSensitive(native_ingest_requestJSON, "attributes");
@@ -479,7 +487,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
         cost = NULL;
     }
     if (cost) { 
-    cost_local_nonprim = money_parseFromJSON(cost); //nonprimitive
+    cost_local_nonprim = native_ingest_request_cost_parseFromJSON(cost); //nonprimitive
     }
 
     // native_ingest_request->end_time
@@ -536,7 +544,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
         model = NULL;
     }
     if (model) { 
-    model_local_nonprim = model_ref_parseFromJSON(model); //nonprimitive
+    model_local_nonprim = native_ingest_request_model_parseFromJSON(model); //nonprimitive
     }
 
     // native_ingest_request->name
@@ -569,10 +577,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
         parent_span_id = NULL;
     }
     if (parent_span_id) { 
-    if(!cJSON_IsString(parent_span_id) && !cJSON_IsNull(parent_span_id))
-    {
-    goto end; //String
-    }
+    parent_span_id_local_nonprim = native_ingest_request_parent_span_id_parseFromJSON(parent_span_id); //nonprimitive
     }
 
     // native_ingest_request->redaction_class
@@ -659,7 +664,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
         tokens = NULL;
     }
     if (tokens) { 
-    tokens_local_nonprim = token_counts_parseFromJSON(tokens); //nonprimitive
+    tokens_local_nonprim = native_ingest_request_tokens_parseFromJSON(tokens); //nonprimitive
     }
 
     // native_ingest_request->trace_id
@@ -689,7 +694,7 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
         model ? model_local_nonprim : NULL,
         strdup(name->valuestring),
         output ? output_local_nonprim : NULL,
-        parent_span_id && !cJSON_IsNull(parent_span_id) ? strdup(parent_span_id->valuestring) : NULL,
+        parent_span_id ? parent_span_id_local_nonprim : NULL,
         redaction_class_local_nonprim,
         scope_local_nonprim,
         seq->valuedouble,
@@ -719,7 +724,7 @@ end:
         auth_context_local_nonprim = NULL;
     }
     if (cost_local_nonprim) {
-        money_free(cost_local_nonprim);
+        native_ingest_request_cost_free(cost_local_nonprim);
         cost_local_nonprim = NULL;
     }
     if (input_local_nonprim) {
@@ -727,12 +732,16 @@ end:
         input_local_nonprim = NULL;
     }
     if (model_local_nonprim) {
-        model_ref_free(model_local_nonprim);
+        native_ingest_request_model_free(model_local_nonprim);
         model_local_nonprim = NULL;
     }
     if (output_local_nonprim) {
         _free(output_local_nonprim);
         output_local_nonprim = NULL;
+    }
+    if (parent_span_id_local_nonprim) {
+        native_ingest_request_parent_span_id_free(parent_span_id_local_nonprim);
+        parent_span_id_local_nonprim = NULL;
     }
     if (redaction_class_local_nonprim) {
         redaction_class_local_nonprim = 0;
@@ -745,7 +754,7 @@ end:
         status_local_nonprim = 0;
     }
     if (tokens_local_nonprim) {
-        token_counts_free(tokens_local_nonprim);
+        native_ingest_request_tokens_free(tokens_local_nonprim);
         tokens_local_nonprim = NULL;
     }
     return NULL;

@@ -16,16 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   CanonicalSpan,
-  ErrorResponse,
   SpanIoResponse,
+  Status,
 } from '../models/index';
 import {
     CanonicalSpanFromJSON,
     CanonicalSpanToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     SpanIoResponseFromJSON,
     SpanIoResponseToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface SpansGetRequest {

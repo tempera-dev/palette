@@ -13,20 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Money } from './Money';
-import {
-    MoneyFromJSON,
-    MoneyFromJSONTyped,
-    MoneyToJSON,
-    MoneyToJSONTyped,
-} from './Money';
-import type { TokenCounts } from './TokenCounts';
-import {
-    TokenCountsFromJSON,
-    TokenCountsFromJSONTyped,
-    TokenCountsToJSON,
-    TokenCountsToJSONTyped,
-} from './TokenCounts';
 import type { TenantScope } from './TenantScope';
 import {
     TenantScopeFromJSON,
@@ -34,6 +20,13 @@ import {
     TenantScopeToJSON,
     TenantScopeToJSONTyped,
 } from './TenantScope';
+import type { NativeIngestRequestModel } from './NativeIngestRequestModel';
+import {
+    NativeIngestRequestModelFromJSON,
+    NativeIngestRequestModelFromJSONTyped,
+    NativeIngestRequestModelToJSON,
+    NativeIngestRequestModelToJSONTyped,
+} from './NativeIngestRequestModel';
 import type { AuthContext } from './AuthContext';
 import {
     AuthContextFromJSON,
@@ -41,6 +34,13 @@ import {
     AuthContextToJSON,
     AuthContextToJSONTyped,
 } from './AuthContext';
+import type { NativeIngestRequestTokens } from './NativeIngestRequestTokens';
+import {
+    NativeIngestRequestTokensFromJSON,
+    NativeIngestRequestTokensFromJSONTyped,
+    NativeIngestRequestTokensToJSON,
+    NativeIngestRequestTokensToJSONTyped,
+} from './NativeIngestRequestTokens';
 import type { RedactionClass } from './RedactionClass';
 import {
     RedactionClassFromJSON,
@@ -48,13 +48,20 @@ import {
     RedactionClassToJSON,
     RedactionClassToJSONTyped,
 } from './RedactionClass';
-import type { ModelRef } from './ModelRef';
+import type { NativeIngestRequestParentSpanId } from './NativeIngestRequestParentSpanId';
 import {
-    ModelRefFromJSON,
-    ModelRefFromJSONTyped,
-    ModelRefToJSON,
-    ModelRefToJSONTyped,
-} from './ModelRef';
+    NativeIngestRequestParentSpanIdFromJSON,
+    NativeIngestRequestParentSpanIdFromJSONTyped,
+    NativeIngestRequestParentSpanIdToJSON,
+    NativeIngestRequestParentSpanIdToJSONTyped,
+} from './NativeIngestRequestParentSpanId';
+import type { NativeIngestRequestCost } from './NativeIngestRequestCost';
+import {
+    NativeIngestRequestCostFromJSON,
+    NativeIngestRequestCostFromJSONTyped,
+    NativeIngestRequestCostToJSON,
+    NativeIngestRequestCostToJSONTyped,
+} from './NativeIngestRequestCost';
 import type { SpanStatus } from './SpanStatus';
 import {
     SpanStatusFromJSON,
@@ -83,10 +90,10 @@ export interface NativeIngestRequest {
     authContext?: AuthContext | null;
     /**
      * 
-     * @type {Money}
+     * @type {NativeIngestRequestCost}
      * @memberof NativeIngestRequest
      */
-    cost?: Money | null;
+    cost?: NativeIngestRequestCost | null;
     /**
      * 
      * @type {Date}
@@ -113,10 +120,10 @@ export interface NativeIngestRequest {
     kind: string;
     /**
      * 
-     * @type {ModelRef}
+     * @type {NativeIngestRequestModel}
      * @memberof NativeIngestRequest
      */
-    model?: ModelRef | null;
+    model?: NativeIngestRequestModel | null;
     /**
      * 
      * @type {string}
@@ -131,10 +138,10 @@ export interface NativeIngestRequest {
     output?: any | null;
     /**
      * 
-     * @type {string}
+     * @type {NativeIngestRequestParentSpanId}
      * @memberof NativeIngestRequest
      */
-    parentSpanId?: string;
+    parentSpanId?: NativeIngestRequestParentSpanId | null;
     /**
      * 
      * @type {RedactionClass}
@@ -173,10 +180,10 @@ export interface NativeIngestRequest {
     status: SpanStatus;
     /**
      * 
-     * @type {TokenCounts}
+     * @type {NativeIngestRequestTokens}
      * @memberof NativeIngestRequest
      */
-    tokens?: TokenCounts | null;
+    tokens?: NativeIngestRequestTokens | null;
     /**
      * 
      * @type {string}
@@ -215,22 +222,22 @@ export function NativeIngestRequestFromJSONTyped(json: any, ignoreDiscriminator:
         
         'attributes': json['attributes'],
         'authContext': json['authContext'] == null ? undefined : AuthContextFromJSON(json['authContext']),
-        'cost': json['cost'] == null ? undefined : MoneyFromJSON(json['cost']),
+        'cost': json['cost'] == null ? undefined : NativeIngestRequestCostFromJSON(json['cost']),
         'endTime': json['endTime'] == null ? undefined : (new Date(json['endTime'])),
         'idempotencyKey': json['idempotencyKey'] == null ? undefined : json['idempotencyKey'],
         'input': json['input'] == null ? undefined : json['input'],
         'kind': json['kind'],
-        'model': json['model'] == null ? undefined : ModelRefFromJSON(json['model']),
+        'model': json['model'] == null ? undefined : NativeIngestRequestModelFromJSON(json['model']),
         'name': json['name'],
         'output': json['output'] == null ? undefined : json['output'],
-        'parentSpanId': json['parentSpanId'] == null ? undefined : json['parentSpanId'],
+        'parentSpanId': json['parentSpanId'] == null ? undefined : NativeIngestRequestParentSpanIdFromJSON(json['parentSpanId']),
         'redactionClass': RedactionClassFromJSON(json['redactionClass']),
         'scope': TenantScopeFromJSON(json['scope']),
         'seq': json['seq'],
         'spanId': json['spanId'],
         'startTime': json['startTime'] == null ? undefined : (new Date(json['startTime'])),
         'status': SpanStatusFromJSON(json['status']),
-        'tokens': json['tokens'] == null ? undefined : TokenCountsFromJSON(json['tokens']),
+        'tokens': json['tokens'] == null ? undefined : NativeIngestRequestTokensFromJSON(json['tokens']),
         'traceId': json['traceId'],
     };
 }
@@ -248,22 +255,22 @@ export function NativeIngestRequestToJSONTyped(value?: NativeIngestRequest | nul
         
         'attributes': value['attributes'],
         'authContext': AuthContextToJSON(value['authContext']),
-        'cost': MoneyToJSON(value['cost']),
+        'cost': NativeIngestRequestCostToJSON(value['cost']),
         'endTime': value['endTime'] == null ? undefined : ((value['endTime'] as any).toISOString()),
         'idempotencyKey': value['idempotencyKey'],
         'input': value['input'],
         'kind': value['kind'],
-        'model': ModelRefToJSON(value['model']),
+        'model': NativeIngestRequestModelToJSON(value['model']),
         'name': value['name'],
         'output': value['output'],
-        'parentSpanId': value['parentSpanId'],
+        'parentSpanId': NativeIngestRequestParentSpanIdToJSON(value['parentSpanId']),
         'redactionClass': RedactionClassToJSON(value['redactionClass']),
         'scope': TenantScopeToJSON(value['scope']),
         'seq': value['seq'],
         'spanId': value['spanId'],
         'startTime': value['startTime'] == null ? undefined : ((value['startTime'] as any).toISOString()),
         'status': SpanStatusToJSON(value['status']),
-        'tokens': TokenCountsToJSON(value['tokens']),
+        'tokens': NativeIngestRequestTokensToJSON(value['tokens']),
         'traceId': value['traceId'],
     };
 }

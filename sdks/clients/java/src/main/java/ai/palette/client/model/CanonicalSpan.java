@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import ai.palette.client.model.ArtifactRef;
+import ai.palette.client.model.CanonicalSpanOutputRef;
 import ai.palette.client.model.ModelRef;
 import ai.palette.client.model.Money;
 import ai.palette.client.model.SpanStatus;
@@ -103,7 +104,7 @@ public class CanonicalSpan {
   private String normalizerVersion;
 
   public static final String JSON_PROPERTY_OUTPUT_REF = "outputRef";
-  private JsonNullable<ArtifactRef> outputRef = JsonNullable.<ArtifactRef>undefined();
+  private JsonNullable<CanonicalSpanOutputRef> outputRef = JsonNullable.<CanonicalSpanOutputRef>undefined();
 
   public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parentSpanId";
   @javax.annotation.Nullable
@@ -411,8 +412,8 @@ public class CanonicalSpan {
   }
 
 
-  public CanonicalSpan outputRef(@javax.annotation.Nullable ArtifactRef outputRef) {
-    this.outputRef = JsonNullable.<ArtifactRef>of(outputRef);
+  public CanonicalSpan outputRef(@javax.annotation.Nullable CanonicalSpanOutputRef outputRef) {
+    this.outputRef = JsonNullable.<CanonicalSpanOutputRef>of(outputRef);
     return this;
   }
 
@@ -422,24 +423,24 @@ public class CanonicalSpan {
    */
   @javax.annotation.Nullable
   @JsonIgnore
-  public ArtifactRef getOutputRef() {
+  public CanonicalSpanOutputRef getOutputRef() {
         return outputRef.orElse(null);
   }
 
   @JsonProperty(JSON_PROPERTY_OUTPUT_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public JsonNullable<ArtifactRef> getOutputRef_JsonNullable() {
+  public JsonNullable<CanonicalSpanOutputRef> getOutputRef_JsonNullable() {
     return outputRef;
   }
   
   @JsonProperty(JSON_PROPERTY_OUTPUT_REF)
-  public void setOutputRef_JsonNullable(JsonNullable<ArtifactRef> outputRef) {
+  public void setOutputRef_JsonNullable(JsonNullable<CanonicalSpanOutputRef> outputRef) {
     this.outputRef = outputRef;
   }
 
-  public void setOutputRef(@javax.annotation.Nullable ArtifactRef outputRef) {
-    this.outputRef = JsonNullable.<ArtifactRef>of(outputRef);
+  public void setOutputRef(@javax.annotation.Nullable CanonicalSpanOutputRef outputRef) {
+    this.outputRef = JsonNullable.<CanonicalSpanOutputRef>of(outputRef);
   }
 
 

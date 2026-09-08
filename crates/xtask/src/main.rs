@@ -3,7 +3,7 @@
 //! The project standard is `cargo xtask` over ad-hoc shell scripts. This crate
 //! owns the OpenAPI spec / SDK regeneration pipeline:
 //!
-//! * `regen-spec`: regenerate `sdks/openapi/palette-api.json`, the dashboard
+//! * `regen-spec`: regenerate `contracts/openapi/palette.openapi.json`, the dashboard
 //!   snapshot, AND the dashboard's typed client
 //!   (`web/dashboard/lib/generated/api-types.ts`) directly from the `palette-api`
 //!   handlers — every spec-derived artifact in one step, so nothing the CI drift
@@ -22,7 +22,7 @@ use anyhow::{Context, bail};
 use clap::{Parser, Subcommand};
 
 /// Canonical spec location, relative to the workspace root.
-const SPEC_PATH: &str = "sdks/openapi/palette-api.json";
+const SPEC_PATH: &str = "contracts/openapi/palette.openapi.json";
 /// Cross-language semantic-conventions contract, regenerated from palette-schema.
 const SEMCONV_PATH: &str = "sdks/semconv/conventions.json";
 /// Dashboard snapshot that must stay byte-identical to the canonical spec.

@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   JudgeBrokerOutcome,
   JudgeLedgerListResponse,
   RunJudgeEvalHttpRequest,
+  Status,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     JudgeBrokerOutcomeFromJSON,
     JudgeBrokerOutcomeToJSON,
     JudgeLedgerListResponseFromJSON,
     JudgeLedgerListResponseToJSON,
     RunJudgeEvalHttpRequestFromJSON,
     RunJudgeEvalHttpRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface JudgeEvaluateRequest {

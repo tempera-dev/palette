@@ -48,7 +48,7 @@ DOC_TOKENS = {
         "http://localhost:3000",
     ],
     "contract regeneration": [
-        "sdks/openapi/palette-api.json",
+        "contracts/openapi/palette.openapi.json",
         "cargo xtask regen-spec",
         "scripts/regen-sdks.sh",
         "cargo xtask regen-semconv",

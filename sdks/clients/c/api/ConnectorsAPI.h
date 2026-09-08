@@ -11,8 +11,8 @@
 #include "../model/connector_list_response.h"
 #include "../model/connector_skills_response.h"
 #include "../model/connector_tool_list_response.h"
-#include "../model/error_response.h"
 #include "../model/invoke_connector_request.h"
+#include "../model/status.h"
 #include "../model/tool_execution.h"
 
 

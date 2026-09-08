@@ -94,5 +94,3 @@ class ConnectionStatus(BaseModel):
             "toolkit": obj.get("toolkit")
         })
         return _obj
-
-

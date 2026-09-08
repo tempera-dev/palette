@@ -182,6 +182,7 @@ Class | Method | HTTP request | Description
  - [CalibrationPolicy](docs/CalibrationPolicy.md)
  - [CalibrationReport](docs/CalibrationReport.md)
  - [CanonicalSpan](docs/CanonicalSpan.md)
+ - [CanonicalSpanOutputRef](docs/CanonicalSpanOutputRef.md)
  - [CaseExperimentScore](docs/CaseExperimentScore.md)
  - [CaseOutputOverrideRequest](docs/CaseOutputOverrideRequest.md)
  - [ConnectConnectorRequest](docs/ConnectConnectorRequest.md)
@@ -255,6 +256,10 @@ Class | Method | HTTP request | Description
  - [ModelRef](docs/ModelRef.md)
  - [Money](docs/Money.md)
  - [NativeIngestRequest](docs/NativeIngestRequest.md)
+ - [NativeIngestRequestCost](docs/NativeIngestRequestCost.md)
+ - [NativeIngestRequestModel](docs/NativeIngestRequestModel.md)
+ - [NativeIngestRequestParentSpanId](docs/NativeIngestRequestParentSpanId.md)
+ - [NativeIngestRequestTokens](docs/NativeIngestRequestTokens.md)
  - [OnlineSamplingPolicy](docs/OnlineSamplingPolicy.md)
  - [OtlpIngestOutcome](docs/OtlpIngestOutcome.md)
  - [PaletteConnectStatus](docs/PaletteConnectStatus.md)
@@ -309,6 +314,8 @@ Class | Method | HTTP request | Description
  - [SpanIoValueOneOf3](docs/SpanIoValueOneOf3.md)
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
+ - [Status](docs/Status.md)
+ - [StatusError](docs/StatusError.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
  - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
  - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
@@ -330,7 +337,19 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+<a id="paletteApiKey"></a>
+### paletteApiKey
+
+- **Type**: API key
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+<a id="paletteBearer"></a>
+### paletteBearer
+
+- **Type**: Bearer authentication
 
 
 ## Author

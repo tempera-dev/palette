@@ -16,17 +16,15 @@
 import * as runtime from '../runtime';
 import type {
   CreateScenarioRequest,
-  ErrorResponse,
   ListScenariosResponse,
   MineScenariosRequest,
   MineScenariosResponse,
   Scenario,
+  Status,
 } from '../models/index';
 import {
     CreateScenarioRequestFromJSON,
     CreateScenarioRequestToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ListScenariosResponseFromJSON,
     ListScenariosResponseToJSON,
     MineScenariosRequestFromJSON,
@@ -35,6 +33,8 @@ import {
     MineScenariosResponseToJSON,
     ScenarioFromJSON,
     ScenarioToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ScenariosCreateRequest {

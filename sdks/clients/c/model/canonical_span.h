@@ -17,6 +17,7 @@ typedef struct canonical_span_t canonical_span_t;
 
 #include "any_type.h"
 #include "artifact_ref.h"
+#include "canonical_span_output_ref.h"
 #include "model_ref.h"
 #include "money.h"
 #include "span_status.h"
@@ -34,7 +35,7 @@ typedef struct canonical_span_t {
     struct model_ref_t *model; //model
     char *name; // string
     char *normalizer_version; // string
-    struct artifact_ref_t *output_ref; //model
+    struct canonical_span_output_ref_t *output_ref; //model
     char *parent_span_id; // string
     char *project_id; // string
     struct artifact_ref_t *raw_ref; //model
@@ -61,7 +62,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     model_ref_t *model,
     char *name,
     char *normalizer_version,
-    artifact_ref_t *output_ref,
+    canonical_span_output_ref_t *output_ref,
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,

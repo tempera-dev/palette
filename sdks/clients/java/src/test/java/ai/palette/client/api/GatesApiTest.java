@@ -15,10 +15,10 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.CreateGateRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.GateDefinition;
 import ai.palette.client.model.GateRunReport;
 import ai.palette.client.model.RunGateRequest;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

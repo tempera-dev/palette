@@ -24,7 +24,7 @@ scripts/build-image.sh paletted:local
 
 ```bash
 scripts/run-paletted.sh paletted:local
-# prints the reachable address and waits for /health
+# prints the reachable address and waits for /healthz
 ```
 
 Docker publishes the port to `127.0.0.1:8080`. Apple `container` gives each

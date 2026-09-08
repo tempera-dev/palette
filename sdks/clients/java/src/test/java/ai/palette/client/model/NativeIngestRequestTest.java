@@ -14,12 +14,13 @@
 package ai.palette.client.model;
 
 import ai.palette.client.model.AuthContext;
-import ai.palette.client.model.ModelRef;
-import ai.palette.client.model.Money;
+import ai.palette.client.model.NativeIngestRequestCost;
+import ai.palette.client.model.NativeIngestRequestModel;
+import ai.palette.client.model.NativeIngestRequestParentSpanId;
+import ai.palette.client.model.NativeIngestRequestTokens;
 import ai.palette.client.model.RedactionClass;
 import ai.palette.client.model.SpanStatus;
 import ai.palette.client.model.TenantScope;
-import ai.palette.client.model.TokenCounts;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;

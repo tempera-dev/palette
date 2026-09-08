@@ -14,10 +14,10 @@
 package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ExperimentRunReport;
 import ai.palette.client.model.RunExperimentRequest;
 import ai.palette.client.model.RunJudgeExperimentRequest;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

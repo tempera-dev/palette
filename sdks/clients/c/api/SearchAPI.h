@@ -5,8 +5,8 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/error_response.h"
 #include "../model/search_span_list_response.h"
+#include "../model/status.h"
 
 
 search_span_list_response_t*

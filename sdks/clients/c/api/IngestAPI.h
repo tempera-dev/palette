@@ -12,6 +12,7 @@
 #include "../model/ingest_queue_status.h"
 #include "../model/native_ingest_request.h"
 #include "../model/otlp_ingest_outcome.h"
+#include "../model/status.h"
 #include "../model/trace_ingested_drain_report.h"
 #include "../model/trace_ingested_reconcile_report.h"
 #include "../model/trace_write_drain_report.h"

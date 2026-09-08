@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **model** | [**model_ref_t**](model_ref.md) \* |  | [optional]
 **name** | **char \*** |  |
 **normalizer_version** | **char \*** |  |
-**output_ref** | [**artifact_ref_t**](artifact_ref.md) \* |  | [optional]
+**output_ref** | [**canonical_span_output_ref_t**](canonical_span_output_ref.md) \* |  | [optional]
 **parent_span_id** | **char \*** |  | [optional]
 **project_id** | **char \*** |  |
 **raw_ref** | [**artifact_ref_t**](artifact_ref.md) \* |  |

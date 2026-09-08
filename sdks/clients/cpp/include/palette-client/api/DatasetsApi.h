@@ -27,8 +27,8 @@
 #include "palette-client/model/Dataset.h"
 #include "palette-client/model/DatasetCase.h"
 #include "palette-client/model/DatasetVersionSnapshot.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/PromoteTraceCaseRequest.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

@@ -23,10 +23,10 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/CreateGateRequest.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/GateDefinition.h"
 #include "palette-client/model/GateRunReport.h"
 #include "palette-client/model/RunGateRequest.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

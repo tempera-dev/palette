@@ -34,7 +34,6 @@ NativeIngestRequest::NativeIngestRequest()
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
     m_OutputIsSet = false;
-    m_ParentSpanId = utility::conversions::to_string_t("");
     m_ParentSpanIdIsSet = false;
     m_RedactionClassIsSet = false;
     m_ScopeIsSet = false;
@@ -191,7 +190,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cost")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<Money> refVal_setCost;
+            std::shared_ptr<NativeIngestRequest_cost> refVal_setCost;
             ok &= ModelBase::fromJson(fieldValue, refVal_setCost);
             setCost(refVal_setCost);
             
@@ -246,7 +245,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("model")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<ModelRef> refVal_setModel;
+            std::shared_ptr<NativeIngestRequest_model> refVal_setModel;
             ok &= ModelBase::fromJson(fieldValue, refVal_setModel);
             setModel(refVal_setModel);
             
@@ -279,7 +278,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parentSpanId")));
         if(!fieldValue.is_null())
         {
-            utility::string_t refVal_setParentSpanId;
+            std::shared_ptr<NativeIngestRequest_parentSpanId> refVal_setParentSpanId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setParentSpanId);
             setParentSpanId(refVal_setParentSpanId);
             
@@ -356,7 +355,7 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tokens")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<TokenCounts> refVal_setTokens;
+            std::shared_ptr<NativeIngestRequest_tokens> refVal_setTokens;
             ok &= ModelBase::fromJson(fieldValue, refVal_setTokens);
             setTokens(refVal_setTokens);
             
@@ -484,7 +483,7 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("cost"))))
     {
-        std::shared_ptr<Money> refVal_setCost;
+        std::shared_ptr<NativeIngestRequest_cost> refVal_setCost;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost"))), refVal_setCost );
         setCost(refVal_setCost);
     }
@@ -514,7 +513,7 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("model"))))
     {
-        std::shared_ptr<ModelRef> refVal_setModel;
+        std::shared_ptr<NativeIngestRequest_model> refVal_setModel;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("model"))), refVal_setModel );
         setModel(refVal_setModel);
     }
@@ -532,7 +531,7 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("parentSpanId"))))
     {
-        utility::string_t refVal_setParentSpanId;
+        std::shared_ptr<NativeIngestRequest_parentSpanId> refVal_setParentSpanId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parentSpanId"))), refVal_setParentSpanId );
         setParentSpanId(refVal_setParentSpanId);
     }
@@ -574,7 +573,7 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("tokens"))))
     {
-        std::shared_ptr<TokenCounts> refVal_setTokens;
+        std::shared_ptr<NativeIngestRequest_tokens> refVal_setTokens;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tokens"))), refVal_setTokens );
         setTokens(refVal_setTokens);
     }
@@ -630,13 +629,13 @@ void NativeIngestRequest::unsetAuthContext()
 {
     m_AuthContextIsSet = false;
 }
-std::shared_ptr<Money> NativeIngestRequest::getCost() const
+std::shared_ptr<NativeIngestRequest_cost> NativeIngestRequest::getCost() const
 {
     return m_Cost;
 }
 
 
-void NativeIngestRequest::setCost(const std::shared_ptr<Money>& value)
+void NativeIngestRequest::setCost(const std::shared_ptr<NativeIngestRequest_cost>& value)
 {
     m_Cost = value;
     m_CostIsSet = true;
@@ -735,13 +734,13 @@ void NativeIngestRequest::unsetKind()
 {
     m_KindIsSet = false;
 }
-std::shared_ptr<ModelRef> NativeIngestRequest::getModel() const
+std::shared_ptr<NativeIngestRequest_model> NativeIngestRequest::getModel() const
 {
     return m_Model;
 }
 
 
-void NativeIngestRequest::setModel(const std::shared_ptr<ModelRef>& value)
+void NativeIngestRequest::setModel(const std::shared_ptr<NativeIngestRequest_model>& value)
 {
     m_Model = value;
     m_ModelIsSet = true;
@@ -798,13 +797,13 @@ void NativeIngestRequest::unsetOutput()
 {
     m_OutputIsSet = false;
 }
-utility::string_t NativeIngestRequest::getParentSpanId() const
+std::shared_ptr<NativeIngestRequest_parentSpanId> NativeIngestRequest::getParentSpanId() const
 {
     return m_ParentSpanId;
 }
 
 
-void NativeIngestRequest::setParentSpanId(const utility::string_t& value)
+void NativeIngestRequest::setParentSpanId(const std::shared_ptr<NativeIngestRequest_parentSpanId>& value)
 {
     m_ParentSpanId = value;
     m_ParentSpanIdIsSet = true;
@@ -944,13 +943,13 @@ void NativeIngestRequest::unsetStatus()
 {
     m_StatusIsSet = false;
 }
-std::shared_ptr<TokenCounts> NativeIngestRequest::getTokens() const
+std::shared_ptr<NativeIngestRequest_tokens> NativeIngestRequest::getTokens() const
 {
     return m_Tokens;
 }
 
 
-void NativeIngestRequest::setTokens(const std::shared_ptr<TokenCounts>& value)
+void NativeIngestRequest::setTokens(const std::shared_ptr<NativeIngestRequest_tokens>& value)
 {
     m_Tokens = value;
     m_TokensIsSet = true;

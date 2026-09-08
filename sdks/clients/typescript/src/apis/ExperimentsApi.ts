@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   ExperimentRunReport,
   RunExperimentRequest,
   RunJudgeExperimentRequest,
+  Status,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ExperimentRunReportFromJSON,
     ExperimentRunReportToJSON,
     RunExperimentRequestFromJSON,
     RunExperimentRequestToJSON,
     RunJudgeExperimentRequestFromJSON,
     RunJudgeExperimentRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface ExperimentsRunDeterministicRequest {

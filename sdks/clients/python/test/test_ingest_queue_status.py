@@ -37,19 +37,19 @@ class TestIngestQueueStatus(unittest.TestCase):
             return IngestQueueStatus(
                 dead_letters = [
                     palette_client.models.dead_letter.DeadLetter(
-                        failed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        failed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                         message = palette_client.models.bus_message.BusMessage(
-                            attempts = 0, 
-                            enqueued_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            idempotency_key = '', 
-                            kind = '', 
-                            max_attempts = 0, 
-                            message_id = '', 
+                            attempts = 0,
+                            enqueued_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                            idempotency_key = '',
+                            kind = '',
+                            max_attempts = 0,
+                            message_id = '',
                             payload = [
                                 0
-                                ], 
-                            project_id = '', 
-                            tenant_id = '', ), 
+                                ],
+                            project_id = '',
+                            tenant_id = '', ),
                         reason = '', )
                     ],
                 project_id = '',
@@ -62,19 +62,19 @@ class TestIngestQueueStatus(unittest.TestCase):
             return IngestQueueStatus(
                 dead_letters = [
                     palette_client.models.dead_letter.DeadLetter(
-                        failed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        failed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                         message = palette_client.models.bus_message.BusMessage(
-                            attempts = 0, 
-                            enqueued_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            idempotency_key = '', 
-                            kind = '', 
-                            max_attempts = 0, 
-                            message_id = '', 
+                            attempts = 0,
+                            enqueued_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                            idempotency_key = '',
+                            kind = '',
+                            max_attempts = 0,
+                            message_id = '',
                             payload = [
                                 0
-                                ], 
-                            project_id = '', 
-                            tenant_id = '', ), 
+                                ],
+                            project_id = '',
+                            tenant_id = '', ),
                         reason = '', )
                     ],
                 project_id = '',

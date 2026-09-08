@@ -9,6 +9,8 @@ use percent_encoding::{AsciiSet, NON_ALPHANUMERIC, utf8_percent_encode};
 use serde_json::{Map, Value};
 use utoipa::OpenApi;
 
+mod contract;
+
 #[derive(OpenApi)]
 #[openapi(
     info(
@@ -121,8 +123,27 @@ pub fn openapi() -> utoipa::openapi::OpenApi {
     doc
 }
 
+/// The canonical contract document: the derived spec with the Tempera producer
+/// contract standard applied (`tempera-sdk/docs/CONTRACT_STANDARD.md`).
+///
+/// This — not the raw `utoipa` tree — is what
+/// `contracts/openapi/palette.openapi.json` holds and what `GET /openapi.json`
+/// serves, so the published contract and the running service cannot disagree.
+pub fn openapi_value() -> Value {
+    let mut document = match serde_json::to_value(openapi()) {
+        Ok(document) => document,
+        // The document is a tree of plain data, so this cannot fail.
+        Err(error) => panic!("Palette OpenAPI document failed to serialize: {error}"),
+    };
+    contract::apply(&mut document);
+    document
+}
+
+/// The canonical serialization the standard requires: two-space indent, no
+/// ASCII escaping. `dump_openapi` adds the single trailing newline, making the
+/// bytes identical to `json.dumps(document, indent=2, ensure_ascii=False)`.
 pub fn openapi_json_pretty() -> Result<String, serde_json::Error> {
-    openapi().to_pretty_json()
+    serde_json::to_string_pretty(&openapi_value())
 }
 
 fn normalize_operation_ids(doc: &mut utoipa::openapi::OpenApi) {
@@ -243,7 +264,7 @@ mod tests {
 
     #[test]
     fn enumerates_operations_from_the_live_spec() -> Result<(), serde_json::Error> {
-        let doc = serde_json::to_value(super::openapi())?;
+        let doc = super::openapi_value();
         let ops = operations(&doc);
         // Every advertised operation has an id, a known method, and a path.
         assert!(!ops.is_empty());

@@ -7,8 +7,8 @@
 #include "../include/binary.h"
 #include "../model/api_key_created_response.h"
 #include "../model/create_api_key_http_request.h"
-#include "../model/error_response.h"
 #include "../model/revoked_api_key.h"
+#include "../model/status.h"
 
 
 api_key_created_response_t*

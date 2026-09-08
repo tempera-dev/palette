@@ -62,6 +62,7 @@ include/palette-client/model/CalibrationLabel.h
 include/palette-client/model/CalibrationPolicy.h
 include/palette-client/model/CalibrationReport.h
 include/palette-client/model/CanonicalSpan.h
+include/palette-client/model/CanonicalSpan_outputRef.h
 include/palette-client/model/CaseExperimentScore.h
 include/palette-client/model/CaseOutputOverrideRequest.h
 include/palette-client/model/ConnectConnectorRequest.h
@@ -135,6 +136,10 @@ include/palette-client/model/MineScenariosResponse.h
 include/palette-client/model/ModelRef.h
 include/palette-client/model/Money.h
 include/palette-client/model/NativeIngestRequest.h
+include/palette-client/model/NativeIngestRequest_cost.h
+include/palette-client/model/NativeIngestRequest_model.h
+include/palette-client/model/NativeIngestRequest_parentSpanId.h
+include/palette-client/model/NativeIngestRequest_tokens.h
 include/palette-client/model/OnlineSamplingPolicy.h
 include/palette-client/model/OtlpIngestOutcome.h
 include/palette-client/model/PaletteConnectStatus.h
@@ -189,6 +194,8 @@ include/palette-client/model/SpanIoValue_oneOf_2.h
 include/palette-client/model/SpanIoValue_oneOf_3.h
 include/palette-client/model/SpanStatus.h
 include/palette-client/model/StatisticalTest.h
+include/palette-client/model/Status.h
+include/palette-client/model/Status_error.h
 include/palette-client/model/SubmitReviewAnnotationHttpRequest.h
 include/palette-client/model/TemperaEvidenceReceipt.h
 include/palette-client/model/TemperaEvidenceSummary.h
@@ -262,6 +269,7 @@ src/model/CalibrationLabel.cpp
 src/model/CalibrationPolicy.cpp
 src/model/CalibrationReport.cpp
 src/model/CanonicalSpan.cpp
+src/model/CanonicalSpan_outputRef.cpp
 src/model/CaseExperimentScore.cpp
 src/model/CaseOutputOverrideRequest.cpp
 src/model/ConnectConnectorRequest.cpp
@@ -335,6 +343,10 @@ src/model/MineScenariosResponse.cpp
 src/model/ModelRef.cpp
 src/model/Money.cpp
 src/model/NativeIngestRequest.cpp
+src/model/NativeIngestRequest_cost.cpp
+src/model/NativeIngestRequest_model.cpp
+src/model/NativeIngestRequest_parentSpanId.cpp
+src/model/NativeIngestRequest_tokens.cpp
 src/model/OnlineSamplingPolicy.cpp
 src/model/OtlpIngestOutcome.cpp
 src/model/PaletteConnectStatus.cpp
@@ -389,6 +401,8 @@ src/model/SpanIoValue_oneOf_2.cpp
 src/model/SpanIoValue_oneOf_3.cpp
 src/model/SpanStatus.cpp
 src/model/StatisticalTest.cpp
+src/model/Status.cpp
+src/model/Status_error.cpp
 src/model/SubmitReviewAnnotationHttpRequest.cpp
 src/model/TemperaEvidenceReceipt.cpp
 src/model/TemperaEvidenceSummary.cpp

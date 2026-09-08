@@ -37,7 +37,7 @@ fly secrets set PALETTE_PROVIDER_SECRET_KEY="$(openssl rand -base64 32)"
 #   one under /data on first boot (fine on a volume, but explicit is safer).
 
 fly deploy   # builds the Dockerfile `tools` stage, runs with --auth-mode required
-curl -fsS https://palette-api.fly.dev/health   # -> {"ok":true}
+curl -fsS https://palette-api.fly.dev/healthz   # -> {"ok":true}
 ```
 
 ### Bootstrap the first Admin API key (strict auth)
@@ -110,7 +110,7 @@ Set them under **Settings → Secrets and variables → Actions**.
 
 ```bash
 # 1. Backend health
-curl -fsS https://palette-api.fly.dev/health
+curl -fsS https://palette-api.fly.dev/healthz
 
 # 2. Seed a trace (OTLP/HTTP over HTTPS, with the bootstrap key)
 cargo run -q -p palettectl -- \

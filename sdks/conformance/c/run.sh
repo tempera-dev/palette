@@ -4,7 +4,7 @@
 #      set (the full lib has pre-existing openapi-generator array-of-enum codegen
 #      bugs in unrelated models; see main.c for detail).
 #   2. Live: compile a C program that links the GENERATED HealthAPI + apiClient
-#      and round-trips GET /health against paletted, then exercises
+#      and round-trips GET /healthz against paletted, then exercises
 #      createDataset + listTraces over raw libcurl from the same program.
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,7 +22,7 @@ gen_srcs=(
   "$client/src/list.c"
   "$client/src/binary.c"
   "$client/external/cJSON.c"
-  "$client/model/health_response.c"
+  "$client/model/healthz_response.c"
   "$client/api/HealthAPI.c"
 )
 

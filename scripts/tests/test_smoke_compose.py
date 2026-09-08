@@ -52,7 +52,7 @@ if [ -n "${PALETTE_TEST_LOG:-}" ]; then
 fi
 url="${@: -1}"
 case "$url" in
-  */health)
+  */healthz)
     printf 'ok'
     ;;
   */openapi.json)
@@ -138,7 +138,7 @@ def test_compose_smoke_runs_expected_services_and_cleans_up() -> None:
         "compose -p palette-smoke run --rm otel-python-smoke",
         "compose -p palette-smoke down -v --remove-orphans",
     ]
-    assert "http://127.0.0.1:8080/health" in curl_urls(log)
+    assert "http://127.0.0.1:8080/healthz" in curl_urls(log)
     assert (
         "http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local"
         in curl_urls(log)
@@ -164,7 +164,7 @@ def test_keep_compose_skips_cleanup_and_customizes_ports_and_project() -> None:
     ]
     assert not any(" down " in call for call in calls)
     urls = curl_urls(log)
-    assert "http://127.0.0.1:18080/health" in urls
+    assert "http://127.0.0.1:18080/healthz" in urls
     assert "http://127.0.0.1:13000/?tenant=demo&project=demo&environment=local" in urls
 
 

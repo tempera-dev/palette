@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   ImportTemperaEvidenceRequest,
+  Status,
   TemperaEvidenceReceipt,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     ImportTemperaEvidenceRequestFromJSON,
     ImportTemperaEvidenceRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
     TemperaEvidenceReceiptFromJSON,
     TemperaEvidenceReceiptToJSON,
 } from '../models/index';

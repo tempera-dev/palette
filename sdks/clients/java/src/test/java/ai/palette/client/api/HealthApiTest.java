@@ -15,6 +15,7 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.HealthResponse;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

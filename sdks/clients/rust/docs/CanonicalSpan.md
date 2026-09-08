@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **model** | Option<[**models::ModelRef**](ModelRef.md)> |  | [optional]
 **name** | **String** |  |
 **normalizer_version** | **String** |  |
-**output_ref** | Option<[**models::ArtifactRef**](ArtifactRef.md)> |  | [optional]
+**output_ref** | Option<[**models::CanonicalSpanOutputRef**](CanonicalSpan_outputRef.md)> |  | [optional]
 **parent_span_id** | Option<**String**> |  | [optional]
 **project_id** | **String** |  |
 **raw_ref** | [**models::ArtifactRef**](ArtifactRef.md) |  |

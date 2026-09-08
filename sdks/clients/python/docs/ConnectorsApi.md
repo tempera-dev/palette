@@ -87,10 +87,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | One-time login link to authorize the app |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -168,10 +169,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Generated prompting scaffold (skill cards) for a toolkit |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -250,10 +252,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Execute a connector tool and return its result envelope |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -333,10 +336,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | List connectable third-party apps (catalog) |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -418,10 +422,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | List a toolkit&#39;s executable tools with input schemas |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -499,9 +504,10 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Connection status of a toolkit for this project |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
-**501** | Connector provider not configured |  -  |
+**400** | A google.rpc.Status error envelope. |  -  |
+**401** | A google.rpc.Status error envelope. |  -  |
+**403** | A google.rpc.Status error envelope. |  -  |
+**501** | A google.rpc.Status error envelope. |  -  |
+**0** | A google.rpc.Status error envelope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

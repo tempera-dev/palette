@@ -58,6 +58,7 @@ docs/CalibrationPolicy.md
 docs/CalibrationReport.md
 docs/CalibrationsAPI.md
 docs/CanonicalSpan.md
+docs/CanonicalSpanOutputRef.md
 docs/CaseExperimentScore.md
 docs/CaseOutputOverrideRequest.md
 docs/ConnectAPI.md
@@ -141,6 +142,10 @@ docs/MineScenariosResponse.md
 docs/ModelRef.md
 docs/Money.md
 docs/NativeIngestRequest.md
+docs/NativeIngestRequestCost.md
+docs/NativeIngestRequestModel.md
+docs/NativeIngestRequestParentSpanId.md
+docs/NativeIngestRequestTokens.md
 docs/OnlineAPI.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
@@ -202,6 +207,8 @@ docs/SpanIoValueOneOf3.md
 docs/SpanStatus.md
 docs/SpansAPI.md
 docs/StatisticalTest.md
+docs/Status.md
+docs/StatusError.md
 docs/SubmitReviewAnnotationHttpRequest.md
 docs/TemperaEvidenceReceipt.md
 docs/TemperaEvidenceSummary.md
@@ -247,6 +254,7 @@ model_calibration_label.go
 model_calibration_policy.go
 model_calibration_report.go
 model_canonical_span.go
+model_canonical_span_output_ref.go
 model_case_experiment_score.go
 model_case_output_override_request.go
 model_connect_connector_request.go
@@ -320,6 +328,10 @@ model_mine_scenarios_response.go
 model_model_ref.go
 model_money.go
 model_native_ingest_request.go
+model_native_ingest_request_cost.go
+model_native_ingest_request_model.go
+model_native_ingest_request_parent_span_id.go
+model_native_ingest_request_tokens.go
 model_online_sampling_policy.go
 model_otlp_ingest_outcome.go
 model_palette_connect_status.go
@@ -374,6 +386,8 @@ model_span_io_value_one_of_2.go
 model_span_io_value_one_of_3.go
 model_span_status.go
 model_statistical_test_.go
+model_status.go
+model_status_error.go
 model_submit_review_annotation_http_request.go
 model_tempera_evidence_receipt.go
 model_tempera_evidence_summary.go

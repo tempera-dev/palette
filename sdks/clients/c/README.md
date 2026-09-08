@@ -156,6 +156,7 @@ Category | Method | HTTP request | Description
  - [calibration_policy_t](docs/calibration_policy.md)
  - [calibration_report_t](docs/calibration_report.md)
  - [canonical_span_t](docs/canonical_span.md)
+ - [canonical_span_output_ref_t](docs/canonical_span_output_ref.md)
  - [case_experiment_score_t](docs/case_experiment_score.md)
  - [case_output_override_request_t](docs/case_output_override_request.md)
  - [connect_connector_request_t](docs/connect_connector_request.md)
@@ -229,6 +230,10 @@ Category | Method | HTTP request | Description
  - [model_ref_t](docs/model_ref.md)
  - [money_t](docs/money.md)
  - [native_ingest_request_t](docs/native_ingest_request.md)
+ - [native_ingest_request_cost_t](docs/native_ingest_request_cost.md)
+ - [native_ingest_request_model_t](docs/native_ingest_request_model.md)
+ - [native_ingest_request_parent_span_id_t](docs/native_ingest_request_parent_span_id.md)
+ - [native_ingest_request_tokens_t](docs/native_ingest_request_tokens.md)
  - [online_sampling_policy_t](docs/online_sampling_policy.md)
  - [otlp_ingest_outcome_t](docs/otlp_ingest_outcome.md)
  - [palette_connect_status_t](docs/palette_connect_status.md)
@@ -283,6 +288,8 @@ Category | Method | HTTP request | Description
  - [span_io_value_one_of_3_t](docs/span_io_value_one_of_3.md)
  - [span_status_t](docs/span_status.md)
  - [statistical_test_t](docs/statistical_test.md)
+ - [status_t](docs/status.md)
+ - [status_error_t](docs/status_error.md)
  - [submit_review_annotation_http_request_t](docs/submit_review_annotation_http_request.md)
  - [tempera_evidence_receipt_t](docs/tempera_evidence_receipt.md)
  - [tempera_evidence_summary_t](docs/tempera_evidence_summary.md)
@@ -303,7 +310,19 @@ Category | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-Endpoints do not require authorization.
+
+Authentication schemes defined for the API:
+### paletteApiKey
+
+- **Type**: API key
+
+- **API key parameter name**: x-palette-api-key
+- **Location**: HTTP header
+
+### paletteBearer
+
+
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Author

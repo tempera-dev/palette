@@ -169,7 +169,7 @@ def test_contract_check_fails_when_openapi_snapshot_is_stale() -> None:
     )
 
     assert result.returncode == 1
-    assert "sdks/openapi/palette-api.json is stale" in result.stderr
+    assert "contracts/openapi/palette.openapi.json is stale" in result.stderr
     assert "web/dashboard/openapi/palette-read-api.json is stale" in result.stderr
     assert "CONTRACT DRIFT DETECTED -- regenerate" in result.stderr
     assert "cargo:run -q -p palette-api --example dump_openapi" in calls

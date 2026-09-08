@@ -17,10 +17,11 @@
 native_ingest_request_t* instantiate_native_ingest_request(int include_optional);
 
 #include "test_auth_context.c"
-#include "test_money.c"
-#include "test_model_ref.c"
+#include "test_native_ingest_request_cost.c"
+#include "test_native_ingest_request_model.c"
+#include "test_native_ingest_request_parent_span_id.c"
 #include "test_tenant_scope.c"
-#include "test_token_counts.c"
+#include "test_native_ingest_request_tokens.c"
 
 
 native_ingest_request_t* instantiate_native_ingest_request(int include_optional) {
@@ -30,17 +31,15 @@ native_ingest_request_t* instantiate_native_ingest_request(int include_optional)
       list_createList(),
        // false, not to have infinite recursion
       instantiate_auth_context(0),
-       // false, not to have infinite recursion
-      instantiate_money(0),
+      null,
       "2013-10-20T19:20:30+01:00",
       "0",
       null,
       "0",
-       // false, not to have infinite recursion
-      instantiate_model_ref(0),
-      "0",
       null,
       "0",
+      null,
+      null,
       palette_api_native_ingest_request__public,
        // false, not to have infinite recursion
       instantiate_tenant_scope(0),
@@ -48,30 +47,29 @@ native_ingest_request_t* instantiate_native_ingest_request(int include_optional)
       "0",
       "2013-10-20T19:20:30+01:00",
       palette_api_native_ingest_request__ok,
-       // false, not to have infinite recursion
-      instantiate_token_counts(0),
+      null,
       "0"
     );
   } else {
     native_ingest_request = native_ingest_request_create(
       list_createList(),
       NULL,
-      NULL,
+      null,
       "2013-10-20T19:20:30+01:00",
       "0",
       null,
       "0",
-      NULL,
-      "0",
       null,
       "0",
+      null,
+      null,
       palette_api_native_ingest_request__public,
       NULL,
       0,
       "0",
       "2013-10-20T19:20:30+01:00",
       palette_api_native_ingest_request__ok,
-      NULL,
+      null,
       "0"
     );
   }

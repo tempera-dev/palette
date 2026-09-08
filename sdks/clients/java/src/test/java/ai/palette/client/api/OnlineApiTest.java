@@ -14,9 +14,9 @@
 package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.OnlineSamplingPolicy;
 import ai.palette.client.model.SamplingDecision;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

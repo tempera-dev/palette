@@ -111,5 +111,3 @@ class PaletteConnectStatusResponse(BaseModel):
             "usageConfigured": obj.get("usageConfigured")
         })
         return _obj
-
-

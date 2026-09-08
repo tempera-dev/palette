@@ -1,4 +1,4 @@
-//! Snapshot test: the /v1 route+method inventory in sdks/openapi/palette-api.json
+//! Snapshot test: the /v1 route+method inventory in contracts/openapi/palette.openapi.json
 //! must exactly match the committed golden file.
 //!
 //! If a route is added, removed, or renamed, the test fails with a clear diff
@@ -31,12 +31,12 @@ const HOSTED_BILLING_ROUTES: &[&str] = &[
     "POST /v1/billing/webhooks/stripe",
 ];
 
-/// Absolute path to `sdks/openapi/palette-api.json` (workspace root).
+/// Absolute path to `contracts/openapi/palette.openapi.json` (workspace root).
 fn spec_path() -> PathBuf {
     // CARGO_MANIFEST_DIR = crates/palette-api  →  workspace root is two levels up.
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("../..")
-        .join("sdks/openapi/palette-api.json")
+        .join("contracts/openapi/palette.openapi.json")
 }
 
 fn golden_path() -> PathBuf {

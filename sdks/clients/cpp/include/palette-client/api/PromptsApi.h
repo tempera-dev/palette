@@ -25,12 +25,12 @@
 #include "palette-client/model/AddPromptVersionRequest.h"
 #include "palette-client/model/CreatePromptRequest.h"
 #include "palette-client/model/CreatedPrompt.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/Prompt.h"
 #include "palette-client/model/PromptListResponse.h"
 #include "palette-client/model/PromptVersion.h"
 #include "palette-client/model/PromptVersionDiff.h"
 #include "palette-client/model/PromptVersionListResponse.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

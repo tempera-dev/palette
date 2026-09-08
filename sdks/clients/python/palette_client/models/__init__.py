@@ -38,6 +38,7 @@ from palette_client.models.calibration_label import CalibrationLabel
 from palette_client.models.calibration_policy import CalibrationPolicy
 from palette_client.models.calibration_report import CalibrationReport
 from palette_client.models.canonical_span import CanonicalSpan
+from palette_client.models.canonical_span_output_ref import CanonicalSpanOutputRef
 from palette_client.models.case_experiment_score import CaseExperimentScore
 from palette_client.models.case_output_override_request import CaseOutputOverrideRequest
 from palette_client.models.connect_connector_request import ConnectConnectorRequest
@@ -111,6 +112,10 @@ from palette_client.models.mine_scenarios_response import MineScenariosResponse
 from palette_client.models.model_ref import ModelRef
 from palette_client.models.money import Money
 from palette_client.models.native_ingest_request import NativeIngestRequest
+from palette_client.models.native_ingest_request_cost import NativeIngestRequestCost
+from palette_client.models.native_ingest_request_model import NativeIngestRequestModel
+from palette_client.models.native_ingest_request_parent_span_id import NativeIngestRequestParentSpanId
+from palette_client.models.native_ingest_request_tokens import NativeIngestRequestTokens
 from palette_client.models.online_sampling_policy import OnlineSamplingPolicy
 from palette_client.models.otlp_ingest_outcome import OtlpIngestOutcome
 from palette_client.models.palette_connect_status import PaletteConnectStatus
@@ -165,6 +170,8 @@ from palette_client.models.span_io_value_one_of2 import SpanIoValueOneOf2
 from palette_client.models.span_io_value_one_of3 import SpanIoValueOneOf3
 from palette_client.models.span_status import SpanStatus
 from palette_client.models.statistical_test import StatisticalTest
+from palette_client.models.status import Status
+from palette_client.models.status_error import StatusError
 from palette_client.models.submit_review_annotation_http_request import SubmitReviewAnnotationHttpRequest
 from palette_client.models.tempera_evidence_receipt import TemperaEvidenceReceipt
 from palette_client.models.tempera_evidence_summary import TemperaEvidenceSummary

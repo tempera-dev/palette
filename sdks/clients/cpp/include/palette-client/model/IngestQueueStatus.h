@@ -12,7 +12,7 @@
 /*
  * IngestQueueStatus.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_IngestQueueStatus_H_

@@ -23,9 +23,9 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/DatasetEvalReport.h"
-#include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/RunDeterministicEvalRequest.h"
 #include "palette-client/model/RunJudgeDatasetEvalRequest.h"
+#include "palette-client/model/Status.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 

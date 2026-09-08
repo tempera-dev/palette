@@ -7,22 +7,22 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **attributes** | **Dict[str, object]** |  |
 **auth_context** | [**AuthContext**](AuthContext.md) |  | [optional]
-**cost** | [**Money**](Money.md) |  | [optional]
+**cost** | [**NativeIngestRequestCost**](NativeIngestRequestCost.md) |  | [optional]
 **end_time** | **datetime** |  | [optional]
 **idempotency_key** | **str** |  | [optional]
 **input** | **object** |  | [optional]
 **kind** | **str** | Canonical agent span kind such as agent.run or llm.call |
-**model** | [**ModelRef**](ModelRef.md) |  | [optional]
+**model** | [**NativeIngestRequestModel**](NativeIngestRequestModel.md) |  | [optional]
 **name** | **str** |  |
 **output** | **object** |  | [optional]
-**parent_span_id** | **str** |  | [optional]
+**parent_span_id** | [**NativeIngestRequestParentSpanId**](NativeIngestRequestParentSpanId.md) |  | [optional]
 **redaction_class** | [**RedactionClass**](RedactionClass.md) |  |
 **scope** | [**TenantScope**](TenantScope.md) |  |
 **seq** | **int** |  |
 **span_id** | **str** |  |
 **start_time** | **datetime** |  | [optional]
 **status** | [**SpanStatus**](SpanStatus.md) |  |
-**tokens** | [**TokenCounts**](TokenCounts.md) |  | [optional]
+**tokens** | [**NativeIngestRequestTokens**](NativeIngestRequestTokens.md) |  | [optional]
 **trace_id** | **str** |  |
 
 ## Example

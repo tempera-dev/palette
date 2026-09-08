@@ -15,11 +15,11 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.CreateScenarioRequest;
-import ai.palette.client.model.ErrorResponse;
 import ai.palette.client.model.ListScenariosResponse;
 import ai.palette.client.model.MineScenariosRequest;
 import ai.palette.client.model.MineScenariosResponse;
 import ai.palette.client.model.Scenario;
+import ai.palette.client.model.Status;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

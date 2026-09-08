@@ -24,7 +24,7 @@ will not happen here:
    last permissively licensed commit.
 
 3. **The contract stays open.** The OpenAPI `/v1` contract
-   (`sdks/openapi/palette-api.json`), the semantic conventions
+   (`contracts/openapi/palette.openapi.json`), the semantic conventions
    (`crates/palette-schema` / `sdks/semconv`), and the data model are part of the
    open core. We will not paywall the protocol your agents emit to or the schema
    your traces are stored in. See `docs/sdk-platform-architecture.md` for the

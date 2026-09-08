@@ -118,10 +118,10 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveManifest",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '404': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '404': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -212,10 +212,10 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveManifest",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '404': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '404': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -306,10 +306,10 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveManifest",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '404': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
+            '404': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,9 +501,9 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveQueryResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -618,9 +618,9 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveQueryResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -735,9 +735,9 @@ class ArchiveApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ArchiveQueryResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
+            '400': "Status",
+            '401': "Status",
+            '403': "Status",
         }
         response_data = self.api_client.call_api(
             *_param,

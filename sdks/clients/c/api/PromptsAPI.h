@@ -8,12 +8,12 @@
 #include "../model/add_prompt_version_request.h"
 #include "../model/create_prompt_request.h"
 #include "../model/created_prompt.h"
-#include "../model/error_response.h"
 #include "../model/prompt.h"
 #include "../model/prompt_list_response.h"
 #include "../model/prompt_version.h"
 #include "../model/prompt_version_diff.h"
 #include "../model/prompt_version_list_response.h"
+#include "../model/status.h"
 
 
 prompt_version_t*

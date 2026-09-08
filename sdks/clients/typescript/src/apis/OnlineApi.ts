@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
-  ErrorResponse,
   OnlineSamplingPolicy,
   SamplingDecision,
+  Status,
 } from '../models/index';
 import {
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     OnlineSamplingPolicyFromJSON,
     OnlineSamplingPolicyToJSON,
     SamplingDecisionFromJSON,
     SamplingDecisionToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface OnlineDecideSamplingRequest {

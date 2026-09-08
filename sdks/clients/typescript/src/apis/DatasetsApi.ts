@@ -20,8 +20,8 @@ import type {
   Dataset,
   DatasetCase,
   DatasetVersionSnapshot,
-  ErrorResponse,
   PromoteTraceCaseRequest,
+  Status,
 } from '../models/index';
 import {
     CreateDatasetRequestFromJSON,
@@ -34,10 +34,10 @@ import {
     DatasetCaseToJSON,
     DatasetVersionSnapshotFromJSON,
     DatasetVersionSnapshotToJSON,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
     PromoteTraceCaseRequestFromJSON,
     PromoteTraceCaseRequestToJSON,
+    StatusFromJSON,
+    StatusToJSON,
 } from '../models/index';
 
 export interface DatasetsCreateRequest {

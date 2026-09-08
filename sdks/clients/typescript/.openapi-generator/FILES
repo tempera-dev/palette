@@ -53,6 +53,7 @@ src/models/CalibrationLabel.ts
 src/models/CalibrationPolicy.ts
 src/models/CalibrationReport.ts
 src/models/CanonicalSpan.ts
+src/models/CanonicalSpanOutputRef.ts
 src/models/CaseExperimentScore.ts
 src/models/CaseOutputOverrideRequest.ts
 src/models/ConnectConnectorRequest.ts
@@ -126,6 +127,10 @@ src/models/MineScenariosResponse.ts
 src/models/ModelRef.ts
 src/models/Money.ts
 src/models/NativeIngestRequest.ts
+src/models/NativeIngestRequestCost.ts
+src/models/NativeIngestRequestModel.ts
+src/models/NativeIngestRequestParentSpanId.ts
+src/models/NativeIngestRequestTokens.ts
 src/models/OnlineSamplingPolicy.ts
 src/models/OtlpIngestOutcome.ts
 src/models/PaletteConnectStatus.ts
@@ -180,6 +185,8 @@ src/models/SpanIoValueOneOf2.ts
 src/models/SpanIoValueOneOf3.ts
 src/models/SpanStatus.ts
 src/models/StatisticalTest.ts
+src/models/Status.ts
+src/models/StatusError.ts
 src/models/SubmitReviewAnnotationHttpRequest.ts
 src/models/TemperaEvidenceReceipt.ts
 src/models/TemperaEvidenceSummary.ts

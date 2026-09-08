@@ -41,4 +41,3 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
 cJSON *connection_status_convertToJSON(connection_status_t *connection_status);
 
 #endif /* _connection_status_H_ */
-
